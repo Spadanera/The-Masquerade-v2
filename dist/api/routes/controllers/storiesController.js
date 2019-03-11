@@ -1,10 +1,11 @@
 "use strict";
 
-var uuidv4 = require('uuid/v4');
-
 var express = require('express');
 
 var router = express.Router();
+
+var Story = require("../../core/stories");
+
 var stories = [{
   id: "10ba038e-48da-487b-96e8-8d3b99b6d18a",
   name: "Prima storia"
@@ -24,10 +25,7 @@ router.get("/:id", function (req, res) {
 }); // Create new story
 
 router.post("/", function (req, res) {
-  var newStory = {
-    id: uuidv4(),
-    name: req.body.name
-  };
+  var newStory = new Story(req.body.name);
   stories.push(newStory);
   res.json(newStory);
 }); // Update Story
