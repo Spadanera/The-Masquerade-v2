@@ -1,8 +1,8 @@
 "use strict";
 
 const router = require('express').Router();
-const Account = require("../../core/accounts");
-const DbManager = require("../../db/db-manager");
+import Account from "../../core/accounts";
+import DbManager from "../../db/db-manager";
 
 // Get all accounts
 router.get("/", async (req, res) => {
@@ -80,4 +80,4 @@ router.delete("/:id", async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

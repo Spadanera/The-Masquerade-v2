@@ -1,6 +1,6 @@
 "use strict";
-const uuidv4 = require('uuid/v4');
-const DbManager = require("../db/db-manager");
+import uuidv4 from 'uuid/v4';
+import DbManager from "../db/db-manager";
 
 class Account {
     constructor(account) {
@@ -27,4 +27,4 @@ class Account {
     }
 }
 
-module.exports = Account;
+export default Account;

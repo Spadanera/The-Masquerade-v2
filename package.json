@@ -4,8 +4,8 @@
   "description": "Web app to manage The Masquerade Chronicle",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon --exec babel-node server/app.js",
-    "build": "babel server --out-dir dist",
+    "start": "nodemon --exec babel-node src/server/app.js",
+    "build": "babel src/server --out-dir dist",
     "serve": "node dist/app.js"
   },
   "author": "Nicola Zirilli",

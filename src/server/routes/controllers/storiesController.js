@@ -1,8 +1,7 @@
 "use strict";
 
-var express = require('express');
-var router = express.Router();
-const Story = require("../../core/stories");
+const router = require('express').Router();
+import Story from "../../core/stories";
 
 const stories = [
     {
@@ -39,4 +38,4 @@ router.put("/:id", (req, res) => {
     res.json(story);
 });
 
-module.exports = router;
+export default router;

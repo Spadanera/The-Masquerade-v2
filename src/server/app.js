@@ -1,22 +1,22 @@
 "use strict";
 
-const express = require('express');
-const passport = require('passport');
-const cors = require("cors");
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const clientSecret = require("../client_secret.json");
+import express, { json, urlencoded } from 'express';
+import { use, authenticate } from 'passport';
+import cors from "cors";
+import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
+import { web } from "../client_secret.json";
 const PORT = process.env.PORT || 3000;
 
 const app = express();
 
 // Body Parser Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(json());
+app.use(urlencoded({ extended: false }));
 app.use(cors());
 
-passport.use(new GoogleStrategy({
-  clientID: clientSecret.web.client_id,
-  clientSecret: clientSecret.web.client_secret,
+use(new GoogleStrategy({
+  clientID: web.client_id,
+  clientSecret: web.client_secret,
   callbackURL: "http://localhost:3000/auth/google/callback"
 },
   function (accessToken, refreshToken, profile, done) {
@@ -27,10 +27,10 @@ passport.use(new GoogleStrategy({
 ));
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+  authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
 
 app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
+  authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
     res.redirect('/');
   });

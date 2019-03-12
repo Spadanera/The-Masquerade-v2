@@ -1,5 +1,5 @@
 "use strict";
-const uuidv4 = require('uuid/v4');
+import uuidv4 from 'uuid/v4';
 
 class Story {
     constructor(name) {
@@ -8,4 +8,4 @@ class Story {
     }
 }
 
-module.exports = Story;
+export default Story;

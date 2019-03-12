@@ -1,6 +1,6 @@
 const host = "mongodb://172.17.0.2:27017";
 const dbName = "the-masquerade";
-const MongoClient = require('mongodb').MongoClient;
+import { MongoClient } from 'mongodb';
 
 class DbManager {
     constructor(_host) {
@@ -153,4 +153,4 @@ class DbManager {
     }
 }
 
-module.exports = DbManager;
+export default DbManager;
