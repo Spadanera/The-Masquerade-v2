@@ -1,4 +1,2 @@
 node_modules
 dist
-src/client_secret.json
-src/server/public/
