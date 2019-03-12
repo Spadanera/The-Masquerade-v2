@@ -4,14 +4,14 @@
   "description": "Web app to manage The Masquerade Chronicle",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon --exec babel-node src/app.js",
-    "build": "babel src --out-dir dist",
+    "start": "nodemon --exec babel-node server/app.js",
+    "build": "babel server --out-dir dist",
     "serve": "node dist/app.js"
   },
   "author": "Nicola Zirilli",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "mongodb": "^3.1.13",
     "passport": "^0.4.0",

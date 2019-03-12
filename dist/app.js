@@ -2,9 +2,9 @@
 
 var express = require('express');
 
-var bodyParser = require('body-parser');
-
 var passport = require('passport');
+
+var cors = require("cors");
 
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
@@ -17,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: false
 }));
+app.use(cors());
 passport.use(new GoogleStrategy({
   clientID: clientSecret.web.client_id,
   clientSecret: clientSecret.web.client_secret,
@@ -36,7 +37,7 @@ app.get('/auth/google/callback', passport.authenticate('google', {
 }), function (req, res) {
   res.redirect('/');
 });
-app.use("/api", require("./api/routes/router"));
+app.use("/api", require("./routes/router"));
 app.get("/", function (req, res) {
   return res.end('<a href="/auth/google">Sign In with Google</a>');
 });

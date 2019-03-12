@@ -1,17 +1,18 @@
 "use strict";
 
-var express = require('express');
-var bodyParser = require('body-parser')
-var passport = require('passport');
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const express = require('express');
+const passport = require('passport');
+const cors = require("cors");
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const clientSecret = require("../client_secret.json");
 const PORT = process.env.PORT || 3000;
 
-var app = express();
+const app = express();
 
 // Body Parser Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 passport.use(new GoogleStrategy({
   clientID: clientSecret.web.client_id,
@@ -34,7 +35,7 @@ app.get('/auth/google/callback',
     res.redirect('/');
   });
 
-app.use("/api", require("./api/routes/router"));
+app.use("/api", require("./routes/router"));
 
 app.get("/", function (req, res) {
   return res.end('<a href="/auth/google">Sign In with Google</a>');
