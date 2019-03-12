@@ -3,7 +3,7 @@
 const router = require('express').Router();
 const passport = require('passport');
 
-router.use("/accounts", passport.authenticate('google', { failureRedirect: '/' }), require("./controllers/accountsController").default);
+router.use("/accounts", require("./controllers/accountsController").default);
 router.use("/stories", require("./controllers/storiesController").default);
 router.use("/chronicles", require("./controllers/chroniclesController"));
 router.use("/sessions", require("./controllers/sessionsController"));

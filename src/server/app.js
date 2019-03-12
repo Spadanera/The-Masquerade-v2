@@ -14,32 +14,32 @@ app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cors());
 
-use(new GoogleStrategy({
-  clientID: web.client_id,
-  clientSecret: web.client_secret,
-  callbackURL: "http://localhost:3000/auth/google/callback"
-},
-  function (accessToken, refreshToken, profile, done) {
-    User.findOrCreate({ googleId: profile.id }, (err, user) => {
-      return done(err, user);
-    });
-  }
-));
+// use(new GoogleStrategy({
+//   clientID: web.client_id,
+//   clientSecret: web.client_secret,
+//   callbackURL: "http://localhost:3000/auth/google/callback"
+// },
+//   function (accessToken, refreshToken, profile, done) {
+//     User.findOrCreate({ googleId: profile.id }, (err, user) => {
+//       return done(err, user);
+//     });
+//   }
+// ));
 
-app.get('/auth/google',
-  authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+// app.get('/auth/google',
+//   authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
 
-app.get('/auth/google/callback',
-  authenticate('google', { failureRedirect: '/login' }),
-  (req, res) => {
-    res.redirect('/');
-  });
+// app.get('/auth/google/callback',
+//   authenticate('google', { failureRedirect: '/login' }),
+//   (req, res) => {
+//     res.redirect('/');
+//   });
 
 app.use("/api", require("./routes/router"));
 
-app.get("/", function (req, res) {
-  return res.end('<a href="/auth/google">Sign In with Google</a>');
-});
+// app.get("/", function (req, res) {
+//   return res.end('<a href="/auth/google">Sign In with Google</a>');
+// });
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
 });

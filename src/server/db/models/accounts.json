@@ -1,7 +1,8 @@
 {
-    "id": "1b671a64-40d5-491e-99b0-da01ff1f3341",
     "email": "nicola.zirilli@fanplayr.com",
     "firstName": "Nicola",
     "lastName": "Zirilli",
-    "role": "story-teller"
+    "roles": ["story-teller"],
+    "createdAt": "2019-03-12T13:22:03.920Z",
+    "updatedAt": "2019-03-12T13:22:03.920Z"
 }
