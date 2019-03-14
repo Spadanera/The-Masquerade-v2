@@ -2,8 +2,7 @@
     "_id": "1b671a64-40d5-491e-99b0-da01ff1f3341",
     "name": "Prima storia",
     "description": "Descrizione della prima storia",
-    "storyTeller": "1b671a64-40d5-491e-99b0-da01ff1f3341",
+    "story": "1b671a64-40d5-491e-99b0-da01ff1f3341",
     "createdAt": "2019-03-12T13:22:03.920Z",
-    "updatedAt": "2019-03-12T13:22:03.920Z",
-    "coteries": []
+    "updatedAt": "2019-03-12T13:22:03.920Z"
 }
