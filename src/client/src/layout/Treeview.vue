@@ -1,8 +1,10 @@
 <template>
   <v-treeview v-model="tree" :open="open" :items="items" activatable item-key="name" open-on-click>
-    <template v-slot:prepend="{ item, open }">
-      <v-icon v-if="!item.file">{{ open ? 'mdi-folder-open' : 'mdi-folder' }}</v-icon>
-      <v-icon v-else>{{ files[item.file] }}</v-icon>
+    <template v-slot:prepend="{ item }">
+      <v-icon
+        v-if="item.children"
+        v-text="`mdi-${item.id === 1 ? 'home-variant' : 'folder-network'}`"
+      ></v-icon>
     </template>
   </v-treeview>
 </template>
@@ -11,72 +13,75 @@
 export default {
   name: "Treeview",
   data: () => ({
-    open: ["public"],
-    files: {
-      html: "mdi-language-html5",
-      js: "mdi-nodejs",
-      json: "mdi-json",
-      md: "mdi-markdown",
-      pdf: "mdi-file-pdf",
-      png: "mdi-file-image",
-      txt: "mdi-file-document-outline",
-      xls: "mdi-file-excel"
-    },
-    tree: [],
     items: [
       {
-        name: ".git"
-      },
-      {
-        name: "node_modules"
-      },
-      {
-        name: "public",
+        id: 1,
+        name: "Vuetify Human Resources",
         children: [
           {
-            name: "static",
+            id: 2,
+            name: "Core team",
             children: [
               {
-                name: "logo.png",
-                file: "png"
+                id: 201,
+                name: "John"
+              },
+              {
+                id: 202,
+                name: "Kael"
+              },
+              {
+                id: 203,
+                name: "Nekosaur"
+              },
+              {
+                id: 204,
+                name: "Jacek"
+              },
+              {
+                id: 205,
+                name: "Andrew"
               }
             ]
           },
           {
-            name: "favicon.ico",
-            file: "png"
+            id: 3,
+            name: "Administrators",
+            children: [
+              {
+                id: 301,
+                name: "Ranee"
+              },
+              {
+                id: 302,
+                name: "Rachel"
+              }
+            ]
           },
           {
-            name: "index.html",
-            file: "html"
+            id: 4,
+            name: "Contributors",
+            children: [
+              {
+                id: 401,
+                name: "Phlow"
+              },
+              {
+                id: 402,
+                name: "Brandon"
+              },
+              {
+                id: 403,
+                name: "Sean"
+              }
+            ]
           }
         ]
-      },
-      {
-        name: ".gitignore",
-        file: "txt"
-      },
-      {
-        name: "babel.config.js",
-        file: "js"
-      },
-      {
-        name: "package.json",
-        file: "json"
-      },
-      {
-        name: "README.md",
-        file: "md"
-      },
-      {
-        name: "vue.config.js",
-        file: "js"
-      },
-      {
-        name: "yarn.lock",
-        file: "txt"
       }
-    ]
+    ],
+    open: [1, 2],
+    search: null,
+    caseSensitive: false
   })
 };
 </script>
