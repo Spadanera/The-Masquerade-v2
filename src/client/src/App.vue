@@ -1,34 +1,39 @@
 <template>
   <v-app>
-    <Toolbar v-on:toggle-nav="toggleNav" title="the masquerade" />
-    <v-content>
-      <v-navigation-drawer v-model="drawer" app clipped>
-        <Treeview />
-      </v-navigation-drawer>
+    <Toolbar v-on:toggle-nav="toggleNav" title="vue test"/>
+    <v-content class="damasco">
       <router-view/>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import Toolbar from "./layout/Toolbar.vue";
-import Treeview from "./layout/Treeview.vue";
+import Toolbar from "./components/layout/Toolbar.vue";
 
 export default {
   name: "App",
   components: {
-    Toolbar,
-    Treeview
+    Toolbar
   },
   data() {
     return {
-      drawer: null
+      leftBottonVisible: false
     };
   },
   methods: {
-    toggleNav() {
-      this.drawer = !this.drawer;
-    }
+    setLeftButtonVisible(visible) {
+      leftBottonVisible = visible;
+    },
+    toggleNav() {}
   }
 };
 </script>
+
+<style>
+  .damasco {
+    background-image: url(assets/damasco.jpg);
+    background-repeat: repeat-y;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+</style>
