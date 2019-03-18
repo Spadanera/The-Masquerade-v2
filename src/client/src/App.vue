@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Toolbar v-on:toggle-nav="toggleNav" title="vue test"/>
+    <Toolbar v-on:toggle-nav="toggleNav" title="the masquerade"/>
     <v-content class="damasco">
       <router-view/>
     </v-content>
@@ -30,10 +30,12 @@ export default {
 </script>
 
 <style>
-  .damasco {
-    background-image: url(assets/damasco.jpg);
-    background-repeat: repeat-y;
-    background-attachment: fixed;
-    background-size: cover;
-  }
+@import "~animate.css";
+.damasco {
+  background-image: url(assets/blood5.png);
+  background-repeat: repeat-y;
+  background-attachment: fixed;
+  /*background-size: cover; */
+  background-size: contain;
+}
 </style>
