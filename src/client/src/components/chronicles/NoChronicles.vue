@@ -1,6 +1,6 @@
 <template>
   <v-layout row wrap>
-    <AddChronicle :dialog="dialog" @close="dialog = false" />
+    <AddChronicle :dialog="dialog" @submitted="$emit('submitted')" @close="dialog = false" />
     <v-flex xs12 sm10 md8 lg6 xl4 offset-sm1 offset-md2 offset-lg3 offset-xl4>
       <v-card>
         <v-card-title primary-title>

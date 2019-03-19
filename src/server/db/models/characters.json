@@ -5,7 +5,47 @@
     "alive": true,
     "npg": false,
     "playerOrCoterieId": "1b671a64-40d5-491e-99b0-da01ff1f3341",
-    "playerOrCoterieName": "1b671a64-40d5-491e-99b0-da01ff1f3341",
+    "playerOrCoterieName": "New Coterie",
     "createdAt": "2019-03-12T13:22:03.920Z",
-    "updatedAt": "2019-03-12T13:22:03.920Z"
+    "updatedAt": "2019-03-12T13:22:03.920Z",
+    "sheet": {
+        "mainInfo": {
+            "name": "Thomas",
+            "clan": "Ventrue",
+            "generation": "8th"
+        },
+        "willpower": {
+            "total": 7,
+            "used": 3
+        },
+        "health": {
+            "total": 8,
+            "used": 3
+        },
+        "bloodPoint": {
+            "total": 15,
+            "used": 7
+        },
+        "background": {
+            "resources": 3,
+            "fame": 2
+        },
+        "disciplines": {
+            "auspex": 3,
+            "dominate": 2
+        },
+        "attributes": {
+            "phisical": {
+                "strength": 3,
+                "dexterity": 2,
+                "stamina": 4
+            },
+            "social": {
+
+            },
+            "mental": {
+
+            }
+        }
+    }
 }

@@ -8,7 +8,7 @@
     </v-card-title>
     <v-card-text style="flex: 1">{{ chronicle.description }}</v-card-text>
     <v-card-actions class="justify-center">
-      <v-btn color="indigo" dark>Open</v-btn>
+      <v-btn color="info" dark>Open</v-btn>
       <v-btn color="error" @click="modalDelete">Delete</v-btn>
     </v-card-actions>
     <Confirm :dialog="dialog" @confirm="deleteChronicle" :title="modalTitle" :text="modalText" @close="dialog = false" />
@@ -41,7 +41,7 @@ export default {
     },
     async deleteChronicle() {
       await client.delete(`/chronicles/${this.chronicle._id}`);
-      this.$emit("submitted");
+      this.$emit("submitted", "Chronicle successfully deleted");
     }
   }
 };

@@ -17,6 +17,16 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/status/:status", async (req, res) => {
+    try {
+        let collection = await DbManager.loadCollection(collectionName);
+        res.json(await collection.find({ status: req.params.status }).toArray());
+    } catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
+});
+
 // Get single chronicle
 router.get("/:id", async (req, res) => {
     try {

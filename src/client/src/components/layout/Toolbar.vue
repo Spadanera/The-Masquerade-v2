@@ -7,7 +7,10 @@
     ></v-toolbar-side-icon>
     <img src="../../assets/vmplogo.png" />
     <v-toolbar-title class="headline text-uppercase">
-      <router-link to="/" tag="span">{{ title }}</router-link>
+      <router-link to="/" tag="span">
+      <span class="hidden-sm-and-down">{{ title }}</span>
+      <span class="hidden-md-and-up">{{ shortTitle }}</span>
+      </router-link>
 
       <span class="font-weight-light"></span>
     </v-toolbar-title>
@@ -26,6 +29,7 @@ export default {
   name: "Toolbar",
   props: {
     title: String,
+    shortTitle: String,
     leftBottonVisible: Boolean
   }
 };

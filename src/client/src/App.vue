@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Toolbar v-on:toggle-nav="toggleNav" title="the masquerade"/>
+    <Toolbar v-on:toggle-nav="toggleNav" title="vampire the masquerade" short-title="VTM"/>
     <v-content class="damasco">
       <router-view/>
     </v-content>
