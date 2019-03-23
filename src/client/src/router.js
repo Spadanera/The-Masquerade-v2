@@ -8,7 +8,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: () => import('./views/story-teller/chronicles/List.vue')
+      component: () => import('./views/Home.vue')
     },
     {
       path: '/about',
@@ -16,9 +16,9 @@ export default new Router({
       component: () => import('./views/About.vue')
     },
     {
-      path: '/login',
-      name: 'login',
-      component: () => import('./views/Login.vue')
+      path: '/chronicles',
+      name: 'chronicles',
+      component: () => import('./views/story-teller/chronicles/List.vue')
     },
     {
       path: '/configurations',

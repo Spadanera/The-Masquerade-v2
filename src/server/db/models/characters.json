@@ -11,7 +11,12 @@
     "sheet": {
         "mainInfo": {
             "name": "Thomas",
+            "conceprt": "",
+            "predator": "",
+            "ambition": "",
             "clan": "Ventrue",
+            "sire": "",
+            "desire": "",
             "generation": "8th"
         },
         "willpower": {
@@ -22,28 +27,48 @@
             "total": 8,
             "used": 3
         },
-        "bloodPoint": {
-            "total": 15,
-            "used": 7
-        },
-        "background": {
-            "resources": 3,
-            "fame": 2
-        },
+        "hunger": 4,
+        "humanity": 7,
+        "background": [
+            {
+                "name": "fame",
+                "label": "Fame",
+                "points": 0
+            }
+        ],
         "disciplines": {
             "auspex": 3,
             "dominate": 2
         },
         "attributes": {
-            "phisical": {
-                "strength": 3,
-                "dexterity": 2,
-                "stamina": 4
+            "Physical": {
+                "Strength": 3,
+                "Dexterity": 2,
+                "Stamina": 4
             },
-            "social": {
+            "Social": {
+                "Charisma": 3,
+                "Manipulation": 3,
+                "Composure": 2
+            },
+            "Mental": {
+                "Intelligence": 3,
+                "Wits": 1,
+                "Resolve": 4
+            }
+        },
+        "skills": {
+            "1": [
+                {
+                    "name": "Athletics",
+                    "points": 3,
+                    "special": ""
+                }
+            ],
+            "2": {
 
             },
-            "mental": {
+            "3": {
 
             }
         }

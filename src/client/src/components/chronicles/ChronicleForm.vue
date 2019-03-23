@@ -26,7 +26,7 @@ export default {
     async submit() {
       if (this.$refs.form.validate()) {
         // call action
-        await client.post("/chronicles", this.chronicle);
+        await client.post("/api/chronicles", this.chronicle);
         this.$emit("submitted");
       }
     }

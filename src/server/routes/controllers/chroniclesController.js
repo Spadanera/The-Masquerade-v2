@@ -1,15 +1,12 @@
 "use strict";
 
 const router = require('express').Router();
-import Chronicle from "../../core/chronicle";
-import DbManager from "../../db/db-manager";
-const collectionName = "Chronicles"
+import Chronicle from '../../models/Chronicle';
 
 // Get all chronicles
 router.get("/", async (req, res) => {
     try {
-        let collection = await DbManager.loadCollection(collectionName);
-        res.json(await collection.find().toArray());
+        res.json(await Chronicle.find());
     }
     catch (e) {
         console.error(e);
@@ -19,8 +16,7 @@ router.get("/", async (req, res) => {
 
 router.get("/status/:status", async (req, res) => {
     try {
-        let collection = await DbManager.loadCollection(collectionName);
-        res.json(await collection.find({ status: req.params.status }).toArray());
+        res.json(await Chronicle.find({ status: req.params.status }));
     } catch (e) {
         console.error(e);
         res.status(500).json(e);
@@ -30,8 +26,7 @@ router.get("/status/:status", async (req, res) => {
 // Get single chronicle
 router.get("/:id", async (req, res) => {
     try {
-        let collection = await DbManager.loadCollection(collectionName);
-        res.json(await collection.findOne({ _id: req.params.id }));
+        res.json(await Chronicle.findOne({ _id: req.params.id }));
     }
     catch (e) {
         console.error(e);
@@ -42,8 +37,8 @@ router.get("/:id", async (req, res) => {
 // Create new chronicle
 router.post("/", async (req, res) => {
     try {
-        let account = new Chronicle(req.body);
-        res.json(await account.create());
+        let chronicle = new Chronicle(req.body);
+        res.json(await chronicle.save());
     }
     catch (e) {
         console.error(e);
@@ -54,9 +49,7 @@ router.post("/", async (req, res) => {
 // Update chronicle
 router.put("/:id", async (req, res) => {
     try {
-        req.body._id = req.params.id;
-        let chronicle = new Chronicle(req.body);
-        res.json(await chronicle.update());
+        res.json(await Chronicle.findByIdAndUpdate({ _id: req.params.id }, req.body));
     }
     catch (e) {
         console.error(e);
@@ -67,9 +60,7 @@ router.put("/:id", async (req, res) => {
 // Delete chronicle
 router.delete("/:id", async (req, res) => {
     try {
-        req.body._id = req.params.id;
-        let chronicle = new Chronicle(req.body);
-        res.json(await chronicle.delete());
+        res.json(await Chronicle.findByIdAndRemove({ _id: req.params.id }));
     }
     catch (e) {
         console.error(e);
@@ -79,9 +70,7 @@ router.delete("/:id", async (req, res) => {
 
 router.put("/archive/:id", async (req, res) => {
     try {
-        req.body._id = req.params.id;
-        let chronicle = new Chronicle(req.body);
-        res.json(await chronicle.setStatus("Archived"));
+        res.json(await Chronicle.findByIdAndUpdate({ _id: req.params.id }, { status: "Archive" }));
     }
     catch (e) {
         console.error(e);
@@ -91,9 +80,7 @@ router.put("/archive/:id", async (req, res) => {
 
 router.put("/activate/:id", async (req, res) => {
     try {
-        req.body._id = req.params.id;
-        let chronicle = new Chronicle(req.body);
-        res.json(await chronicle.setStatus("Live"));
+        res.json(await Chronicle.findByIdAndUpdate({ _id: req.params.id }, { status: "Live" }));
     }
     catch (e) {
         console.error(e);
@@ -103,9 +90,7 @@ router.put("/activate/:id", async (req, res) => {
 
 router.put("/resume/:id", async (req, res) => {
     try {
-        req.body._id = req.params.id;
-        let chronicle = new Chronicle(req.body);
-        res.json(await chronicle.setStatus("Draft"));
+        res.json(await Chronicle.findByIdAndUpdate({ _id: req.params.id }, { status: "Draft" }));
     }
     catch (e) {
         console.error(e);

@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     async loadList() {
-      let response = await client.get("/chronicles");
+      let response = await client.get("/api/chronicles");
       this.chronicles = response.data;
     },
     submitted(text) {
