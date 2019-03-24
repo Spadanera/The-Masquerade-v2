@@ -6,7 +6,7 @@
         <span class="grey--text">{{ moment(chronicle.createdAt).format('MMMM Do YYYY, h:mm:ss a') }}</span>
       </div>
     </v-card-title>
-    <v-card-text style="flex: 1">{{ chronicle.description }}</v-card-text>
+    <v-card-text style="flex: 1">{{ chronicle.shortDescription }}</v-card-text>
     <v-card-actions class="justify-center">
       <v-btn color="info" dark>Open</v-btn>
       <v-btn color="error" @click="modalDelete">Delete</v-btn>

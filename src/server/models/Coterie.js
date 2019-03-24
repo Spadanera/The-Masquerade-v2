@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { schema as Character } from './Character';
 
 let CoterieSchema = new mongoose.Schema({
     name: String,

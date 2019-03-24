@@ -6,4 +6,12 @@ let CapacitySchema = new mongoose.Schema({
     speciality: String
 });
 
-export default mongoose.model("Capacity", CapacitySchema);
+function create(name) {
+    return new this({
+        name
+    });
+}
+
+Object.assign(CapacitySchema.statics, { create });
+
+export default CapacitySchema;

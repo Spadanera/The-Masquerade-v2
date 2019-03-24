@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { schema as Capacity } from './Capacity';
+import Capacity from './Capacity';
 
 const Generations = Object.freeze({
     First: "1st",
@@ -31,12 +31,13 @@ const Clans = Object.freeze({
 
 let CharacterSchema = new mongoose.Schema({
     name: String,
-    player: mongoose.Schema.Types.ObjectId,
+    playerId: mongoose.Schema.Types.ObjectId,
+    player: String,
     alive: Boolean,
     picture: Buffer,
-    startingExperience: { type: Number, default: 0},
-    totalExperience: { type: Number, default: 0},
-    spentExperience: { type: Number, default: 0},
+    startingExperience: { type: Number, default: 0 },
+    totalExperience: { type: Number, default: 0 },
+    spentExperience: { type: Number, default: 0 },
     characteristics: {
         trueAge: Number,
         apparentAge: Number,
@@ -65,25 +66,39 @@ let CharacterSchema = new mongoose.Schema({
         spent: { type: Number, default: 0 }
     },
     attributes: {
-        Physical: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Capacity' }],
-        Social: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Capacity' }],
-        Mental: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Capacity' }]
+        Physical: [Capacity],
+        Social: [Capacity],
+        Mental: [Capacity]
     },
     skils: {
-        talents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Capacity' }],
-        skills: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Capacity' }],
-        knowledges: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Capacity' }]
+        talents: [Capacity],
+        skills: [Capacity],
+        knowledges: [Capacity]
     },
-    discliplines: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Capacity' }],
+    discliplines: [Capacity],
     resonance: String,
     hunger: { type: Number, default: 10 },
     humanity: { type: Number, default: 10 },
     bloodPotency: { type: Number, default: 10 },
-    advantages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Capacity' }],
-    flaws: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Capacity' }]
+    advantages: [Capacity],
+    flaws: [Capacity]
 });
 
-Object.assign(CharacterSchema.static, { Generations });
-Object.assign(CharacterSchema.static, { Clans });
+async function create (playerId, player) {
+    let character = new this({
+        playerId: playerId,
+        player: player,
+        attributes: {
+            Physical: [
+                Capacity.create("Steight"),
+                Capacity.create("Dextrety"),
+                Capacity.create("Stamina")
+            ]
+        }
+    });
+    return await character.save();
+}
+
+Object.assign(CharacterSchema.static, { Generations, Clans, create });
 
 export default mongoose.model("Character", CharacterSchema);

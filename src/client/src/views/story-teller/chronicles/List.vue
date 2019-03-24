@@ -8,9 +8,9 @@
         <v-flex
           xs12
           sm12
-          md6
-          lg4
-          xl3
+          md12
+          lg6
+          xl6
           v-for="chronicle in chronicles"
           v-bind:key="chronicle._id"
           class="my-2"

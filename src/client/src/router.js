@@ -21,6 +21,11 @@ export default new Router({
       component: () => import('./views/story-teller/chronicles/List.vue')
     },
     {
+      path: '/character',
+      name: 'character',
+      component: () => import('./views/player/Character.vue')
+    },
+    {
       path: '/configurations',
       name: 'configurations',
       component: () => import('./views/story-teller/Configurations.vue')

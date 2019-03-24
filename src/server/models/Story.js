@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-//import { schema as Session } from './Session';
 
 let StorySchema = new mongoose.Schema({
     name: String,
@@ -7,7 +6,7 @@ let StorySchema = new mongoose.Schema({
     onGoing: Boolean,
     createdAt: { type: Date, default: Date.now },
     updateAt: { type: Date, default: Date.now },
-    //sessions: [Session]
+    sessions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Session' }]
 });
 
 export default mongoose.model('Story', StorySchema);
