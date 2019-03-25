@@ -1,41 +1,50 @@
 "use strict";
 
 const router = require('express').Router();
-import Story from "../../core/stories";
-
-const stories = [
-    {
-        id: "10ba038e-48da-487b-96e8-8d3b99b6d18a",
-        name: "Prima storia"
-    },
-    {
-        id: "1b671a64-40d5-491e-99b0-da01ff1f3341",
-        name: "Seconda storia"
-    }
-];
-
-// Get all stories
-router.get("/", (req, res) => { 
-    res.json(stories); 
-});
-
-// Get single story
-router.get("/:id", (req, res) => { 
-    res.json(stories.find(s => s.id === req.params.id)); 
-});
+import Story from '../../models/Story';
+import Chronicle from '../../models/Chronicle';
 
 // Create new story
-router.post("/", (req, res) => {
-    let newStory = new Story(req.body.name);
-    stories.push(newStory); 
-    res.json(newStory);
+router.post("/:id", async (req, res) => {
+    try {
+        let chronicle = await Chronicle.findOne({ _id: req.params.id, storyTeller: req.session.userId });
+        if (chronicle) {
+            let story = new Story(req.body);
+            story.storyTeller = chronicle.storyTeller;
+            story.save();
+            chronicle.stories.push(story);
+            await chronicle.save()
+            res.json(story);
+        }
+        else {
+            res.status(500).send("Chronacle not found");
+        }
+    }
+    catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
 });
 
-// Update Story
-router.put("/:id", (req, res) => {
-    let story = stories.find( s => s.id === req.params.id);
-    story.name = req.body.name ? req.body.name : story.name;
-    res.json(story);
+// get by id
+router.get("/:id", async (req, res) => {
+    try {
+        res.json(await Story.findOne({ _id: req.params.id, storyTeller: req.session.userId }));
+    } catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
+});
+
+// get all by chronicle id
+router.get("/all/:id", async (req, res) => {
+    try {
+        let chronicle = await Chronicle.findOne({ _id: req.params.id, storyTeller: req.session.userId }).populate("stories");
+        res.json(chronicle.stories)
+    } catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
 });
 
 export default router;

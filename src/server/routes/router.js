@@ -16,5 +16,6 @@ import User from '../models/User';
 router.use("/chronicles", require("./controllers/chroniclesController").default);
 router.use("/user", require("./controllers/userController").default);
 router.use("/characters", require("./controllers/charactersController").default);
+router.use("/stories", require("./controllers/storiesController").default);
 
 export default router;

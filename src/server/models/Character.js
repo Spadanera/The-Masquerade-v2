@@ -1,5 +1,10 @@
 import mongoose from 'mongoose';
-import Capacity from './Capacity';
+
+const Capacity = {
+    name: String,
+    points: { type: Number, default: 0},
+    speciality: String
+};
 
 const Generations = Object.freeze({
     First: "1st",
@@ -31,8 +36,7 @@ const Clans = Object.freeze({
 
 let CharacterSchema = new mongoose.Schema({
     name: String,
-    playerId: mongoose.Schema.Types.ObjectId,
-    player: String,
+    userId: mongoose.Schema.Types.ObjectId,
     alive: Boolean,
     picture: Buffer,
     startingExperience: { type: Number, default: 0 },
@@ -66,11 +70,11 @@ let CharacterSchema = new mongoose.Schema({
         spent: { type: Number, default: 0 }
     },
     attributes: {
-        Physical: [Capacity],
-        Social: [Capacity],
-        Mental: [Capacity]
+        physical: [Capacity],
+        social: [Capacity],
+        mental: [Capacity]
     },
-    skils: {
+    skills: {
         talents: [Capacity],
         skills: [Capacity],
         knowledges: [Capacity]
@@ -84,21 +88,17 @@ let CharacterSchema = new mongoose.Schema({
     flaws: [Capacity]
 });
 
-async function create (playerId, player) {
-    let character = new this({
-        playerId: playerId,
-        player: player,
-        attributes: {
-            Physical: [
-                Capacity.create("Steight"),
-                Capacity.create("Dextrety"),
-                Capacity.create("Stamina")
-            ]
-        }
-    });
-    return await character.save();
+CharacterSchema.statics.createCapacities = (names) => {
+    let capacities = [];
+    for (let i = 0; i < names.length; i++) {
+        capacities.push({
+            name: names[i]
+        });
+    }
+    return capacities;
 }
 
-Object.assign(CharacterSchema.static, { Generations, Clans, create });
+CharacterSchema.statics.Generations = Generations;
+CharacterSchema.statics.Clans = Clans;
 
 export default mongoose.model("Character", CharacterSchema);
