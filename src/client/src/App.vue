@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <Toolbar v-on:toggle-nav="toggleNav" title="vampire the masquerade" short-title="VTM"/>
+    <Toolbar v-on:toggle-nav="toggleNav" title="vampire the masquerade" short-title="VTM" :chronicle-name="chronicleName" />
     <v-content class="damasco">
-      <router-view/>
+      <router-view @chronicle="setChronicle" />
     </v-content>
   </v-app>
 </template>
@@ -17,14 +17,18 @@ export default {
   },
   data() {
     return {
-      leftBottonVisible: false
+      leftBottonVisible: false,
+      chronicleName: ""
     };
   },
   methods: {
     setLeftButtonVisible(visible) {
-      leftBottonVisible = visible;
+      this.leftBottonVisible = visible;
     },
-    toggleNav() {}
+    toggleNav() {},
+    setChronicle(chronicleName) {
+      this.chronicleName = chronicleName
+    }
   }
 };
 </script>

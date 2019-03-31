@@ -7,7 +7,7 @@
     ></v-toolbar-side-icon>
     <img src="../../assets/vmplogo.png">
     <v-toolbar-title class="headline text-uppercase">
-      <router-link to="/" tag="span">
+      <router-link to="/chronicles" tag="span">
         <span class="hidden-sm-and-down">{{ title }}</span>
         <span class="hidden-md-and-up">{{ shortTitle }}</span>
       </router-link>
@@ -15,8 +15,11 @@
       <span class="font-weight-light"></span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
+    <h2>
+      {{ chronicleName }}
+    </h2>
     <v-menu>
-      <template v-slot:activator="{ on }">
+      <template v-slot:activator="{ on }" v-if="user">
         <v-btn fab icon v-on="on">
           <v-avatar size="40px">
             <img :src="user.picture" :alt="user.displayName">
@@ -54,7 +57,8 @@ export default {
   props: {
     title: String,
     shortTitle: String,
-    leftBottonVisible: Boolean
+    leftBottonVisible: Boolean,
+    chronicleName: String
   },
   data() {
     return {

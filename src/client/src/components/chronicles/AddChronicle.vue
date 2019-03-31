@@ -35,7 +35,6 @@ export default {
   },
   methods: {
     created () {
-      // alert
       this.$emit("submitted");
       this.$emit("close", false);
     },

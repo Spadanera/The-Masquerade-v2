@@ -1,23 +1,20 @@
 "use strict";
 
 const router = require('express').Router();
-import Story from '../../models/Story';
+import Coterie from '../../models/Coterie';
 import Chronicle from '../../models/Chronicle';
 
-// Create new story
+// Create new coterie
 router.post("/:id", async (req, res) => {
     try {
         let chronicle = await Chronicle.findOne({ _id: req.params.id, storyTeller: req.session.userId });
         if (chronicle) {
             console.log(1);
-            let story = new Story(req.body);
-            story.storyTeller = chronicle.storyTeller;
-            await story.save();
-            console.log(2);
-            chronicle.stories.push(story);
+            let coterie = new Coterie(req.body);
+            await coterie.save();
+            chronicle.coteries.push(coterie);
             await chronicle.save();
-            console.log(3);
-            res.json(story);
+            res.json(coterie);
         }
         else {
             res.status(500).send("Chronacle not found");
@@ -32,7 +29,7 @@ router.post("/:id", async (req, res) => {
 // get by id
 router.get("/:id", async (req, res) => {
     try {
-        res.json(await Story.findOne({ _id: req.params.id, storyTeller: req.session.userId }));
+        res.json(await Coterie.findOne({ _id: req.params.id }));
     } catch (e) {
         console.error(e);
         res.status(500).json(e);
@@ -42,8 +39,8 @@ router.get("/:id", async (req, res) => {
 // get all by chronicle id
 router.get("/all/:id", async (req, res) => {
     try {
-        let chronicle = await Chronicle.findOne({ _id: req.params.id, storyTeller: req.session.userId }).populate("stories");
-        res.json(chronicle.stories.sort((a, b) => a.createdAt < b.createdAt));
+        let chronicle = await Chronicle.findOne({ _id: req.params.id, storyTeller: req.session.userId }).populate("coteries");
+        res.json(chronicle.coteries.sort((a, b) => a.createdAt < b.createdAt));
     } catch (e) {
         console.error(e);
         res.status(500).json(e);
@@ -51,8 +48,8 @@ router.get("/all/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-    let story = await Story.findOne({ _id: req.params.id, storyTeller: req.session.userId });
-    await story.remove();
+    let coterie = await Coterie.findOne({ _id: req.params.id });
+    await coterie.remove();
     res.send("Deleted");
 });
 

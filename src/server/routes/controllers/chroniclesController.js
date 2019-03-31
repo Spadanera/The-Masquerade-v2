@@ -62,7 +62,9 @@ router.put("/:id", async (req, res) => {
 // Delete chronicle
 router.delete("/:id", async (req, res) => {
     try {
-        res.json(await Chronicle.findOneAndRemove({ _id: req.params.id, storyTeller: req.session.userId }));
+        let chronicle = await Chronicle.findOne({ _id: req.params.id, storyTeller: req.session.userId });
+        await chronicle.remove();
+        res.send("Deleted");
     }
     catch (e) {
         console.error(e);

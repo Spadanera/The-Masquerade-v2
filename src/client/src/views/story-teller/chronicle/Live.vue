@@ -1,5 +1,7 @@
 <template>
-    <div>Configuration</div>
+    <div>
+        Live
+    </div>
 </template>
 
 <script>

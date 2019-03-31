@@ -1,5 +1,5 @@
 <template>
-    <div>Stories</div>
+    <div>Playerr</div>
 </template>
 
 <script>

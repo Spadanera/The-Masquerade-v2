@@ -43,10 +43,10 @@
 </template>
 
 <script>
-import NoChronicles from "../../../components/chronicles/NoChronicles.vue";
-import ChronicleCard from "../../../components/chronicles/ChronicleCard.vue";
-import AddChronicle from "../../../components/chronicles/AddChronicle.vue";
-import client from "../../../services/client";
+import NoChronicles from "../../components/chronicles/NoChronicles.vue";
+import ChronicleCard from "../../components/chronicles/ChronicleCard.vue";
+import AddChronicle from "../../components/chronicles/AddChronicle.vue";
+import client from "../../services/client";
 export default {
   components: {
     NoChronicles,

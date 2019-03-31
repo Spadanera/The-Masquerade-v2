@@ -18,22 +18,39 @@ export default new Router({
     {
       path: '/chronicles',
       name: 'chronicles',
-      component: () => import('./views/story-teller/chronicles/List.vue')
+      component: () => import('./views/story-teller/ChroniclesList.vue')
     },
     {
-      path: '/character',
-      name: 'character',
-      component: () => import('./views/player/Character.vue')
-    },
-    {
-      path: '/configurations',
-      name: 'configurations',
-      component: () => import('./views/story-teller/Configurations.vue')
-    },
-    {
-      path: '/story',
-      name: 'story',
-      component: () => import('./views/story-teller/stories/Dashboard.vue')
+      path: '/chronicle/:id',
+      name: 'chronicle',
+      component: () => import('./views/story-teller/Chronicle.vue'),
+      children: [
+        {
+          path: "dashboard",
+          name: "dashboard",
+          component: () => import("./views/story-teller/chronicle/Dashboard.vue")
+        },
+        {
+          path: "stories",
+          name: "stories",
+          component: () => import('./views/story-teller/chronicle/Stories.vue')
+        },
+        {
+          path: "players",
+          name: "players",
+          component: () => import('./views/story-teller/chronicle/Players.vue')
+        },
+        {
+          path: "coteries",
+          name: "coteries",
+          component: () => import('./views/story-teller/chronicle/Coteries.vue')
+        },
+        {
+          path: "live",
+          name: "live",
+          component: () => import('./views/story-teller/chronicle/Live.vue')
+        }
+      ]
     }
   ]
 })
