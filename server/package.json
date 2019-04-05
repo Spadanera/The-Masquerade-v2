@@ -4,10 +4,8 @@
   "description": "Web app to manage The Masquerade Chronicle",
   "main": "app.js",
   "scripts": {
-    "start-db": "docker container start the-masquerade-mongodb",
-    "stop-db": "docker stop the-masquerade-mongodb",
-    "start": "nodemon --exec babel-node src/server/app.js",
-    "build": "babel src/server --out-dir dist",
+    "start": "nodemon --exec babel-node ./app.js",
+    "build": "babel ./server --out-dir dist",
     "serve": "node dist/app.js"
   },
   "author": "Nicola Zirilli",
