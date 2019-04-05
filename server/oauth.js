@@ -1,4 +1,4 @@
-import { web } from '../client_secret.json';
+import { web } from './client_secret.json';
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 module.exports = (passport) => {
     passport.serializeUser((user, done) => {
