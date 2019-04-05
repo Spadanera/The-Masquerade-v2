@@ -37,12 +37,12 @@ export default {
         },
         {
           tooltip: "Stories",
-          icon: "chrome_reader_mode",
+          icon: "book",
           route: "stories"
         },
         {
           tooltip: "Players",
-          icon: "face",
+          icon: "account_circle",
           route: "players"
         },
         {
@@ -70,7 +70,7 @@ export default {
       this.$router.push(`/chronicle/${this.$route.params.id}/${route}`);
     },
     selected(route) {
-      return route === this.$route.name;
+      return this.$route.path.indexOf(route) > -1;
     }
   },
   created() {

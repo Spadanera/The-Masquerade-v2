@@ -2,28 +2,23 @@
   <v-layout align-start justify-start fill-height>
     <v-flex
       shrink
-      style="height: 100%; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); background-color: white"
+      style="height: 100%; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); background-color: #424242"
     >
       <v-list style="width: 400px" subheader three-line>
         <v-subheader class="headline">Coterie</v-subheader>
-        <template v-for="(coterie, index) in coteries">
-          <v-list-tile :key="coterie._id" @click="select(index)">
+        <template v-for="(coterie) in coteries">
+          <v-list-tile :key="coterie._id" @click="select(coterie)">
             <v-list-tile-content>
               <v-list-tile-title v-html="coterie.name"></v-list-tile-title>
               <v-list-tile-sub-title v-html="coterie.description"></v-list-tile-sub-title>
             </v-list-tile-content>
-            <div class="selected-coterie primary" v-if="selectedIndex === index"></div>
+            <div class="selected-coterie primary" v-if="coterie._id === $route.params.conterieid"></div>
           </v-list-tile>
         </template>
       </v-list>
       <v-btn color="primary" @click="dialog=true">Create Coterie</v-btn>
     </v-flex>
-    <v-flex grow style="height: 100%">
-      <v-layout fill-height fluid>
-        <v-flex></v-flex>
-        <v-flex></v-flex>
-      </v-layout>
-    </v-flex>
+    <router-view></router-view>
     <AddCoterie
       :dialog="dialog"
       :chronicle-id="this.$route.params.id"
@@ -43,8 +38,7 @@ export default {
   data() {
     return {
       coteries: [],
-      dialog: false,
-      selectedIndex: -1
+      dialog: false
     };
   },
   methods: {
@@ -54,14 +48,11 @@ export default {
       );
       this.coteries = response.data;
     },
-    select(index) {
-      this.selectedIndex = index;
+    async select(coterie) {
+      this.$router.push(`/chronicle/${this.$route.params.id}/coteries/${coterie._id}`);
     },
     async coterieAdded() {
       await this.getCoteries();
-      if (this.selectedIndex > -1) {
-        this.selectedIndex++;
-      }
     }
   },
   created() {
@@ -72,11 +63,11 @@ export default {
 
 <style>
 .selected-coterie {
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
   position: absolute;
   height: 100%;
   width: 5px;
-  right: 0;
+  left: 0;
 }
 </style>

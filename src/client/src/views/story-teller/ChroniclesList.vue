@@ -23,7 +23,7 @@
         @close="dialog = false"
         @submitted="submitted('Chronicle successfully created')"
       />
-      <v-btn color="error" dark fixed bottom right fab @click="dialog = true">
+      <v-btn color="primary" dark fixed bottom right fab @click="dialog = true">
         <v-icon @click="dialog=true">add</v-icon>
       </v-btn>
     </div>

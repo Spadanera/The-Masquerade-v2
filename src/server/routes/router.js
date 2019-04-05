@@ -17,6 +17,7 @@ router.use("/chronicles", require("./controllers/chroniclesController").default)
 router.use("/user", require("./controllers/userController").default);
 router.use("/characters", require("./controllers/charactersController").default);
 router.use("/stories", require("./controllers/storiesController").default);
+router.use("/sessions", require("./controllers/sessionsController").default);
 router.use("/coteries", require("./controllers/coteriesController").default);
 
 export default router;

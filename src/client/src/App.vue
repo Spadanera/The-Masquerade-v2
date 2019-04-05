@@ -1,8 +1,8 @@
 <template>
-  <v-app>
-    <Toolbar v-on:toggle-nav="toggleNav" title="vampire the masquerade" short-title="VTM" :chronicle-name="chronicleName" />
-    <v-content class="damasco">
-      <router-view @chronicle="setChronicle" />
+  <v-app :dark="darkTheme" class="max-height">
+    <Toolbar :dark-theme="darkTheme" @theme="toggleTheme" v-on:toggle-nav="toggleNav" title="vampire the masquerade" short-title="VTM" :chronicle-name="chronicleName" />
+    <v-content class="damasco max-height">
+      <router-view @chronicle="setChronicle" class="max-height" />
     </v-content>
   </v-app>
 </template>
@@ -18,7 +18,8 @@ export default {
   data() {
     return {
       leftBottonVisible: false,
-      chronicleName: ""
+      chronicleName: "",
+      darkTheme: false
     };
   },
   methods: {
@@ -28,6 +29,9 @@ export default {
     toggleNav() {},
     setChronicle(chronicleName) {
       this.chronicleName = chronicleName
+    },
+    toggleTheme() {
+      this.darkTheme = !this.darkTheme;
     }
   }
 };

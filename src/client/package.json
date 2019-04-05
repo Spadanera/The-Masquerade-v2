@@ -14,7 +14,8 @@
     "vue": "^2.6.6",
     "vue-cookies": "^1.5.12",
     "vue-router": "^3.0.1",
-    "vuetify": "^1.5.5"
+    "vuetify": "^1.5.5",
+    "vuetify-confirm": "^0.2.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.0",

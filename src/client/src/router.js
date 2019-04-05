@@ -43,7 +43,19 @@ export default new Router({
         {
           path: "coteries",
           name: "coteries",
-          component: () => import('./views/story-teller/chronicle/Coteries.vue')
+          component: () => import('./views/story-teller/chronicle/Coteries.vue'),
+          children: [
+            {
+              path: ":conterieid",
+              name: "coterieslist",
+              component: () => import('./views/story-teller/chronicle/CharactersList.vue'),
+            },
+            {
+              path: ":conterieid/character/:characterid",
+              name: "character",
+              component: () => import('./components/characters/Sheet.vue')
+            }
+          ]
         },
         {
           path: "live",

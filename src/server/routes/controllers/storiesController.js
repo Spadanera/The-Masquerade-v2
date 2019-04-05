@@ -9,14 +9,11 @@ router.post("/:id", async (req, res) => {
     try {
         let chronicle = await Chronicle.findOne({ _id: req.params.id, storyTeller: req.session.userId });
         if (chronicle) {
-            console.log(1);
             let story = new Story(req.body);
             story.storyTeller = chronicle.storyTeller;
             await story.save();
-            console.log(2);
             chronicle.stories.push(story);
             await chronicle.save();
-            console.log(3);
             res.json(story);
         }
         else {
@@ -51,7 +48,8 @@ router.get("/all/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-    let story = await Story.findOne({ _id: req.params.id, storyTeller: req.session.userId });
+    // let story = await Story.findOne({ _id: req.params.id, storyTeller: req.session.userId });
+    let story = await Story.findOne({ _id: req.params.id });
     await story.remove();
     res.send("Deleted");
 });

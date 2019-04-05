@@ -36,6 +36,15 @@
               <v-icon>settings</v-icon>        
             </v-list-tile-action>
           </v-list-tile>
+          <v-list-tile @click="toggleDarkTheme">
+            <v-list-tile-content>
+              Toggle dark theme
+            </v-list-tile-content>
+            <v-list-tile-action>
+              <v-icon v-if="!darkTheme">toggle_off</v-icon>        
+              <v-icon v-else>toggle_on</v-icon>        
+            </v-list-tile-action>
+          </v-list-tile>
           <v-list-tile @click="logout">
             <v-list-tile-content>
               Exit
@@ -58,7 +67,8 @@ export default {
     title: String,
     shortTitle: String,
     leftBottonVisible: Boolean,
-    chronicleName: String
+    chronicleName: String,
+    darkTheme: Boolean
   },
   data() {
     return {
@@ -68,6 +78,9 @@ export default {
   methods: {
     logout() {
       location.href = "http://localhost:3000/auth/logout";
+    },
+    toggleDarkTheme() {
+      this.$emit("theme");
     }
   },
   async created() {

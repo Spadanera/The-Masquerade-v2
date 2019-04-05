@@ -2,6 +2,8 @@
 
 const router = require('express').Router();
 import Character from '../../models/Character';
+import Coterie from '../../models/Coterie';
+import Player from '../../models/Player';
 
 // Get single character
 router.get("/", async (req, res) => {
@@ -17,7 +19,7 @@ router.get("/", async (req, res) => {
 // Get single character
 router.get("/:id", async (req, res) => {
     try {
-        res.json(await Character.findOne({ _id: req.params.id, player: req.session.userId }));
+        res.json(await Character.findOne({ _id: req.params.id, userId: req.session.userId }));
     }
     catch (e) {
         console.error(e);
@@ -26,10 +28,19 @@ router.get("/:id", async (req, res) => {
 });
 
 // Create new character
-router.post("/", async (req, res) => {
+router.post("/:id", async (req, res) => {
     try {
         let character = new Character({
             userId: req.session.userId, // "5c97bdf8664eff178ec46579",
+            name: req.body.name,
+            alive: true,
+            picture: req.body.picture,
+            startingExperience: req.body.startingExperience,
+            totalExperience: req.body.startingExperience,
+            characteristics: {},
+            mainInformation: {},
+            health: {},
+            willPower: {},
             attributes: {
                 physical: Character.createCapacities(["strength", "dexterity", "stamina"]),
                 social: Character.createCapacities(["carisma", "manipulation", "composure"]),
@@ -39,8 +50,25 @@ router.post("/", async (req, res) => {
                 talents: Character.createCapacities(["athletics", "brawl", "Craft", "drive", "firearms", "larceny", "melee", "stealth", "survival"]),
                 skills: Character.createCapacities(["animalKen", "etiquette", "insight", "intimidation", "leadership", "performance", "persuasion", "streetwise", "subterfuge"]),
                 knowledges: Character.createCapacities(["academics", "awareness", "finance", "investigation", "medicine", "occult", "politics", "science", "technology"])
-            }
+            },
+            discliplines: [],
+            advantages: [],
+            flaws: []
         });
+        if (req.params.id) {
+            let coterie = await Coterie.findOne({ _id: req.params.id });
+            if (coterie) {
+                coterie.characters.push(character);
+                await coterie.save();
+            }
+        }
+        else {
+            let player = await Player.findOne({ _id: req.session.userId });
+            if (player) {
+                player.characters.push(character);
+                await player.save();
+            }
+        }
         res.json(character.save());
     }
     catch (e) {

@@ -2,7 +2,7 @@
   <v-layout align-start justify-start fill-height>
     <v-flex
       shrink
-      style="height: 100%; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); background-color: white"
+      style="height: 100%; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); background-color: #424242"
     >
       <v-list style="width: 400px" subheader three-line>
         <v-subheader class="headline">Stories</v-subheader>
@@ -73,11 +73,11 @@ export default {
 
 <style>
 .selected-story {
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
   position: absolute;
   height: 100%;
   width: 5px;
-  right: 0;
+  left: 0;
 }
 </style>

@@ -63,26 +63,12 @@
           <span class="headline">Sessions timeline</span>
         </v-card-title>
         <v-card-text>
-          <v-timeline dense>
-            <v-timeline-item>
-              <!-- <span slot="opposite">2019-03-29</span> -->
+          <v-timeline dense v-for="story in stories" v-bind:key="story._id">
+            <div class="title text-xs-center">{{story.name}}</div>
+            <v-timeline-item v-for="session in story.sessions" v-bind:key="session._id">
               <div class="py-3">
-                <h2 class="headline font-weight-light mb-3">2019-03-29</h2>
-                <div>Lorem ipsum dolor sit amet, no nam oblique veritus. Commune scaevola imperdiet nec ut, sed euismod convenire principes at. Est et nobis iisque percipit, an vim zril disputando voluptatibus, vix an salutandi sententiae.</div>
-              </div>
-            </v-timeline-item>
-            <v-timeline-item>
-              <!-- <span slot="opposite">2019-03-29</span> -->
-              <div class="py-3">
-                <h2 class="headline font-weight-light mb-3">2019-03-29</h2>
-                <div>Lorem ipsum dolor sit amet, no nam oblique veritus. Commune scaevola imperdiet nec ut, sed euismod convenire principes at. Est et nobis iisque percipit, an vim zril disputando voluptatibus, vix an salutandi sententiae.</div>
-              </div>
-            </v-timeline-item>
-            <v-timeline-item>
-              <!-- <span slot="opposite">2019-03-29</span> -->
-              <div class="py-3">
-                <h2 class="headline font-weight-light mb-3">2019-03-29</h2>
-                <div>Lorem ipsum dolor sit amet, no nam oblique veritus. Commune scaevola imperdiet nec ut, sed euismod convenire principes at. Est et nobis iisque percipit, an vim zril disputando voluptatibus, vix an salutandi sententiae.</div>
+                <h2 class="headline font-weight-light mb-3">{{moment(session.sessionDate).format("YYYY-MM-DD")}}</h2>
+                <div>{{ session.globalNote }}</div>
               </div>
             </v-timeline-item>
           </v-timeline>
@@ -97,6 +83,7 @@ import client from "../../../services/client";
 export default {
   data() {
     return {
+      stories: [],
       editing: false,
       editStory: "",
       selectedTab: 0
@@ -117,15 +104,25 @@ export default {
       } else {
         input.publicStory = this.editStory;
       }
-      await client.put(`/api/chronicles/${this.$parent.chronicle._id}`, input);
+      await client.put(`/api/chronicles/${this.$route.params.id}`, input);
       this.$emit("updated");
       this.editing = false;
+    },
+    async getStories() {
+      let response = await client.get(`/api/stories/all/${this.$route.params.id}`);
+      this.stories = response.data;
+      this.stories.forEach(story => {
+        client.get(`/api/sessions/all/${story._id}`).then( res => story.sessions = res.data);
+      })
     }
   },
   watch: {
     selectedTab() {
       this.editing = false;
     }
+  },
+  created() {
+    this.getStories();
   }
 };
 </script>

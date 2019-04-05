@@ -35,26 +35,26 @@ SessionSchema.post("save", async session => {
 });
 
 async function SetExperiencePointsForCharacters(session) {
-    let characters = session.charachters.map(c => {
-        return {
-            characterId: c._id,
-            experiencePointsTotal: 0
-        }
-    });
-    let story = await Story.findOne({ sessions: { $in: [session._id] } });
-    let chronicle = await Chronicle.findOne({ stories: { $in: [story._id] } });
-    chronicle.stories.forEach(async s => {
-        let sessions = await Story.findById(s._id).populate("sessions");
-        sessions.forEach(s => {
-            s.charachters.forEach(c => {
-                let characterToUpdate = characters.find(character => character.characterId === s._id);
-                if (characterToUpdate) {
-                    characterToUpdate.experiencePointsTotal += c.experiencePoints;
-                }
-            });
-        })
-    });
-    characters.forEach(async c => await Character.findByIdAndUpdate(c.characterId, { totalExperience: c.experiencePointsTotal }));
+    // let characters = session.charachters.map(c => {
+    //     return {
+    //         characterId: c._id,
+    //         experiencePointsTotal: 0
+    //     }
+    // });
+    // let story = await Story.findOne({ sessions: { $in: [session._id] } });
+    // let chronicle = await Chronicle.findOne({ stories: { $in: [story._id] } });
+    // chronicle.stories.forEach(async s => {
+    //     let sessions = await Story.findById(s._id).populate("sessions");
+    //     sessions.forEach(s => {
+    //         s.charachters.forEach(c => {
+    //             let characterToUpdate = characters.find(character => character.characterId === s._id);
+    //             if (characterToUpdate) {
+    //                 characterToUpdate.experiencePointsTotal += c.experiencePoints;
+    //             }
+    //         });
+    //     })
+    // });
+    // characters.forEach(async c => await Character.findByIdAndUpdate(c.characterId, { totalExperience: c.experiencePointsTotal }));
 }
 
 export default mongoose.model("Session", SessionSchema);

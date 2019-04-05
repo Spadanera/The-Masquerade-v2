@@ -29,7 +29,7 @@ router.post("/:id", async (req, res) => {
 // get by id
 router.get("/:id", async (req, res) => {
     try {
-        res.json(await Coterie.findOne({ _id: req.params.id }));
+        res.json(await Coterie.findOne({ _id: req.params.id }).populate("characters"));
     } catch (e) {
         console.error(e);
         res.status(500).json(e);
