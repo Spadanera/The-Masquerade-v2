@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     logout() {
-      location.href = "http://localhost:3000/auth/logout";
+      location.href = "http://localhost/auth/logout";
     },
     toggleDarkTheme() {
       this.$emit("theme");

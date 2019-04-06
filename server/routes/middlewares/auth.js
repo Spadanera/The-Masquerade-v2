@@ -28,14 +28,14 @@ router.get('/google/callback',
         req.session.userId = user._id;
         req.session.token = req.user.token;
         res.cookie('token', req.session.token);
-        res.redirect('http://localhost:8080/#/chronicles');
+        res.redirect('http://localhost/#/chronicles');
     }
 );
 router.get('/logout', (req, res) => {
     req.logout();
     req.session = null;
     res.cookie('token', '');
-    res.redirect('http://localhost:8080/#/');
+    res.redirect('http://localhost/#/');
 });
 
 export default router;
