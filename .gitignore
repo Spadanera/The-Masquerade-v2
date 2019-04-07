@@ -1,4 +1,5 @@
 node_modules
-dist
+/dist
 /.project
-.vscode
+/.vscode
+/db/*

@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "docker-build": "docker-compose build",
-    "docker-start": "docker-compose up"
+    "docker-start": "docker-compose up",
+    "build-server": "cd server && npm run build",
+    "build-client": "cd client && npm run build",
+    "build": "npm run build-server && npm run build-client"
   },
   "repository": {
     "type": "git",
