@@ -1,7 +1,7 @@
 <template>
   <v-layout align-start justify-start fill-height>
-    <v-flex shrink style="height: 100%; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
-      <v-layout align-start justify-start column>
+    <v-flex class="first-nav" shrink style="height: 100%; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
+      <v-layout align-start justify-start column v-if="navVisible || this.$vuetify.breakpoint.lgAndUp">
         <v-tooltip right v-for="section in this.sections" v-bind:key="section.route">
           <template v-slot:activator="{ on }">
             <v-icon
@@ -17,7 +17,7 @@
       </v-layout>
     </v-flex>
     <v-flex style="height: 100%">
-      <router-view @updated="loadChronicle"></router-view>
+      <router-view @updated="loadChronicle" :navVisible="navVisible"></router-view>
     </v-flex>
   </v-layout>
 </template>
@@ -25,6 +25,9 @@
 <script>
 import client from "../../services/client";
 export default {
+  props: {
+    navVisible: Boolean
+  },
   data() {
     return {
       chronicle: {},

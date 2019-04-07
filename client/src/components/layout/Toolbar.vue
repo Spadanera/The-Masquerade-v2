@@ -1,8 +1,7 @@
 <template>
   <v-toolbar app fixed clipped-left color="primary" dark>
     <v-toolbar-side-icon
-      v-if="leftBottonVisible"
-      class="hidden-lg-and-up"
+      class="hidden-lg-and-up" v-if="leftIconVisible()"
       @click="$emit('toggle-nav')"
     ></v-toolbar-side-icon>
     <img src="../../assets/vmplogo.png">
@@ -19,7 +18,7 @@
       {{ chronicleName }}
     </h2>
     <v-menu>
-      <template v-slot:activator="{ on }" v-if="user">
+      <template v-slot:activator="{ on }" v-if="$route.name !== 'home'">
         <v-btn fab icon v-on="on">
           <v-avatar size="40px">
             <img :src="user.picture" :alt="user.displayName">
@@ -28,14 +27,14 @@
       </template>
       <v-card>
         <v-list>
-          <v-list-tile>
+          <!-- <v-list-tile>
             <v-list-tile-content>
               Settings
             </v-list-tile-content>
             <v-list-tile-action>
               <v-icon>settings</v-icon>        
             </v-list-tile-action>
-          </v-list-tile>
+          </v-list-tile> -->
           <v-list-tile @click="toggleDarkTheme">
             <v-list-tile-content>
               Toggle dark theme
@@ -66,7 +65,6 @@ export default {
   props: {
     title: String,
     shortTitle: String,
-    leftBottonVisible: Boolean,
     chronicleName: String,
     darkTheme: Boolean
   },
@@ -81,6 +79,9 @@ export default {
     },
     toggleDarkTheme() {
       this.$emit("theme");
+    },
+    leftIconVisible() {
+      return this.$route.name !== "home";
     }
   },
   async created() {

@@ -2,7 +2,7 @@
   <v-app :dark="darkTheme" class="max-height">
     <Toolbar :dark-theme="darkTheme" @theme="toggleTheme" v-on:toggle-nav="toggleNav" title="vampire the masquerade" short-title="VTM" :chronicle-name="chronicleName" />
     <v-content class="damasco max-height">
-      <router-view @chronicle="setChronicle" class="max-height" />
+      <router-view @chronicle="setChronicle" class="max-height" :navVisible="navVisible" />
     </v-content>
   </v-app>
 </template>
@@ -17,21 +17,30 @@ export default {
   },
   data() {
     return {
-      leftBottonVisible: false,
       chronicleName: "",
-      darkTheme: false
+      darkTheme: false,
+      navVisible: false
     };
   },
   methods: {
-    setLeftButtonVisible(visible) {
-      this.leftBottonVisible = visible;
+    toggleNav() {
+      this.navVisible = !this.navVisible;
     },
-    toggleNav() {},
     setChronicle(chronicleName) {
       this.chronicleName = chronicleName
     },
     toggleTheme() {
       this.darkTheme = !this.darkTheme;
+    }
+  },
+  mounted() {
+    if (localStorage.darkTheme !== undefined) {
+      this.darkTheme = localStorage.darkTheme === "true";
+    }
+  },
+  watch: {
+    darkTheme(_darkTheme) {
+      localStorage.darkTheme = _darkTheme;
     }
   }
 };
@@ -45,5 +54,18 @@ export default {
   background-attachment: fixed;
   /*background-size: cover; */
   background-size: contain;
+}
+
+@media screen and (max-width: 1264px) {
+  .first-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .second-nav {
+    position: absolute;
+    top: 0;
+    left: 60px;
+  }
 }
 </style>
