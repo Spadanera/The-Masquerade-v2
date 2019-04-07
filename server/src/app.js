@@ -1,4 +1,5 @@
 "use strict";
+import path from 'path';
 
 // Mongoose configuration
 import mongoose from "mongoose";
