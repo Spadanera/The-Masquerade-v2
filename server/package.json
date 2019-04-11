@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon --exec babel-node ./src/app.js",
-    "build": "babel ./src --out-dir ../dist",
-    "serve": "node dist/app.js"
+    "build": "babel ./src --out-dir ./dist && cp src/client_secret.json dist/client_secret.json",
+    "serve": "node ./dist/app.js"
   },
   "author": "Nicola Zirilli",
   "license": "ISC",

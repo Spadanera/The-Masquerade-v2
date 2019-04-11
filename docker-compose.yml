@@ -4,7 +4,7 @@ services:
   client:
     build: ./client
     ports:
-      - 8080:8080
+      - 8080
     volumes:
       - ./client:/data
     networks:
@@ -13,7 +13,7 @@ services:
   server:
     build: ./server
     ports:
-      - 3000:3000
+      - 3000
     volumes:
       - ./server:/data
     depends_on: 
@@ -31,6 +31,7 @@ services:
       - ./db:/data/db
     networks:
       - proxy_net
+      
   proxy: 
     image: nginx 
     volumes: # mount custom config at runtime 

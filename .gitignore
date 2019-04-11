@@ -1,5 +1,6 @@
-node_modules
-/dist
+/server/node_modules
+/server/dist
+!/dist/Dockfile
 /.project
 /.vscode
 /db/*
