@@ -14,7 +14,6 @@ router.get('/google/callback',
         failureRedirect: '/'
     }),
     async (req, res) => {
-        console.log("We are in callback");
         try {
             let profile = req.user.profile;
             let user = await User.findOneAndUpdate({ googleId: profile.id }, {
@@ -27,7 +26,6 @@ router.get('/google/callback',
                 picture: profile._json.picture,
                 roles: ["story-teller"]
             }, { upsert: true, new: true, setDefaultsOnInsert: true });
-            console.log("User created or found");
             req.session.userId = user._id;
             req.session.token = req.user.token;
             res.cookie('token', req.session.token);
