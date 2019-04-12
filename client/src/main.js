@@ -12,7 +12,7 @@ Vue.use(Vuetify, {
   theme: {
     primary: colors.red.darken4,
     secondary: '#b0bec5',
-    accent: 'white',
+    accent: '#FFFAFA',
     error: '#b71c1c'
   }
 });

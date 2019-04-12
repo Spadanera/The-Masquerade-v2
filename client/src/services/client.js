@@ -2,7 +2,7 @@ import { create } from 'axios';
 import router from '../router.js'
 
 let client = create({
-  baseURL: 'http://localhost'
+  //baseURL: `${process.env.PROTOCOL || "http" }://${process.env.ORIGIN || "localhost" }`
 });
 
 client.interceptors.response.use(

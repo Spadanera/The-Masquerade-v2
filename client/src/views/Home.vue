@@ -12,7 +12,7 @@
 export default {
   methods: {
     login() {
-      location.href = "http://localhost/auth/google";
+      location.href = `/auth/google`;
     }
   }
 };

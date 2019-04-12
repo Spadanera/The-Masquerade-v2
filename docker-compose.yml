@@ -19,7 +19,9 @@ services:
     depends_on: 
       - server-database
     environment:
-      - DATABASE_URL=server-database:27017
+      - CONNECTION_STRING=mongodb://server-database:27017/the-masquerade
+      - ORIGIN=localhost
+      - PROTOCOL=http
     networks:
       - proxy_net
     
