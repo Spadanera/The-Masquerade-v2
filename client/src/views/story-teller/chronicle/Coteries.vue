@@ -1,11 +1,15 @@
 <template>
   <v-layout align-start justify-start fill-height>
-    <v-flex
-      shrink
-      v-if="navVisible || this.$vuetify.breakpoint.lgAndUp" class="second-nav"
-      style="height: 100%; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);"
+    <v-navigation-drawer
+      v-model="navVisible"
+      class="left-modified"
+      disable-route-watcher
+      :fixed="this.$vuetify.breakpoint.mdAndDown"
     >
-      <v-list style="width: 400px; max-height: calc(100% - 40px); overflow-y: auto" subheader three-line>
+      <v-list
+        subheader
+        three-line
+      >
         <v-subheader class="headline">Coterie</v-subheader>
         <template v-for="(coterie) in coteries">
           <v-list-tile :key="coterie._id" @click="select(coterie)">
@@ -18,7 +22,7 @@
         </template>
       </v-list>
       <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">Create Coterie</v-btn>
-    </v-flex>
+    </v-navigation-drawer>
     <router-view></router-view>
     <v-flex v-if="coteries.length === 0 && !navVisible" class="hidden-lg-and-up">
       <v-btn color="primary" @click="dialog=true">Create Coterie</v-btn>
@@ -81,5 +85,9 @@ export default {
   height: 100%;
   width: 5px;
   left: 0;
+}
+
+.left-modified.v-navigation-drawer--open {
+  left: 80px;
 }
 </style>

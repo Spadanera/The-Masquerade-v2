@@ -1,23 +1,28 @@
 <template>
   <v-layout align-start justify-start fill-height>
-    <v-flex class="first-nav" shrink style="height: 100%; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
-      <v-layout align-start justify-start column v-if="navVisible || this.$vuetify.breakpoint.lgAndUp">
-        <v-tooltip right v-for="section in this.sections" v-bind:key="section.route">
-          <template v-slot:activator="{ on }">
-            <v-icon
-              v-bind:class="{ selected: selected(section.route) }"
-              x-large
-              style="padding: 10px; cursor: pointer; border-bottom: 1px solid lightgray"
-              v-on="on"
-              @click="goTo(section.route)"
-            >{{ section.icon || section.iconFunction()  }}</v-icon>
-          </template>
-          <span>{{ section.tooltip }}</span>
-        </v-tooltip>
-      </v-layout>
-    </v-flex>
+    <v-navigation-drawer v-model="navVisible" mini-variant disable-route-watcher :fixed="this.$vuetify.breakpoint.mdAndDown">
+      <v-list class="pt-0" dense>
+        <v-list-tile v-for="section in this.sections" 
+          v-bind:key="section.route"
+          style="border-bottom: 1px solid lightgray; padding: 10px 0">
+          <v-list-tile-action>
+            <v-tooltip right v-bind:key="section.route">
+              <template v-slot:activator="{ on }">
+                <v-icon
+                  v-bind:class="{ selected: selected(section.route) }"
+                  x-large              
+                  @click="goTo(section.route)"
+                  v-on="on"
+                >{{ section.icon || section.iconFunction() }}</v-icon>
+              </template>
+              <span>{{ section.tooltip }}</span>
+            </v-tooltip>
+          </v-list-tile-action>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
     <v-flex style="height: 100%">
-      <router-view @updated="loadChronicle" :navVisible="navVisible"></router-view>
+      <router-view @updated="loadChronicle" :navVisible="nav.visible"></router-view>
     </v-flex>
   </v-layout>
 </template>
@@ -26,7 +31,7 @@
 import client from "../../services/client";
 export default {
   props: {
-    navVisible: Boolean
+    nav: Object
   },
   data() {
     return {
@@ -65,7 +70,9 @@ export default {
   },
   methods: {
     async loadChronicle() {
-      let response = await client.get(`/api/chronicles/${this.$route.params.id}`);
+      let response = await client.get(
+        `/api/chronicles/${this.$route.params.id}`
+      );
       this.chronicle = response.data;
       this.$emit("chronicle", this.chronicle.name);
     },
@@ -78,6 +85,16 @@ export default {
   },
   created() {
     this.loadChronicle();
+  },
+  computed: {
+    navVisible: {
+      get() {
+        return this.nav.visible || this.$vuetify.breakpoint.lgAndUp;
+      },
+      set(val) {
+        this.nav.visible = val;
+      }
+    }
   }
 };
 </script>

@@ -7,7 +7,7 @@
           <v-card-title>
             <div>
               <div class="headline">{{ character.name }}</div>
-              <div class="grey--text">Clan: <span>{{character.mainInformation.clan}}</span></div>
+              <!-- <div class="grey--text">Clan: <span>{{character.mainInformation.clan}}</span></div> -->
               <div class="grey--text">Generation: 9th</div>
               <div class="grey--text">Sire: Cornelius</div>
             </div>
