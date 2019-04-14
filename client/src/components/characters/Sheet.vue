@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; position: relative" id="sheet-container" v-if="loaded" class="max-height">
-    <v-toolbar tabs style="text-xs-center" scroll-threshold="40" :scroll-off-screen="true" :scroll-target="'#scrolling-techniques'" absolute>
+    <v-toolbar tabs style="text-xs-center" :scroll-threshold="40" :scroll-off-screen="true" :scroll-target="'#scrolling-techniques'" absolute>
       <v-toolbar-side-icon>
         <v-avatar size="40px">
           <img :src="character.picture" :alt="character.name">
@@ -25,26 +25,27 @@
           <v-flex pa-3>
             <v-card>
               <v-card-title>
-                <v-layout row justify-space-around justify-center>
-                  <v-flex shrink>
+                <v-layout row wrap justify-space-around justify-center>
+                  <v-flex shrink xs12 md4>
                     <div class="subheading text-xs-center mb-2">Health</div>
                     <v-rating
                       v-model="character.health.superficialDamage"
                       empty-icon="radio_button_unchecked"
                       full-icon="radio_button_checked"
                       clearable
+                      class="text-xs-center"
                       dense small
                       :length="character.health.pool"
                       :readonly="readonly"
                     ></v-rating>
                   </v-flex>
-                  <v-flex shrink>
+                  <v-flex shrink xs12 md4>
                     <div class="subheading text-xs-center mb-2">Will Power</div>
-                    <v-rating small></v-rating>
+                    <v-rating class="text-xs-center" small></v-rating>
                   </v-flex>
-                  <v-flex shrink>
+                  <v-flex shrink xs12 md4>
                     <div class="subheading text-xs-center mb-2">Humanity</div>
-                    <v-rating small></v-rating>
+                    <v-rating class="text-xs-center" small></v-rating>
                   </v-flex>
                 </v-layout>
               </v-card-title>

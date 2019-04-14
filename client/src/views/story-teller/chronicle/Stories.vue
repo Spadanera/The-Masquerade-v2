@@ -14,7 +14,6 @@
             </v-list-tile-content>
             <div class="selected-story primary" v-if="selectedIndex === index"></div>
           </v-list-tile>
-          <!-- <v-divider :key="index"></v-divider> -->
         </template>
       </v-list>
       <v-btn color="primary" @click="dialog=true">Create Story</v-btn>

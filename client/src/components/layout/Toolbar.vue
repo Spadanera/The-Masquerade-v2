@@ -8,15 +8,15 @@
     <v-toolbar-title class="headline text-uppercase">
       <router-link to="/chronicles" tag="span">
         <span class="hidden-sm-and-down">{{ title }}</span>
-        <span class="hidden-md-and-up">{{ shortTitle }}</span>
+        <span class="hidden-md-and-up" v-if="!leftIconVisible()">{{ shortTitle }}</span>
       </router-link>
 
       <span class="font-weight-light"></span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <h2>
+    <h3>
       {{ chronicleName }}
-    </h2>
+    </h3>
     <v-menu>
       <template v-slot:activator="{ on }" v-if="$route.name !== 'home'">
         <v-btn fab icon v-on="on">
@@ -81,7 +81,7 @@ export default {
       this.$emit("theme");
     },
     leftIconVisible() {
-      return this.$route.name !== "home";
+      return this.$route.name !== "home" && this.$route.name !== "chronicles";
     }
   },
   async created() {
