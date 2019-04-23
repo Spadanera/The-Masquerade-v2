@@ -48,8 +48,8 @@ export default {
     },
     async submit() {
       if (this.$refs.form.validate()) {
-        await client.post(`/api/coteries/${this.chronicleId}`, this.coterie);
-        this.$emit("submitted");
+        let coterie = await client.post(`/api/coteries/${this.chronicleId}`, this.coterie);
+        this.$emit("submitted", coterie._id);
         this.$emit("close", false);
       }
     }

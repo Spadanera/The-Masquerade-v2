@@ -48,8 +48,8 @@ export default {
     },
     async submit() {
       if (this.$refs.form.validate()) {
-        await client.post(`/api/stories/${this.chronicleId}`, this.story);
-        this.$emit("submitted");
+        let story = await client.post(`/api/stories/${this.chronicleId}`, this.story);
+        this.$emit("submitted", story._id);
         this.$emit("close", false);
       }
     }

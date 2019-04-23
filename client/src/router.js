@@ -33,7 +33,14 @@ export default new Router({
         {
           path: "stories",
           name: "stories",
-          component: () => import('./views/story-teller/chronicle/Stories.vue')
+          component: () => import('./views/story-teller/chronicle/Stories.vue'),
+          children: [
+            {
+              path: ":storyid",
+              name: "story",
+              component: () => import("./views/story-teller/chronicle/Story.vue"),
+            }
+          ]
         },
         {
           path: "players",

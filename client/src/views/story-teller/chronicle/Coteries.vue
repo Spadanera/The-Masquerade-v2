@@ -17,7 +17,7 @@
               <v-list-tile-title v-html="coterie.name"></v-list-tile-title>
               <v-list-tile-sub-title v-html="coterie.description"></v-list-tile-sub-title>
             </v-list-tile-content>
-            <div class="selected-coterie primary" v-if="coterie._id === $route.params.conterieid"></div>
+            <div class="selected-element primary" v-if="coterie._id === $route.params.conterieid"></div>
           </v-list-tile>
         </template>
       </v-list>
@@ -30,7 +30,7 @@
     <AddCoterie
       :dialog="dialog"
       :chronicle-id="this.$route.params.id"
-      @submitted="coterieAdded"
+      @submitted="coterieAdded(coterieId)"
       @close="dialog = false"
     />
   </v-layout>
@@ -53,13 +53,19 @@ export default {
     };
   },
   methods: {
-    async getCoteries() {
+    async getCoteries(coterieId) {
       let response = await client.get(
         `/api/coteries/all/${this.$route.params.id}`
       );
       this.coteries = response.data;
       if (this.coteries.length) {
-        this.select(this.coteries[0]);
+        let find = this.coteries.find(c => c._id === coterieId);
+        if (find) {
+          this.select(find);
+        }
+        else {
+          this.select(this.coteries[0]);
+        }
       }
     },
     select(coterie) {
@@ -71,23 +77,12 @@ export default {
       await this.getCoteries();
     }
   },
-  created() {
-    this.getCoteries();
+  created(coterieId) {
+    this.getCoteries(coterieId);
   }
 };
 </script>
 
 <style>
-.selected-coterie {
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  position: absolute;
-  height: 100%;
-  width: 5px;
-  left: 0;
-}
 
-.left-modified.v-navigation-drawer--open {
-  left: 80px;
-}
 </style>

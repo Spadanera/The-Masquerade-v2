@@ -1,16 +1,24 @@
 <template>
   <v-layout align-start justify-start fill-height>
-    <v-navigation-drawer v-model="navVisible" mini-variant disable-route-watcher :fixed="this.$vuetify.breakpoint.mdAndDown">
+    <v-navigation-drawer
+      v-model="navVisible"
+      mini-variant
+      disable-route-watcher
+      :fixed="this.$vuetify.breakpoint.mdAndDown"
+      style="min-width: 80px"
+    >
       <v-list class="pt-0" dense>
-        <v-list-tile v-for="section in this.sections" 
+        <v-list-tile
+          v-for="section in this.sections"
           v-bind:key="section.route"
-          style="border-bottom: 1px solid lightgray; padding: 10px 0">
+          style="border-bottom: 1px solid lightgray; padding: 10px 0"
+        >
           <v-list-tile-action>
             <v-tooltip right v-bind:key="section.route">
               <template v-slot:activator="{ on }">
                 <v-icon
                   v-bind:class="{ selected: selected(section.route) }"
-                  x-large              
+                  x-large
                   @click="goTo(section.route)"
                   v-on="on"
                 >{{ section.icon || section.iconFunction() }}</v-icon>
@@ -21,9 +29,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-flex style="height: 100%">
-      <router-view @updated="loadChronicle" :navVisible="nav.visible"></router-view>
-    </v-flex>
+    <router-view style="height: 100%" @updated="loadChronicle" :navVisible="nav.visible"></router-view>
   </v-layout>
 </template>
 
@@ -102,5 +108,18 @@ export default {
 <style>
 .selected {
   color: #b71c1c !important;
+}
+
+.left-modified.v-navigation-drawer--open {
+  left: 80px;
+}
+
+.selected-element {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  position: absolute;
+  height: 100%;
+  width: 5px;
+  left: 0;
 }
 </style>
