@@ -16,6 +16,11 @@ export default new Router({
       component: () => import('./views/About.vue')
     },
     {
+      path: '/join/:token',
+      name: 'join',
+      component: () => import('./views/Join.vue')
+    },
+    {
       path: '/chronicles',
       name: 'chronicles',
       component: () => import('./views/story-teller/ChroniclesList.vue')
@@ -45,7 +50,14 @@ export default new Router({
         {
           path: "players",
           name: "players",
-          component: () => import('./views/story-teller/chronicle/Players.vue')
+          component: () => import('./views/story-teller/chronicle/Players.vue'),
+          children: [
+            {
+              path: ":playerid",
+              name: "player",
+              component: () => import('./views/story-teller/chronicle/Player.vue')
+            }
+          ]
         },
         {
           path: "coteries",

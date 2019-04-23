@@ -73,12 +73,12 @@ export default {
         `/chronicle/${this.$route.params.id}/coteries/${coterie._id}`
       );
     },
-    async coterieAdded() {
-      await this.getCoteries();
+    async coterieAdded(coterieId) {
+      await this.getCoteries(coterieId);
     }
   },
-  created(coterieId) {
-    this.getCoteries(coterieId);
+  created() {
+    this.getCoteries();
   }
 };
 </script>

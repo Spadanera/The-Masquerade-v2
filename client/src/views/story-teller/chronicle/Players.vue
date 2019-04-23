@@ -1,13 +1,81 @@
 <template>
-    <div>Playerr</div>
+  <v-layout align-start justify-start fill-height>
+    <v-navigation-drawer
+      v-model="navVisible"
+      class="left-modified"
+      disable-route-watcher
+      :fixed="this.$vuetify.breakpoint.mdAndDown"
+    >
+      <v-list avatar>
+        <v-subheader class="headline">Players</v-subheader>
+        <template v-for="(player) in players">
+          <v-list-tile :key="player._id" @click="select(player)" class="padding-list-item">
+            <v-list-tile-content>
+              <v-list-tile-title v-html="player.userDisplayName"></v-list-tile-title>
+              <!-- <v-list-tile-sub-title v-html="player.description"></v-list-tile-sub-title> -->
+            </v-list-tile-content>
+            <v-list-tile-avatar>
+              <img :src="player.userPicture" :alt="player.userDisplayName">
+            </v-list-tile-avatar>
+            <div class="selected-element primary" v-if="player._id === $route.params.playerid"></div>
+          </v-list-tile>
+        </template>
+      </v-list>
+      <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">Invite Player</v-btn>
+    </v-navigation-drawer>
+    <router-view></router-view>
+    <v-flex v-if="players.length === 0 && !navVisible" class="hidden-lg-and-up">
+      <v-btn color="primary" @click="dialog=true">Invite Player</v-btn>
+    </v-flex>
+    <InvitePlayer
+      :dialog="dialog"
+      :chronicle-id="this.$route.params.id"
+      @submitted="coterieAdded(coterieId)"
+      @close="dialog = false"
+    />
+  </v-layout>
 </template>
 
 <script>
+import client from "../../../services/client";
+import InvitePlayer from "../../../components/players/InvitePlayer";
 export default {
-
-}
+  components: {
+    InvitePlayer
+  },
+  props: {
+    navVisible: Boolean
+  },
+  data() {
+    return {
+      players: [],
+      dialog: false
+    };
+  },
+  methods: {
+    async getPlayers() {
+      let response = await client.get(
+        `/api/players/all/${this.$route.params.id}`
+      );
+      this.players = response.data;
+      // if (this.players.length) {
+      //     this.select(this.players[0]);
+      // }
+    },
+    select(player) {
+      this.$router.push(
+        `/chronicle/${this.$route.params.id}/players/${player._id}`
+      );
+    }
+  },
+  created() {
+    this.getPlayers();
+  }
+};
 </script>
 
 <style>
-
+.padding-list-item {
+  padding: 10px 0;
+}
 </style>

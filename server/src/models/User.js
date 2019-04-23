@@ -7,8 +7,7 @@ let UserSchema = new mongoose.Schema({
     displayName: String,
     giveName: String,
     familName: String,
-    picture: String,
-    roles: [String]
+    picture: String
 });
 
 export default mongoose.model("User", UserSchema);

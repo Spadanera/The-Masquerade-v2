@@ -4,11 +4,24 @@ const router = require('express').Router();
 import passport from 'passport';
 
 import User from "../../models/User";
+import Player from "../../models/Player";
+import Invitation from "../../models/Invitation";
+
+router.get('/google-join/:invitation', (req, res) => {
+    req.session.invitation = req.params.invitation;
+    res.redirect('/auth/google');
+});
+
+router.get('/google-role/:role', (req, res) => {
+    req.session.role = req.params.role;
+    res.redirect('/auth/google');
+});
 
 router.get('/google', passport.authenticate('google', {
     scope: ['https://www.googleapis.com/auth/userinfo.profile',
         'https://www.googleapis.com/auth/userinfo.email']
 }));
+
 router.get('/google/callback',
     passport.authenticate('google', {
         failureRedirect: '/'
@@ -23,16 +36,36 @@ router.get('/google/callback',
                 displayName: profile.displayName,
                 givenName: profile.name.given_name,
                 familyName: profile.name.family_name,
-                picture: profile._json.picture,
-                roles: ["story-teller"]
+                picture: profile._json.picture
             }, { upsert: true, new: true, setDefaultsOnInsert: true });
             req.session.userId = user._id;
             req.session.token = req.user.token;
             res.cookie('token', req.session.token);
-            res.redirect(`${process.env.PROTOCOL || "http" }://${process.env.ORIGIN || "localhost" }/#/chronicles`);
+
+            // invitation
+            if (req.session.invitation) {
+                let invitation = await Invitation.findOne({ token: req.session.invitation });
+                let player = new Player({
+                    userId: user._id,
+                    userDisplayName: profile.displayName,
+                    userPicture: profile._json.picture,
+                    chronicleId: invitation.chronicleId,
+                    active: true,
+                });
+                await player.save();
+                res.redirect(`${process.env.PROTOCOL || "http"}://${process.env.ORIGIN || "localhost"}/#/player`);
+            }
+
+            // redirect
+            if (req.session.role === "story-teller") {
+                res.redirect(`${process.env.PROTOCOL || "http"}://${process.env.ORIGIN || "localhost"}/#/chronicles`);
+            }
+            if (req.session.role === "player") {
+                res.redirect(`${process.env.PROTOCOL || "http"}://${process.env.ORIGIN || "localhost"}/#/player`);
+            }
         } catch (error) {
             console.log(error);
-            res.redirect(`${process.env.PROTOCOL || "http" }://${process.env.ORIGIN || "localhost" }/`);
+            res.redirect(`${process.env.PROTOCOL || "http"}://${process.env.ORIGIN || "localhost"}/`);
         }
     }
 );
@@ -40,7 +73,7 @@ router.get('/logout', (req, res) => {
     req.logout();
     req.session = null;
     res.cookie('token', '');
-    res.redirect(`${process.env.PROTOCOL || "http" }://${process.env.ORIGIN || "localhost" }/#/`);
+    res.redirect(`${process.env.PROTOCOL || "http"}://${process.env.ORIGIN || "localhost"}/#/`);
 });
 
 export default router;

@@ -1,9 +1,10 @@
-/server/node_modules
+/server/node_modules/
 /server/dist/models/
 /server/dist/routes/
 /server/dist/static/
 /server/dist/app.js
 /server/dist/oauth.js
+/server/src/gmailAuth.js
 /.project
 /.vscode
 /db/*

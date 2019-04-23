@@ -1,7 +1,8 @@
 <template>
   <v-toolbar app fixed clipped-left color="primary" dark>
     <v-toolbar-side-icon
-      class="hidden-lg-and-up" v-if="leftIconVisible()"
+      class="hidden-lg-and-up"
+      v-if="leftIconVisible()"
       @click="$emit('toggle-nav')"
     ></v-toolbar-side-icon>
     <img src="../../assets/vmplogo.png">
@@ -14,13 +15,11 @@
       <span class="font-weight-light"></span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <h3>
-      {{ chronicleName }}
-    </h3>
+    <h3>{{ chronicleName }}</h3>
     <v-menu>
-      <template v-slot:activator="{ on }" v-if="$route.name !== 'home'">
+      <template v-slot:activator="{ on }" v-if="getUser()">
         <v-btn fab icon v-on="on">
-          <v-avatar size="40px">
+          <v-avatar size="40px" v-if="user">
             <img :src="user.picture" :alt="user.displayName">
           </v-avatar>
         </v-btn>
@@ -34,22 +33,18 @@
             <v-list-tile-action>
               <v-icon>settings</v-icon>        
             </v-list-tile-action>
-          </v-list-tile> -->
+          </v-list-tile>-->
           <v-list-tile @click="toggleDarkTheme">
-            <v-list-tile-content>
-              Toggle dark theme
-            </v-list-tile-content>
+            <v-list-tile-content>Toggle dark theme</v-list-tile-content>
             <v-list-tile-action>
-              <v-icon v-if="!darkTheme">toggle_off</v-icon>        
-              <v-icon v-else>toggle_on</v-icon>        
+              <v-icon v-if="!darkTheme">toggle_off</v-icon>
+              <v-icon v-else>toggle_on</v-icon>
             </v-list-tile-action>
           </v-list-tile>
           <v-list-tile @click="logout">
-            <v-list-tile-content>
-              Exit
-            </v-list-tile-content>
+            <v-list-tile-content>Exit</v-list-tile-content>
             <v-list-tile-action>
-              <v-icon>exit_to_app</v-icon>        
+              <v-icon>exit_to_app</v-icon>
             </v-list-tile-action>
           </v-list-tile>
         </v-list>
@@ -70,7 +65,7 @@ export default {
   },
   data() {
     return {
-      user: {}
+      user: undefined
     };
   },
   methods: {
@@ -81,12 +76,19 @@ export default {
       this.$emit("theme");
     },
     leftIconVisible() {
-      return this.$route.name !== "home" && this.$route.name !== "chronicles";
+      return this.$route.fullPath.startsWith("/chronicle/");
+    },
+    async getUser() {
+      if (this.$route.fullPath.startsWith("/chronicle")) {
+        let response = await client.get("/api/user");
+        this.user = response.data;
+        return true;
+      }
+      return false;
     }
   },
   async created() {
-    let response = await client.get("/api/user");
-    this.user = response.data;
+    //this.getUser();
   }
 };
 </script>

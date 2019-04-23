@@ -71,12 +71,12 @@ export default {
         `/chronicle/${this.$route.params.id}/stories/${story._id}`
       );
     },
-    async storyAdded() {
-      await this.getStories();
+    async storyAdded(storyId) {
+      await this.getStories(storyId);
     }
   },
-  created(storyId) {
-    this.getStories(storyId);
+  created() {
+    this.getStories();
   }
 };
 </script>
