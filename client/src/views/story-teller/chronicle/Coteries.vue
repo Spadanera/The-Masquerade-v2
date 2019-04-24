@@ -5,6 +5,8 @@
       class="left-modified"
       disable-route-watcher
       :fixed="this.$vuetify.breakpoint.mdAndDown"
+      :stateless="true"
+      style="z-index: 6"
     >
       <v-list
         subheader
@@ -49,7 +51,8 @@ export default {
   data() {
     return {
       coteries: [],
-      dialog: false
+      dialog: false,
+      ownNavVisible: true
     };
   },
   methods: {

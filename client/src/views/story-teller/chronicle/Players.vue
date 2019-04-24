@@ -5,6 +5,8 @@
       class="left-modified"
       disable-route-watcher
       :fixed="this.$vuetify.breakpoint.mdAndDown"
+      :stateless="true"
+      style="z-index: 6"
     >
       <v-list avatar>
         <v-subheader class="headline">Players</v-subheader>

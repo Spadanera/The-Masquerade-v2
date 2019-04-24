@@ -29,7 +29,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <router-view style="height: 100%" @updated="loadChronicle" :navVisible="nav.visible"></router-view>
+    <router-view style="height: 100%" @updated="loadChronicle" :navVisible="navVisible"></router-view>
   </v-layout>
 </template>
 
@@ -86,7 +86,10 @@ export default {
       this.$emit("chronicle", this.chronicle.name);
     },
     goTo(route) {
-      this.$router.push(`/story-teller/chronicle/${this.$route.params.id}/${route}`);
+        this.$router.push(`/story-teller/chronicle/${this.$route.params.id}/${route}`);
+        if (route === "dashboard") {
+          this.nav.visible = false;
+        }
     },
     selected(route) {
       return this.$route.path.indexOf(route) > -1;

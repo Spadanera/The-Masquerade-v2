@@ -1,7 +1,5 @@
 <template>
-    <div>
-        Live
-    </div>
+    <div>Live</div>
 </template>
 
 <script>
