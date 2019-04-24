@@ -45,20 +45,20 @@ router.get('/google/callback',
             // invitation
             if (req.session.invitation) {
                 let invitation = await Invitation.findOne({ token: req.session.invitation });
-                let player = new Player({
+                await Player.findOneAndUpdate({ userId: user._id }, {
                     userId: user._id,
                     userDisplayName: profile.displayName,
                     userPicture: profile._json.picture,
                     chronicleId: invitation.chronicleId,
                     active: true,
                 });
-                await player.save();
+                await Invitation.findOneAndDelete({ token: req.session.invitation });
                 res.redirect(`${process.env.PROTOCOL || "http"}://${process.env.ORIGIN || "localhost"}/#/player`);
             }
 
             // redirect
             if (req.session.role === "story-teller") {
-                res.redirect(`${process.env.PROTOCOL || "http"}://${process.env.ORIGIN || "localhost"}/#/chronicles`);
+                res.redirect(`${process.env.PROTOCOL || "http"}://${process.env.ORIGIN || "localhost"}/#/story-teller`);
             }
             if (req.session.role === "player") {
                 res.redirect(`${process.env.PROTOCOL || "http"}://${process.env.ORIGIN || "localhost"}/#/player`);

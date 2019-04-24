@@ -64,7 +64,7 @@ export default {
     },
     select(player) {
       this.$router.push(
-        `/chronicle/${this.$route.params.id}/players/${player._id}`
+        `/story-teller/chronicle/${this.$route.params.id}/players/${player._id}`
       );
     }
   },

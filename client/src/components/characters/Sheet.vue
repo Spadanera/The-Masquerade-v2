@@ -200,7 +200,7 @@ export default {
     },
     close() {
       this.$router.push(
-        `/chronicle/${this.$route.params.id}/coteries/${
+        `/story-teller/chronicle/${this.$route.params.id}/coteries/${
           this.$route.params.conterieid
         }`
       );

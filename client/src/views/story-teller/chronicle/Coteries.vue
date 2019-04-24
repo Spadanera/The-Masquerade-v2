@@ -70,7 +70,7 @@ export default {
     },
     select(coterie) {
       this.$router.push(
-        `/chronicle/${this.$route.params.id}/coteries/${coterie._id}`
+        `/story-teller/chronicle/${this.$route.params.id}/coteries/${coterie._id}`
       );
     },
     async coterieAdded(coterieId) {

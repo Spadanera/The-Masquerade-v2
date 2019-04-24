@@ -68,7 +68,7 @@ export default {
     },
     select(story) {
       this.$router.push(
-        `/chronicle/${this.$route.params.id}/stories/${story._id}`
+        `/story-teller/chronicle/${this.$route.params.id}/stories/${story._id}`
       );
     },
     async storyAdded(storyId) {

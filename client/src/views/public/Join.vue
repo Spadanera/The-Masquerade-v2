@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import client from "../services/client";
+import client from "../../services/client";
 export default {
   methods: {
     join() {

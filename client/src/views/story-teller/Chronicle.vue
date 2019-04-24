@@ -11,7 +11,7 @@
         <v-list-tile
           v-for="section in this.sections"
           v-bind:key="section.route"
-          style="border-bottom: 1px solid lightgray; padding: 10px 0"
+          style="border-bottom: 1px solid darkgrey; padding: 10px 0"
         >
           <v-list-tile-action>
             <v-tooltip right v-bind:key="section.route">
@@ -83,7 +83,7 @@ export default {
       this.$emit("chronicle", this.chronicle.name);
     },
     goTo(route) {
-      this.$router.push(`/chronicle/${this.$route.params.id}/${route}`);
+      this.$router.push(`/story-teller/chronicle/${this.$route.params.id}/${route}`);
     },
     selected(route) {
       return this.$route.path.indexOf(route) > -1;

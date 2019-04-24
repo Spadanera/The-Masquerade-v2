@@ -1,36 +1,19 @@
 <template>
   <v-app :dark="darkTheme" class="max-height">
-    <Toolbar :dark-theme="darkTheme" @theme="toggleTheme" v-on:toggle-nav="toggleNav" title="vampire the masquerade" short-title="VTM" :chronicle-name="chronicleName" />
-    <v-content class="damasco max-height">
-      <router-view @chronicle="setChronicle" class="max-height" :nav="nav" />
-    </v-content>
+    <router-view class="max-height damasco" @theme="toggleTheme"></router-view>
   </v-app>
 </template>
 
 <script>
-import Toolbar from "./components/layout/Toolbar.vue";
 
 export default {
   name: "App",
-  components: {
-    Toolbar
-  },
   data() {
     return {
-      chronicleName: "",
-      darkTheme: false,
-      nav: {
-        visible: false
-      }
+      darkTheme: false
     };
   },
   methods: {
-    toggleNav() {
-      this.nav.visible = !this.nav.visible;
-    },
-    setChronicle(chronicleName) {
-      this.chronicleName = chronicleName
-    },
     toggleTheme() {
       this.darkTheme = !this.darkTheme;
     }

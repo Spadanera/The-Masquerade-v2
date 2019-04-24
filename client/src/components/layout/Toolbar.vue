@@ -15,11 +15,11 @@
       <span class="font-weight-light"></span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <h3>{{ chronicleName }}</h3>
-    <v-menu>
-      <template v-slot:activator="{ on }" v-if="getUser()">
+    <h3 v-if="userMenu">{{ chronicleName }}</h3>
+    <v-menu v-if="userMenu">
+      <template v-slot:activator="{ on }">
         <v-btn fab icon v-on="on">
-          <v-avatar size="40px" v-if="user">
+          <v-avatar size="40px">
             <img :src="user.picture" :alt="user.displayName">
           </v-avatar>
         </v-btn>
@@ -61,11 +61,12 @@ export default {
     title: String,
     shortTitle: String,
     chronicleName: String,
-    darkTheme: Boolean
+    darkTheme: Boolean,
+    userMenu: Boolean
   },
   data() {
     return {
-      user: undefined
+      user: {}
     };
   },
   methods: {
@@ -76,19 +77,17 @@ export default {
       this.$emit("theme");
     },
     leftIconVisible() {
-      return this.$route.fullPath.startsWith("/chronicle/");
+      return this.$route.fullPath.indexOf("/chronicle/") > -1;
     },
     async getUser() {
-      if (this.$route.fullPath.startsWith("/chronicle")) {
+      if (this.userMenu) {
         let response = await client.get("/api/user");
         this.user = response.data;
-        return true;
       }
-      return false;
     }
   },
   async created() {
-    //this.getUser();
+    this.getUser();
   }
 };
 </script>
