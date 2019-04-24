@@ -45,13 +45,14 @@ router.get('/google/callback',
             // invitation
             if (req.session.invitation) {
                 let invitation = await Invitation.findOne({ token: req.session.invitation });
-                await Player.findOneAndUpdate({ userId: user._id }, {
+                let player = {
                     userId: user._id,
                     userDisplayName: profile.displayName,
                     userPicture: profile._json.picture,
                     chronicleId: invitation.chronicleId,
                     active: true,
-                });
+                };
+                await Player.findOneAndUpdate({ userId: user._id }, player, { upsert: true, new: true, setDefaultsOnInsert: true });
                 await Invitation.findOneAndDelete({ token: req.session.invitation });
                 res.redirect(`${process.env.PROTOCOL || "http"}://${process.env.ORIGIN || "localhost"}/#/player`);
             }
