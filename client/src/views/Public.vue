@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Toolbar title="vampire the masquerade" short-title="VTM" :user-menu="false"/>
+    <Toolbar title="vampire the masquerade" short-title="VTM" :user-menu="false" rootMenu="/"/>
     <v-content class="max-height">
       <router-view></router-view>
     </v-content>

@@ -79,6 +79,7 @@ export default {
   },
   created() {
     this.loadList();
+    this.$emit("chronicle", "");
   }
 };
 </script>

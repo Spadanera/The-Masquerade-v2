@@ -7,7 +7,7 @@
     ></v-toolbar-side-icon>
     <img src="../../assets/vmplogo.png">
     <v-toolbar-title class="headline text-uppercase">
-      <router-link to="/chronicles" tag="span">
+      <router-link :to="rootMenu" tag="span">
         <span class="hidden-sm-and-down">{{ title }}</span>
         <span class="hidden-md-and-up" v-if="!leftIconVisible()">{{ shortTitle }}</span>
       </router-link>
@@ -62,7 +62,8 @@ export default {
     shortTitle: String,
     chronicleName: String,
     darkTheme: Boolean,
-    userMenu: Boolean
+    userMenu: Boolean,
+    rootMenu: String
   },
   data() {
     return {

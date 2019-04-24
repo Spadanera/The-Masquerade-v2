@@ -7,6 +7,7 @@
       short-title="VTM"
       :chronicle-name="chronicleName"
       :user-menu="true"
+      rootMenu="/story-teller"
     />
     <v-content class="max-height">
       <router-view @chronicle="setChronicle" class="max-height" :nav="nav"/>
