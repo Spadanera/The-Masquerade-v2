@@ -4,6 +4,7 @@
 /server/dist/static/
 /server/dist/app.js
 /server/dist/oauth.js
+/server/dist/gmailAuth.js
 /server/src/gmailAuth.js
 /.project
 /.vscode

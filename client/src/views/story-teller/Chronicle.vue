@@ -17,11 +17,11 @@
             <v-tooltip right v-bind:key="section.route">
               <template v-slot:activator="{ on }">
                 <v-icon
-                  v-bind:class="{ selected: selected(section.route) }"
                   x-large
                   @click="goTo(section.route)"
                   v-on="on"
-                >{{ section.icon || section.iconFunction() }}</v-icon>
+                  v-bind:class="[section.iconClass, selected(section.route) ? 'selected' : '']"
+                ></v-icon>
               </template>
               <span>{{ section.tooltip }}</span>
             </v-tooltip>
@@ -47,28 +47,31 @@ export default {
         {
           tooltip: "Dashboard",
           icon: "dashboard",
+          iconClass: "icon-dashboard",
           route: "dashboard"
         },
         {
           tooltip: "Stories",
           icon: "book",
+          iconClass: "icon-stories",
           route: "stories"
         },
         {
           tooltip: "Players",
           icon: "account_circle",
+          iconClass: "icon-players",
           route: "players"
         },
         {
           tooltip: "Coterie",
           icon: "people",
+          iconClass: "icon-coterie",
           route: "coteries"
         },
         {
           tooltip: "Live Session",
-          iconFunction() {
-            return "play_circle_outline";
-          },
+          icon: "play_circle_outline",
+          iconClass: "icon-play",
           route: "live"
         }
       ]
