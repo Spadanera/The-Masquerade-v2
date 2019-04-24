@@ -30,9 +30,21 @@
     <InvitePlayer
       :dialog="dialog"
       :chronicle-id="this.$route.params.id"
-      @submitted="coterieAdded(coterieId)"
+      @submitted="playerInvited"
       @close="dialog = false"
     />
+    <v-snackbar
+      v-model="snackbar.enabled"
+      :bottom="true"
+      :left="false"
+      :multi-line="false"
+      :right="false"
+      :timeout="3000"
+      :vertical="false"
+    >
+      {{ snackbar.text }}
+      <v-btn color="red" flat @click="snackbar.enabled = false">Close</v-btn>
+    </v-snackbar>
   </v-layout>
 </template>
 
@@ -49,7 +61,11 @@ export default {
   data() {
     return {
       players: [],
-      dialog: false
+      dialog: false,
+      snackbar: {
+        enabled: false,
+        text: ""
+      },
     };
   },
   methods: {
@@ -58,14 +74,18 @@ export default {
         `/api/players/all/${this.$route.params.id}`
       );
       this.players = response.data;
-      // if (this.players.length) {
-      //     this.select(this.players[0]);
-      // }
+      if (this.players.length) {
+          this.select(this.players[0]);
+      }
     },
     select(player) {
       this.$router.push(
         `/story-teller/chronicle/${this.$route.params.id}/players/${player._id}`
       );
+    },
+    playerInvited() {
+      this.snackbar.text = "Invitation sent";
+      this.snackbar.enabled = true;
     }
   },
   created() {
