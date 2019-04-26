@@ -112,9 +112,9 @@
             <div class="xs12 headline text-xs-center mb-3">Attributes</div>
             <v-card>
               <v-card-title>
-                <v-layout row>
+                <v-layout row wrap>
                   <v-flex
-                    md4
+                    md4 sm12
                     v-for="(value, groupName) in character.attributes"
                     v-bind:key="groupName"
                   >
@@ -131,8 +131,8 @@
             <div class="xs12 headline text-xs-center mb-3">Skills</div>
             <v-card>
               <v-card-title>
-                <v-layout row>
-                  <v-flex md4 v-for="(value, groupName) in character.skills" v-bind:key="groupName">
+                <v-layout row wrap>
+                  <v-flex md4  sm12 v-for="(value, groupName) in character.skills" v-bind:key="groupName">
                     <div v-for="(attribute, propertyName) in value" v-bind:key="propertyName">
                       <Capacity :capacity="attribute" :readonly="readonly" :maxPoint="maxPoint"/>
                     </div>
@@ -192,6 +192,7 @@ export default {
         text: ""
       },
       characterTabs: 0,
+      fighting: false,
       clans: [
         "Bruja",
         "Gangrel",

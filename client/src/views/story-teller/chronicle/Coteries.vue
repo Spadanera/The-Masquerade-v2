@@ -61,7 +61,7 @@ export default {
         `/api/coteries/all/${this.$route.params.id}`
       );
       this.coteries = response.data;
-      if (this.coteries.length) {
+      if (this.coteries.length && this.$route.name !== "character") {
         let find = this.coteries.find(c => c._id === coterieId);
         if (find) {
           this.select(find);
