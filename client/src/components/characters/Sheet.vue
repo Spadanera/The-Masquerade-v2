@@ -1,6 +1,18 @@
 <template>
-  <div style="width: 100%; position: relative" id="sheet-container" v-if="loaded" class="max-height">
-    <v-toolbar tabs style="text-xs-center" :scroll-threshold="40" :scroll-off-screen="true" :scroll-target="'#scrolling-techniques'" absolute>
+  <div
+    style="width: 100%; position: relative"
+    id="sheet-container"
+    v-if="loaded"
+    class="max-height"
+  >
+    <v-toolbar
+      tabs
+      style="text-xs-center"
+      :scroll-threshold="40"
+      :scroll-off-screen="true"
+      :scroll-target="'#scrolling-techniques'"
+      absolute
+    >
       <v-toolbar-side-icon>
         <v-avatar size="40px">
           <img :src="character.picture" :alt="character.name">
@@ -28,31 +40,68 @@
                 <v-layout row wrap justify-space-around justify-center>
                   <v-flex shrink xs12 md4>
                     <div class="subheading text-xs-center mb-2">Health</div>
-                    <v-rating
-                      v-model="character.health.superficialDamage"
-                      empty-icon="radio_button_unchecked"
-                      full-icon="radio_button_checked"
-                      clearable
-                      class="text-xs-center"
-                      dense small
-                      background-color="secondary"
-                      :length="character.health.pool"
-                      :readonly="readonly"
-                    ></v-rating>
+                    <div style="width: 190px; margin: auto">
+                      <v-rating
+                        v-model="damage"
+                        empty-icon="radio_button_unchecked"
+                        full-icon="radio_button_checked"
+                        clearable
+                        dense
+                        small
+                        background-color="secondary"
+                        :length="character.health.pool"
+                        :readonly="true"
+                      ></v-rating>
+                      <v-rating
+                        v-model="character.health.superficialDamage"
+                        empty-icon="check_box_outline_blank"
+                        full-icon="check"
+                        clearable
+                        dense
+                        small
+                        background-color="secondary"
+                        :length="superficialPool"
+                        :readonly="readonly"
+                      ></v-rating>
+                      <v-rating
+                        v-model="character.health.aggravatedDamage"
+                        empty-icon="check_box_outline_blank"
+                        full-icon="close"
+                        clearable
+                        dense
+                        small
+                        background-color="secondary"
+                        :length="aggravatedPool"
+                        :readonly="readonly"
+                      ></v-rating>
+                    </div>
                   </v-flex>
                   <v-flex shrink xs12 md4>
                     <div class="subheading text-xs-center mb-2">Will Power</div>
-                    <v-rating
-                      v-model="character.willPower.spent"
-                      empty-icon="radio_button_unchecked"
-                      full-icon="radio_button_checked"
-                      clearable
-                      class="text-xs-center"
-                      dense small
-                      background-color="secondary"
-                      :length="character.willPower.pool"
-                      :readonly="readonly"
-                    ></v-rating>
+                    <div style="width: 190px; margin: auto">
+                      <v-rating
+                        v-model="character.willPower.pool"
+                        empty-icon="radio_button_unchecked"
+                        full-icon="radio_button_checked"
+                        clearable
+                        dense
+                        small
+                        background-color="secondary"
+                        :length="10"
+                        :readonly="readonly"
+                      ></v-rating>
+                      <v-rating
+                        v-model="character.willPower.spent"
+                        empty-icon="check_box_outline_blank"
+                        full-icon="indeterminate_check_box"
+                        clearable
+                        dense
+                        small
+                        background-color="secondary"
+                        :length="character.willPower.pool"
+                        :readonly="readonly"
+                      ></v-rating>
+                    </div>
                   </v-flex>
                   <v-flex shrink xs12 md4>
                     <div class="subheading text-xs-center mb-2">Humanity</div>
@@ -62,7 +111,8 @@
                       full-icon="radio_button_checked"
                       clearable
                       class="text-xs-center"
-                      dense small
+                      dense
+                      small
                       background-color="secondary"
                       :length="10"
                       :readonly="readonly"
@@ -91,14 +141,15 @@
                     ></v-text-field>
                   </v-flex>
                   <v-flex shrink>
-                    <div class="title text-xs-center mb-2">Hunger</div>
+                    <div class="subheading text-xs-center mb-2">Hunger</div>
                     <v-rating
                       v-model="character.hunger"
                       empty-icon="radio_button_unchecked"
                       full-icon="radio_button_checked"
                       clearable
                       class="text-xs-center"
-                      dense small
+                      dense
+                      small
                       background-color="secondary"
                       :length="5"
                       :readonly="readonly"
@@ -114,7 +165,8 @@
               <v-card-title>
                 <v-layout row wrap>
                   <v-flex
-                    md4 sm12
+                    md4
+                    sm12
                     v-for="(value, groupName) in character.attributes"
                     v-bind:key="groupName"
                   >
@@ -132,7 +184,12 @@
             <v-card>
               <v-card-title>
                 <v-layout row wrap>
-                  <v-flex md4  sm12 v-for="(value, groupName) in character.skills" v-bind:key="groupName">
+                  <v-flex
+                    md4
+                    sm12
+                    v-for="(value, groupName) in character.skills"
+                    v-bind:key="groupName"
+                  >
                     <div v-for="(attribute, propertyName) in value" v-bind:key="propertyName">
                       <Capacity :capacity="attribute" :readonly="readonly" :maxPoint="maxPoint"/>
                     </div>
@@ -217,7 +274,7 @@ export default {
         "4th",
         "3rd",
         "2nd",
-        "1st",
+        "1st"
       ]
     };
   },
@@ -248,6 +305,35 @@ export default {
   },
   created() {
     this.loadCharacter();
+  },
+  computed: {
+    damage: {
+      get () {
+        if (this.character && this.character.health) {
+          return this.character.health.superficialDamage + this.character.health.aggravatedDamage
+        }
+        return 0;
+      },
+      set(val) { }
+    },
+    aggravatedPool: {
+      get() {
+        if (this.character && this.character.health) {
+          return this.character.health.pool - this.character.health.superficialDamage
+        }
+        return 0;
+      },
+      set(val) {}
+    },
+    superficialPool: {
+      get() {
+        if (this.character && this.character.health) {
+          return this.character.health.pool - this.character.health.aggravatedDamage
+        }
+        return 0;
+      },
+      set(val) {}
+    }
   }
 };
 </script>
