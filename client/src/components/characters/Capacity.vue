@@ -11,6 +11,7 @@
         v-model="capacity.points"
         empty-icon="radio_button_unchecked"
         full-icon="radio_button_checked"
+        background-color="secondary"
         clearable
         dense
         small

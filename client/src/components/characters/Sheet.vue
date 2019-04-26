@@ -35,17 +35,38 @@
                       clearable
                       class="text-xs-center"
                       dense small
+                      background-color="secondary"
                       :length="character.health.pool"
                       :readonly="readonly"
                     ></v-rating>
                   </v-flex>
                   <v-flex shrink xs12 md4>
                     <div class="subheading text-xs-center mb-2">Will Power</div>
-                    <v-rating class="text-xs-center" small></v-rating>
+                    <v-rating
+                      v-model="character.willPower.spent"
+                      empty-icon="radio_button_unchecked"
+                      full-icon="radio_button_checked"
+                      clearable
+                      class="text-xs-center"
+                      dense small
+                      background-color="secondary"
+                      :length="character.willPower.pool"
+                      :readonly="readonly"
+                    ></v-rating>
                   </v-flex>
                   <v-flex shrink xs12 md4>
                     <div class="subheading text-xs-center mb-2">Humanity</div>
-                    <v-rating class="text-xs-center" small></v-rating>
+                    <v-rating
+                      v-model="character.humanity"
+                      empty-icon="radio_button_unchecked"
+                      full-icon="radio_button_checked"
+                      clearable
+                      class="text-xs-center"
+                      dense small
+                      background-color="secondary"
+                      :length="10"
+                      :readonly="readonly"
+                    ></v-rating>
                   </v-flex>
                 </v-layout>
               </v-card-title>
@@ -71,7 +92,17 @@
                   </v-flex>
                   <v-flex shrink>
                     <div class="title text-xs-center mb-2">Hunger</div>
-                    <v-rating></v-rating>
+                    <v-rating
+                      v-model="character.hunger"
+                      empty-icon="radio_button_unchecked"
+                      full-icon="radio_button_checked"
+                      clearable
+                      class="text-xs-center"
+                      dense small
+                      background-color="secondary"
+                      :length="5"
+                      :readonly="readonly"
+                    ></v-rating>
                   </v-flex>
                 </v-layout>
               </v-card-text>
