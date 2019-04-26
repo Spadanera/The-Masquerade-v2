@@ -38,7 +38,7 @@ router.post("/:id", async (req, res) => {
             startingExperience: req.body.startingExperience,
             totalExperience: req.body.startingExperience,
             characteristics: {},
-            mainInformation: {},
+            mainInformation: req.body.mainInformation || {},
             health: {},
             willPower: {},
             attributes: {

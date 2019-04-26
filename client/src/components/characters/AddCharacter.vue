@@ -14,6 +14,12 @@
               label="Starting Experience Points"
               required
             ></v-text-field>
+            <v-select
+              :items="$root.generations"
+              label="Generation"
+              v-model="character.mainInformation.generation"
+            ></v-select>
+            <v-select :items="$root.clans" label="Clan" v-model="character.mainInformation.clan"></v-select>
             <v-text-field
               label="Select Image"
               @click="pickFile"
@@ -49,7 +55,9 @@ export default {
   },
   data() {
     return {
-      character: {},
+      character: {
+        mainInformation: {}
+      },
       valid: true,
       imageName: "",
       imageUrl: "",

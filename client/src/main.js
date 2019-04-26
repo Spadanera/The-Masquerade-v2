@@ -32,5 +32,35 @@ Vue.prototype.moment = moment;
 
 new Vue({
   router,
+  data() {
+    return {
+      clans: [
+        "Bruja",
+        "Gangrel",
+        "Malkavian",
+        "Nosferatu",
+        "Toreador",
+        "Tremere",
+        "Ventrue",
+        "Caitiff"
+      ],
+      generations: [
+        "14th",
+        "13th",
+        "12th",
+        "11th",
+        "10th",
+        "9th",
+        "8th",
+        "7th",
+        "6th",
+        "5th",
+        "4th",
+        "3rd",
+        "2nd",
+        "1st"
+      ]
+    }
+  },
   render: h => h(App)
 }).$mount('#app')

@@ -21,13 +21,19 @@
       </v-toolbar-side-icon>
       <v-toolbar-title>{{ character.name }}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn v-if="readonly && !fighting" color="primary" @click="fighting = true">Fight</v-btn>
-      <v-btn v-if="readonly && fighting" @click="fighting = false">End Fight</v-btn>
-      <v-btn @click="readonly= false" v-if="readonly && !fighting">Edit</v-btn>
-      <v-btn @click="save" v-if="!readonly && !fighting">Save</v-btn>
-      <v-btn @click="loadCharacter" v-if="!readonly && !fighting">Undu</v-btn>
-      <v-btn>Kill</v-btn>
-      <v-btn @click="close">Close</v-btn>
+      <div v-if="character.alive && $vuetify.breakpoint.mdAndUp">
+        <v-btn v-if="readonly && !fighting" color="primary" @click="fighting = true">Fight</v-btn>
+        <v-btn v-if="readonly && fighting" @click="fighting = false">End Fight</v-btn>
+        <v-btn @click="readonly= false" v-if="readonly && !fighting">Edit</v-btn>
+        <v-btn @click="save" v-if="!readonly && !fighting">Save</v-btn>
+        <v-btn @click="loadCharacter" v-if="!readonly && !fighting">Undu</v-btn>
+        <v-btn @click="killOrResumeCharacter(false)">Kill</v-btn>
+      </div>
+      <v-btn
+        v-if="!character.alive && $vuetify.breakpoint.mdAndUp"
+        @click="killOrResumeCharacter(true)"
+      >Resume</v-btn>
+      <v-btn v-if="$vuetify.breakpoint.mdAndUp" @click="close">Close</v-btn>
       <template v-slot:extension style="padding: 0">
         <v-tabs v-model="characterTabs" slider-color="primary" centered grow>
           <v-tab>Characteristics</v-tab>
@@ -126,13 +132,63 @@
                 </v-layout>
               </v-card-title>
               <v-card-text>
-                <v-layout row justify-space-around justify-center>
-                  <v-flex shrink>
-                    <v-select :items="clans" label="Clan" v-model="character.mainInformation.clan"></v-select>
+                <v-layout row justify-space-around justify-center wrap>
+                  <v-flex xs12 md6>
+                    <v-layout justify-space-around justify-center>
+                      <v-flex shrink ma-2>
+                        <v-select
+                          :items="$root.clans"
+                          label="Clan"
+                          v-model="character.mainInformation.clan"
+                        ></v-select>
+                      </v-flex>
+                      <v-flex shrink ma-2>
+                        <v-select
+                          :items="$root.generations"
+                          label="Generation"
+                          v-model="character.mainInformation.generation"
+                        ></v-select>
+                      </v-flex>
+                    </v-layout>
+                  </v-flex>
+                  <v-flex xs12 md6>
+                    <v-layout justify-space-around justify-center>
+                      <v-flex shrink ma-2>
+                        <v-text-field
+                          :readonly="readonly"
+                          ref="resonance"
+                          v-model="character.resonance"
+                          label="Resonance"
+                        ></v-text-field>
+                      </v-flex>
+                      <v-flex shrink ma-2>
+                        <div class="subheading text-xs-center mb-2">Hunger</div>
+                        <v-rating
+                          v-model="character.hunger"
+                          empty-icon="radio_button_unchecked"
+                          full-icon="radio_button_checked"
+                          clearable
+                          class="text-xs-center"
+                          dense
+                          small
+                          background-color="secondary"
+                          :length="5"
+                          :readonly="readonly && !fighting"
+                          style="min-width: 108px"
+                        ></v-rating>
+                      </v-flex>
+                    </v-layout>
+                  </v-flex>
+                  <!-- <v-flex shrink>
+                    <v-select
+                      :items="$root.clans"
+                      label="Clan"
+                      v-model="character.mainInformation.clan"
+                    ></v-select>
                   </v-flex>
                   <v-flex shrink>
                     <v-select
-                      :items="generations"
+                      :items="$root.generations"
                       label="Generation"
                       v-model="character.mainInformation.generation"
                     ></v-select>
@@ -158,8 +214,8 @@
                       background-color="secondary"
                       :length="5"
                       :readonly="readonly && !fighting"
-                    ></v-rating>
-                  </v-flex>
+                    ></v-rating> 
+                  </v-flex>-->
                 </v-layout>
               </v-card-text>
             </v-card>
@@ -225,6 +281,30 @@
       {{ snackbar.text }}
       <v-btn color="red" flat @click="snackbar.enabled = false">Close</v-btn>
     </v-snackbar>
+    <v-speed-dial
+      v-model="fab"
+      :bottom="true"
+      :right="true"
+      direction="top"
+      :open-on-hover="false"
+      transition="slide-y-reverse-transition"
+      style="position: absolute"
+      v-if="$vuetify.breakpoint.smAndDown"
+    >
+      <template v-slot:activator>
+        <v-btn v-model="fab" color="primary" dark fab>
+          <v-icon>more_vert</v-icon>
+          <v-icon>close</v-icon>
+        </v-btn>
+      </template>
+      <v-btn v-if="readonly && !fighting" color="primary" @click="fighting = true">Fight</v-btn>
+      <v-btn v-if="readonly && fighting" @click="fighting = false">End Fight</v-btn>
+      <v-btn @click="readonly= false" v-if="readonly && !fighting">Edit</v-btn>
+      <v-btn @click="save" v-if="!readonly && !fighting">Save</v-btn>
+      <v-btn @click="loadCharacter" v-if="!readonly && !fighting">Undu</v-btn>
+      <v-btn @click="killOrResumeCharacter(false)">Kill</v-btn>
+      <v-btn @click="close">Close</v-btn>
+    </v-speed-dial>
   </div>
 </template>
 
@@ -260,32 +340,7 @@ export default {
         text: ""
       },
       characterTabs: 0,
-      clans: [
-        "Bruja",
-        "Gangrel",
-        "Malkavian",
-        "Nosferatu",
-        "Toreador",
-        "Tremere",
-        "Ventrue",
-        "Caitiff"
-      ],
-      generations: [
-        "14th",
-        "13th",
-        "12th",
-        "11th",
-        "10th",
-        "9th",
-        "8th",
-        "7th",
-        "6th",
-        "5th",
-        "4th",
-        "3rd",
-        "2nd",
-        "1st"
-      ]
+      fab: false
     };
   },
   methods: {
@@ -315,6 +370,20 @@ export default {
         this.snackbar.enabled = true;
       }
       this.readonly = true;
+    },
+    async killOrResumeCharacter(alive) {
+      let res = await this.$confirm(
+        `Do you really want to ${alive ? "resume" : "kill"} ${
+          this.character.name
+        }?`,
+        {
+          title: "Warning"
+        }
+      );
+      if (res) {
+        await client.put(`api/characters/${this.character._id}`, { alive });
+        this.character.alive = alive;
+      }
     }
   },
   created() {
