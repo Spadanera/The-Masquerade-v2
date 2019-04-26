@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const Capacity = {
     name: String,
     points: { type: Number, default: 0},
-    fightingPoin: { type: Number, default: 0},
+    fightingPoint: { type: Number, default: 0},
     speciality: String
 };
 
@@ -34,6 +34,29 @@ const Clans = Object.freeze({
     Ventrue: "Ventrue",
     Caitiff: "Caitiff"
 });
+
+const Disciplines = Object.freeze({
+    Animalism: "Animalism",
+    Auspex: "Auspex",
+    BloodSorcery: "BloodSorcery",
+    Celerity: "Celerity",
+    Dominate: "Dominate",
+    Fortitude: "Fortitude",
+    Obfuscate: "Obfuscate",
+    Potence: "Potence",
+    Presence: "Presence",
+    Protean: "Protean",
+    ThinBloodAlchemy: "ThinBloodAlchemy"
+})
+
+const Discipline = {
+    name: { type: String, enum: Object.values(Disciplines) },
+    points: { type: Number, default: 0},
+    specialities: [{
+        level: { type: Number },
+        speciality: { type: String }
+    }]
+}
 
 let CharacterSchema = new mongoose.Schema({
     name: String,
@@ -81,7 +104,7 @@ let CharacterSchema = new mongoose.Schema({
         skills: [Capacity],
         knowledges: [Capacity]
     },
-    discliplines: [Capacity],
+    disciplines: [Capacity],
     resonance: String,
     hunger: { type: Number, default: 0 },
     humanity: { type: Number, default: 10 },

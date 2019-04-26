@@ -51,7 +51,7 @@ router.post("/:id", async (req, res) => {
                 skills: Character.createCapacities(["animalKen", "etiquette", "insight", "intimidation", "leadership", "performance", "persuasion", "streetwise", "subterfuge"]),
                 knowledges: Character.createCapacities(["academics", "awareness", "finance", "investigation", "medicine", "occult", "politics", "science", "technology"])
             },
-            discliplines: [],
+            disciplines: [],
             advantages: [],
             flaws: []
         });

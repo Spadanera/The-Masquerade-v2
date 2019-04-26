@@ -97,7 +97,7 @@ export default {
           return this.fighting ? 10 : this.maxPoint;
         } else return this.maxPoint;
       },
-      set(val) {}
+      set() {}
     }
   }
 };

@@ -59,6 +59,19 @@ new Vue({
         "3rd",
         "2nd",
         "1st"
+      ],
+      disciplines: [
+        { key: "Animalism", value: "Animalism" },
+        { key: "Auspex", value: "Auspex" },
+        { key: "BloodSorcery", value: "Blood Sorcery" },
+        { key: "Celerity", value: "Celerity" },
+        { key: "Dominate", value: "Dominate" },
+        { key: "Fortitude", value: "Fortitude" },
+        { key: "Obfuscate", value: "Obfuscate" },
+        { key: "Potence", value: "Potence" },
+        { key: "Presence", value: "Presence" },
+        { key: "Protean", value: "Protean" },
+        { key: "ThinBloodAlchemy", value: "Thin-Blood Alchemy" }
       ]
     }
   },

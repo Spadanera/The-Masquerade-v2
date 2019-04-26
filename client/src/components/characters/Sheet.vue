@@ -140,6 +140,7 @@
                           :items="$root.clans"
                           label="Clan"
                           v-model="character.mainInformation.clan"
+                          :disabled="readonly"
                         ></v-select>
                       </v-flex>
                       <v-flex shrink ma-2>
@@ -147,6 +148,7 @@
                           :items="$root.generations"
                           label="Generation"
                           v-model="character.mainInformation.generation"
+                          :disabled="readonly"
                         ></v-select>
                       </v-flex>
                     </v-layout>
@@ -179,43 +181,6 @@
                       </v-flex>
                     </v-layout>
                   </v-flex>
-                  <!-- <v-flex shrink>
-                    <v-select
-                      :items="$root.clans"
-                      label="Clan"
-                      v-model="character.mainInformation.clan"
-                    ></v-select>
-                  </v-flex>
-                  <v-flex shrink>
-                    <v-select
-                      :items="$root.generations"
-                      label="Generation"
-                      v-model="character.mainInformation.generation"
-                    ></v-select>
-                  </v-flex>
-                  <v-flex shrink>
-                    <v-text-field
-                      :readonly="readonly"
-                      ref="resonance"
-                      v-model="character.resonance"
-                      label="Resonance"
-                    ></v-text-field>
-                  </v-flex>
-                  <v-flex shrink>
-                    <div class="subheading text-xs-center mb-2">Hunger</div>
-                    <v-rating
-                      v-model="character.hunger"
-                      empty-icon="radio_button_unchecked"
-                      full-icon="radio_button_checked"
-                      clearable
-                      class="text-xs-center"
-                      dense
-                      small
-                      background-color="secondary"
-                      :length="5"
-                      :readonly="readonly && !fighting"
-                    ></v-rating> 
-                  </v-flex>-->
                 </v-layout>
               </v-card-text>
             </v-card>
@@ -264,11 +229,33 @@
               </v-card-title>
             </v-card>
           </v-flex>
+          <v-flex pa-3>
+            <div class="xs12 headline text-xs-center mb-3">
+              Disciplines
+              <v-btn v-if="!readonly" fab small color="primary" @click="dialog=true">
+                <v-icon>add</v-icon>
+              </v-btn>
+            </div>
+            <v-layout>
+              <v-flex
+                md4
+                lg3
+                sm6
+                xs12
+                pa3
+                v-for="discipline in character.disciplines"
+                v-bind:key="discipline.name"
+              >
+                <Discipline :discipline="discipline" :readonly="readonly"/>
+              </v-flex>
+            </v-layout>
+          </v-flex>
         </v-layout>
       </v-tab-item>
       <v-tab-item>Background</v-tab-item>
       <v-tab-item>Story</v-tab-item>
     </v-tabs-items>
+    <AddDiscipline :character="character" :dialog="dialog" @close="dialog=false"/>
     <v-snackbar
       v-model="snackbar.enabled"
       :bottom="true"
@@ -311,15 +298,20 @@
 <script>
 import client from "../../services/client";
 import Capacity from "./Capacity.vue";
+import Discipline from "./Discipline.vue";
+import AddDiscipline from "./AddDiscipline.vue";
 export default {
   components: {
-    Capacity
+    Capacity,
+    Discipline,
+    AddDiscipline
   },
   data() {
     return {
       readonly: true,
       fighting: false,
       loaded: false,
+      dialog: false,
       maxPoint: 5,
       character: {
         characteristics: {},
@@ -328,7 +320,7 @@ export default {
         willPower: {},
         attributes: {},
         skills: {},
-        discliplines: [],
+        disciplines: [],
         hunger: {},
         humanity: {},
         bloodPotency: {},
@@ -400,7 +392,7 @@ export default {
         }
         return 0;
       },
-      set(val) {}
+      set() {}
     },
     aggravatedPool: {
       get() {
@@ -426,13 +418,15 @@ export default {
     }
   },
   watch: {
-    fighting: function(val) {
-      if (val) {
-        this.snackbar.text = "Fight started - auto-save enable";
-      } else {
-        this.snackbar.text = "Fight ended - auto-save disable";
+    fighting: {
+      handler: function(val) {
+        if (val) {
+          this.snackbar.text = "Fight started - auto-save enable";
+        } else {
+          this.snackbar.text = "Fight ended - auto-save disable";
+        }
+        this.snackbar.enabled = true;
       }
-      this.snackbar.enabled = true;
     },
     character: {
       handler: function() {
