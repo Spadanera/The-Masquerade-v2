@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const Capacity = {
     name: String,
     points: { type: Number, default: 0},
+    fightingPoin: { type: Number, default: 0},
     speciality: String
 };
 

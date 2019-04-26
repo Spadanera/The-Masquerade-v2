@@ -12,6 +12,7 @@
       :scroll-off-screen="true"
       :scroll-target="'#scrolling-techniques'"
       absolute
+      v-bind:class="{ primary: fighting }"
     >
       <v-toolbar-side-icon>
         <v-avatar size="40px">
@@ -20,7 +21,11 @@
       </v-toolbar-side-icon>
       <v-toolbar-title>{{ character.name }}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn @click="save">Save</v-btn>
+      <v-btn v-if="readonly && !fighting" color="primary" @click="fighting = true">Fight</v-btn>
+      <v-btn v-if="readonly && fighting" @click="fighting = false">End Fight</v-btn>
+      <v-btn @click="readonly= false" v-if="readonly && !fighting">Edit</v-btn>
+      <v-btn @click="save" v-if="!readonly && !fighting">Save</v-btn>
+      <v-btn @click="loadCharacter" v-if="!readonly && !fighting">Undu</v-btn>
       <v-btn>Kill</v-btn>
       <v-btn @click="close">Close</v-btn>
       <template v-slot:extension style="padding: 0">
@@ -61,7 +66,7 @@
                         small
                         background-color="secondary"
                         :length="superficialPool"
-                        :readonly="readonly"
+                        :readonly="!fighting"
                       ></v-rating>
                       <v-rating
                         v-model="character.health.aggravatedDamage"
@@ -72,7 +77,7 @@
                         small
                         background-color="secondary"
                         :length="aggravatedPool"
-                        :readonly="readonly"
+                        :readonly="!fighting"
                       ></v-rating>
                     </div>
                   </v-flex>
@@ -99,7 +104,7 @@
                         small
                         background-color="secondary"
                         :length="character.willPower.pool"
-                        :readonly="readonly"
+                        :readonly="readonly && !fighting"
                       ></v-rating>
                     </div>
                   </v-flex>
@@ -152,7 +157,7 @@
                       small
                       background-color="secondary"
                       :length="5"
-                      :readonly="readonly"
+                      :readonly="readonly && !fighting"
                     ></v-rating>
                   </v-flex>
                 </v-layout>
@@ -172,7 +177,12 @@
                   >
                     <div class="title text-xs-center">{{ capitalize(groupName) }}</div>
                     <div v-for="(attribute, propertyName) in value" v-bind:key="propertyName">
-                      <Capacity :capacity="attribute" :readonly="readonly" :maxPoint="maxPoint"/>
+                      <Capacity
+                        :capacity="attribute"
+                        :readonly="readonly"
+                        :maxPoint="maxPoint"
+                        :fighting="fighting"
+                      />
                     </div>
                   </v-flex>
                 </v-layout>
@@ -227,7 +237,8 @@ export default {
   },
   data() {
     return {
-      readonly: false,
+      readonly: true,
+      fighting: false,
       loaded: false,
       maxPoint: 5,
       character: {
@@ -249,7 +260,6 @@ export default {
         text: ""
       },
       characterTabs: 0,
-      fighting: false,
       clans: [
         "Bruja",
         "Gangrel",
@@ -286,6 +296,7 @@ export default {
       response.data.mainInformation = response.data.mainInformation || {};
       this.character = response.data;
       this.loaded = true;
+      this.readonly = true;
     },
     close() {
       this.$router.push(
@@ -299,8 +310,11 @@ export default {
     },
     async save() {
       await client.put(`/api/characters/${this.character._id}`, this.character);
-      this.snackbar.text = "Save successfully";
-      this.snackbar.enabled = true;
+      if (!this.fighting) {
+        this.snackbar.text = "Save successfully";
+        this.snackbar.enabled = true;
+      }
+      this.readonly = true;
     }
   },
   created() {
@@ -308,18 +322,23 @@ export default {
   },
   computed: {
     damage: {
-      get () {
+      get() {
         if (this.character && this.character.health) {
-          return this.character.health.superficialDamage + this.character.health.aggravatedDamage
+          return (
+            this.character.health.superficialDamage +
+            this.character.health.aggravatedDamage
+          );
         }
         return 0;
       },
-      set(val) { }
+      set(val) {}
     },
     aggravatedPool: {
       get() {
         if (this.character && this.character.health) {
-          return this.character.health.pool - this.character.health.superficialDamage
+          return (
+            this.character.health.pool - this.character.health.superficialDamage
+          );
         }
         return 0;
       },
@@ -328,11 +347,31 @@ export default {
     superficialPool: {
       get() {
         if (this.character && this.character.health) {
-          return this.character.health.pool - this.character.health.aggravatedDamage
+          return (
+            this.character.health.pool - this.character.health.aggravatedDamage
+          );
         }
         return 0;
       },
       set(val) {}
+    }
+  },
+  watch: {
+    fighting: function(val) {
+      if (val) {
+        this.snackbar.text = "Fight started - auto-save enable";
+      } else {
+        this.snackbar.text = "Fight ended - auto-save disable";
+      }
+      this.snackbar.enabled = true;
+    },
+    character: {
+      handler: function() {
+        if (this.fighting) {
+          this.save();
+        }
+      },
+      deep: true
     }
   }
 };
