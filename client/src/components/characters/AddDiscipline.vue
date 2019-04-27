@@ -6,7 +6,7 @@
         <v-container grid-list-md>
           <v-form ref="form" v-model="valid">
             <v-select
-              item-text="value"
+              item-text="label"
               item-value="key"
               :items="disciplines"
               label="Discipline"

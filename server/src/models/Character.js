@@ -104,7 +104,7 @@ let CharacterSchema = new mongoose.Schema({
         skills: [Capacity],
         knowledges: [Capacity]
     },
-    disciplines: [Capacity],
+    disciplines: [Discipline],
     resonance: String,
     hunger: { type: Number, default: 0 },
     humanity: { type: Number, default: 10 },

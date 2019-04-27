@@ -5,7 +5,10 @@ import router from './router'
 import Vuetify from 'vuetify'
 import moment from 'moment'
 import colors from 'vuetify/es5/util/colors'
-import VuetifyConfirm from 'vuetify-confirm'
+import VuetifyConfirm from 'vuetify-confirm';
+import { clans } from './config/enum';
+import { generations } from './config/enum';
+import {disciplines } from './config/enum';
 
 Vue.use(Vuetify, {
   iconfont: 'md',
@@ -34,45 +37,9 @@ new Vue({
   router,
   data() {
     return {
-      clans: [
-        "Bruja",
-        "Gangrel",
-        "Malkavian",
-        "Nosferatu",
-        "Toreador",
-        "Tremere",
-        "Ventrue",
-        "Caitiff"
-      ],
-      generations: [
-        "14th",
-        "13th",
-        "12th",
-        "11th",
-        "10th",
-        "9th",
-        "8th",
-        "7th",
-        "6th",
-        "5th",
-        "4th",
-        "3rd",
-        "2nd",
-        "1st"
-      ],
-      disciplines: [
-        { key: "Animalism", value: "Animalism" },
-        { key: "Auspex", value: "Auspex" },
-        { key: "BloodSorcery", value: "Blood Sorcery" },
-        { key: "Celerity", value: "Celerity" },
-        { key: "Dominate", value: "Dominate" },
-        { key: "Fortitude", value: "Fortitude" },
-        { key: "Obfuscate", value: "Obfuscate" },
-        { key: "Potence", value: "Potence" },
-        { key: "Presence", value: "Presence" },
-        { key: "Protean", value: "Protean" },
-        { key: "ThinBloodAlchemy", value: "Thin-Blood Alchemy" }
-      ]
+      clans: clans,
+      generations: generations,
+      disciplines: disciplines
     }
   },
   render: h => h(App)
