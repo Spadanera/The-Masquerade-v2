@@ -7,54 +7,12 @@ const Capacity = {
     speciality: String
 };
 
-const Generations = Object.freeze({
-    First: "1st",
-    Second: "2nd",
-    Third: "3rd",
-    Fourth: "4th",
-    Fifth: "5th",
-    Sixth: "6th",
-    Seventh: "7th",
-    Eigth: "8th",
-    Ninth: "9th",
-    Tenth: "10th",
-    Eleventh: "11th",
-    Twelfth: "12th",
-    Thirteenth: "13th",
-    Fourteenth: "14th"
-});
-
-const Clans = Object.freeze({
-    Bruja: "Bruja",
-    Gangrel: "Gangrel",
-    Malkavian: "Malkavian",
-    Nosferatu: "Nosferatu",
-    Toreador: "Toreador",
-    Tremere: "Tremere",
-    Ventrue: "Ventrue",
-    Caitiff: "Caitiff"
-});
-
-const Disciplines = Object.freeze({
-    Animalism: "Animalism",
-    Auspex: "Auspex",
-    BloodSorcery: "BloodSorcery",
-    Celerity: "Celerity",
-    Dominate: "Dominate",
-    Fortitude: "Fortitude",
-    Obfuscate: "Obfuscate",
-    Potence: "Potence",
-    Presence: "Presence",
-    Protean: "Protean",
-    ThinBloodAlchemy: "ThinBloodAlchemy"
-})
-
 const Discipline = {
-    name: { type: String, enum: Object.values(Disciplines) },
+    name: String,
     points: { type: Number, default: 0},
-    specialities: [{
-        level: { type: Number },
-        speciality: { type: String }
+    powers: [{
+        level: Number,
+        power: String
     }]
 }
 
@@ -82,8 +40,8 @@ let CharacterSchema = new mongoose.Schema({
         ambition: String,
         desire: String,
         predator: String,
-        clan: { type: String, enum: Object.values(Clans) },
-        generation: { type: String, enum: Object.values(Generations) }
+        clan: String,
+        generation: String
     },
     health: {
         pool: { type: Number, default: 10 },
@@ -122,8 +80,5 @@ CharacterSchema.statics.createCapacities = (names) => {
     }
     return capacities;
 }
-
-CharacterSchema.statics.Generations = Generations;
-CharacterSchema.statics.Clans = Clans;
 
 export default mongoose.model("Character", CharacterSchema);

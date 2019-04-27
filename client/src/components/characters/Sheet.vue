@@ -140,7 +140,7 @@
                           :items="$root.clans"
                           label="Clan"
                           v-model="character.mainInformation.clan"
-                          :disabled="readonly"
+                          :disable="readonly" :readonly="readonly"
                         ></v-select>
                       </v-flex>
                       <v-flex shrink ma-2>
@@ -148,7 +148,7 @@
                           :items="$root.generations"
                           label="Generation"
                           v-model="character.mainInformation.generation"
-                          :disabled="readonly"
+                          :disable="readonly" :readonly="readonly"
                         ></v-select>
                       </v-flex>
                     </v-layout>
@@ -236,13 +236,13 @@
                 <v-icon>add</v-icon>
               </v-btn>
             </div>
-            <v-layout>
+            <v-layout justify-space-around wrap>
               <v-flex
                 md4
                 lg3
                 sm6
                 xs12
-                pa3
+                pa-1
                 v-for="discipline in character.disciplines"
                 v-bind:key="discipline.name"
               >
@@ -402,8 +402,7 @@ export default {
           );
         }
         return 0;
-      },
-      set(val) {}
+      }
     },
     superficialPool: {
       get() {
@@ -413,8 +412,7 @@ export default {
           );
         }
         return 0;
-      },
-      set(val) {}
+      }
     }
   },
   watch: {

@@ -52,7 +52,7 @@ export default {
     disciplines: {
       get() {
         return this.$root.disciplines.filter(d => {
-          return this.character.disciplines.find(di => di.name === d.key);
+          return this.character.disciplines.filter(di => di.name === d.key).length === 0;
         });
       }
     }
