@@ -41,6 +41,13 @@
               <v-icon v-else>toggle_on</v-icon>
             </v-list-tile-action>
           </v-list-tile>
+          <v-list-tile @click="toggleFullScreen">
+            <v-list-tile-content>Toggle full screen</v-list-tile-content>
+            <v-list-tile-action>
+              <v-icon v-if="!fullscreen">toggle_off</v-icon>
+              <v-icon v-else>toggle_on</v-icon>
+            </v-list-tile-action>
+          </v-list-tile>
           <v-list-tile @click="logout">
             <v-list-tile-content>Exit</v-list-tile-content>
             <v-list-tile-action>
@@ -85,10 +92,47 @@ export default {
         let response = await client.get("/api/user");
         this.user = response.data;
       }
+    },
+    toggleFullScreen() {
+      if (this.fullscreen) {
+        this.GoOutFullscreen();
+      }
+      else {
+        this.GoInFullscreen();
+      }
+    },
+    GoInFullscreen() {
+      let element = document.querySelector("#app");
+      if (element.requestFullscreen) element.requestFullscreen();
+      else if (element.mozRequestFullScreen) element.mozRequestFullScreen();
+      else if (element.webkitRequestFullscreen)
+        element.webkitRequestFullscreen();
+      else if (element.msRequestFullscreen) element.msRequestFullscreen();
+    },
+    GoOutFullscreen() {
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      else if (document.msExitFullscreen) document.msExitFullscreen();
     }
   },
   async created() {
     this.getUser();
+  },
+  computed: {
+    fullscreen: {
+      get() {
+        let full_screen_element =
+          document.fullscreenElement ||
+          document.webkitFullscreenElement ||
+          document.mozFullScreenElement ||
+          document.msFullscreenElement ||
+          null;
+        // If no element is in full-screen
+        if (full_screen_element === null) return false;
+        else return true;
+      }
+    }
   }
 };
 </script>

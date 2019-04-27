@@ -37,7 +37,7 @@ router.post("/:id", async (req, res) => {
             picture: req.body.picture,
             startingExperience: req.body.startingExperience,
             totalExperience: req.body.startingExperience,
-            characteristics: {},
+            mortal: {},
             mainInformation: req.body.mainInformation || {},
             health: {},
             willPower: {},

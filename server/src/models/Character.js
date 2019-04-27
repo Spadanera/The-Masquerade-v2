@@ -25,7 +25,7 @@ let CharacterSchema = new mongoose.Schema({
     startingExperience: { type: Number, default: 0 },
     totalExperience: { type: Number, default: 0 },
     spentExperience: { type: Number, default: 0 },
-    characteristics: {
+    mortal: {
         trueAge: Number,
         apparentAge: Number,
         dateOfBirth: Date,

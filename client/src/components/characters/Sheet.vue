@@ -44,7 +44,9 @@
         <Characteristics :character="character" :readonly="readonly" :fighting="fighting" />
       </v-tab-item>
       <v-tab-item>Background</v-tab-item>
-      <v-tab-item>Story</v-tab-item>
+      <v-tab-item>
+        <Story :character="character" :readonly="readonly" />
+      </v-tab-item>
     </v-tabs-items>
     <v-snackbar
       v-model="snackbar.enabled"
@@ -88,9 +90,11 @@
 <script>
 import client from "../../services/client";
 import Characteristics from "./Characteristics.vue";
+import Story from "./Story.vue";
 export default {
   components: {
-    Characteristics
+    Characteristics,
+    Story
   },
   props: {
     characterId: String,
@@ -104,7 +108,7 @@ export default {
       loaded: false,
       dialog: false,      
       character: {
-        characteristics: {},
+        mortal: {},
         mainInformation: {},
         health: {},
         willPower: {},

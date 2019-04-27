@@ -56,7 +56,8 @@ export default {
   data() {
     return {
       character: {
-        mainInformation: {}
+        mainInformation: {},
+        mortal: {}
       },
       valid: true,
       imageName: "",
