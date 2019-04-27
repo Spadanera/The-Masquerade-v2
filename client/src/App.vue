@@ -5,7 +5,6 @@
 </template>
 
 <script>
-
 export default {
   name: "App",
   data() {
@@ -23,9 +22,11 @@ export default {
       this.darkTheme = localStorage.darkTheme === "true";
     }
   },
-  watch: {
-    darkTheme(_darkTheme) {
-      localStorage.darkTheme = _darkTheme;
+  computed: {
+    scrollbarColor: {
+      get() {
+        return this.darkTheme ? "#424242" : "#aaa"
+      }
     }
   }
 };
@@ -52,5 +53,28 @@ export default {
     top: 0;
     left: 60px;
   }
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-color);
+  
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b71c1c;
+  -webkit-box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #b71c1c;
+  -webkit-box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 </style>

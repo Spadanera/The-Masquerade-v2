@@ -8,9 +8,6 @@
     <v-toolbar
       tabs
       style="text-xs-center"
-      :scroll-threshold="40"
-      :scroll-off-screen="true"
-      :scroll-target="'#scrolling-techniques'"
       absolute
       v-bind:class="{ primary: fighting }"
     >
