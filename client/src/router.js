@@ -84,7 +84,7 @@ export default new Router({
                 {
                   path: ":conterieid/character/:characterid",
                   name: "character",
-                  component: () => import('./components/characters/Sheet.vue')
+                  component: () => import('./views/story-teller/chronicle/Character.vue')
                 }
               ]
             },
