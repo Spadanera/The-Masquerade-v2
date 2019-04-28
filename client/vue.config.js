@@ -1,7 +1,7 @@
 // vue.config.js
 module.exports = {
     devServer: {
-      public: '0.0.0.0:80'
+      public: '127.0.0.100:8080'
       // disableHostCheck: true,
       // proxy: {
       //   '/api':{

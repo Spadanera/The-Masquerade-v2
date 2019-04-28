@@ -38,7 +38,9 @@
       <v-tab-item>
         <Characteristics :character="character" :readonly="readonly" :fighting="fighting"/>
       </v-tab-item>
-      <v-tab-item>Background</v-tab-item>
+      <v-tab-item>
+        <Background :character="character" :readonly="readonly"/>
+      </v-tab-item>
       <v-tab-item>
         <Story :character="character" :readonly="readonly"/>
       </v-tab-item>
@@ -86,10 +88,12 @@
 import client from "../../services/client";
 import Characteristics from "./Characteristics.vue";
 import Story from "./Story.vue";
+import Background from "./Background.vue";
 export default {
   components: {
     Characteristics,
-    Story
+    Story,
+    Background
   },
   props: {
     characterId: String,
