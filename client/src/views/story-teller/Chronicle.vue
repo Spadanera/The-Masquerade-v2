@@ -121,11 +121,11 @@ export default {
 }
 
 .selected-element {
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
   position: absolute;
   height: 100%;
   width: 5px;
-  left: 0;
+  right: 0;
 }
 </style>

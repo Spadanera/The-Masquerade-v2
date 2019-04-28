@@ -22,30 +22,26 @@
             <v-tab>Public Story</v-tab>
             <v-tab-item>
               <v-card flat>
-                <v-card-text v-if="!editing">{{ $parent.chronicle.privateStory }}</v-card-text>
-                <v-textarea
-                  v-else
+                <v-card-text v-html="$parent.chronicle.privateStory" v-if="!editing"></v-card-text>
+                <ckeditor
+                  :editor="editor"
                   v-model="editStory"
-                  label
-                  name="privatestory"
-                  auto-grow
-                  required
-                  rows="1"
-                ></v-textarea>
+                  :config="editorConfig"
+                  v-else
+                  tag-name="textarea"
+                ></ckeditor>
               </v-card>
             </v-tab-item>
             <v-tab-item>
               <v-card flat>
-                <v-card-text v-if="!editing">{{ $parent.chronicle.publicStory }}</v-card-text>
-                <v-textarea
-                  v-else
+                <v-card-text v-if="!editing" v-html="$parent.chronicle.publicStory"></v-card-text>
+                <ckeditor
+                  :editor="editor"
                   v-model="editStory"
-                  label
-                  name="publicstory"
-                  auto-grow
-                  required
-                  rows="1"
-                ></v-textarea>
+                  :config="editorConfig"
+                  v-else
+                  tag-name="textarea"
+                ></ckeditor>
               </v-card>
             </v-tab-item>
           </v-tabs>
@@ -67,7 +63,9 @@
             <div class="title text-xs-center">{{story.name}}</div>
             <v-timeline-item v-for="session in story.sessions" v-bind:key="session._id">
               <div class="py-3">
-                <h2 class="headline font-weight-light mb-3">{{moment(session.sessionDate).format("YYYY-MM-DD")}}</h2>
+                <h2
+                  class="headline font-weight-light mb-3"
+                >{{moment(session.sessionDate).format("YYYY-MM-DD")}}</h2>
                 <div>{{ session.globalNote }}</div>
               </div>
             </v-timeline-item>
@@ -80,13 +78,18 @@
 
 <script>
 import client from "../../../services/client";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export default {
   data() {
     return {
       stories: [],
       editing: false,
       editStory: "",
-      selectedTab: 0
+      selectedTab: 0,
+      editor: ClassicEditor,
+      editorConfig: {
+        // The configuration of the editor.
+      }
     };
   },
   methods: {
@@ -109,11 +112,15 @@ export default {
       this.editing = false;
     },
     async getStories() {
-      let response = await client.get(`/api/stories/all/${this.$route.params.id}`);
+      let response = await client.get(
+        `/api/stories/all/${this.$route.params.id}`
+      );
       this.stories = response.data;
       this.stories.forEach(story => {
-        client.get(`/api/sessions/all/${story._id}`).then( res => story.sessions = res.data);
-      })
+        client
+          .get(`/api/sessions/all/${story._id}`)
+          .then(res => (story.sessions = res.data));
+      });
     }
   },
   watch: {

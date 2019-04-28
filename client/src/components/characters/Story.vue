@@ -1,12 +1,18 @@
 <template>
   <div style="padding: 15px">
     <ckeditor
+      v-if="!readonly"
       :editor="editor"
       v-model="character.mortal.story"
       :config="editorConfig"
       :disabled="readonly"
+      tag-name="textarea"
     ></ckeditor>
-    </style>
+    <v-card v-else>
+      <v-card-text>
+        <div v-html="character.mortal.story"></div>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 

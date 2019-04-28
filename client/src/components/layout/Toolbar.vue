@@ -42,9 +42,9 @@
             </v-list-tile-action>
           </v-list-tile>
           <v-list-tile @click="toggleFullScreen">
-            <v-list-tile-content>Toggle full screen</v-list-tile-content>
+            <v-list-tile-content>Full screen</v-list-tile-content>
             <v-list-tile-action>
-              <v-icon v-if="!fullscreen">toggle_off</v-icon>
+              <v-icon v-if="!fullscreen">fullscreen</v-icon>
               <v-icon v-else>toggle_on</v-icon>
             </v-list-tile-action>
           </v-list-tile>

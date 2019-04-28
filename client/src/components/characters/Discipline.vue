@@ -38,6 +38,11 @@
           ></v-select>
         </v-list-tile>
       </v-list>
+      <v-fab-transition>
+        <v-btn color="alert" @click="remove" v-show="!readonly" fab dark small absolute bottom right>
+          <v-icon>clear</v-icon>
+        </v-btn>
+      </v-fab-transition>
     </v-card-text>
   </v-card>
 </template>
@@ -54,6 +59,19 @@ export default {
       configDiscipline: {},
       levelRange: []
     };
+  },
+  methods: {
+    async remove() {
+      let res = await this.$confirm(
+        `Do you really want remove ${this.configDiscipline.label}?`,
+        {
+          title: "Warning"
+        }
+      );
+      if (res) {
+        this.$parent.character.disciplines = this.$parent.character.disciplines.filter(d => d.name !== this.discipline.name);
+      }
+    }
   },
   created() {
     for (let k = 1; k <= this.discipline.points; k++) {

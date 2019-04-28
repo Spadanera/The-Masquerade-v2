@@ -5,12 +5,7 @@
     v-if="loaded"
     class="max-height"
   >
-    <v-toolbar
-      tabs
-      style="text-xs-center"
-      absolute
-      v-bind:class="{ primary: fighting }"
-    >
+    <v-toolbar tabs style="text-xs-center" absolute v-bind:class="{ primary: fighting }">
       <v-toolbar-side-icon>
         <v-avatar size="40px">
           <img :src="character.picture" :alt="character.name">
@@ -31,7 +26,7 @@
         @click="killOrResumeCharacter(true)"
       >Resume</v-btn>
       <v-btn v-if="$vuetify.breakpoint.mdAndUp" @click="close">Close</v-btn>
-      <template v-slot:extension style="padding: 0" v-if="showToolbar">
+      <template v-slot:extension style="padding: 0" v-if="internalShowToolbar">
         <v-tabs v-model="characterTabs" slider-color="primary" centered grow>
           <v-tab>Characteristics</v-tab>
           <v-tab>Background</v-tab>
@@ -39,13 +34,13 @@
         </v-tabs>
       </template>
     </v-toolbar>
-    <v-tabs-items v-model="characterTabs" id="scrolling-techniques">
+    <v-tabs-items v-model="characterTabs" id="scrolling-techniques" v-bind:class="{ padding: internalShowToolbar }">
       <v-tab-item>
-        <Characteristics :character="character" :readonly="readonly" :fighting="fighting" />
+        <Characteristics :character="character" :readonly="readonly" :fighting="fighting"/>
       </v-tab-item>
       <v-tab-item>Background</v-tab-item>
       <v-tab-item>
-        <Story :character="character" :readonly="readonly" />
+        <Story :character="character" :readonly="readonly"/>
       </v-tab-item>
     </v-tabs-items>
     <v-snackbar
@@ -106,7 +101,7 @@ export default {
       readonly: true,
       fighting: false,
       loaded: false,
-      dialog: false,      
+      dialog: false,
       character: {
         mortal: {},
         mainInformation: {},
@@ -131,9 +126,7 @@ export default {
   },
   methods: {
     async loadCharacter() {
-      let response = await client.get(
-        `/api/characters/${this.characterId}`
-      );
+      let response = await client.get(`/api/characters/${this.characterId}`);
       response.data.mainInformation = response.data.mainInformation || {};
       this.character = response.data;
       this.loaded = true;
@@ -189,6 +182,20 @@ export default {
         }
       },
       deep: true
+    },
+    fighting: {
+      handler: function(val) {
+        if (val) {
+          this.characterTabs = 0;
+        }
+      }
+    }
+  },
+  computed: {
+    internalShowToolbar: {
+      get() {
+        return this.showToolbar && !this.fighting;
+      }
     }
   }
 };
@@ -201,6 +208,10 @@ export default {
 #sheet-container > .v-window {
   max-height: 100%;
   overflow: auto;
-  padding-top: 112px;
+  padding-top: 60px;
+}
+
+#sheet-container > .v-window.padding {
+  padding-top: 112px !important;
 }
 </style>

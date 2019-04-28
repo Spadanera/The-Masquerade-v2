@@ -4,7 +4,7 @@
       <v-card>
         <v-card-title>
           <v-layout row wrap justify-space-around justify-center>
-            <v-flex shrink xs12 md4>
+            <v-flex shrink xs12 sm6 md3>
               <div class="subheading text-xs-center mb-2">Health</div>
               <div style="width: 190px; margin: auto">
                 <v-rating
@@ -42,7 +42,7 @@
                 ></v-rating>
               </div>
             </v-flex>
-            <v-flex shrink xs12 md4>
+            <v-flex shrink xs12 sm6 md3>
               <div class="subheading text-xs-center mb-2">Will Power</div>
               <div style="width: 190px; margin: auto">
                 <v-rating
@@ -69,10 +69,25 @@
                 ></v-rating>
               </div>
             </v-flex>
-            <v-flex shrink xs12 md4>
+            <v-flex shrink xs12 sm6 md3>
               <div class="subheading text-xs-center mb-2">Humanity</div>
               <v-rating
                 v-model="character.humanity"
+                empty-icon="radio_button_unchecked"
+                full-icon="radio_button_checked"
+                clearable
+                class="text-xs-center"
+                dense
+                small
+                background-color="secondary"
+                :length="10"
+                :readonly="readonly"
+              ></v-rating>
+            </v-flex>
+            <v-flex shrink xs12 sm6 md3>
+              <div class="subheading text-xs-center mb-2">Blood Potency</div>
+              <v-rating
+                v-model="character.bloodPotency"
                 empty-icon="radio_button_unchecked"
                 full-icon="radio_button_checked"
                 clearable
@@ -143,7 +158,7 @@
       </v-card>
     </v-flex>
     <v-flex pa-3>
-      <div class="xs12 headline text-xs-center mb-3">Attributes</div>
+      <!-- <div class="xs12 headline text-xs-center mb-3">Attributes</div> -->
       <v-card>
         <v-card-title>
           <v-layout row wrap>
@@ -168,7 +183,7 @@
       </v-card>
     </v-flex>
     <v-flex pa-3>
-      <div class="xs12 headline text-xs-center mb-3">Skills</div>
+      <!-- <div class="xs12 headline text-xs-center mb-3">Skills</div> -->
       <v-card>
         <v-card-title>
           <v-layout row wrap>
@@ -184,9 +199,11 @@
     <v-flex pa-3>
       <div class="xs12 headline text-xs-center mb-3">
         Disciplines
-        <v-btn v-if="!readonly" fab small color="primary" @click="dialog=true">
+        <v-fab-transition>
+        <v-btn v-show="!readonly" fab small color="primary" @click="dialog=true">
           <v-icon>add</v-icon>
         </v-btn>
+        </v-fab-transition>
       </div>
       <v-layout justify-space-around wrap>
         <v-flex
