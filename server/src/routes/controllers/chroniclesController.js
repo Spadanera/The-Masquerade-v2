@@ -14,6 +14,16 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/player", async (req, res) => {
+    try {
+        res.json(await Chronicle.find( { players: { "$in": [req.session.userId] } }));
+    }
+    catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
+});
+
 // Get by status
 router.get("/status/:status", async (req, res) => {
     try {

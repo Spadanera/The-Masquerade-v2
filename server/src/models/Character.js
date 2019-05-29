@@ -28,8 +28,8 @@ let CharacterSchema = new mongoose.Schema({
     mortal: {
         trueAge: Number,
         apparentAge: Number,
-        dateOfBirth: Date,
-        dateOfDeath: Date,
+        dateOfBirth: String,
+        dateOfDeath: String,
         apparence: String,
         distinguishingFeatures: String,
         story: String,

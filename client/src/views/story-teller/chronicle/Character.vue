@@ -3,7 +3,7 @@
     :characterId="$route.params.characterid"
     :showToolbar="true"
     :showActions="true"
-    :closeUrl="closeUrl"
+    :autoReload="false"
     @close="close"
   />
 </template>
@@ -13,13 +13,6 @@ import Sheet from "../../../components/characters/Sheet.vue";
 export default {
   components: {
     Sheet
-  },
-  data() {
-    return {
-      closeUrl: `/story-teller/chronicle/${this.$route.params.id}/coteries/${
-        this.$route.params.conterieid
-      }`
-    };
   },
   methods: {
     close() {

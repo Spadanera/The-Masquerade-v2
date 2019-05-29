@@ -9,7 +9,6 @@ router.post("/:id", async (req, res) => {
     try {
         let chronicle = await Chronicle.findOne({ _id: req.params.id, storyTeller: req.session.userId });
         if (chronicle) {
-            console.log(1);
             let coterie = new Coterie(req.body);
             await coterie.save();
             chronicle.coteries.push(coterie);

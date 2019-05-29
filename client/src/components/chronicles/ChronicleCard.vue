@@ -9,9 +9,9 @@
     <v-card-text style="flex: 1">{{ chronicle.shortDescription }}</v-card-text>
     <v-card-actions class="justify-center">
       <v-btn color="info" dark @click="openChronicle(chronicle._id)">Open</v-btn>
-      <v-btn color="error" @click="modalDelete">Delete</v-btn>
+      <v-btn v-if="!player" color="error" @click="modalDelete">Delete</v-btn>
     </v-card-actions>
-    <Confirm :dialog="dialog" @confirm="deleteChronicle" :title="modalTitle" :text="modalText" @close="dialog = false" />
+    <Confirm v-if="!player" :dialog="dialog" @confirm="deleteChronicle" :title="modalTitle" :text="modalText" @close="dialog = false" />
   </v-card>
 </template>
 
@@ -31,7 +31,8 @@ export default {
     Confirm
   },
   props: {
-    chronicle: Object
+    chronicle: Object,
+    player: Boolean
   },
   methods: {
     modalDelete() {

@@ -11,7 +11,15 @@
           <img :src="character.picture" :alt="character.name">
         </v-avatar>
       </v-toolbar-side-icon>
-      <v-toolbar-title>{{ character.name }}</v-toolbar-title>
+      <v-toolbar-title>
+        <v-text-field
+          v-if="!readonly"
+          :readonly="readonly"
+          v-model="character.name"
+          label=""
+        ></v-text-field>
+        <span v-else>{{ character.name }}</span>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       <div v-if="character.alive && $vuetify.breakpoint.mdAndUp">
         <v-btn v-if="readonly && !fighting" color="primary" @click="fighting = true">Fight</v-btn>
@@ -34,7 +42,11 @@
         </v-tabs>
       </template>
     </v-toolbar>
-    <v-tabs-items v-model="characterTabs" id="scrolling-techniques" v-bind:class="{ padding: internalShowToolbar }">
+    <v-tabs-items
+      v-model="characterTabs"
+      id="scrolling-techniques"
+      v-bind:class="{ padding: internalShowToolbar }"
+    >
       <v-tab-item>
         <Characteristics :character="character" :readonly="readonly" :fighting="fighting"/>
       </v-tab-item>
@@ -98,7 +110,8 @@ export default {
   props: {
     characterId: String,
     showToolbar: Boolean,
-    showActions: Boolean
+    showActions: Boolean,
+    autoReload: Boolean
   },
   data() {
     return {
@@ -167,6 +180,9 @@ export default {
   },
   created() {
     this.loadCharacter();
+    if (this.autoReload) {
+      setInterval(loadCharacter, 1000);
+    }
   },
   watch: {
     fighting: {

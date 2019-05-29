@@ -52,7 +52,12 @@ router.get('/google/callback',
                     chronicleId: invitation.chronicleId,
                     active: true,
                 };
-                await Player.findOneAndUpdate({ userId: user._id }, player, { upsert: true, new: true, setDefaultsOnInsert: true });
+                let playerUpserted = await Player.findOneAndUpdate({ userId: user._id }, player, { upsert: true, new: true, setDefaultsOnInsert: true });
+                let chronicle = await Chronicle.findOne({ _id: invitation.chronicleId });
+                if (chronicle) {
+                    chronicle.players.push(playerUpserted);
+                    await chronicle.save();
+                }
                 await Invitation.findOneAndDelete({ token: req.session.invitation });
                 res.redirect(`${process.env.PROTOCOL || "http"}://${process.env.ORIGIN || "localhost"}/#/player`);
             }

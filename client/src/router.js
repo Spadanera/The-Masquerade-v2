@@ -7,7 +7,6 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "public",
       component: () => import('./views/Public.vue'),
       children: [
         {
@@ -29,7 +28,6 @@ export default new Router({
     },
     {
       path: '/story-teller',
-      name: 'story-teller',
       component: () => import('./views/StoryTeller.vue'),
       children: [
         {
@@ -66,7 +64,7 @@ export default new Router({
               children: [
                 {
                   path: ":playerid",
-                  name: "player",
+                  name: "playerid",
                   component: () => import('./views/story-teller/chronicle/Player.vue')
                 }
               ]
@@ -94,6 +92,17 @@ export default new Router({
               component: () => import('./views/story-teller/chronicle/Live.vue')
             }
           ]
+        }
+      ]
+    },
+    {
+      path: "/player",
+      name: "player",
+      component: () => import('./views/Player.vue'),
+      children: [
+        {
+          path: "",
+          component: () => import('./views/player/ChroniclesList.vue')
         }
       ]
     }
