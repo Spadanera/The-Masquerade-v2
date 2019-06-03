@@ -111,7 +111,8 @@ export default {
     characterId: String,
     showToolbar: Boolean,
     showActions: Boolean,
-    autoReload: Boolean
+    autoReload: Boolean,
+    characterService: Object
   },
   data() {
     return {
@@ -143,11 +144,7 @@ export default {
   },
   methods: {
     async loadCharacter() {
-      let response = await client.get(`/api/characters/${this.characterId}`);
-      response.data.mainInformation = response.data.mainInformation || {};
-      this.character = response.data;
-      this.loaded = true;
-      this.readonly = true;
+      await this.characterService.load(this);
     },
     close() {
       this.$emit("close");
@@ -156,26 +153,10 @@ export default {
       return input.charAt(0).toUpperCase() + input.slice(1);
     },
     async save() {
-      await client.put(`/api/characters/${this.character._id}`, this.character);
-      if (!this.fighting) {
-        this.snackbar.text = "Save successfully";
-        this.snackbar.enabled = true;
-      }
-      this.readonly = true;
+      await this.characterService.save();
     },
     async killOrResumeCharacter(alive) {
-      let res = await this.$confirm(
-        `Do you really want to ${alive ? "resume" : "kill"} ${
-          this.character.name
-        }?`,
-        {
-          title: "Warning"
-        }
-      );
-      if (res) {
-        await client.put(`api/characters/${this.character._id}`, { alive });
-        this.character.alive = alive;
-      }
+      await this.characterService.killOrResume(this.character, alive, this);
     }
   },
   created() {

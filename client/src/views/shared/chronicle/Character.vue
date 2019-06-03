@@ -14,13 +14,12 @@ export default {
   components: {
     Sheet
   },
+  props: {
+    characterService: Object
+  },
   methods: {
     close() {
-      this.$router.push(
-        `/story-teller/chronicle/${this.$route.params.id}/coteries/${
-          this.$route.params.conterieid
-        }`
-      );
+      this.characterService.close(this);
     }
   }
 };

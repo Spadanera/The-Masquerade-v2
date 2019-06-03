@@ -40,7 +40,11 @@ router.get("/:id", async (req, res) => {
 router.get("/all/:id", async (req, res) => {
     try {
         let chronicle = await Chronicle.findOne({ _id: req.params.id, storyTeller: req.session.userId }).populate("stories");
-        res.json(chronicle.stories.sort((a, b) => a.createdAt < b.createdAt));
+        if (chronicle) {
+            res.json(chronicle.stories.sort((a, b) => a.createdAt < b.createdAt));
+        } else {
+            res.json([]);
+        }
     } catch (e) {
         console.error(e);
         res.status(500).json(e);

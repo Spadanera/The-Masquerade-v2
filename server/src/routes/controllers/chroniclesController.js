@@ -6,7 +6,7 @@ import Chronicle from '../../models/Chronicle';
 // Get all chronicles
 router.get("/", async (req, res) => {
     try {
-        res.json(await Chronicle.find( { storyTeller: req.session.userId }));
+        res.json(await Chronicle.find({ storyTeller: req.session.userId }));
     }
     catch (e) {
         console.error(e);
@@ -16,7 +16,18 @@ router.get("/", async (req, res) => {
 
 router.get("/player", async (req, res) => {
     try {
-        res.json(await Chronicle.find( { players: { "$in": [req.session.userId] } }));
+        res.json(await Chronicle.find({ players: { "$in": [req.session.userId] } })
+            .select('name shortDescription publicStory createdAt status backgroundImage'));
+    }
+    catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
+});
+
+router.get("/player/:id", async (req, res) => {
+    try {
+        res.json(await Chronicle.findOne({ _id: req.params.id, players: { "$in": [req.session.userId] } }));
     }
     catch (e) {
         console.error(e);
@@ -48,7 +59,7 @@ router.get("/:id", async (req, res) => {
 // Create new chronicle
 router.post("/", async (req, res) => {
     try {
-        req.body.storyTeller =  req.session.userId; // "5c97bdf8664eff178ec46579";
+        req.body.storyTeller = req.session.userId; // "5c97bdf8664eff178ec46579";
         let chronicle = new Chronicle(req.body);
         res.json(await chronicle.save());
     }
@@ -114,7 +125,7 @@ router.put("/resume/:id", async (req, res) => {
 
 router.post("storyongoing/:id", async (req, res) => {
     try {
-        
+
     } catch (e) {
         console.error(e);
         res.status(500).json(e);

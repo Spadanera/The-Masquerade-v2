@@ -11,17 +11,14 @@ export default new Router({
       children: [
         {
           path: '/',
-          name: 'home',
           component: () => import('./views/public/Home.vue')
         },
         {
           path: '/about',
-          name: 'about',
           component: () => import('./views/public/About.vue')
         },
         {
           path: '/join/:token',
-          name: 'join',
           component: () => import('./views/public/Join.vue')
         }
       ]
@@ -32,63 +29,94 @@ export default new Router({
       children: [
         {
           path: '',
-          name: 'chronicles',
           component: () => import('./views/story-teller/ChroniclesList.vue')
         },
         {
           path: 'chronicle/:id',
-          name: 'chronicle',
-          component: () => import('./views/story-teller/Chronicle.vue'),
+          component: () => import('./views/shared/Chronicle.vue'),
+          props: (route) => ({
+            sections: [
+              {
+                tooltip: "Dashboard",
+                icon: "dashboard",
+                iconClass: "icon-dashboard",
+                route: "dashboard"
+              },
+              {
+                tooltip: "Stories",
+                icon: "book",
+                iconClass: "icon-stories",
+                route: "stories"
+              },
+              {
+                tooltip: "Players",
+                icon: "account_circle",
+                iconClass: "icon-players",
+                route: "players"
+              },
+              {
+                tooltip: "Coterie",
+                icon: "people",
+                iconClass: "icon-coterie",
+                route: "coteries"
+              },
+              {
+                tooltip: "Live Session",
+                icon: "play_circle_outline",
+                iconClass: "icon-play",
+                route: "live"
+              }
+            ],
+            chronicleService: require('./services/chronicles/story-teller').default
+          }),
           children: [
             {
               path: "dashboard",
-              name: "dashboard",
               component: () => import("./views/story-teller/chronicle/Dashboard.vue")
             },
             {
               path: "stories",
-              name: "stories",
-              component: () => import('./views/story-teller/chronicle/Stories.vue'),
+              component: () => import('./views/shared/chronicle/Stories.vue'),
               children: [
                 {
                   path: ":storyid",
-                  name: "story",
-                  component: () => import("./views/story-teller/chronicle/Story.vue"),
+                  component: () => import("./views/shared/chronicle/Story.vue"),
                 }
               ]
             },
             {
               path: "players",
-              name: "players",
               component: () => import('./views/story-teller/chronicle/Players.vue'),
               children: [
                 {
                   path: ":playerid",
-                  name: "playerid",
                   component: () => import('./views/story-teller/chronicle/Player.vue')
                 }
               ]
             },
             {
               path: "coteries",
-              name: "coteries",
               component: () => import('./views/story-teller/chronicle/Coteries.vue'),
               children: [
                 {
                   path: ":conterieid",
-                  name: "coterieslist",
-                  component: () => import('./views/story-teller/chronicle/CharactersList.vue'),
+                  component: () => import('./views/shared/chronicle/CharactersList.vue'),
+                  props: (route) => ({
+                    listService: require('./services/coteries/list').default,
+                    characterService: require('./services/coteries/list').default
+                  })
                 },
                 {
                   path: ":conterieid/character/:characterid",
-                  name: "character",
-                  component: () => import('./views/story-teller/chronicle/Character.vue')
+                  component: () => import('./views/shared/chronicle/Character.vue'),
+                  props: (route) => ({
+                    characterService: require('./services/coteries/list').default
+                  })
                 }
               ]
             },
             {
               path: "live",
-              name: "live",
               component: () => import('./views/story-teller/chronicle/Live.vue')
             }
           ]
@@ -97,12 +125,64 @@ export default new Router({
     },
     {
       path: "/player",
-      name: "player",
       component: () => import('./views/Player.vue'),
       children: [
         {
           path: "",
           component: () => import('./views/player/ChroniclesList.vue')
+        },
+        {
+          path: 'chronicle/:id',
+          component: () => import('./views/shared/Chronicle.vue'),
+          props: (route) => ({
+            sections: [
+              {
+                tooltip: "Dashboard",
+                icon: "dashboard",
+                iconClass: "icon-dashboard",
+                route: "dashboard"
+              },
+              {
+                tooltip: "Stories",
+                icon: "book",
+                iconClass: "icon-stories",
+                route: "stories"
+              },
+              {
+                tooltip: "Characters",
+                icon: "account_circle",
+                iconClass: "icon-players",
+                route: "players"
+              }
+            ],
+            chronicleService: require('./services/chronicles/player').default
+          }),
+          children: [
+            {
+              path: "dashboard",
+              component: () => import("./views/story-teller/chronicle/Dashboard.vue")
+            },
+            {
+              path: "stories",
+              component: () => import('./views/shared/chronicle/Stories.vue'),
+              children: [
+                {
+                  path: ":storyid",
+                  component: () => import("./views/shared/chronicle/Story.vue"),
+                }
+              ]
+            },
+            {
+              path: "characters",
+              component: () => import('./views/story-teller/chronicle/Players.vue'),
+              children: [
+                {
+                  path: ":playerid",
+                  component: () => import('./views/story-teller/chronicle/Player.vue')
+                }
+              ]
+            }
+          ]
         }
       ]
     }

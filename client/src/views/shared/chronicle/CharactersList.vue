@@ -36,11 +36,14 @@
 </template>
 
 <script>
-import client from "../../../services/client";
 import AddCharacter from "../../../components/characters/AddCharacter.vue";
 export default {
   components: {
     AddCharacter
+  },
+  props: {
+    listService: Object,
+    characterService: Object
   },
   data() {
     return {
@@ -50,36 +53,13 @@ export default {
   },
   methods: {
     async getCharacters(coterieId) {
-      coterieId = coterieId || this.$route.params.conterieid;
-      let response = await client.get(`/api/coteries/${coterieId}`);
-      this.characters = response.data.characters.sort((a, b) => {
-        if (a.alive > b.alive) {
-          return -1;
-        } else if (a.alive < b.alive) {
-          return 1;
-        } else {
-          return a.createdAt - b.createdAt;
-        }
-      });
+      await this.listService.getCharacters(coterieId, this);
     },
     openCharacter(characterId) {
-      this.$router.push(
-        `/story-teller/chronicle/${this.$route.params.id}/coteries/${
-          this.$route.params.conterieid
-        }/character/${characterId}`
-      );
+      this.listService.openCharacter(characterId, this.$router, this.$route);
     },
     async killOrResumeCharacter(character, alive) {
-      let res = await this.$confirm(
-        `Do you really want to ${alive ? "resume" : "kill"} ${character.name}?`,
-        {
-          title: "Warning"
-        }
-      );
-      if (res) {
-        await client.put(`api/characters/${character._id}`, { alive });
-        this.getCharacters();
-      }
+      await this.characterService.killOrResume(character, alive, this)
     }
   },
   created() {

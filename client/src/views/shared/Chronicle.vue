@@ -37,59 +37,24 @@
 import client from "../../services/client";
 export default {
   props: {
-    nav: Object
+    nav: Object,
+    sections: Array,
+    chronicleService: Object
   },
   data() {
     return {
       chronicle: {},
-      liveSession: false,
-      sections: [
-        {
-          tooltip: "Dashboard",
-          icon: "dashboard",
-          iconClass: "icon-dashboard",
-          route: "dashboard"
-        },
-        {
-          tooltip: "Stories",
-          icon: "book",
-          iconClass: "icon-stories",
-          route: "stories"
-        },
-        {
-          tooltip: "Players",
-          icon: "account_circle",
-          iconClass: "icon-players",
-          route: "players"
-        },
-        {
-          tooltip: "Coterie",
-          icon: "people",
-          iconClass: "icon-coterie",
-          route: "coteries"
-        },
-        {
-          tooltip: "Live Session",
-          icon: "play_circle_outline",
-          iconClass: "icon-play",
-          route: "live"
-        }
-      ]
+      liveSession: false
     };
   },
   methods: {
     async loadChronicle() {
-      let response = await client.get(
-        `/api/chronicles/${this.$route.params.id}`
-      );
+      let response = await this.chronicleService.load(this);
       this.chronicle = response.data;
       this.$emit("chronicle", this.chronicle.name);
     },
     goTo(route) {
-        this.$router.push(`/story-teller/chronicle/${this.$route.params.id}/${route}`);
-        if (route === "dashboard") {
-          this.nav.visible = false;
-        }
+        this.chronicleService.goTo(route, this)
     },
     selected(route) {
       return this.$route.path.indexOf(route) > -1;
