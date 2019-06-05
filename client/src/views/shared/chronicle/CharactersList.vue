@@ -53,7 +53,6 @@ export default {
   },
   methods: {
     async getCharacters(listid) {
-      console.log("listid", listid);
       await this.listService.getCharacters(listid, this);
     },
     openCharacter(characterId) {
