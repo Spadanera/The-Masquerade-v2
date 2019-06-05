@@ -5,6 +5,7 @@
     :showActions="true"
     :autoReload="false"
     @close="close"
+    :characterService="characterService"
   />
 </template>
 

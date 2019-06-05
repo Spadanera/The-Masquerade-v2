@@ -103,14 +103,14 @@ export default new Router({
                   component: () => import('./views/shared/chronicle/CharactersList.vue'),
                   props: (route) => ({
                     listService: require('./services/coteries/list').default,
-                    characterService: require('./services/coteries/list').default
+                    characterService: require('./services/coteries/character').default
                   })
                 },
                 {
                   path: ":conterieid/character/:characterid",
                   component: () => import('./views/shared/chronicle/Character.vue'),
                   props: (route) => ({
-                    characterService: require('./services/coteries/list').default
+                    characterService: require('./services/coteries/character').default
                   })
                 }
               ]
