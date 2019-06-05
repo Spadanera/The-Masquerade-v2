@@ -15,7 +15,7 @@
       <span class="font-weight-light"></span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <h3 v-if="userMenu">{{ chronicleName }}</h3>
+    <h3 class="text-truncate" v-if="userMenu">{{ chronicleName }}</h3>
     <v-menu v-if="userMenu">
       <template v-slot:activator="{ on }">
         <v-btn fab icon v-on="on">
