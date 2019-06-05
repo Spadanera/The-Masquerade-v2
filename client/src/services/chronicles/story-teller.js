@@ -1,6 +1,8 @@
 import client from '../client';
+import IChronicle from '../interfaces/IChronicle';
+import implement, { Interface, type } from 'implement-js'
 
-export default {
+const chronicle = {
     load: async (component) => {
         return await client.get(
             `/api/chronicles/${component.$route.params.id}`
@@ -13,3 +15,7 @@ export default {
         }
     }
 }
+
+implement(IChronicle)(chronicle);
+
+export default chronicle;

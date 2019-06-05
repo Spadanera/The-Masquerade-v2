@@ -1,6 +1,8 @@
 import client from '../client';
+import ICharacter from '../interfaces/ICharacter';
+import implement, { Interface, type } from 'implement-js'
 
-export default {
+const character = {
     killOrResume: async (character, alive, component) => {
         let res = await component.$confirm(
             `Do you really want to ${alive ? "resume" : "kill"} ${character.name}?`,
@@ -36,3 +38,7 @@ export default {
         component.readonly = true;
     }
 }
+
+implement(ICharacter)(character);
+
+export default character;

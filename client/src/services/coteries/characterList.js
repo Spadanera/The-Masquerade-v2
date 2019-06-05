@@ -1,6 +1,8 @@
 import client from '../client';
+import ICharacterList from '../interfaces/ICharacterList';
+import implement, { Interface, type } from 'implement-js'
 
-export default {
+const characterList = {
     openCharacter: (characterId, $router, $route) => {
         $router.push(
             `/story-teller/chronicle/${$route.params.id}/coteries/${
@@ -22,3 +24,7 @@ export default {
         });
     }
 };
+
+implement(ICharacterList)(characterList);
+
+export default characterList;
