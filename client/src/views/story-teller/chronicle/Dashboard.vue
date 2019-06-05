@@ -18,11 +18,11 @@
         </v-img>
         <v-card-text>
           <v-tabs centered grow slider-color="primary" v-model="selectedTab">
-            <v-tab>Private Story</v-tab>
             <v-tab>Public Story</v-tab>
+            <v-tab>Private Story</v-tab>
             <v-tab-item>
               <v-card flat>
-                <v-card-text v-html="$parent.chronicle.privateStory" v-if="!editing"></v-card-text>
+                <v-card-text v-if="!editing" v-html="$parent.chronicle.publicStory"></v-card-text>
                 <ckeditor
                   :editor="editor"
                   v-model="editStory"
@@ -34,7 +34,7 @@
             </v-tab-item>
             <v-tab-item>
               <v-card flat>
-                <v-card-text v-if="!editing" v-html="$parent.chronicle.publicStory"></v-card-text>
+                <v-card-text v-html="$parent.chronicle.privateStory" v-if="!editing"></v-card-text>
                 <ckeditor
                   :editor="editor"
                   v-model="editStory"
