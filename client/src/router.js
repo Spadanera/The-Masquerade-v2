@@ -99,7 +99,7 @@ export default new Router({
               component: () => import('./views/story-teller/chronicle/Coteries.vue'),
               children: [
                 {
-                  path: ":conterieid",
+                  path: ":listid",
                   component: () => import('./views/shared/chronicle/CharactersList.vue'),
                   props: (route) => ({
                     listService: require('./services/coteries/characterList').default,
@@ -107,7 +107,7 @@ export default new Router({
                   })
                 },
                 {
-                  path: ":conterieid/character/:characterid",
+                  path: ":listid/character/:characterid",
                   component: () => import('./views/shared/chronicle/Character.vue'),
                   props: (route) => ({
                     characterService: require('./services/coteries/character').default
@@ -137,6 +137,12 @@ export default new Router({
           props: (route) => ({
             sections: [
               {
+                tooltip: "Characters",
+                icon: "account_circle",
+                iconClass: "icon-players",
+                route: "characters"
+              },
+              {
                 tooltip: "Dashboard",
                 icon: "dashboard",
                 iconClass: "icon-dashboard",
@@ -147,12 +153,6 @@ export default new Router({
                 icon: "book",
                 iconClass: "icon-stories",
                 route: "stories"
-              },
-              {
-                tooltip: "Characters",
-                icon: "account_circle",
-                iconClass: "icon-players",
-                route: "players"
               }
             ],
             chronicleService: require('./services/chronicles/player').default
@@ -177,8 +177,19 @@ export default new Router({
               component: () => import('./views/story-teller/chronicle/Players.vue'),
               children: [
                 {
-                  path: ":playerid",
-                  component: () => import('./views/story-teller/chronicle/Player.vue')
+                  path: "",
+                  component: () => import('./views/shared/chronicle/CharactersList.vue'),
+                  props: (route) => ({
+                    listService: require('./services/players/characterList').default,
+                    characterService: require('./services/players/character').default
+                  })
+                },
+                {
+                  path: ":characterid",
+                  component: () => import('./views/shared/chronicle/Character.vue'),
+                  props: (route) => ({
+                    characterService: require('./services/players/character').default
+                  })
                 }
               ]
             }

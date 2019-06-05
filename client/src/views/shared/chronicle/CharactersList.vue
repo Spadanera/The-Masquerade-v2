@@ -52,8 +52,9 @@ export default {
     };
   },
   methods: {
-    async getCharacters(coterieId) {
-      await this.listService.getCharacters(coterieId, this);
+    async getCharacters(listid) {
+      console.log("listid", listid);
+      await this.listService.getCharacters(listid, this);
     },
     openCharacter(characterId) {
       this.listService.openCharacter(characterId, this.$router, this.$route);
@@ -66,7 +67,7 @@ export default {
     this.getCharacters();
   },
   beforeRouteUpdate(to, from, next) {
-    this.getCharacters(to.params.conterieid);
+    this.getCharacters(to.params.listid);
     next();
   }
 };

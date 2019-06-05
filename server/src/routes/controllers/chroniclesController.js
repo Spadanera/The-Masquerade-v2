@@ -2,6 +2,7 @@
 
 const router = require('express').Router();
 import Chronicle from '../../models/Chronicle';
+import Player from '../../models/Player';
 
 // Get all chronicles
 router.get("/", async (req, res) => {
@@ -27,8 +28,11 @@ router.get("/player", async (req, res) => {
 
 router.get("/player/:id", async (req, res) => {
     try {
-        res.json(await Chronicle.findOne({ _id: req.params.id, players: { "$in": [req.session.userId] } })
-            .select('name shortDescription publicStory createdAt status backgroundImage'));
+        let chronicle = await Chronicle.findOne({ _id: req.params.id, players: { "$in": [req.session.userId] } })
+            .select('name shortDescription publicStory createdAt status backgroundImage');
+        let player = await Player.findOne({ userId: req.session.userId, chronicleId: req.params.id }).select('_id');
+        req.session.playerId = player._id;
+        res.json(chronicle);
     }
     catch (e) {
         console.error(e);

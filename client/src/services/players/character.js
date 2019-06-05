@@ -17,9 +17,7 @@ const character = {
     },
     close: (component) => {
         component.$router.push(
-            `/story-teller/chronicle/${component.$route.params.id}/coteries/${
-            component.$route.params.conterieid
-            }`
+            `/story-teller/chronicle/${component.$route.params.id}/characters`
         );
     },
     load: async (component) => {

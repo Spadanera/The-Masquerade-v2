@@ -1,6 +1,6 @@
 import client from '../client';
 import IChronicle from '../interfaces/IChronicle';
-import implement, { Interface, type } from 'implement-js'
+import implement from 'implement-js'
 
 const chronicle = {
     load: async (component) => {

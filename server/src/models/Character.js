@@ -19,7 +19,6 @@ const Discipline = {
 let CharacterSchema = new mongoose.Schema({
     name: String,
     userId: mongoose.Schema.Types.ObjectId,
-    playerId: mongoose.Schema.Types.ObjectId,
     alive: Boolean,
     picture: String,
     startingExperience: { type: Number, default: 0 },
