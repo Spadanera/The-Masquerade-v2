@@ -45,7 +45,7 @@ export default {
       this.$emit("submitted", "Chronicle successfully deleted");
     },
     openChronicle (id, name) {
-      this.$router.push({ path: `${this.$route.path}/chronicle/${id}/dashboard` });
+      this.$router.push({ path: `${this.$route.path}/chronicle/${id}/${this.$route.path === '/story-teller' ? 'dashboard' : 'characters'}` });
     }
   }
 };

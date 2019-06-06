@@ -51,7 +51,8 @@ export default {
   name: "AddCharacter",
   props: {
     dialog: Boolean,
-    coterieId: String
+    coterieId: String,
+    characterService: Object
   },
   data() {
     return {
@@ -72,9 +73,13 @@ export default {
     async submit() {
       if (this.$refs.form.validate()) {
         this.character.picture = this.imageUrl;
-        await client.post(`/api/characters/${this.coterieId}`, this.character);
+        await this.characterService.create(this.coterieId, this.character);
         this.$emit("submitted");
         this.$emit("close", false);
+        this.character = {
+          mainInformation: {},
+          mortal: {}
+        };
       }
     },
     pickFile() {

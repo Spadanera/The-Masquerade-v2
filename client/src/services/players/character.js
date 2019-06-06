@@ -34,6 +34,9 @@ const character = {
             component.snackbar.enabled = true;
         }
         component.readonly = true;
+    },
+    create: async (coterieId, character) => {
+        await client.post(`/api/characters/`, character);
     }
 }
 

@@ -153,7 +153,7 @@ export default {
       return input.charAt(0).toUpperCase() + input.slice(1);
     },
     async save() {
-      await this.characterService.save();
+      await this.characterService.save(this);
     },
     async killOrResumeCharacter(alive) {
       await this.characterService.killOrResume(this.character, alive, this);

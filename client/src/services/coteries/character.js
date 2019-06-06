@@ -18,7 +18,7 @@ const character = {
     close: (component) => {
         component.$router.push(
             `/story-teller/chronicle/${component.$route.params.id}/coteries/${
-            component.$route.params.conterieid
+            component.$route.params.listid
             }`
         );
     },
@@ -36,6 +36,9 @@ const character = {
             component.snackbar.enabled = true;
         }
         component.readonly = true;
+    },
+    create: async (coterieId, character) => {
+        await client.post(`/api/characters/${coterieId}`, character);
     }
 }
 

@@ -7,9 +7,9 @@
           <v-card-title>
             <div>
               <div class="headline">{{ character.name }}</div>
-              <!-- <div class="grey--text">Generation: <strong>{{character.mainInformation.generation}}</strong></div>
-              <div class="grey--text">Clan: <strong>{{character.mainInformation.clan}}</strong></div> -->
-              <div class="grey--text">Sire: <strong>Cornelius</strong></div>
+              <div v-if="character.mainInformation" class="grey--text">Generation: <strong>{{character.mainInformation.generation}}</strong></div>
+              <div v-if="character.mainInformation" class="grey--text">Clan: <strong>{{character.mainInformation.clan}}</strong></div>
+              <div v-if="character.mainInformation" class="grey--text">Sire: <strong>{{character.mainInformation.sire}}</strong></div>
             </div>
           </v-card-title>
           <v-card-actions class="justify-center">
@@ -31,6 +31,7 @@
       :coterie-id="this.$route.params.conterieid"
       @submitted="getCharacters"
       @close="dialog = false"
+      :characterService="characterService"
     />
   </v-flex>
 </template>

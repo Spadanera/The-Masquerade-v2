@@ -6,7 +6,7 @@ const characterList = {
     openCharacter: (characterId, $router, $route) => {
         $router.push(
             `/story-teller/chronicle/${$route.params.id}/coteries/${
-            $route.params.conterieid
+            $route.params.listid
             }/character/${characterId}`
         );
     },
