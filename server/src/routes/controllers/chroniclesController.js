@@ -17,6 +17,7 @@ router.get("/", async (req, res) => {
 
 router.get("/player", async (req, res) => {
     try {
+        req.session.playerId = undefined;
         res.json(await Chronicle.find({ players: { "$in": [req.session.userId] } })
             .select('name shortDescription publicStory createdAt status backgroundImage'));
     }

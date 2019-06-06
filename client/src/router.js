@@ -174,16 +174,12 @@ export default new Router({
             },
             {
               path: "characters",
-              component: () => import('./views/story-teller/chronicle/Players.vue'),
+              component: () => import('./views/shared/chronicle/CharactersList.vue'),
+              props: (route) => ({
+                listService: require('./services/players/characterList').default,
+                characterService: require('./services/players/character').default
+              }),
               children: [
-                {
-                  path: "",
-                  component: () => import('./views/shared/chronicle/CharactersList.vue'),
-                  props: (route) => ({
-                    listService: require('./services/players/characterList').default,
-                    characterService: require('./services/players/character').default
-                  })
-                },
                 {
                   path: ":characterid",
                   component: () => import('./views/shared/chronicle/Character.vue'),

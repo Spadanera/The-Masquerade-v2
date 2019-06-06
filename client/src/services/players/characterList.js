@@ -9,7 +9,7 @@ const characterList = {
         );
     },
     getCharacters: async (listId, component) => {
-        let response = await await client.get(`/api/palyers/characters`);
+        let response = await getCharacters();
         component.characters = response.data.characters.sort((a, b) => {
             if (a.alive > b.alive) {
                 return -1;
@@ -21,6 +21,24 @@ const characterList = {
         });
     }
 };
+
+async function getCharacters() {
+    let iteration = 0;
+    return new Promise(async (resolve, reject) => {
+        let response = await client.get(`/api/players/characters/`);
+        if (response.status === 204) {
+            if (iteration > 500) {
+                reject("Timeout exeeded waiting session playerId");
+            }
+            else {
+                resolve(await getCharacters());
+            }
+        }
+        else {
+            resolve(response);
+        }
+    });
+}
 
 implement(ICharacterList)(characterList);
 
