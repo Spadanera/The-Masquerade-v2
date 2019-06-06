@@ -18,7 +18,10 @@ router.get("/", async (req, res) => {
 router.get("/player", async (req, res) => {
     try {
         req.session.playerId = undefined;
-        res.json(await Chronicle.find({ players: { "$in": [req.session.userId] } })
+        let players = await Player.find({ userId: req.session.userId }).select("_id");
+        console.log(req.session.userId);
+        console.log("players", players);
+        res.json(await Chronicle.find({ players: { "$in": players } })
             .select('name shortDescription publicStory createdAt status backgroundImage'));
     }
     catch (e) {
@@ -29,7 +32,8 @@ router.get("/player", async (req, res) => {
 
 router.get("/player/:id", async (req, res) => {
     try {
-        let chronicle = await Chronicle.findOne({ _id: req.params.id, players: { "$in": [req.session.userId] } })
+        let players = await Player.find({ userId: req.session.userId }).select("_id");
+        let chronicle = await Chronicle.findOne({ _id: req.params.id, players: { "$in": players } })
             .select('name shortDescription publicStory createdAt status backgroundImage');
         let player = await Player.findOne({ userId: req.session.userId, chronicleId: req.params.id }).select('_id');
         req.session.playerId = player._id;
