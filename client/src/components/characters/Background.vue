@@ -38,7 +38,7 @@
             <v-flex shrink xs12 sm6 pa-2>
               <v-text-field
                 :readonly="readonly"
-                v-model="character.mainInformation.concept"
+                v-model="character.mainInformation.desire"
                 label="Desire"
               ></v-text-field>
             </v-flex>

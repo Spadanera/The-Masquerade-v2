@@ -17,12 +17,13 @@ const character = {
     },
     close: (component) => {
         component.$router.push(
-            `/story-teller/chronicle/${component.$route.params.id}/characters`
+            `/player/chronicle/${component.$route.params.id}/characters`
         );
     },
     load: async (component) => {
         let response = await client.get(`/api/characters/${component.characterId}`);
         response.data.mainInformation = response.data.mainInformation || {};
+        response.data.mortal = response.data.mortal || {};
         component.character = response.data;
         component.loaded = true;
         component.readonly = true;

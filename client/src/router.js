@@ -178,16 +178,14 @@ export default new Router({
               props: (route) => ({
                 listService: require('./services/players/characterList').default,
                 characterService: require('./services/players/character').default
-              }),
-              children: [
-                {
-                  path: ":characterid",
-                  component: () => import('./views/shared/chronicle/Character.vue'),
-                  props: (route) => ({
-                    characterService: require('./services/players/character').default
-                  })
-                }
-              ]
+              })
+            },
+            {
+              path: "characters/:characterid",
+              component: () => import('./views/shared/chronicle/Character.vue'),
+              props: (route) => ({
+                characterService: require('./services/players/character').default
+              })
             }
           ]
         }
