@@ -6,6 +6,7 @@ import passport from 'passport';
 import User from "../../models/User";
 import Player from "../../models/Player";
 import Invitation from "../../models/Invitation";
+import Chronicle from "../../models/Chronicle";
 
 router.get('/google-join/:invitation', (req, res) => {
     req.session.invitation = req.params.invitation;
