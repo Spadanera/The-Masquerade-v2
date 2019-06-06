@@ -19,7 +19,7 @@
               <v-list-tile-title v-html="coterie.name"></v-list-tile-title>
               <v-list-tile-sub-title v-html="coterie.description"></v-list-tile-sub-title>
             </v-list-tile-content>
-            <div class="selected-element primary" v-if="coterie._id === $route.params.conterieid"></div>
+            <div class="selected-element primary" v-if="coterie._id === $route.params.listid"></div>
           </v-list-tile>
         </template>
       </v-list>

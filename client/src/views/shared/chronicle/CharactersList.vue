@@ -28,7 +28,7 @@
     </v-btn>
     <AddCharacter
       :dialog="dialog"
-      :coterie-id="this.$route.params.conterieid"
+      :coterie-id="this.$route.params.listid"
       @submitted="getCharacters"
       @close="dialog = false"
       :characterService="characterService"
