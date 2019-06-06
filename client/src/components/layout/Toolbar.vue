@@ -5,7 +5,9 @@
       v-if="leftIconVisible()"
       @click="$emit('toggle-nav')"
     ></v-toolbar-side-icon>
-    <img src="../../assets/vmplogo.png">
+    <router-link :to="rootMenu" tag="span" style="cursor: pointer">
+      <img src="../../assets/vmplogo.png">
+    </router-link>
     <v-toolbar-title class="headline text-uppercase">
       <router-link :to="rootMenu" tag="span">
         <span class="hidden-sm-and-down">{{ title }}</span>
@@ -96,8 +98,7 @@ export default {
     toggleFullScreen() {
       if (this.fullscreen) {
         this.GoOutFullscreen();
-      }
-      else {
+      } else {
         this.GoInFullscreen();
       }
     },
