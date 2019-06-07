@@ -28,4 +28,13 @@ router.get("/characters", async (req, res) => {
     }
 });
 
+router.get("/:id/characters", async (req, res) => {
+    try {
+        res.json(await Player.findOne({ _id: req.params.id }).populate("characters"));
+    } catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
+});
+
 export default router;

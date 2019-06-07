@@ -19,7 +19,7 @@
             <v-list-tile-avatar>
               <img :src="player.userPicture" :alt="player.userDisplayName">
             </v-list-tile-avatar>
-            <div class="selected-element primary" v-if="player._id === $route.params.playerid"></div>
+            <div class="selected-element primary" v-if="player._id === $route.params.listid"></div>
           </v-list-tile>
         </template>
       </v-list>

@@ -19,7 +19,8 @@ router.get("/", async (req, res) => {
 // Get single character
 router.get("/:id", async (req, res) => {
     try {
-        res.json(await Character.findOne({ _id: req.params.id, userId: req.session.userId }));
+        // res.json(await Character.findOne({ _id: req.params.id, userId: req.session.userId }));
+        res.json(await Character.findOne({ _id: req.params.id }));
     }
     catch (e) {
         console.error(e);

@@ -89,8 +89,20 @@ export default new Router({
               component: () => import('./views/story-teller/chronicle/Players.vue'),
               children: [
                 {
-                  path: ":playerid",
-                  component: () => import('./views/story-teller/chronicle/Player.vue')
+                  path: ":listid",
+                  component: () => import('./views/shared/chronicle/CharactersList.vue'),
+                  props: (route) => ({
+                    listService: require('./services/chronicle-players/characterList').default,
+                    characterService: require('./services/coteries/character').default
+                  })
+                },
+                {
+                  path: ":listid/character/:characterid",
+                  component: () => import('./views/shared/chronicle/Character.vue'),
+                  props: (route) => ({
+                    characterService: require('./services/chronicle-players/character').default,
+                    edit: false
+                  })
                 }
               ]
             },
@@ -110,7 +122,8 @@ export default new Router({
                   path: ":listid/character/:characterid",
                   component: () => import('./views/shared/chronicle/Character.vue'),
                   props: (route) => ({
-                    characterService: require('./services/coteries/character').default
+                    characterService: require('./services/coteries/character').default,
+                    edit: true
                   })
                 }
               ]
@@ -184,7 +197,8 @@ export default new Router({
               path: "characters/:characterid",
               component: () => import('./views/shared/chronicle/Character.vue'),
               props: (route) => ({
-                characterService: require('./services/players/character').default
+                characterService: require('./services/players/character').default,
+                edit: true
               })
             }
           ]

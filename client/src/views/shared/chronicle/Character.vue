@@ -6,6 +6,7 @@
     :autoReload="false"
     @close="close"
     :characterService="characterService"
+    :edit="edit"
   />
 </template>
 
@@ -16,7 +17,8 @@ export default {
     Sheet
   },
   props: {
-    characterService: Object
+    characterService: Object,
+    edit: Boolean
   },
   methods: {
     close() {

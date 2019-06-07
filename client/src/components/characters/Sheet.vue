@@ -22,15 +22,15 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <div v-if="character.alive && $vuetify.breakpoint.mdAndUp">
-        <v-btn v-if="readonly && !fighting" color="primary" @click="fighting = true">Fight</v-btn>
-        <v-btn v-if="readonly && fighting" @click="fighting = false">End Fight</v-btn>
-        <v-btn @click="readonly= false" v-if="readonly && !fighting">Edit</v-btn>
-        <v-btn @click="save" v-if="!readonly && !fighting">Save</v-btn>
-        <v-btn @click="loadCharacter" v-if="!readonly && !fighting">Undu</v-btn>
-        <v-btn @click="killOrResumeCharacter(false)">Kill</v-btn>
+        <v-btn v-if="readonly && !fighting && edit" color="primary" @click="fighting = true">Fight</v-btn>
+        <v-btn v-if="readonly && fighting && edit" @click="fighting = false">End Fight</v-btn>
+        <v-btn @click="readonly= false" v-if="readonly && !fighting && edit">Edit</v-btn>
+        <v-btn @click="save" v-if="!readonly && !fighting && edit">Save</v-btn>
+        <v-btn @click="loadCharacter" v-if="!readonly && !fighting && edit">Undu</v-btn>
+        <v-btn @click="killOrResumeCharacter(false)" v-if="edit">Kill</v-btn>
       </div>
       <v-btn
-        v-if="!character.alive && $vuetify.breakpoint.mdAndUp"
+        v-if="!character.alive && $vuetify.breakpoint.mdAndUp && edit"
         @click="killOrResumeCharacter(true)"
       >Resume</v-btn>
       <v-btn v-if="$vuetify.breakpoint.mdAndUp" @click="close">Close</v-btn>
@@ -85,12 +85,12 @@
           <v-icon>close</v-icon>
         </v-btn>
       </template>
-      <v-btn v-if="readonly && !fighting" color="primary" @click="fighting = true">Fight</v-btn>
-      <v-btn v-if="readonly && fighting" @click="fighting = false">End Fight</v-btn>
-      <v-btn @click="readonly= false" v-if="readonly && !fighting">Edit</v-btn>
-      <v-btn @click="save" v-if="!readonly && !fighting">Save</v-btn>
-      <v-btn @click="loadCharacter" v-if="!readonly && !fighting">Undu</v-btn>
-      <v-btn @click="killOrResumeCharacter(false)">Kill</v-btn>
+      <v-btn v-if="readonly && !fighting && edit" color="primary" @click="fighting = true">Fight</v-btn>
+      <v-btn v-if="readonly && fighting && edit" @click="fighting = false">End Fight</v-btn>
+      <v-btn @click="readonly= false" v-if="readonly && !fighting && edit">Edit</v-btn>
+      <v-btn @click="save" v-if="!readonly && !fighting && edit">Save</v-btn>
+      <v-btn @click="loadCharacter" v-if="!readonly && !fighting && edit">Undu</v-btn>
+      <v-btn @click="killOrResumeCharacter(false)" v-if="edit">Kill</v-btn>
       <v-btn @click="close">Close</v-btn>
     </v-speed-dial>
   </div>
@@ -112,7 +112,8 @@ export default {
     showToolbar: Boolean,
     showActions: Boolean,
     autoReload: Boolean,
-    characterService: Object
+    characterService: Object,
+    edit: Boolean
   },
   data() {
     return {
