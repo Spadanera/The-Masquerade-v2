@@ -9,3 +9,4 @@
 /.project
 /.vscode
 /db/*
+package-lock.json
