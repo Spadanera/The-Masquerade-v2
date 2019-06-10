@@ -10,6 +10,7 @@ import { clans } from './config/enum';
 import { generations } from './config/enum';
 import {disciplines } from './config/enum';
 import CKEditor from '@ckeditor/ckeditor5-vue';
+import VueSessionStorage from 'vue-sessionstorage'
 
 Vue.use(Vuetify, {
   iconfont: 'md',
@@ -20,9 +21,8 @@ Vue.use(Vuetify, {
     error: '#b71c1c'
   }
 });
-
 Vue.use(CKEditor);
-
+Vue.use(VueSessionStorage)
 Vue.use(VuetifyConfirm, {
   buttonTrueText: 'Accept',
   buttonFalseText: 'Discard',
