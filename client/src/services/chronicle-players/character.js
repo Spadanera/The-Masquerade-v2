@@ -14,7 +14,7 @@ const character = {
         );
     },
     load: async (component) => {
-        let response = await client.get(`/api/characters/${component.characterId}`);
+        let response = await client.get(`/api/characters/story-teller/${component.characterId}`);
         response.data.mainInformation = response.data.mainInformation || {};
         response.data.mortal = response.data.mortal || {};
         component.character = response.data;

@@ -51,9 +51,9 @@ router.get("/all/:id", async (req, res) => {
     }
 });
 
+// delete stories
 router.delete("/:id", async (req, res) => {
-    // let story = await Story.findOne({ _id: req.params.id, storyTeller: req.session.userId });
-    let story = await Story.findOne({ _id: req.params.id });
+    let story = await Story.findOne({ _id: req.params.id, storyTeller: req.session.userId });
     await story.remove();
     res.send("Deleted");
 });
