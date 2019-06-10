@@ -37,7 +37,7 @@ router.get("/characters", async (req, res) => {
 
 router.get("/:id/characters", async (req, res) => {
     try {
-        let chronicles = Chronicle.find({ storyTeller: req.session.userId }).select("_id");
+        let chronicles = await Chronicle.find({ storyTeller: req.session.userId }).select("_id");
         if (chronicles) {
             res.json(await Player.findOne({ _id: req.params.id, chronicleId: { "$in": chronicles } }).populate("characters"));
         }
