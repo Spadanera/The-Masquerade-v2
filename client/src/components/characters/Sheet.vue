@@ -1,11 +1,10 @@
 <template>
   <div
-    style="width: 100%; position: relative"
-    id="sheet-container"
+    style="width: 100%; position: relative; overflow: scroll"
     v-if="loaded"
-    class="max-height"
+    class="max-height sheet-container"
   >
-    <v-toolbar tabs style="text-xs-center" absolute v-bind:class="{ primary: fighting }">
+    <v-toolbar tabs style="text-xs-center" absolute v-bind:class="{ primary: fighting }" v-if="!live">
       <v-toolbar-side-icon>
         <v-avatar size="40px">
           <img :src="character.picture" :alt="character.name">
@@ -42,10 +41,11 @@
         </v-tabs>
       </template>
     </v-toolbar>
-    <v-tabs-items
+    <Characteristics v-if="live" :character="character" :readonly="readonly" :fighting="fighting || live"/>
+    <v-tabs-items v-else
       v-model="characterTabs"
-      id="scrolling-techniques"
-      v-bind:class="{ padding: internalShowToolbar }"
+      class="scrolling-techniques"
+      v-bind:class="{ padding: internalShowToolbar, paddinged: !live }"
     >
       <v-tab-item>
         <Characteristics :character="character" :readonly="readonly" :fighting="fighting"/>
@@ -77,7 +77,7 @@
       :open-on-hover="false"
       transition="slide-y-reverse-transition"
       style="position: absolute"
-      v-if="$vuetify.breakpoint.smAndDown"
+      v-if="$vuetify.breakpoint.smAndDown && !live"
     >
       <template v-slot:activator>
         <v-btn v-model="fab" color="primary" dark fab>
@@ -112,6 +112,7 @@ export default {
     showToolbar: Boolean,
     showActions: Boolean,
     autoReload: Boolean,
+    live: Boolean,
     characterService: Object,
     edit: Boolean
   },
@@ -163,7 +164,7 @@ export default {
   created() {
     this.loadCharacter();
     if (this.autoReload) {
-      setInterval(loadCharacter, 1000);
+      setInterval(this.loadCharacter, 3000);
     }
   },
   watch: {
@@ -179,7 +180,7 @@ export default {
     },
     character: {
       handler: function() {
-        if (this.fighting) {
+        if (this.fighting || (this.live && !this.autoReload)) {
           this.save();
         }
       },
@@ -204,16 +205,19 @@ export default {
 </script>
 
 <style>
-#sheet-container .v-toolbar__extension {
+.sheet-container .v-toolbar__extension {
   padding: 0 !important;
 }
-#sheet-container > .v-window {
+.sheet-container > .v-window {
   max-height: 100%;
   overflow: auto;
+}
+
+.sheet-container.paddinged > .v-window {
   padding-top: 60px;
 }
 
-#sheet-container > .v-window.padding {
+.sheet-container > .v-window.padding {
   padding-top: 112px !important;
 }
 </style>

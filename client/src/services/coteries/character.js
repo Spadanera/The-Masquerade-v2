@@ -32,7 +32,7 @@ const character = {
     },
     save: async (component) => {
         await client.put(`/api/characters/${component.character._id}`, component.character);
-        if (!component.fighting) {
+        if (!component.fighting && !component.live) {
             component.snackbar.text = "Save successfully";
             component.snackbar.enabled = true;
         }

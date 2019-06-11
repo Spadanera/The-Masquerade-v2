@@ -44,7 +44,14 @@ router.get("/:id", async (req, res) => {
 // get all by chronicle id
 router.get("/all/:id", async (req, res) => {
     try {
-        let chronicle = await Chronicle.findOne({ _id: req.params.id, storyTeller: req.session.userId }).populate("coteries");
+        let chronicle = await Chronicle.findOne({ _id: req.params.id, storyTeller: req.session.userId })
+            .populate({
+                path: "coteries",
+                populate: [{
+                    path: "characters",
+                    model: "Character"
+                }]
+            });
         res.json(chronicle.coteries.sort((a, b) => a.createdAt < b.createdAt));
     } catch (e) {
         console.error(e);

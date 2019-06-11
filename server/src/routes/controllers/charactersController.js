@@ -9,7 +9,7 @@ import Chronicle from '../../models/Chronicle';
 // Get single character owned by player from story-teller
 router.get("/story-teller/:id", async (req, res) => {
     try {
-        let chronicles = Chronicle.find({ storyTeller: req.session.userId }).select("_id");
+        let chronicles = await Chronicle.find({ storyTeller: req.session.userId }).select("_id");
         let player = await Player.find({ chronicleId: { "$in": chronicles }, characters: { "$in": [req.params.id] } });
         if (player) {
             res.json(await Character.findOne({ _id: req.params.id }));

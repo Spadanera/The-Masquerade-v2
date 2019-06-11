@@ -3,6 +3,7 @@
 const router = require('express').Router();
 import Player from "../../models/Player";
 import Chronicle from '../../models/Chronicle';
+import Character from "../../models/Character";
 
 // get all by chronicle id
 router.get("/all/:id", async (req, res) => {
@@ -16,6 +17,24 @@ router.get("/all/:id", async (req, res) => {
             res.status(500).json({ error: "User not authorized to get players of this chronicle" });
         }
     } catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
+});
+
+// get all player character by chronicle id
+router.get("/all-characters/:id", async (req, res) => {
+    try {
+        let chronicle = Chronicle.findOne({ storyTeller: req.session.userId, _id: req.params.id });
+        if (chronicle) {
+            let players = await Player.find({ chronicleId: req.params.id, active: true }).populate("characters");
+            let response = [];
+            players.forEach(player => {
+                response = response.concat(player.characters.filter(character => character.alive ));
+            });
+            res.json(response);
+        }
+    } catch (err) {
         console.error(e);
         res.status(500).json(e);
     }
