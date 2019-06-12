@@ -48,8 +48,13 @@ export default {
         try {
           this.invitation.chronicleId = this.chronicleId;
           this.loading = true;
-          await client.post("/api/invitations", this.invitation);
-          this.$emit("submitted");
+          let response = await client.post("/api/invitations", this.invitation);
+          if (response.status === 204) {
+            this.$emit("submitted", "Player already exists");
+          }
+          else {
+            this.$emit("submitted");
+          }
           this.closeModal();
         }
         catch (err) {

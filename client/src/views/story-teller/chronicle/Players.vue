@@ -113,8 +113,8 @@ export default {
         this.ownNavVisible = false;
       }
     },
-    playerInvited() {
-      this.snackbar.text = "Invitation sent";
+    playerInvited(msg) {
+      this.snackbar.text = msg || "Invitation sent";
       this.snackbar.enabled = true;
       this.getInvitations();
     },
