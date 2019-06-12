@@ -207,9 +207,9 @@
       </div>
       <v-layout justify-space-around wrap>
         <v-flex
-          md4
-          lg3
-          sm6
+          md6
+          lg4
+          sm12
           xs12
           pa-1
           v-for="discipline in character.disciplines"
