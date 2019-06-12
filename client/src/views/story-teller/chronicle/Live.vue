@@ -33,22 +33,21 @@
         selected-color="#b71c1c"
         indeterminate-icon="indeterminate_check_box"
         return-object
-      >
-      </v-treeview>
+      ></v-treeview>
     </v-navigation-drawer>
     <!-- Character visualization -->
-    <div v-if="selections.length === 0" class="pa-3">
+    <div v-if="selection.length === 0" class="pa-3">
       <span class="headline">No character selected</span>
     </div>
     <div class="fill-height custom-width" v-else>
-      <v-tabs v-model="selectedCharacter" slider-color="#b71c1c" class="fill-height">
-        <v-tab v-for="character in selections" :key="character._id" ripple>
+      <v-tabs v-model="selectedCharacter" slider-color="#b71c1c" class="fill-height" @change="test">
+        <v-tab v-for="(character, i) in selection" :key="i" ripple>
           <v-avatar v-if="character.picture" size="30">
             <img :src="character.picture" :alt="character.name" style="margin-right: 15px">
           </v-avatar>
           {{ character.name }}
         </v-tab>
-        <v-tab-item v-for="character in selections" :key="character._id" class="fill-height">
+        <v-tab-item v-for="(character, i) in selection" :key="i" class="fill-height">
           <div class="bring-up fill-height">
             <Sheet
               :characterId="character._id"
@@ -82,6 +81,7 @@ export default {
   },
   data() {
     return {
+      selection: [],
       selectedCharacter: null,
       groups: [
         {
@@ -105,18 +105,12 @@ export default {
           item[textKey].toLowerCase().indexOf(search.toLowerCase()) > -1;
       }
       return true;
+    },
+    test(event) {
+      console.log(event);
     }
   },
   computed: {
-    selections() {
-      if (this.characters) {
-        let selectedCharacters = this.characters.filter(
-          character => character.alive
-        );
-        return selectedCharacters;
-      }
-      return [];
-    },
     ownNavVisible: {
       get() {
         return this.navVisible || this.$vuetify.breakpoint.lgAndUp;
@@ -153,9 +147,27 @@ export default {
       if (this.enableWatcher) {
         this.$session.set("selectedCharacters", JSON.stringify(newValue));
       }
+      if (newValue) {
+        let selectedCharacters = newValue.filter(
+          character => character.alive
+        );
+        this.selection = selectedCharacters;
+      }
+      else {
+        this.selection = [];
+      }
     },
     navVisible: function(newValue, oldValue) {
       this.ownNavVisible = newValue;
+    },
+    selection: function(newValue, oldValue) {
+      if (newValue && oldValue) {
+        if (newValue.length > oldValue.length) {
+          this.selectedCharacter = newValue.length - 1;
+        } else {
+          this.selectedCharacter = 0;
+        }
+      }
     }
   }
 };
