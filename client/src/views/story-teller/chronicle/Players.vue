@@ -23,6 +23,16 @@
           </v-list-tile>
         </template>
       </v-list>
+      <v-list v-if="invitations.length > 0">
+        <v-subheader class="headline">Pending Invitations</v-subheader>
+        <template v-for="(invitation) in invitations">
+          <v-list-tile :key="invitation._id">
+            <v-list-tile-content>
+              <v-list-tile-title v-html="invitation.emailAddress"></v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+      </v-list>
       <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">Invite Player</v-btn>
     </v-navigation-drawer>
     <router-view></router-view>
@@ -63,6 +73,7 @@ export default {
   data() {
     return {
       players: [],
+      invitations: [],
       dialog: false,
       snackbar: {
         enabled: false,
@@ -88,7 +99,9 @@ export default {
     select(player, notToCloseNav) {
       if (!this.$route.params.characterid) {
         this.$router.push(
-          `/story-teller/chronicle/${this.$route.params.id}/players/${player._id}`
+          `/story-teller/chronicle/${this.$route.params.id}/players/${
+            player._id
+          }`
         );
       }
       if (!notToCloseNav) {
@@ -98,10 +111,16 @@ export default {
     playerInvited() {
       this.snackbar.text = "Invitation sent";
       this.snackbar.enabled = true;
+      this.getInvitations();
+    },
+    async getInvitations() {
+      let response = await client.get(`/api/invitations/all/${this.$route.params.id}`);
+      this.invitations = response.data;
     }
   },
   created() {
     this.getPlayers();
+    this.getInvitations();
   },
   watch: {
     navVisible: function(newValue, oldValue) {

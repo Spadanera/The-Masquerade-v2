@@ -6,13 +6,27 @@ import Chronicle from "../../models/Chronicle";
 import mailSender from "../../services/mailSender";
 import uuid from "uuid";
 
-router.get("/chronicle/:id", async (req, res) => {
-    let invitation = await Invitation.findOne({ token: req.params.id });
-    if (invitation) {
-        res.json(await Chronicle.findOne({ _id: invitation.chronicleId }).select('name shortDescription createdAt'));
+router.get("/all/:id", async (req, res) => {
+    try {
+        res.json(await Invitation.find({ chronicleId: req.params.id, storyTellerId: req.session.userId }));
+    } catch (err) {
+        console.error(e);
+        res.status(500).send(e);
     }
-    else {
-        res.status("400").send("Invitation not found");
+});
+
+router.get("/chronicle/:id", async (req, res) => {
+    try {
+        let invitation = await Invitation.findOne({ token: req.params.id });
+        if (invitation) {
+            res.json(await Chronicle.findOne({ _id: invitation.chronicleId }).select('name shortDescription createdAt'));
+        }
+        else {
+            res.status("400").send("Invitation not found");
+        }
+    } catch (err) {
+        console.error(e);
+        res.status(500).send(e);
     }
 });
 
