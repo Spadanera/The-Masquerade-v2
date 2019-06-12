@@ -30,6 +30,17 @@ router.get("/chronicle/:id", async (req, res) => {
     }
 });
 
+router.delete("/:id", async (req, res) => {
+    try {
+        await Invitation.findOneAndDelete({ _id: req.params.id, storyTellerId: req.session.userId });
+        res.status(204).send();
+    }
+    catch (err) {
+        console.error(e);
+        res.status(500).send(e);
+    }
+});
+
 router.post("/", async (req, res) => {
     try {
         req.body.storyTellerId = req.session.userId;

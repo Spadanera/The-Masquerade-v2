@@ -93,7 +93,8 @@ export default new Router({
                   component: () => import('./views/shared/chronicle/CharactersList.vue'),
                   props: (route) => ({
                     listService: require('./services/chronicle-players/characterList').default,
-                    characterService: require('./services/coteries/character').default
+                    characterService: require('./services/coteries/character').default,
+                    edit: false
                   })
                 },
                 {
@@ -115,7 +116,8 @@ export default new Router({
                   component: () => import('./views/shared/chronicle/CharactersList.vue'),
                   props: (route) => ({
                     listService: require('./services/coteries/characterList').default,
-                    characterService: require('./services/coteries/character').default
+                    characterService: require('./services/coteries/character').default,
+                    edit: true
                   })
                 },
                 {
@@ -190,7 +192,8 @@ export default new Router({
               component: () => import('./views/shared/chronicle/CharactersList.vue'),
               props: (route) => ({
                 listService: require('./services/players/characterList').default,
-                characterService: require('./services/players/character').default
+                characterService: require('./services/players/character').default,
+                edit: true
               })
             },
             {

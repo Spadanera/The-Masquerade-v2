@@ -40,7 +40,7 @@
       <span class="headline">No character selected</span>
     </div>
     <div class="fill-height custom-width" v-else>
-      <v-tabs v-model="selectedCharacter" slider-color="#b71c1c" class="fill-height" @change="test">
+      <v-tabs v-model="selectedCharacter" slider-color="#b71c1c" class="fill-height">
         <v-tab v-for="(character, i) in selection" :key="i" ripple>
           <v-avatar v-if="character.picture" size="30">
             <img :src="character.picture" :alt="character.name" style="margin-right: 15px">
@@ -105,9 +105,6 @@ export default {
           item[textKey].toLowerCase().indexOf(search.toLowerCase()) > -1;
       }
       return true;
-    },
-    test(event) {
-      console.log(event);
     }
   },
   computed: {

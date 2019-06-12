@@ -23,13 +23,18 @@
           </v-list-tile>
         </template>
       </v-list>
-      <v-list v-if="invitations.length > 0">
+      <v-list v-if="invitations.length > 0" avatar>
         <v-subheader class="headline">Pending Invitations</v-subheader>
         <template v-for="(invitation) in invitations">
           <v-list-tile :key="invitation._id">
             <v-list-tile-content>
               <v-list-tile-title v-html="invitation.emailAddress"></v-list-tile-title>
             </v-list-tile-content>
+            <v-list-tile-avatar>
+              <v-btn flat icon @click="deleteInvitation(invitation)">
+                <v-icon>delete</v-icon>
+              </v-btn>
+            </v-list-tile-avatar>
           </v-list-tile>
         </template>
       </v-list>
@@ -114,8 +119,24 @@ export default {
       this.getInvitations();
     },
     async getInvitations() {
-      let response = await client.get(`/api/invitations/all/${this.$route.params.id}`);
+      let response = await client.get(
+        `/api/invitations/all/${this.$route.params.id}`
+      );
       this.invitations = response.data;
+    },
+    async deleteInvitation(invitation) {
+      let res = await this.$confirm(
+        `Do you really want to delete invitation sent to ${invitation.emailAddress}?`,
+        {
+          title: "Warning"
+        }
+      );
+      if (res) {
+        await client.delete(`/api/invitations/${invitation._id}`);
+        this.getInvitations();
+        this.snackbar.text = "Invitation deleted";
+        this.snackbar.enabled = true;
+      }
     }
   },
   created() {

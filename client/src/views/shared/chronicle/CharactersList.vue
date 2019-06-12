@@ -14,8 +14,8 @@
           </v-card-title>
           <v-card-actions class="justify-center">
             <v-btn @click="openCharacter(character._id)">Open</v-btn>
-            <v-btn v-if="character.alive" @click="killOrResumeCharacter(character, false)">Kill</v-btn>
-            <v-btn v-if="!character.alive" @click="killOrResumeCharacter(character, true)">Resume</v-btn>
+            <v-btn v-if="character.alive && edit" @click="killOrResumeCharacter(character, false)">Kill</v-btn>
+            <v-btn v-if="!character.alive && edit" @click="killOrResumeCharacter(character, true)">Resume</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -44,7 +44,8 @@ export default {
   },
   props: {
     listService: Object,
-    characterService: Object
+    characterService: Object,
+    edit: Boolean
   },
   data() {
     return {
