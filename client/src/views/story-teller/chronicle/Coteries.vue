@@ -53,6 +53,7 @@ export default {
   },
   methods: {
     async getCoteries(coterieId) {
+      coterieId = coterieId || this.$route.params.listid;
       let response = await client.get(
         `/api/coteries/all/${this.$route.params.id}`
       );
@@ -67,11 +68,13 @@ export default {
       }
     },
     select(coterie, notToCloseNav) {
-      this.$router.push(
-        `/story-teller/chronicle/${this.$route.params.id}/coteries/${
-          coterie._id
-        }`
-      );
+      if (!this.$route.params.characterid) {
+        this.$router.push(
+          `/story-teller/chronicle/${this.$route.params.id}/coteries/${
+            coterie._id
+          }`
+        );
+      }
       if (!notToCloseNav) {
         this.ownNavVisible = false;
       }

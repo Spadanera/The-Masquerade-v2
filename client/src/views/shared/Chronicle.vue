@@ -5,7 +5,7 @@
       mini-variant
       disable-route-watcher
       :fixed="this.$vuetify.breakpoint.mdAndDown"
-      style="min-width: 80px"
+      style="min-width: 80px; z-index: 4 !important"
       stateless
     >
       <v-list class="pt-0" dense>
@@ -30,6 +30,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
+    <div class="layer" v-if="navVisible && this.$vuetify.breakpoint.mdAndDown" @click="navVisible = false"></div>
     <router-view style="height: 100%" @updated="loadChronicle" :navVisible="navVisible" @closenavbar="closeNavBar"></router-view>
   </v-layout>
 </template>
@@ -96,5 +97,15 @@ export default {
   height: 100%;
   width: 5px;
   right: 0;
+}
+
+.layer {
+  position: absolute;
+  height: calc(100% + 64px);
+  width: 100%;
+  top: -64px;
+  background-color: lightgray;
+  opacity: 0.5;
+  z-index: 3;
 }
 </style>

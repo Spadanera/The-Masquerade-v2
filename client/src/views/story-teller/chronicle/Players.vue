@@ -67,7 +67,7 @@ export default {
       snackbar: {
         enabled: false,
         text: ""
-      },
+      }
     };
   },
   methods: {
@@ -77,13 +77,20 @@ export default {
       );
       this.players = response.data;
       if (this.players.length) {
+        let find = this.players.find(p => p._id === this.$route.params.listid);
+        if (find) {
+          this.select(find, true);
+        } else {
           this.select(this.players[0], true);
+        }
       }
     },
     select(player, notToCloseNav) {
-      this.$router.push(
-        `/story-teller/chronicle/${this.$route.params.id}/players/${player._id}`
-      );
+      if (!this.$route.params.characterid) {
+        this.$router.push(
+          `/story-teller/chronicle/${this.$route.params.id}/players/${player._id}`
+        );
+      }
       if (!notToCloseNav) {
         this.ownNavVisible = false;
       }
