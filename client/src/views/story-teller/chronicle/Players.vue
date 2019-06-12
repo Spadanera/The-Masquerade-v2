@@ -1,7 +1,7 @@
 <template>
   <v-layout align-start justify-start fill-height>
     <v-navigation-drawer
-      v-model="navVisible"
+      v-model="ownNavVisible"
       class="left-modified"
       disable-route-watcher
       :fixed="this.$vuetify.breakpoint.mdAndDown"
@@ -77,13 +77,16 @@ export default {
       );
       this.players = response.data;
       if (this.players.length) {
-          this.select(this.players[0]);
+          this.select(this.players[0], true);
       }
     },
-    select(player) {
+    select(player, notToCloseNav) {
       this.$router.push(
         `/story-teller/chronicle/${this.$route.params.id}/players/${player._id}`
       );
+      if (!notToCloseNav) {
+        this.ownNavVisible = false;
+      }
     },
     playerInvited() {
       this.snackbar.text = "Invitation sent";
@@ -92,6 +95,23 @@ export default {
   },
   created() {
     this.getPlayers();
+  },
+  watch: {
+    navVisible: function(newValue, oldValue) {
+      this.ownNavVisible = newValue;
+    }
+  },
+  computed: {
+    ownNavVisible: {
+      get() {
+        return this.navVisible || this.$vuetify.breakpoint.lgAndUp;
+      },
+      set(val) {
+        if (!val) {
+          this.$emit("closenavbar");
+        }
+      }
+    }
   }
 };
 </script>

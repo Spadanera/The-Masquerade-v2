@@ -6,8 +6,8 @@ import Player from './Player';
 const Statuses = Object.freeze({
   Draft: 'draft',
   Live: 'live',
-  archived: 'archived',
-  deleted: 'deleted'
+  Archived: 'archived',
+  Deleted: 'deleted'
 })
 
 const ChronicleSchema = new mongoose.Schema({

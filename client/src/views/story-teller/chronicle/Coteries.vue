@@ -1,17 +1,14 @@
 <template>
   <v-layout align-start justify-start fill-height>
     <v-navigation-drawer
-      v-model="navVisible"
+      v-model="ownNavVisible"
       class="left-modified"
       disable-route-watcher
       :fixed="this.$vuetify.breakpoint.mdAndDown"
       :stateless="true"
       style="z-index: 6"
     >
-      <v-list
-        subheader
-        three-line
-      >
+      <v-list subheader three-line>
         <v-subheader class="headline">Coterie</v-subheader>
         <template v-for="(coterie) in coteries">
           <v-list-tile :key="coterie._id" @click="select(coterie)">
@@ -51,8 +48,7 @@ export default {
   data() {
     return {
       coteries: [],
-      dialog: false,
-      ownNavVisible: true
+      dialog: false
     };
   },
   methods: {
@@ -64,17 +60,21 @@ export default {
       if (this.coteries.length && this.$route.name !== "character") {
         let find = this.coteries.find(c => c._id === coterieId);
         if (find) {
-          this.select(find);
-        }
-        else {
-          this.select(this.coteries[0]);
+          this.select(find, true);
+        } else {
+          this.select(this.coteries[0], true);
         }
       }
     },
-    select(coterie) {
+    select(coterie, notToCloseNav) {
       this.$router.push(
-        `/story-teller/chronicle/${this.$route.params.id}/coteries/${coterie._id}`
+        `/story-teller/chronicle/${this.$route.params.id}/coteries/${
+          coterie._id
+        }`
       );
+      if (!notToCloseNav) {
+        this.ownNavVisible = false;
+      }
     },
     async coterieAdded(coterieId) {
       await this.getCoteries(coterieId);
@@ -82,10 +82,26 @@ export default {
   },
   created() {
     this.getCoteries();
+  },
+  watch: {
+    navVisible: function(newValue, oldValue) {
+      this.ownNavVisible = newValue;
+    }
+  },
+  computed: {
+    ownNavVisible: {
+      get() {
+        return this.navVisible || this.$vuetify.breakpoint.lgAndUp;
+      },
+      set(val) {
+        if (!val) {
+          this.$emit("closenavbar");
+        }
+      }
+    }
   }
 };
 </script>
 
 <style>
-
 </style>

@@ -1,7 +1,7 @@
 <template>
   <v-layout align-start justify-start fill-height>
     <v-navigation-drawer
-      v-model="navVisible"
+      v-model="ownNavVisible"
       class="left-modified"
       disable-route-watcher
       :fixed="this.$vuetify.breakpoint.mdAndDown"
@@ -61,17 +61,20 @@ export default {
       if (this.stories.length) {
         let find = this.stories.find(s => s._id === storyId);
         if (find) {
-          this.select(find);
+          this.select(find, true);
         }
         else {
-          this.select(this.stories[0]);
+          this.select(this.stories[0], true);
         }
       }
     },
-    select(story) {
+    select(story, notToCloseNav) {
       this.$router.push(
         `/story-teller/chronicle/${this.$route.params.id}/stories/${story._id}`
       );
+      if (!notToCloseNav) {
+        this.ownNavVisible = false;
+      }
     },
     async storyAdded(storyId) {
       await this.getStories(storyId);
@@ -79,6 +82,23 @@ export default {
   },
   created() {
     this.getStories();
+  },
+  watch: {
+    navVisible: function(newValue, oldValue) {
+      this.ownNavVisible = newValue;
+    }
+  },
+  computed: {
+    ownNavVisible: {
+      get() {
+        return this.navVisible || this.$vuetify.breakpoint.lgAndUp;
+      },
+      set(val) {
+        if (!val) {
+          this.$emit("closenavbar");
+        }
+      }
+    }
   }
 };
 </script>

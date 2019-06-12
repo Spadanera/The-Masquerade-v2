@@ -6,6 +6,7 @@
       disable-route-watcher
       :fixed="this.$vuetify.breakpoint.mdAndDown"
       style="min-width: 80px"
+      stateless
     >
       <v-list class="pt-0" dense>
         <v-list-tile
@@ -29,7 +30,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <router-view style="height: 100%" @updated="loadChronicle" :navVisible="navVisible"></router-view>
+    <router-view style="height: 100%" @updated="loadChronicle" :navVisible="navVisible" @closenavbar="closeNavBar"></router-view>
   </v-layout>
 </template>
 
@@ -58,6 +59,9 @@ export default {
     },
     selected(route) {
       return this.$route.path.indexOf(route) > -1;
+    },
+    closeNavBar() {
+      this.navVisible = false;
     }
   },
   created() {

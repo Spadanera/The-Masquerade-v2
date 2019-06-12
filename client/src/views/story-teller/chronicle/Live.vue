@@ -1,7 +1,7 @@
 <template>
   <v-layout align-start justify-start fill-height>
     <v-navigation-drawer
-      v-model="navVisible"
+      v-model="ownNavVisible"
       class="left-modified"
       disable-route-watcher
       :fixed="this.$vuetify.breakpoint.mdAndDown"
@@ -34,11 +34,6 @@
         indeterminate-icon="indeterminate_check_box"
         return-object
       >
-        <template v-slot:append="{ item }">
-          <v-avatar v-if="item.picture" size="30">
-            <img :src="item.picture" :alt="item.name" style="margin-right: 35px">
-          </v-avatar>
-        </template>
       </v-treeview>
     </v-navigation-drawer>
     <!-- Character visualization -->
@@ -121,6 +116,16 @@ export default {
         return selectedCharacters;
       }
       return [];
+    },
+    ownNavVisible: {
+      get() {
+        return this.navVisible || this.$vuetify.breakpoint.lgAndUp;
+      },
+      set(val) {
+        if (!val) {
+          this.$emit("closenavbar");
+        }
+      }
     }
   },
   async created() {
@@ -148,6 +153,9 @@ export default {
       if (this.enableWatcher) {
         this.$session.set("selectedCharacters", JSON.stringify(newValue));
       }
+    },
+    navVisible: function(newValue, oldValue) {
+      this.ownNavVisible = newValue;
     }
   }
 };
