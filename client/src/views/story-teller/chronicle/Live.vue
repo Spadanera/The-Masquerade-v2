@@ -6,7 +6,7 @@
       disable-route-watcher
       :fixed="this.$vuetify.breakpoint.mdAndDown"
       :stateless="true"
-      style="z-index: 6"
+      style="z-index: 6; min-width: 300px"
     >
       <v-text-field
         v-model="search"

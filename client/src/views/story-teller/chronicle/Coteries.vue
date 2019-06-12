@@ -6,12 +6,12 @@
       disable-route-watcher
       :fixed="this.$vuetify.breakpoint.mdAndDown"
       :stateless="true"
-      style="z-index: 6"
+      style="z-index: 6; min-width: 300px"
     >
       <v-list subheader three-line>
         <v-subheader class="headline">Coterie</v-subheader>
         <template v-for="(coterie) in coteries">
-          <v-list-tile :key="coterie._id" @click="select(coterie)">
+          <v-list-tile :key="coterie._id" @click="select(coterie, false, true)">
             <v-list-tile-content>
               <v-list-tile-title v-html="coterie.name"></v-list-tile-title>
               <v-list-tile-sub-title v-html="coterie.description"></v-list-tile-sub-title>
@@ -67,8 +67,8 @@ export default {
         }
       }
     },
-    select(coterie, notToCloseNav) {
-      if (!this.$route.params.characterid) {
+    select(coterie, notToCloseNav, forceNavigation) {
+      if (!this.$route.params.characterid || forceNavigation) {
         this.$router.push(
           `/story-teller/chronicle/${this.$route.params.id}/coteries/${
             coterie._id
