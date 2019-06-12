@@ -69,17 +69,17 @@ export default {
   methods: {
     closeModal() {
       this.$emit("close", false);
+      this.character = {
+        mainInformation: {},
+        mortal: {}
+      };
     },
     async submit() {
       if (this.$refs.form.validate()) {
         this.character.picture = this.imageUrl;
         await this.characterService.create(this.coterieId, this.character);
         this.$emit("submitted");
-        this.$emit("close", false);
-        this.character = {
-          mainInformation: {},
-          mortal: {}
-        };
+        this.closeModal();
       }
     },
     pickFile() {

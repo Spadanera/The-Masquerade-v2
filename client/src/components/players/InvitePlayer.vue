@@ -12,9 +12,10 @@
         </v-container>
       </v-card-text>
       <v-card-actions>
+        <v-progress-circular v-if="loading" indeterminate color="red"></v-progress-circular>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" flat @click="closeModal">Dismiss</v-btn>
-        <v-btn color="blue darken-1" flat @click="submit">Send</v-btn>
+        <v-btn color="blue darken-1" :disabled="loading" flat @click="closeModal">Dismiss</v-btn>
+        <v-btn color="blue darken-1" :disabled="loading" flat @click="submit">Send</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -31,21 +32,32 @@ export default {
   data() {
     return {
       invitation: {
-        chronicleId: ''
+        chronicleId: ""
       },
-      valid: true
+      valid: true,
+      loading: false
     };
   },
   methods: {
     closeModal() {
+      this.invitation.emailAddress = "";
       this.$emit("close", false);
     },
     async submit() {
       if (this.$refs.form.validate()) {
-        this.invitation.chronicleId = this.chronicleId;
-        await client.post("/api/invitations", this.invitation);
-        this.$emit("submitted");
-        this.$emit("close", false);
+        try {
+          this.invitation.chronicleId = this.chronicleId;
+          this.loading = true;
+          await client.post("/api/invitations", this.invitation);
+          this.$emit("submitted");
+          this.closeModal();
+        }
+        catch (err) {
+          alert("Error executing invitation");
+        }
+        finally {
+          this.loading = false;
+        }
       }
     }
   }
