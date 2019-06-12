@@ -4,19 +4,20 @@
     v-if="loaded"
     class="max-height sheet-container"
   >
-    <v-toolbar tabs style="text-xs-center" absolute v-bind:class="{ primary: fighting }" v-if="!live">
+    <v-toolbar
+      tabs
+      style="text-xs-center"
+      absolute
+      v-bind:class="{ primary: fighting }"
+      v-if="!live"
+    >
       <v-toolbar-side-icon>
         <v-avatar size="40px">
           <img :src="character.picture" :alt="character.name">
         </v-avatar>
       </v-toolbar-side-icon>
       <v-toolbar-title>
-        <v-text-field
-          v-if="!readonly"
-          :readonly="readonly"
-          v-model="character.name"
-          label=""
-        ></v-text-field>
+        <v-text-field v-if="!readonly" :readonly="readonly" v-model="character.name" label></v-text-field>
         <span v-else>{{ character.name }}</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -41,8 +42,14 @@
         </v-tabs>
       </template>
     </v-toolbar>
-    <Characteristics v-if="live" :character="character" :readonly="readonly" :fighting="fighting || live"/>
-    <v-tabs-items v-else
+    <Characteristics
+      v-if="live"
+      :character="character"
+      :readonly="readonly"
+      :fighting="fighting || live"
+    />
+    <v-tabs-items
+      v-else
       v-model="characterTabs"
       class="scrolling-techniques"
       v-bind:class="{ padding: internalShowToolbar, paddinged: !live }"
@@ -122,6 +129,7 @@ export default {
       fighting: false,
       loaded: false,
       dialog: false,
+      intervals: [],
       character: {
         mortal: {},
         mainInformation: {},
@@ -164,7 +172,12 @@ export default {
   created() {
     this.loadCharacter();
     if (this.autoReload) {
-      setInterval(this.loadCharacter, 3000);
+      this.intervals.push(setInterval(this.loadCharacter, 3000));
+    }
+  },
+  beforeDestroy() {
+    if (this.autoReload) {
+      this.intervals.forEach(interval => window.clearInterval(interval));
     }
   },
   watch: {
