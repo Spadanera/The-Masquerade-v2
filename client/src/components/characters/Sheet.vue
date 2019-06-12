@@ -1,6 +1,6 @@
 <template>
   <div
-    style="width: 100%; position: relative; overflow: hidden"
+    style="width: 100%; position: relative; overflow: auto"
     v-if="loaded"
     class="max-height sheet-container"
   >
