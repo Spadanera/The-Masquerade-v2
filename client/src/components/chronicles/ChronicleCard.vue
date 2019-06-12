@@ -1,5 +1,5 @@
 <template>
-  <v-card style="display: flex; flex-direction: column; height: 100%" class="_blood">
+  <v-card style="display: flex; flex-direction: column; height: 100%">
     <v-card-title primary-title>
       <div>
         <div class="headline">{{ chronicle.name }}</div>
@@ -52,11 +52,5 @@ export default {
 </script>
 
 <style>
-.blood {
-  background-image: url(../../assets/blood5.png);
-  background-repeat: repeat-y;
-  background-attachment: fixed;
-  /*background-size: cover; */
-  background-size: contain;
-}
+
 </style>

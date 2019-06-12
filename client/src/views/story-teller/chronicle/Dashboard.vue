@@ -2,11 +2,6 @@
   <v-layout fluid fill-height row wrap>
     <v-flex id="story" xs12 sm12 md12 lg6 pa-3>
       <v-card>
-        <v-img
-          class="white--text"
-          height="250px"
-          src="http://www.facemagazine.it/wp-content/uploads/2015/10/Dark-Cities-Milan-00009-DSC06581.jpg"
-        >
           <v-container fill-height fluid>
             <v-layout fill-height>
               <v-flex xs12 align-end flexbox>
@@ -15,7 +10,6 @@
               </v-flex>
             </v-layout>
           </v-container>
-        </v-img>
         <v-card-text>
           <v-tabs centered grow slider-color="primary" v-model="selectedTab">
             <v-tab>Public Story</v-tab>
