@@ -1,0 +1,176 @@
+type Query {
+    users: [User]
+}
+
+type User {
+    id: ID!,
+    googleId:String,
+    email:String!,
+    token:String,
+    displayName:String,
+    givenName:String,
+    familName:String,
+    picture:String
+}
+
+type Player {
+    id: ID!,
+    userId:String,
+    userDisplayName:String,
+    userPicture:String,
+    chronicleId:String,
+    createdAt:String,
+    active:Boolean,
+    characters:[Character!]
+}
+
+type Character {
+    id: ID!,
+    name:String,
+    userId:String,
+    alive:Boolean,
+    picture:String,
+    startingExperience:Int,
+    totalExperience:Int,
+    spentExperience:Int,
+    mortal:Mortal,
+    mainInformation:MainInformation,
+    health:Health,
+    willPower:WillPower,
+    attributes:Attributes,
+    skills:Skills,
+    disciplines:[Discipline],
+    backgrounds:[Background],
+    resonance:String,
+    hunger:Int,
+    humanity:Int,
+    bloodPotency:Int,
+    advantages:[Capacity],
+    flaws:[Capacity]
+}
+
+type Background {
+    name:String,
+    points:Int
+}
+
+type Discipline {
+    name:String,
+    points:String,
+    powers:[Power]
+}
+
+type Power {
+    level:Int,
+    power:String
+}
+
+type Skills {
+    talents:[Capacity],
+    skills:[Capacity],
+    knowledges:[Capacity],
+}
+
+type Attributes {
+    physical:[Capacity],
+    social:[Capacity],
+    mental:[Capacity]
+}
+
+type Capacity {
+    name:String,
+    points:Int,
+    fightingPoint:Int,
+    speciality:String
+}
+
+type WillPower {
+    pool:Int,
+    spent:Int
+}
+
+type Health {
+    pool:Int,
+    superficialDamage:Int,
+    aggravatedDamage:Int
+}
+
+type MainInformation {
+    sire:String,
+    concept:String,
+    ambition:String,
+    desire:String,
+    predator:String,
+    clan:String,
+    generation:String
+}
+
+type Mortal {
+    trueAge:Int,
+    apparentAge:Int,
+    dateOfBirth:String,
+    dateOfDeath:String,
+    apparence:String,
+    distinguishingFeatures:String,
+    story:String
+}
+
+type Chronicle {
+    id:ID!;
+    name:String,
+    shortDescription:String,
+    story:String,
+    privateStory:String,
+    publicStory:String,
+    storyTeller:String,
+    createdAt:String,
+    updateAt:String,
+    status:String,
+    stories:[Story],
+    coteries:[Coterie],
+    players:[Player],
+    backgroundImage:String
+}
+
+type Coterie {
+    id:ID!;
+    name:String,
+    description:String,
+    active:Boolean,
+    characters:[Character]
+}
+
+type Story {
+    id:ID!,
+    name:String,
+    shortDescription:String,
+    privateStory:String,
+    publicStory:String,
+    storyTeller:String,
+    onGoing:Boolean,
+    createdAt:String,
+    updateAt:String,
+    sessions:[Session]
+}
+
+type Session {
+    id:ID!,
+    sessionDate:String,
+    globalNote:String,
+    characters:[SessionCharacter]
+}
+
+type SessionCharacter {
+    characterId:String,
+    experiencePoints:Int,
+    storyTellerNote:String,
+    playerNote:String
+}
+
+type Invitation {
+    id:ID!;
+    storyTellerId:String,
+    chronicleId:String,
+    emailAddress:String,
+    token:String
+}
