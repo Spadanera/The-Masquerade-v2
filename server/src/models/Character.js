@@ -16,6 +16,11 @@ const Discipline = {
     }]
 }
 
+const Background = {
+    name: String,
+    points: { type: Number, default: 0 }
+}
+
 let CharacterSchema = new mongoose.Schema({
     name: String,
     userId: mongoose.Schema.Types.ObjectId,
@@ -62,6 +67,7 @@ let CharacterSchema = new mongoose.Schema({
         knowledges: [Capacity]
     },
     disciplines: [Discipline],
+    backgrounds: [Background],
     resonance: String,
     hunger: { type: Number, default: 0 },
     humanity: { type: Number, default: 10 },

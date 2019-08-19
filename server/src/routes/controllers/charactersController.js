@@ -126,7 +126,8 @@ function createCharacter(req) {
         },
         disciplines: [],
         advantages: [],
-        flaws: []
+        flaws: [],
+        backgrounds: []
     });
 }
 

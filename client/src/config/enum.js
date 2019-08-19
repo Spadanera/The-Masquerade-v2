@@ -299,3 +299,17 @@ export const disciplines = [
     //     ]
     // }
 ];
+export const backgrounds = [
+    "Allies",
+    "Contacts",
+    "Fame",
+    "Haven",
+    "Herd",
+    "Influence",
+    "Loresheet",
+    "Mask",
+    "Mawla",
+    "Resources",
+    "Retainers",
+    "Status"
+]
