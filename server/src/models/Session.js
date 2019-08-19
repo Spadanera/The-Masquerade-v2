@@ -6,7 +6,7 @@ import Chronicle from './Chronicle';
 let SessionSchema = new mongoose.Schema({
     sessionDate: { type: Date, default: Date.now },
     globalNote: String,
-    charachters: [
+    characters: [
         {
             characterId: mongoose.Schema.Types.ObjectId,
             experiencePoints: { type: Number, default: 0 },
@@ -37,7 +37,7 @@ SessionSchema.post("save", async session => {
 });
 
 async function SetExperiencePointsForCharacters(session) {
-    // let characters = session.charachters.map(c => {
+    // let characters = session.characters.map(c => {
     //     return {
     //         characterId: c._id,
     //         experiencePointsTotal: 0
@@ -48,7 +48,7 @@ async function SetExperiencePointsForCharacters(session) {
     // chronicle.stories.forEach(async s => {
     //     let sessions = await Story.findById(s._id).populate("sessions");
     //     sessions.forEach(s => {
-    //         s.charachters.forEach(c => {
+    //         s.characters.forEach(c => {
     //             let characterToUpdate = characters.find(character => character.characterId === s._id);
     //             if (characterToUpdate) {
     //                 characterToUpdate.experiencePointsTotal += c.experiencePoints;
