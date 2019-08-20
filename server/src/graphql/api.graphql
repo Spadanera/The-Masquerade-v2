@@ -1,7 +1,7 @@
 type Query {
     users: [User!],
     user(_id:String!): User,
-    chronicles(userId:String): [Chronicle!],
+    chronicles(filter:String): [Chronicle!],
     chronicle(_id:String!): Chronicle,
     players(chronicleId:String):[Player!],
     player(_id:String!):Player,
@@ -15,6 +15,11 @@ type Query {
     session(_id:String!):Session,
     invitations:[Invitation!],
     invitation(_id:String!):Invitation
+}
+
+type Mutation {
+    upsertChronicle(input: ChronicleInput):Chronicle,
+    deleteChronicle(_id:String!):String
 }
 
 type User {
@@ -48,48 +53,61 @@ type Character {
     startingExperience:Int,
     totalExperience:Int,
     spentExperience:Int,
-    mortal:Mortal,
-    mainInformation:MainInformation,
-    health:Health,
-    willPower:WillPower,
-    attributes:Attributes,
-    skills:Skills,
-    disciplines:[Discipline],
-    backgrounds:[Background],
+    mortal:{
+        trueAge:Int,
+        apparentAge:Int,
+        dateOfBirth:String,
+        dateOfDeath:String,
+        apparence:String,
+        distinguishingFeatures:String,
+        story:String
+    },
+    mainInformation:{
+        sire:String,
+        concept:String,
+        ambition:String,
+        desire:String,
+        predator:String,
+        clan:String,
+        generation:String
+    },
+    health:{
+        pool:Int,
+        superficialDamage:Int,
+        aggravatedDamage:Int
+    },
+    willPower:{
+        pool:Int,
+        spent:Int
+    },
+    attributes:{
+        physical:[Capacity],
+        social:[Capacity],
+        mental:[Capacity]
+    },
+    skills:{
+        talents:[Capacity],
+        skills:[Capacity],
+        knowledges:[Capacity],
+    },
+    disciplines:[{
+        name:String,
+        points:String,
+        powers:[{
+            level:Int,
+            power:String
+        }]
+    }],
+    backgrounds:[{
+        name:String,
+        points:Int
+    }],
     resonance:String,
     hunger:Int,
     humanity:Int,
     bloodPotency:Int,
     advantages:[Capacity],
     flaws:[Capacity]
-}
-
-type Background {
-    name:String,
-    points:Int
-}
-
-type Discipline {
-    name:String,
-    points:String,
-    powers:[Power]
-}
-
-type Power {
-    level:Int,
-    power:String
-}
-
-type Skills {
-    talents:[Capacity],
-    skills:[Capacity],
-    knowledges:[Capacity],
-}
-
-type Attributes {
-    physical:[Capacity],
-    social:[Capacity],
-    mental:[Capacity]
 }
 
 type Capacity {
@@ -99,42 +117,10 @@ type Capacity {
     speciality:String
 }
 
-type WillPower {
-    pool:Int,
-    spent:Int
-}
-
-type Health {
-    pool:Int,
-    superficialDamage:Int,
-    aggravatedDamage:Int
-}
-
-type MainInformation {
-    sire:String,
-    concept:String,
-    ambition:String,
-    desire:String,
-    predator:String,
-    clan:String,
-    generation:String
-}
-
-type Mortal {
-    trueAge:Int,
-    apparentAge:Int,
-    dateOfBirth:String,
-    dateOfDeath:String,
-    apparence:String,
-    distinguishingFeatures:String,
-    story:String
-}
-
 type Chronicle {
-    _id:ID!,
+    _id:ID,
     name:String,
     shortDescription:String,
-    story:String,
     privateStory:String,
     publicStory:String,
     storyTeller:String,
@@ -144,6 +130,16 @@ type Chronicle {
     stories:[Story],
     coteries:[Coterie],
     players:[Player],
+    backgroundImage:String
+}
+
+input ChronicleInput {
+    _id:ID,
+    name:String,
+    shortDescription:String,
+    privateStory:String,
+    publicStory:String,
+    status:String,
     backgroundImage:String
 }
 

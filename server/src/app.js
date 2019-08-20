@@ -8,8 +8,8 @@ mongoose.set('useFindAndModify', false);
 mongoose.Promise = require('bluebird');
 // var dataBase = process.env.DATABASE_URL || 'http://172.17.0.2:27017/'
 var connectionString = process.env.CONNECTION_STRING || 'http://172.17.0.2:27017/';
-mongoose.connect(connectionString, { promiseLibrary: require('bluebird'), useNewUrlParser: true })
-// mongoose.connect('mongodb+srv://admin:admin@themasquerade-dfbrl.mongodb.net/test?retryWrites=true', { promiseLibrary: require('bluebird'), useNewUrlParser: true })
+// mongoose.connect(connectionString, { promiseLibrary: require('bluebird'), useNewUrlParser: true })
+mongoose.connect('mongodb+srv://admin:admin@themasquerade-dfbrl.mongodb.net/test?retryWrites=true', { promiseLibrary: require('bluebird'), useNewUrlParser: true })
   .then(() => console.log('connection succesful'))
   .catch((err) => console.error(err));
 

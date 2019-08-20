@@ -14,7 +14,7 @@ import { resolvers as coterieResolvers } from './resolvers/coterie-resolvers';
 const schema = makeExecutableSchema({
     typeDefs: fs.readFileSync(path.join(__dirname, "api.graphql"), 'utf-8'),
     resolvers: merge(queryResolvers, userResolvers, playerResolvers, characterResolvers, storyResolvers, sessionResolvers, coterieResolvers)
-}); 
+});
 
 export default ExpressGraphQL({
     schema: schema,
