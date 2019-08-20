@@ -1,46 +1,20 @@
+import fs from "fs";
+import path from "path";
+import { merge } from 'lodash';
 import ExpressGraphQL from "express-graphql";
-import {
-    GraphQLID,
-    GraphQLString,
-    GraphQLList,
-    GraphQLNonNull,
-    GraphQLObjectType,
-    GraphQLSchema
-} from "graphql";
+import { makeExecutableSchema } from 'graphql-tools';
+import { resolvers as queryResolvers } from './resolvers/chronicle-resolvers';
+import { resolvers as userResolvers } from './resolvers/user-resolvers';
+import { resolvers as playerResolvers } from './resolvers/player-resolvers';
+import { resolvers as characterResolvers } from './resolvers/character-resolvers';
+import { resolvers as storyResolvers } from './resolvers/story-resolvers';
+import { resolvers as sessionResolvers } from './resolvers/session-resolvers';
+import { resolvers as coterieResolvers } from './resolvers/coterie-resolvers';
 
-import UserModel from "../models/User";
-
-const UserType = new GraphQLObjectType({
-    name: "User",
-    fields: {
-        id: { type: GraphQLID },
-        email: { type: GraphQLString },
-        displayName: { type: GraphQLString }
-    }
-});
-
-const schema = new GraphQLSchema({
-    query: new GraphQLObjectType({
-        name: "Query",
-        fields: {
-            people: {
-                type: GraphQLList(UserType),
-                resolve: (root, args, context, info) => {
-                    return UserModel.find().exec();
-                }
-            },
-            person: {
-                type: UserType,
-                args: {
-                    id: { type: GraphQLNonNull(GraphQLID) }
-                },
-                resolve: (root, args, context, info) => {
-                    return UserModel.findById(args.id).exec();
-                }
-            }
-        }
-    })
-});
+const schema = makeExecutableSchema({
+    typeDefs: fs.readFileSync(path.join(__dirname, "api.graphql"), 'utf-8'),
+    resolvers: merge(queryResolvers, userResolvers, playerResolvers, characterResolvers, storyResolvers, sessionResolvers, coterieResolvers)
+}); 
 
 export default ExpressGraphQL({
     schema: schema,

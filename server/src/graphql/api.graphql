@@ -1,9 +1,24 @@
 type Query {
-    users: [User]
+    users: [User!],
+    user(_id:String!): User,
+    chronicles(userId:String): [Chronicle!],
+    chronicle(_id:String!): Chronicle,
+    players(chronicleId:String):[Player!],
+    player(_id:String!):Player,
+    characters(userId:String):[Character!],
+    character(_id:String!):Character,
+    coteries(chronicleId:String):[Coterie!],
+    coterie(_id:String!):Coterie,
+    stories(chronicleId:String):[Story!],
+    story(_id:String!):Story,
+    sessions(storyId:String):[Session!]
+    session(_id:String!):Session,
+    invitations:[Invitation!],
+    invitation(_id:String!):Invitation
 }
 
 type User {
-    id: ID!,
+    _id: ID!,
     googleId:String,
     email:String!,
     token:String,
@@ -14,7 +29,7 @@ type User {
 }
 
 type Player {
-    id: ID!,
+    _id: ID!,
     userId:String,
     userDisplayName:String,
     userPicture:String,
@@ -25,7 +40,7 @@ type Player {
 }
 
 type Character {
-    id: ID!,
+    _id: ID!,
     name:String,
     userId:String,
     alive:Boolean,
@@ -116,7 +131,7 @@ type Mortal {
 }
 
 type Chronicle {
-    id:ID!;
+    _id:ID!,
     name:String,
     shortDescription:String,
     story:String,
@@ -133,7 +148,7 @@ type Chronicle {
 }
 
 type Coterie {
-    id:ID!;
+    _id:ID!,
     name:String,
     description:String,
     active:Boolean,
@@ -141,7 +156,7 @@ type Coterie {
 }
 
 type Story {
-    id:ID!,
+    _id:ID!,
     name:String,
     shortDescription:String,
     privateStory:String,
@@ -154,7 +169,7 @@ type Story {
 }
 
 type Session {
-    id:ID!,
+    _id:ID!,
     sessionDate:String,
     globalNote:String,
     characters:[SessionCharacter]
@@ -168,7 +183,7 @@ type SessionCharacter {
 }
 
 type Invitation {
-    id:ID!;
+    _id:ID!,
     storyTellerId:String,
     chronicleId:String,
     emailAddress:String,
