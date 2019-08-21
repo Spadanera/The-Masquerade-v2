@@ -1,5 +1,5 @@
-import client from '../client';
-import IChronicle from '../interfaces/IChronicle';
+import client from '../../client';
+import IChronicle from '../../interfaces/IChronicle';
 import implement from 'implement-js'
 
 const chronicle = {
@@ -7,6 +7,9 @@ const chronicle = {
         return await client.get(
             `/api/chronicles/${component.$route.params.id}`
         );
+    },
+    loadList: async (component) => {
+        return await client.get("/api/chronicles");
     },
     goTo: (route, component) => {
         component.$router.push(`/story-teller/chronicle/${component.$route.params.id}/${route}`);

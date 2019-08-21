@@ -18,5 +18,14 @@ const schema = makeExecutableSchema({
 
 export default ExpressGraphQL({
     schema: schema,
-    graphiql: true
+    graphiql: true,
+    customFormatErrorFn: (error) => {
+        return {
+            message: error.message,
+            locations: error.locations,
+            stack: error.stack ? error.stack.split('\n') : [],
+            path: error.path,
+            statusCode: 401
+        };
+    }
 });

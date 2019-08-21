@@ -46,7 +46,7 @@
 import NoChronicles from "../../components/chronicles/NoChronicles.vue";
 import ChronicleCard from "../../components/chronicles/ChronicleCard.vue";
 import AddChronicle from "../../components/chronicles/AddChronicle.vue";
-import client from "../../services/client";
+import chronicleService from "../../services/rest/chronicles/story-teller";
 export default {
   components: {
     NoChronicles,
@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     async loadList() {
-      let response = await client.get("/api/chronicles");
+      let response = await chronicleService.loadList();
       this.chronicles = response.data;
     },
     submitted(text) {

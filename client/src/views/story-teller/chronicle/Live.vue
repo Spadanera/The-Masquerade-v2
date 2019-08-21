@@ -68,9 +68,9 @@
 
 <script>
 import client from "../../../services/client";
-import coterieServices from "../../../services/coteries/characterList";
-import characterCoterieService from "../../../services/coteries/character";
-import characterPlayerService from "../../../services/chronicle-players/character";
+import coterieServices from "../../../services/rest/coteries/characterList";
+import characterCoterieService from "../../../services/rest/coteries/character";
+import characterPlayerService from "../../../services/rest/chronicle-players/character";
 import Sheet from "../../../components/characters/Sheet";
 export default {
   components: {

@@ -1,5 +1,5 @@
-import client from '../client';
-import ICharacterList from '../interfaces/ICharacterList';
+import client from '../../client';
+import ICharacterList from '../../interfaces/ICharacterList';
 import implement from 'implement-js'
 
 const characterList = {

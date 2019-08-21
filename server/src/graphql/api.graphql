@@ -18,7 +18,7 @@ type Query {
 }
 
 type Mutation {
-    upsertChronicle(input: ChronicleInput):Chronicle,
+    upsertChronicle(input:ChronicleInput):Chronicle,
     deleteChronicle(_id:String!):String
 }
 
@@ -53,61 +53,79 @@ type Character {
     startingExperience:Int,
     totalExperience:Int,
     spentExperience:Int,
-    mortal:{
-        trueAge:Int,
-        apparentAge:Int,
-        dateOfBirth:String,
-        dateOfDeath:String,
-        apparence:String,
-        distinguishingFeatures:String,
-        story:String
-    },
-    mainInformation:{
-        sire:String,
-        concept:String,
-        ambition:String,
-        desire:String,
-        predator:String,
-        clan:String,
-        generation:String
-    },
-    health:{
-        pool:Int,
-        superficialDamage:Int,
-        aggravatedDamage:Int
-    },
-    willPower:{
-        pool:Int,
-        spent:Int
-    },
-    attributes:{
-        physical:[Capacity],
-        social:[Capacity],
-        mental:[Capacity]
-    },
-    skills:{
-        talents:[Capacity],
-        skills:[Capacity],
-        knowledges:[Capacity],
-    },
-    disciplines:[{
-        name:String,
-        points:String,
-        powers:[{
-            level:Int,
-            power:String
-        }]
-    }],
-    backgrounds:[{
-        name:String,
-        points:Int
-    }],
+    mortal:Mortal,
+    mainInformation:MainInformation,
+    health:Health,
+    willPower:WillPower,
+    attributes:Attributes,
+    skills:Skills,
+    disciplines:[Discipline],
+    backgrounds:[Background],
     resonance:String,
     hunger:Int,
     humanity:Int,
     bloodPotency:Int,
     advantages:[Capacity],
     flaws:[Capacity]
+}
+
+type Skills {
+    talents:[Capacity],
+    skills:[Capacity],
+    knowledges:[Capacity],
+}
+
+type Attributes {
+    physical:[Capacity],
+    social:[Capacity],
+    mental:[Capacity]
+}
+
+type Mortal {
+    trueAge:Int,
+    apparentAge:Int,
+    dateOfBirth:String,
+    dateOfDeath:String,
+    apparence:String,
+    distinguishingFeatures:String,
+    story:String
+}
+
+type MainInformation {
+    sire:String,
+    concept:String,
+    ambition:String,
+    desire:String,
+    predator:String,
+    clan:String,
+    generation:String
+}
+
+type Health {
+    pool:Int,
+    superficialDamage:Int,
+    aggravatedDamage:Int
+}
+
+type WillPower {
+    pool:Int,
+    spent:Int
+}
+
+type Discipline {
+    name:String,
+    points:String,
+    powers:[Power]
+}
+
+type Power {
+    level:Int,
+    power:String
+}
+
+type Background {
+    name:String,
+    points:Int
 }
 
 type Capacity {

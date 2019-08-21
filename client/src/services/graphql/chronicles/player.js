@@ -8,6 +8,9 @@ const chronicle = {
             `/api/chronicles/player/${component.$route.params.id}`
         );
     },
+    loadList: async (component) => {
+        return await client.get("/api/chronicles");
+    },
     goTo: (route, component) => {
         component.$router.push(`/player/chronicle/${component.$route.params.id}/${route}`);
         if (route === "dashboard" || route === "characters") {

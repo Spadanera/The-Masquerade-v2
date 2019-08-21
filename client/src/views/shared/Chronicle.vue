@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import client from "../../services/client";
 export default {
   props: {
     nav: Object,

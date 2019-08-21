@@ -22,6 +22,7 @@ services:
       - CONNECTION_STRING=mongodb://server-database:27017/the-masquerade
       - ORIGIN=localhost
       - PROTOCOL=http
+      - VUE_APP_API=rest
     networks:
       - proxy_net
     
