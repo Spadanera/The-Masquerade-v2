@@ -3,11 +3,16 @@ import Player from "../../models/Player";
 import Coterie from "../../models/Coterie";
 import Story from "../../models/Story";
 
+const getChronicles = async (filter) => {
+    filter = filter || "{}";
+    return await Chronicle.find(JSON.parse(filter));
+}
+
 export const resolvers = {
     Query: {
         async chronicles(parent, { filter }, context, info) {
             filter = filter || "{}";
-            return await Chronicle.find(JSON.parse(filter));
+            return await getChronicles(filter);
         },
         async chronicle(parent, { _id }, context, info) {
             return await Chronicle.findById(_id);
@@ -40,9 +45,8 @@ export const resolvers = {
         },
         async deleteChronicle(parent, { _id }, context, info) {
             try {
-                let chronicleDb = await Chronicle.findOne({ _id: _id });
-                await chronicleDb.remove();
-                return _id;
+                await Chronicle.findByIdAndRemove({ _id: _id });
+                return await getChronicles()
             } catch (error) {
                 console.log(error);
                 throw error;
