@@ -29,7 +29,7 @@
     <AddCoterie
       :dialog="dialog"
       :chronicle-id="this.$route.params.id"
-      @submitted="coterieAdded(coterieId)"
+      @submitted="coterieAdded"
       @close="dialog = false"
     />
   </v-layout>
