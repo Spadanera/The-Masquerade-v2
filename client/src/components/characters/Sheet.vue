@@ -154,7 +154,7 @@ export default {
   },
   methods: {
     async loadCharacter() {
-      await this.characterService.load(this);
+      await this.characterService.getCharacter(this);
     },
     close() {
       this.$emit("close");

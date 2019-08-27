@@ -1,8 +1,12 @@
 import { Interface, type } from 'implement-js';
 
 const Story = Interface('Story')({
-    load: type('function'),
-    loadList: type('function')
+    getStories: type('function'),
+    getStory: type('function'),
+    createStory: type('function'),
+    updateStory: type('function'),
+    insertSession: type('function'),
+    deleteSession: type('function')
 }, {
     error: true,
     strict: true 

@@ -48,7 +48,6 @@
 <script>
 import NoChronicles from "../../components/chronicles/NoChronicles.vue";
 import ChronicleCard from "../../components/chronicles/ChronicleCard.vue";
-import chronicleService from "../../services/rest/chronicles/player";
 export default {
   components: {
     NoChronicles,
@@ -67,8 +66,7 @@ export default {
   },
   methods: {
     async loadList() {
-      let response = await chronicleService.loadList();
-      this.chronicles = response.data;
+      this.chronicles = await this.Service.dedicatedPlayerService.chronicleService.getChronicles();
     }
   },
   created() {

@@ -1,7 +1,17 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
+import RestService from './services/rest/rest-services';
 
-Vue.use(Router)
+Vue.use(Router);
+
+let Service;
+
+if (process.env.VUE_APP_API === "graphql") {
+
+}
+else {
+  Service = RestService;
+}
 
 export default new Router({
   routes: [
@@ -67,7 +77,7 @@ export default new Router({
                 route: "live"
               }
             ],
-            chronicleService: require('./services/rest/chronicles/story-teller').default
+            chronicleService: Service.chronicleService
           }),
           children: [
             {
@@ -92,8 +102,7 @@ export default new Router({
                   path: ":listid",
                   component: () => import('./views/shared/chronicle/CharactersList.vue'),
                   props: (route) => ({
-                    listService: require('./services/rest/chronicle-players/characterList').default,
-                    characterService: require('./services/rest/coteries/character').default,
+                    groupService: Service.playerService,
                     edit: false
                   })
                 },
@@ -101,7 +110,7 @@ export default new Router({
                   path: ":listid/character/:characterid",
                   component: () => import('./views/shared/chronicle/Character.vue'),
                   props: (route) => ({
-                    characterService: require('./services/rest/chronicle-players/character').default,
+                    groupService: Service.playerService,
                     edit: false
                   })
                 }
@@ -115,8 +124,7 @@ export default new Router({
                   path: ":listid",
                   component: () => import('./views/shared/chronicle/CharactersList.vue'),
                   props: (route) => ({
-                    listService: require('./services/rest/coteries/characterList').default,
-                    characterService: require('./services/rest/coteries/character').default,
+                    groupService: Service.coterieService,
                     edit: true
                   })
                 },
@@ -124,7 +132,7 @@ export default new Router({
                   path: ":listid/character/:characterid",
                   component: () => import('./views/shared/chronicle/Character.vue'),
                   props: (route) => ({
-                    characterService: require('./services/rest/coteries/character').default,
+                    groupService: Service.coterieService,
                     edit: true
                   })
                 }
@@ -170,7 +178,7 @@ export default new Router({
                 route: "stories"
               }
             ],
-            chronicleService: require('./services/rest/chronicles/player').default
+            chronicleService: Service.dedicatedPlayerService.chronicleService
           }),
           children: [
             {
@@ -191,8 +199,7 @@ export default new Router({
               path: "characters",
               component: () => import('./views/shared/chronicle/CharactersList.vue'),
               props: (route) => ({
-                listService: require('./services/rest/players/characterList').default,
-                characterService: require('./services/rest/players/character').default,
+                groupService: Service.dedicatedPlayerService.playerService,
                 edit: true
               })
             },
@@ -200,7 +207,7 @@ export default new Router({
               path: "characters/:characterid",
               component: () => import('./views/shared/chronicle/Character.vue'),
               props: (route) => ({
-                characterService: require('./services/rest/players/character').default,
+                characterService: Service.dedicatedPlayerService.playerService,
                 edit: true
               })
             }

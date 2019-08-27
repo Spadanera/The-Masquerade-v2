@@ -41,7 +41,7 @@ export default {
       this.dialog = true;
     },
     async deleteChronicle() {
-      await client.delete(`/api/chronicles/${this.chronicle._id}`);
+      await this.Service.chronicleService.deleteChronicle(this.chronicle._id);
       this.$emit("submitted", "Chronicle successfully deleted");
     },
     openChronicle (id, name) {

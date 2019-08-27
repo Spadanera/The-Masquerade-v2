@@ -5,7 +5,7 @@
     :showActions="true"
     :autoReload="false"
     @close="close"
-    :characterService="characterService"
+    :characterService="groupService"
     :edit="edit"
   />
 </template>
@@ -17,12 +17,12 @@ export default {
     Sheet
   },
   props: {
-    characterService: Object,
+    groupService: Object,
     edit: Boolean
   },
   methods: {
     close() {
-      this.characterService.close(this);
+      this.groupService.closeCharacter(this);
     }
   }
 };

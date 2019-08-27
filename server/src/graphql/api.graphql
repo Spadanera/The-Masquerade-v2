@@ -34,6 +34,9 @@ type Mutation {
     deleteCharacter(_id:String!, platerOrCoterieId:String!):String
 }
 
+"""
+User of the portal. It could be a story-teller or a player
+"""
 type User {
     _id: ID!,
     googleId:String,
@@ -45,6 +48,9 @@ type User {
     picture:String
 }
 
+"""
+Player of a chronicle. A user could have multiple player, but only one for each chronicle
+"""
 type Player {
     _id: ID!,
     userId:String,
@@ -56,6 +62,9 @@ type Player {
     characters:[Character!]
 }
 
+"""
+Main container. It includes, players, coteries, stories, session, character
+"""
 type Chronicle {
     _id:ID,
     name:String,

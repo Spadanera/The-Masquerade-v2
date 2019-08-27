@@ -1,15 +1,22 @@
 import { Interface, type } from 'implement-js';
 
-const Service = Interface('Service')({
+const PlayerService = Interface('PlayerService')({
+    chronicleService: type('object'),
     storyService: type('object'),
-    playerCharacterService: type('object'),
-    playerCharacterListService: type('object'),
-    coterieCharacterService: type('object'),
-    coterieCharacterListService: type('object'),
-    chroniclePlayerService: type('object'),
-    chronicleStoryTellerService: type('object'),
-    chroniclePlayerCharacterService: type('object'),
-    chroniclePlayerCharacterListService: type('object')
+    playerService: type('object')
+}, {
+    error: true,
+    strict: true 
+});
+
+const Service = Interface('Service')({
+    chronicleService: type('object'),
+    storyService: type('object'),
+    sessionService: type('object'),
+    playerService: type('object'),
+    coterieService: type('object'),
+    invitationService: type('object'),
+    dedicatedPlayerService: type('object', PlayerService)
 }, {
     error: true,
     strict: true 

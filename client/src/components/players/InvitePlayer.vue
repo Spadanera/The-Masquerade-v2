@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import client from "../../services/client";
 export default {
   name: "InvitePlayer",
   props: {
@@ -48,7 +47,7 @@ export default {
         try {
           this.invitation.chronicleId = this.chronicleId;
           this.loading = true;
-          let response = await client.post("/api/invitations", this.invitation);
+          let response = await this.Service.invitationService.create(this.invitation);
           if (response.status === 204) {
             this.$emit("submitted", "Player already exists");
           }

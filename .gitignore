@@ -3,6 +3,7 @@
 /server/dist/routes/
 /server/dist/static/
 /server/dist/graphql/
+/server/dist/services/
 /server/dist/app.js
 /server/dist/oauth.js
 /server/dist/gmailAuth.js

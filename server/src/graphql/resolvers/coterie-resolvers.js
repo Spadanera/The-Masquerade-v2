@@ -1,4 +1,5 @@
 import Coterie from "../../models/Coterie";
+import Character from '../../models/Character';
 
 export const resolvers = {
     Query: {

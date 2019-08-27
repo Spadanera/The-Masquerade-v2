@@ -50,8 +50,7 @@ export default {
   },
   methods: {
     async loadChronicle() {
-      let response = await this.chronicleService.load(this);
-      this.chronicle = response.data;
+      this.chronicle = await this.chronicleService.getChronicle(this.$route.params.id);
       this.$emit("chronicle", this.chronicle.name);
     },
     goTo(route) {

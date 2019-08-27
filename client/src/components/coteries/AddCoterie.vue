@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import client from '../../services/client';
 export default {
   name: "AddCoterie",
   props: {
@@ -48,8 +47,9 @@ export default {
     },
     async submit() {
       if (this.$refs.form.validate()) {
-        let coterie = await client.post(`/api/coteries/${this.chronicleId}`, this.coterie);
-        this.$emit("submitted", coterie._id);
+        this.coterie = await this.Service.coterieService.createGroup(this.chronicleId, this.coterie);
+        console.log(this.coterie);
+        this.$emit("submitted", this.coterie._id);
         this.$emit("close", false);
       }
     }

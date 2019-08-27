@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import client from "../../../services/client";
 import AddCoterie from "../../../components/coteries/AddCoterie.vue";
 export default {
   components: {
@@ -54,10 +53,7 @@ export default {
   methods: {
     async getCoteries(coterieId) {
       coterieId = coterieId || this.$route.params.listid;
-      let response = await client.get(
-        `/api/coteries/all/${this.$route.params.id}`
-      );
-      this.coteries = response.data;
+      this.coteries = await this.Service.coterieService.getGroups(this.$route.params.id);
       if (this.coteries.length && this.$route.name !== "character") {
         let find = this.coteries.find(c => c._id === coterieId);
         if (find) {

@@ -35,8 +35,6 @@ Vue.use(VuetifyConfirm, {
 Vue.config.productionTip = false;
 Vue.prototype.moment = moment;
 
-console.log("ENV", process.env.VUE_APP_API);
-
 if (process.env.VUE_APP_API === "graphql") {
 
 }

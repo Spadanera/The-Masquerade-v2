@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import client from '../../services/client';
 export default {
   name: "AddStory",
   props: {
@@ -48,7 +47,7 @@ export default {
     },
     async submit() {
       if (this.$refs.form.validate()) {
-        let story = await client.post(`/api/stories/${this.chronicleId}`, this.story);
+        await this.Service.storyService.createStory(this.chronicleId, this.story);
         this.$emit("submitted", story._id);
         this.$emit("close", false);
       }

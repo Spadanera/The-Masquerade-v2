@@ -36,9 +36,7 @@
 </template>
 
 <script>
-import client from "../../../services/client";
 import AddStory from "../../../components/stories/AddStory.vue";
-import storyService from "../../../services/rest/stories/story";
 export default {
   components: {
     AddStory
@@ -55,17 +53,17 @@ export default {
   },
   methods: {
     async getStories(storyId) {
-      let response = await storyService.loadList(this);
-      this.stories = response.data;
-      if (this.stories.length) {
-        let find = this.stories.find(s => s._id === storyId);
-        if (find) {
-          this.select(find, true);
-        }
-        else {
-          this.select(this.stories[0], true);
-        }
-      }
+      // let response = await storyService.loadList(this);
+      // this.stories = response.data;
+      // if (this.stories.length) {
+      //   let find = this.stories.find(s => s._id === storyId);
+      //   if (find) {
+      //     this.select(find, true);
+      //   }
+      //   else {
+      //     this.select(this.stories[0], true);
+      //   }
+      // }
     },
     select(story, notToCloseNav) {
       this.$router.push(
