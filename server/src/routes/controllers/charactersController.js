@@ -85,11 +85,11 @@ router.post("/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
     try {
         res.json(await Character.findByIdAndUpdate({ _id: req.params.id, userId: req.session.userId }, req.body));
-    } catch (error) {
+    } catch (e) {
         console.error(e);
         res.status(500).json(e);
     }
-})
+});
 
 // Delete character
 router.delete("/:id", async (req, res) => {

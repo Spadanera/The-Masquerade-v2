@@ -10,4 +10,4 @@ export const resolvers = {
             return await Session.findById(_id);
         }
     }
-}
+};

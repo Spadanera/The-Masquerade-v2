@@ -14,12 +14,12 @@ const Discipline = {
         level: Number,
         power: String
     }]
-}
+};
 
 const Background = {
     name: String,
     points: { type: Number, default: 0 }
-}
+};
 
 let CharacterSchema = new mongoose.Schema({
     name: String,
@@ -84,6 +84,6 @@ CharacterSchema.statics.createCapacities = (names) => {
         });
     }
     return capacities;
-}
+};
 
 export default mongoose.model("Character", CharacterSchema);

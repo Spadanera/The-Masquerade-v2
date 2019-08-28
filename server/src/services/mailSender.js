@@ -23,5 +23,5 @@ module.exports.sendMail = (to, subject, text) => {
                 resolve(info);
             }
         });
-    })
-}
+    });
+};

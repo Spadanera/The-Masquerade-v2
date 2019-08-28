@@ -6,7 +6,7 @@ import Story from "../../models/Story";
 const getChronicles = async (filter) => {
     filter = filter || "{}";
     return await Chronicle.find(JSON.parse(filter));
-}
+};
 
 export const resolvers = {
     Query: {
@@ -19,13 +19,13 @@ export const resolvers = {
         }
     },
     Chronicle: {
-        async players(parent, { }, context, info) {
+        async players(parent, param, context, info) {
             return await Player.find({ _id: { $in: parent.players } });
         },
-        async coteries(parent, { }, context, info) {
+        async coteries(parent, param, context, info) {
             return await Coterie.find({ _id: { $in: parent.coteries } });
         },
-        async stories(parent, { }, context, info) {
+        async stories(parent, param, context, info) {
             return await Story.find({ _id: { $in: parent.stories } });
         }
     },
@@ -46,11 +46,11 @@ export const resolvers = {
         async deleteChronicle(parent, { _id }, context, info) {
             try {
                 await Chronicle.findByIdAndRemove({ _id: _id });
-                return await getChronicles()
+                return await getChronicles();
             } catch (error) {
                 console.log(error);
                 throw error;
             }
         }
     }
-}
+};

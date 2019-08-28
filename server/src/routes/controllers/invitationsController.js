@@ -11,7 +11,7 @@ import uuid from "uuid";
 router.get("/all/:id", async (req, res) => {
     try {
         res.json(await Invitation.find({ chronicleId: req.params.id, storyTellerId: req.session.userId }));
-    } catch (err) {
+    } catch (e) {
         console.error(e);
         res.status(500).send(e);
     }
@@ -26,7 +26,7 @@ router.get("/chronicle/:id", async (req, res) => {
         else {
             res.status("400").send("Invitation not found");
         }
-    } catch (err) {
+    } catch (e) {
         console.error(e);
         res.status(500).send(e);
     }
@@ -37,7 +37,7 @@ router.delete("/:id", async (req, res) => {
         await Invitation.findOneAndDelete({ _id: req.params.id, storyTellerId: req.session.userId });
         res.status(204).send();
     }
-    catch (err) {
+    catch (e) {
         console.error(e);
         res.status(500).send(e);
     }
@@ -59,7 +59,7 @@ router.post("/", async (req, res) => {
                     req.body.token = uuid.v4();
                     await mailSender.sendMail(req.body.emailAddress,
                         "Your invite to partecipate to Vampiere The Masquerade Chronicle",
-                        `Open this link to join ${process.env.PROTOCOL || "http"}://${process.env.ORIGIN || "localhost"}/#/join/${req.body.token}`)
+                        `Open this link to join ${process.env.PROTOCOL || "http"}://${process.env.ORIGIN || "localhost"}/#/join/${req.body.token}`);
                     let invitation = new Invitation(req.body);
                     res.json(await invitation.save());
                 }

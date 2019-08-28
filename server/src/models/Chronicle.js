@@ -8,7 +8,7 @@ const Statuses = Object.freeze({
   Live: 'live',
   Archived: 'archived',
   Deleted: 'deleted'
-})
+});
 
 const ChronicleSchema = new mongoose.Schema({
   name: String,

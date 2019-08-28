@@ -16,7 +16,7 @@ let SessionSchema = new mongoose.Schema({
     ]
 });
 
-SessionSchema.index({ "characters.storyTellerNote": "text", "characters.playerNot": "text" })
+SessionSchema.index({ "characters.storyTellerNote": "text", "characters.playerNot": "text" });
 
 SessionSchema.post("remove", async session => {
     let stories = await Story.find({ sessions: { $in: [session._id] } });

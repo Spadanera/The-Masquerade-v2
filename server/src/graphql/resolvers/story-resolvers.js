@@ -11,8 +11,8 @@ export const resolvers = {
         }
     },
     Story: {
-        async sessions(parent, {}, context, info) {
+        async sessions(parent, param, context, info) {
             return await Session.find({ _id: { $in: parent.sessions }});
         }
     }
-}
+};

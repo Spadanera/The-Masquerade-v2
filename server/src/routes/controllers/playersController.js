@@ -34,7 +34,7 @@ router.get("/all-characters/:id", async (req, res) => {
             });
             res.json(response);
         }
-    } catch (err) {
+    } catch (e) {
         console.error(e);
         res.status(500).json(e);
     }

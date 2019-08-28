@@ -3,7 +3,7 @@ import Character from '../../models/Character';
 
 export const resolvers = {
     Query: {
-        async coteries(parent, {}, context, info) {
+        async coteries(parent, param, context, info) {
             return await Coterie.find();
         },
         async coterie(parent, { _id }, context, info) {
@@ -11,8 +11,8 @@ export const resolvers = {
         }
     },
     Coterie: {
-        async characters(parent, {}, context, info) {
+        async characters(parent, param, context, info) {
             return await Character.find({ _id: { $in: parent.characters }});
         }
     }
-}
+};

@@ -3,7 +3,7 @@ import Character from "../../models/Character";
 
 export const resolvers = {
     Query: {
-        async players(parent, {}, context, info) {
+        async players(parent, param, context, info) {
             return await Player.find();
         },
         async player(parent, { _id }, context, info) {
@@ -11,8 +11,8 @@ export const resolvers = {
         }
     },
     Player: {
-        async characters(parent, {}, context, info) {
+        async characters(parent, param, context, info) {
             return await Character.find({ _id: { $in: parent.characters }});
         }
     }
-}
+};
