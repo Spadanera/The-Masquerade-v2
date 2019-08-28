@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon --exec babel-node ./src/app.js",
-    "build": "babel ./src --out-dir ./dist && cp src/client_secret.json dist/client_secret.json && cp src/graphql/api.graphql dist/graphql/api.graphql",
+    "build": "babel ./src --out-dir ./dist --copy-files",
     "serve": "node ./dist/app.js"
   },
   "author": "Nicola Zirilli",
