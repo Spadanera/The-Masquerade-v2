@@ -1,14 +1,14 @@
-import Vue from 'vue'
-import './plugins/vuetify'
-import App from './App.vue'
-import router from './router'
-import Vuetify from 'vuetify'
-import moment from 'moment'
-import colors from 'vuetify/es5/util/colors'
+import Vue from 'vue';
+import './plugins/vuetify';
+import App from './App.vue';
+import router from './router';
+import Vuetify from 'vuetify';
+import moment from 'moment';
+import colors from 'vuetify/es5/util/colors';
 import VuetifyConfirm from 'vuetify-confirm';
 import { clans, generations, disciplines } from './config/enum';
 import CKEditor from '@ckeditor/ckeditor5-vue';
-import VueSessionStorage from 'vue-sessionstorage'
+import VueSessionStorage from 'vue-sessionstorage';
 import RestService from './services/rest/rest-services';
 
 Vue.use(Vuetify, {
@@ -21,7 +21,7 @@ Vue.use(Vuetify, {
   }
 });
 Vue.use(CKEditor);
-Vue.use(VueSessionStorage)
+Vue.use(VueSessionStorage);
 Vue.use(VuetifyConfirm, {
   buttonTrueText: 'Accept',
   buttonFalseText: 'Discard',
@@ -30,7 +30,7 @@ Vue.use(VuetifyConfirm, {
   title: 'Warning',
   width: 350,
   property: '$confirm'
-})
+});
 
 Vue.config.productionTip = false;
 Vue.prototype.moment = moment;
@@ -49,7 +49,7 @@ new Vue({
       clans: clans,
       generations: generations,
       disciplines: disciplines
-    }
+    };
   },
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');

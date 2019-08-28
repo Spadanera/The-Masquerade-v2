@@ -312,4 +312,4 @@ export const backgrounds = [
     "Resources",
     "Retainers",
     "Status"
-]
+];

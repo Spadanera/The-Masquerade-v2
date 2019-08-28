@@ -1,6 +1,6 @@
 import client from '../client';
 import ISession from '../interfaces/ISession';
-import implement from 'implement-js'
+import implement from 'implement-js';
 
 const session = {
     getSessions: async (storyId) => {
@@ -9,7 +9,7 @@ const session = {
     },
     getSession: async () => {},
     updateSession: async () => {}
-}
+};
 
 implement(ISession)(session);
 

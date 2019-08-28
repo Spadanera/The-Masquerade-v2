@@ -1,6 +1,6 @@
 import client from '../../client';
 import IStory from '../../interfaces/IStory';
-import implement from 'implement-js'
+import implement from 'implement-js';
 
 const story = {
     getStories: async (component) => {
@@ -13,7 +13,7 @@ const story = {
     updateStory: async () => {},
     insertSession: async () => {},
     deleteSession: async () => {}
-}
+};
 
 implement(IStory)(story);
 

@@ -1,5 +1,5 @@
 import IService from "../interfaces/IService";
-import implement from 'implement-js'
+import implement from 'implement-js';
 
 const service = {
     chronicleService: require('./chronicle-service').default,

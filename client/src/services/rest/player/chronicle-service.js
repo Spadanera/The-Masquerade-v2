@@ -1,6 +1,6 @@
 import client from '../../client';
 import IChronicle from '../../interfaces/IChronicle';
-import implement from 'implement-js'
+import implement from 'implement-js';
 
 const chronicle = {
     getChronicle: async (component) => {
@@ -21,7 +21,7 @@ const chronicle = {
     createChronicle: () => {},
     updateChronicle: () => {},
     deleteChronicle: () => {}
-}
+};
 
 implement(IChronicle)(chronicle);
 

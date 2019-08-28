@@ -1,6 +1,6 @@
 import client from '../client';
 import IVampireGroups from '../interfaces/IVampireGroups';
-import implement from 'implement-js'
+import implement from 'implement-js';
 
 const coteries = {
     getGroups: async (chronicleId) => {

@@ -1,6 +1,6 @@
 import client from '../client';
 import IChronicle from '../interfaces/IChronicle';
-import implement from 'implement-js'
+import implement from 'implement-js';
 
 const chronicle = {
     getChronicle: async (chronicleId) => {
@@ -28,7 +28,7 @@ const chronicle = {
     deleteChronicle: async (chronicleId) => {
         await client.delete(`/api/chronicles/${chronicleId}`);
     }
-}
+};
 
 implement(IChronicle)(chronicle);
 

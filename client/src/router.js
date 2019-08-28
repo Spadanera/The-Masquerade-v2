@@ -13,6 +13,7 @@ else {
   Service = RestService;
 }
 
+/* jshint ignore: start */
 export default new Router({
   routes: [
     {
@@ -216,4 +217,5 @@ export default new Router({
       ]
     }
   ]
-})
+});
+/* jshint ignore: end */

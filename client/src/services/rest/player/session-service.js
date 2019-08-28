@@ -1,12 +1,12 @@
 import client from '../../client';
 import ISession from '../../interfaces/ISession';
-import implement from 'implement-js'
+import implement from 'implement-js';
 
 const session = {
     getSessions: async () => {},
     getSession: async () => {},
     updateSession: async () => {}
-}
+};
 
 implement(ISession)(session);
 

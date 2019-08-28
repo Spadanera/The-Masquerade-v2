@@ -1,6 +1,6 @@
 import client from '../client';
 import IInvitation from '../interfaces/IInvitation';
-import implement from 'implement-js'
+import implement from 'implement-js';
 
 const invitation = {
     getInvitations: async (chronicleId) => {
