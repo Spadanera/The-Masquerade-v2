@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import client from "../../services/client";
 export default {
   name: "AddCharacter",
   props: {
@@ -73,12 +72,15 @@ export default {
         mainInformation: {},
         mortal: {}
       };
+      this.imageName = "";
+      this.imageUrl = "";
+      this.imageFile = "";
     },
     async submit() {
       if (this.$refs.form.validate()) {
         this.character.picture = this.imageUrl;
-        await this.characterService.create(this.coterieId, this.character);
-        this.$emit("submitted");
+        await this.characterService.createCharacterInGroup(this.character, this.coterieId);
+        this.$emit("submitted", this.coterieId);
         this.closeModal();
       }
     },

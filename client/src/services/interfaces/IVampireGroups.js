@@ -5,6 +5,7 @@ const VampireGroups = Interface('IVampireGroups')({
     getGroup: type('function'),
     createGroup: type('function'),
     updateGroup: type('function'),
+    deleteGroup: type('function'),
     getAllCharacters: type('function'),
     getGroupCharacters: type('function'),
     openCharacter: type('function'),

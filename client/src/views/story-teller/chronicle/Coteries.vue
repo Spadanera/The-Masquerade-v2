@@ -16,6 +16,9 @@
               <v-list-tile-title v-html="coterie.name"></v-list-tile-title>
               <v-list-tile-sub-title v-html="coterie.description"></v-list-tile-sub-title>
             </v-list-tile-content>
+            <v-btn color="primary" dark absolute small bottom right fab class="onhover" @click="modalDelete(coterie._id)">
+              <v-icon>clear</v-icon>
+            </v-btn>
             <div class="selected-element primary" v-if="coterie._id === $route.params.listid"></div>
           </v-list-tile>
         </template>
@@ -32,14 +35,17 @@
       @submitted="coterieAdded"
       @close="dialog = false"
     />
+    <Confirm :dialog="modal" @confirm="deleteGroup" :title="modalTitle" :text="modalText" @close="modal = false" />
   </v-layout>
 </template>
 
 <script>
+import Confirm from "../../../components/layout/Confirm";
 import AddCoterie from "../../../components/coteries/AddCoterie.vue";
 export default {
   components: {
-    AddCoterie
+    AddCoterie,
+    Confirm
   },
   props: {
     navVisible: Boolean
@@ -47,13 +53,19 @@ export default {
   data() {
     return {
       coteries: [],
-      dialog: false
+      dialog: false,
+      modal: false,
+      modalTitle: "",
+      modalText: "",
+      coterieIdToDelete: ""
     };
   },
   methods: {
     async getCoteries(coterieId) {
       coterieId = coterieId || this.$route.params.listid;
-      this.coteries = await this.Service.coterieService.getGroups(this.$route.params.id);
+      this.coteries = await this.Service.coterieService.getGroups(
+        this.$route.params.id
+      );
       if (this.coteries.length && this.$route.name !== "character") {
         let find = this.coteries.find(c => c._id === coterieId);
         if (find) {
@@ -66,9 +78,7 @@ export default {
     select(coterie, notToCloseNav, forceNavigation) {
       if (!this.$route.params.characterid || forceNavigation) {
         this.$router.push(
-          `/story-teller/chronicle/${this.$route.params.id}/coteries/${
-            coterie._id
-          }`
+          `/story-teller/chronicle/${this.$route.params.id}/coteries/${coterie._id}`
         );
       }
       if (!notToCloseNav) {
@@ -77,6 +87,16 @@ export default {
     },
     async coterieAdded(coterieId) {
       await this.getCoteries(coterieId);
+    },
+    async deleteGroup() {
+      await this.Service.coterieService.deleteGroup(this.coterieIdToDelete);
+      this.getCoteries();
+    },
+    modalDelete(coterieId) {
+      this.coterieIdToDelete = coterieId;
+      this.modalTitle = "Are you sure"
+      this.modalText = "All the characters connected will be deleted";
+      this.modal = true;
     }
   },
   created() {
@@ -103,4 +123,11 @@ export default {
 </script>
 
 <style>
+.onhover {
+  display: none;
+}
+
+div[role=listitem]:hover .onhover {
+  display: block !important;
+}
 </style>

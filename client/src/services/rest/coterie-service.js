@@ -15,6 +15,10 @@ const coteries = {
         return response.data;
     },
     updateGroup: async () => {},
+    deleteGroup: async (groupId) => {
+        await client.delete(`/api/coteries/${groupId}`);
+        return;
+    },
     getAllCharacters: async (chronicleId) => {
         
     },

@@ -12,6 +12,7 @@ const players = {
 
     },
     updateGroup: async () => { },
+    deleteGroup: async () => { },
     getAllCharacters: async (chronicleId) => {
         let response = await client.get(
             `/api/players/all-characters/${chronicleId}`

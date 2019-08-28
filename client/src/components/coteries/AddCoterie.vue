@@ -42,14 +42,20 @@ export default {
     };
   },
   methods: {
+    clearCoterie() {
+      this.coterie.name = "";
+      this.coterie.description = "";
+    },
     closeModal() {
       this.$emit("close", false);
+      this.clearCoterie();
     },
     async submit() {
       if (this.$refs.form.validate()) {
         this.coterie = await this.Service.coterieService.createGroup(this.chronicleId, this.coterie);
         this.$emit("submitted", this.coterie._id);
         this.$emit("close", false);
+        this.clearCoterie();
       }
     }
   }
