@@ -6,11 +6,10 @@ import Vuetify from 'vuetify'
 import moment from 'moment'
 import colors from 'vuetify/es5/util/colors'
 import VuetifyConfirm from 'vuetify-confirm';
-import { clans } from './config/enum';
-import { generations } from './config/enum';
-import {disciplines } from './config/enum';
+import { clans, generations, disciplines } from './config/enum';
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import VueSessionStorage from 'vue-sessionstorage'
+import RestService from './services/rest/rest-services';
 
 Vue.use(Vuetify, {
   iconfont: 'md',
@@ -35,6 +34,13 @@ Vue.use(VuetifyConfirm, {
 
 Vue.config.productionTip = false;
 Vue.prototype.moment = moment;
+
+if (process.env.VUE_APP_API === "graphql") {
+
+}
+else {
+  Vue.prototype.Service = RestService;
+}
 
 new Vue({
   router,

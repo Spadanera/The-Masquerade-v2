@@ -27,15 +27,21 @@ const ChronicleSchema = new mongoose.Schema({
 });
 
 ChronicleSchema.post("remove", async chronicle => {
-  chronicle.stories.forEach(async element => {
-    await Story.deleteOne({ _id: element });
-  });
-  chronicle.conteries.forEach(async element => {
-    await Coterie.deleteOne({ _id: element });
-  });
-  chronicle.players.forEach(async element => {
-    await Player.deleteOne({ _id: element });
-  });
+  if (chronicle.stories) {
+    chronicle.stories.forEach(async element => {
+      await Story.deleteOne({ _id: element });
+    });
+  }
+  if (chronicle.coteries) {
+    chronicle.coteries.forEach(async element => {
+      await Coterie.deleteOne({ _id: element });
+    });
+  }
+  if (chronicle.players) {
+    chronicle.players.forEach(async element => {
+      await Player.deleteOne({ _id: element });
+    });
+  }
 });
 
 Object.assign(ChronicleSchema.static, { Statuses });

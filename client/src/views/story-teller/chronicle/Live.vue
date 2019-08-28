@@ -55,7 +55,7 @@
               :showActions="false"
               :autoReload="character.player"
               @close="closeCharacter"
-              :characterService="character.player ? characterPlayerService : characterCoterieService"
+              :characterService="character.player ? playerCharacterService : coterieCharacterService"
               :edit="false"
               :live="true"
             />
@@ -67,10 +67,6 @@
 </template>
 
 <script>
-import client from "../../../services/client";
-import coterieServices from "../../../services/coteries/characterList";
-import characterCoterieService from "../../../services/coteries/character";
-import characterPlayerService from "../../../services/chronicle-players/character";
 import Sheet from "../../../components/characters/Sheet";
 export default {
   components: {
@@ -91,8 +87,6 @@ export default {
         }
       ],
       search: "",
-      characterCoterieService: characterCoterieService,
-      characterPlayerService: characterPlayerService,
       characters: undefined,
       enableWatcher: false
     };
@@ -120,16 +114,12 @@ export default {
     }
   },
   async created() {
-    let response = await client.get(
-      `/api/coteries/all/${this.$route.params.id}`
-    );
+    let response = await this.Service.coterieServices(this.$route.params.id);
     this.groups = this.groups.concat(
-      response.data.filter(group => group.characters.length > 0)
+      response.filter(group => group.characters.length > 0)
     );
-    response = await client.get(
-      `/api/players/all-characters/${this.$route.params.id}`
-    );
-    this.groups[0].characters = response.data.map(character => {
+    response = await this.Service.playerService(this.$route.params.id);
+    this.groups[0].characters = response.map(character => {
       character.player = true;
       return character;
     });

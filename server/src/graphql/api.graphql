@@ -1,0 +1,350 @@
+type Query {
+    users: [User!],
+    user(_id:String!): User,
+    chronicles(filter:String): [Chronicle!],
+    chronicle(_id:String!): Chronicle,
+    players(chronicleId:String):[Player!],
+    player(_id:String!):Player,
+    characters(userId:String):[Character!],
+    character(_id:String!):Character,
+    coteries(chronicleId:String):[Coterie!],
+    coterie(_id:String!):Coterie,
+    stories(chronicleId:String):[Story!],
+    story(_id:String!):Story,
+    sessions(storyId:String):[Session!]
+    session(_id:String!):Session,
+    invitations:[Invitation!],
+    invitation(_id:String!):Invitation
+}
+
+type Mutation {
+    upsertChronicle(input:ChronicleInput):Chronicle,
+    deleteChronicle(_id:String!):[Chronicle],
+    upsertCoterie(input:CoterieInput, chronicleId:String):Coterie,
+    deleteCoterie(_id:String!, chronicleId:String!):String,
+    deletePlayer(_id:String!, chronicleId:String!):String,
+    upsertStory(input:StoryInput, chronicleId:String):Story,
+    deleteStory(_id:String!, chronicleId:String!):String,
+    upsertSession(input:SessionInput, storyId:String):Session,
+    deleteSession(_id:String!):String,
+    upsertSessionCharacter(input:SessionCharacterInput, sessionId:String):SessionCharacter,
+    deleteSessionCharacter(_id:String!, sessionId:String!):String,
+    insertInvitation(input:InvitationInput):Invitation,
+    upsertCharacter(input:CharacterInput!, platerOrCoterieId:String):Character,
+    deleteCharacter(_id:String!, platerOrCoterieId:String!):String
+}
+
+"""
+User of the portal. It could be a story-teller or a player
+"""
+type User {
+    _id: ID!,
+    googleId:String,
+    email:String!,
+    token:String,
+    displayName:String,
+    givenName:String,
+    familName:String,
+    picture:String
+}
+
+"""
+Player of a chronicle. A user could have multiple player, but only one for each chronicle
+"""
+type Player {
+    _id: ID!,
+    userId:String,
+    userDisplayName:String,
+    userPicture:String,
+    chronicleId:String,
+    createdAt:String,
+    active:Boolean,
+    characters:[Character!]
+}
+
+"""
+Main container. It includes, players, coteries, stories, session, character
+"""
+type Chronicle {
+    _id:ID,
+    name:String,
+    shortDescription:String,
+    privateStory:String,
+    publicStory:String,
+    storyTeller:String,
+    createdAt:String,
+    updateAt:String,
+    status:String,
+    stories:[Story],
+    coteries:[Coterie],
+    players:[Player],
+    backgroundImage:String
+}
+
+input ChronicleInput {
+    _id:ID,
+    name:String,
+    shortDescription:String,
+    privateStory:String,
+    publicStory:String,
+    status:String,
+    backgroundImage:String
+}
+
+type Coterie {
+    _id:ID!,
+    name:String,
+    description:String,
+    active:Boolean,
+    characters:[Character]
+}
+
+input CoterieInput {
+    name:String,
+    description:String,
+    active:Boolean
+}
+
+type Story {
+    _id:ID!,
+    name:String,
+    shortDescription:String,
+    privateStory:String,
+    publicStory:String,
+    storyTeller:String,
+    onGoing:Boolean,
+    createdAt:String,
+    updateAt:String,
+    sessions:[Session]
+}
+
+input StoryInput {
+    name:String,
+    shortDescription:String,
+    privateStory:String,
+    publicStory:String,
+    storyTeller:String,
+    onGoing:Boolean
+}
+
+type Session {
+    _id:ID!,
+    sessionDate:String,
+    globalNote:String,
+    characters:[SessionCharacter]
+}
+
+input SessionInput {
+    sessionDate:String,
+    globalNote:String,
+    characters:[SessionCharacterInput]
+}
+
+type SessionCharacter {
+    characterId:String,
+    experiencePoints:Int,
+    storyTellerNote:String,
+    playerNote:String
+}
+
+input SessionCharacterInput {
+    characterId:String,
+    experiencePoints:Int,
+    storyTellerNote:String,
+    playerNote:String
+}
+
+type Invitation {
+    _id:ID!,
+    storyTellerId:String,
+    chronicleId:String,
+    emailAddress:String,
+    token:String
+}
+
+input InvitationInput {
+    chronicleId:String,
+    emailAddress:String
+}
+
+type Character {
+    _id: ID!,
+    name:String,
+    userId:String,
+    alive:Boolean,
+    picture:String,
+    startingExperience:Int,
+    totalExperience:Int,
+    spentExperience:Int,
+    mortal:Mortal,
+    mainInformation:MainInformation,
+    health:Health,
+    willPower:WillPower,
+    attributes:Attributes,
+    skills:Skills,
+    disciplines:[Discipline],
+    backgrounds:[Background],
+    resonance:String,
+    hunger:Int,
+    humanity:Int,
+    bloodPotency:Int,
+    advantages:[Capacity],
+    flaws:[Capacity]
+}
+
+input CharacterInput {
+    _id: ID!,
+    name:String,
+    userId:String,
+    alive:Boolean,
+    picture:String,
+    startingExperience:Int,
+    totalExperience:Int,
+    spentExperience:Int,
+    mortal:MortalInput,
+    mainInformation:MainInformationInput,
+    health:HealthInput,
+    willPower:WillPowerInput,
+    attributes:AttributesInput,
+    skills:SkillsInput,
+    disciplines:[DisciplineInput],
+    backgrounds:[BackgroundInput],
+    resonance:String,
+    hunger:Int,
+    humanity:Int,
+    bloodPotency:Int,
+    advantages:[CapacityInput],
+    flaws:[CapacityInput]
+}
+
+type Skills {
+    talents:[Capacity],
+    skills:[Capacity],
+    knowledges:[Capacity],
+}
+
+input SkillsInput {
+    talents:[CapacityInput],
+    skills:[CapacityInput],
+    knowledges:[CapacityInput],
+}
+
+type Attributes {
+    physical:[Capacity],
+    social:[Capacity],
+    mental:[Capacity]
+}
+
+input AttributesInput {
+    physical:[CapacityInput],
+    social:[CapacityInput],
+    mental:[CapacityInput]
+}
+
+type Mortal {
+    trueAge:Int,
+    apparentAge:Int,
+    dateOfBirth:String,
+    dateOfDeath:String,
+    apparence:String,
+    distinguishingFeatures:String,
+    story:String
+}
+
+input MortalInput {
+    trueAge:Int,
+    apparentAge:Int,
+    dateOfBirth:String,
+    dateOfDeath:String,
+    apparence:String,
+    distinguishingFeatures:String,
+    story:String
+}
+
+type MainInformation {
+    sire:String,
+    concept:String,
+    ambition:String,
+    desire:String,
+    predator:String,
+    clan:String,
+    generation:String
+}
+
+input MainInformationInput {
+    sire:String,
+    concept:String,
+    ambition:String,
+    desire:String,
+    predator:String,
+    clan:String,
+    generation:String
+}
+
+type Health {
+    pool:Int,
+    superficialDamage:Int,
+    aggravatedDamage:Int
+}
+
+input HealthInput {
+    pool:Int,
+    superficialDamage:Int,
+    aggravatedDamage:Int
+}
+
+type WillPower {
+    pool:Int,
+    spent:Int
+}
+
+input WillPowerInput {
+    pool:Int,
+    spent:Int
+}
+
+type Discipline {
+    name:String,
+    points:String,
+    powers:[Power]
+}
+
+input DisciplineInput {
+    name:String,
+    points:String,
+    powers:[PowerInput]
+}
+
+type Power {
+    level:Int,
+    power:String
+}
+
+input PowerInput {
+    level:Int,
+    power:String
+}
+
+type Background {
+    name:String,
+    points:Int
+}
+
+input BackgroundInput {
+    name:String,
+    points:Int
+}
+
+type Capacity {
+    name:String,
+    points:Int,
+    fightingPoint:Int,
+    speciality:String
+}
+
+input CapacityInput {
+    name:String,
+    points:Int,
+    fightingPoint:Int,
+    speciality:String
+}

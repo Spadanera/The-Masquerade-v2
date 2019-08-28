@@ -71,7 +71,6 @@
 </template>
 
 <script>
-import client from "../../../services/client";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export default {
   data() {
@@ -101,19 +100,14 @@ export default {
       } else {
         input.publicStory = this.editStory;
       }
-      await client.put(`/api/chronicles/${this.$route.params.id}`, input);
+      await this.Service.chronicleService.updateChronicle(this.$route.params.id, input);
       this.$emit("updated");
       this.editing = false;
     },
     async getStories() {
-      let response = await client.get(
-        `/api/stories/all/${this.$route.params.id}`
-      );
-      this.stories = response.data;
-      this.stories.forEach(story => {
-        client
-          .get(`/api/sessions/all/${story._id}`)
-          .then(res => (story.sessions = res.data));
+      this.stories = await this.Service.storyService.getStories(this.$route.params.id);
+      this.stories.forEach(async (story) => {
+        story.sessions = await this.Service.sessionService.getSessions(story._id);
       });
     }
   },

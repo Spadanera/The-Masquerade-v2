@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import client from "../../services/client";
 export default {
   props: {
     nav: Object,
@@ -51,8 +50,7 @@ export default {
   },
   methods: {
     async loadChronicle() {
-      let response = await this.chronicleService.load(this);
-      this.chronicle = response.data;
+      this.chronicle = await this.chronicleService.getChronicle(this.$route.params.id);
       this.$emit("chronicle", this.chronicle.name);
     },
     goTo(route) {
@@ -91,12 +89,12 @@ export default {
 }
 
 .selected-element {
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
   position: absolute;
   height: 100%;
   width: 5px;
-  right: 0;
+  left: 0;
 }
 
 .layer {

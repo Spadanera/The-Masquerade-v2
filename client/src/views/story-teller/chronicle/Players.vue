@@ -66,7 +66,6 @@
 </template>
 
 <script>
-import client from "../../../services/client";
 import InvitePlayer from "../../../components/players/InvitePlayer";
 export default {
   components: {
@@ -88,10 +87,7 @@ export default {
   },
   methods: {
     async getPlayers() {
-      let response = await client.get(
-        `/api/players/all/${this.$route.params.id}`
-      );
-      this.players = response.data;
+      this.players = await this.Service.playerService.getGroups(this.$route.params.id);
       if (this.players.length) {
         let find = this.players.find(p => p._id === this.$route.params.listid);
         if (find) {
@@ -119,10 +115,7 @@ export default {
       this.getInvitations();
     },
     async getInvitations() {
-      let response = await client.get(
-        `/api/invitations/all/${this.$route.params.id}`
-      );
-      this.invitations = response.data;
+      this.invitations = await this.Service.invitationService.getInvitations(this.$route.params.id);
     },
     async deleteInvitation(invitation) {
       let res = await this.$confirm(
@@ -132,7 +125,7 @@ export default {
         }
       );
       if (res) {
-        await client.delete(`/api/invitations/${invitation._id}`);
+        await this.Service.invitationService.delete(invitation._id);
         this.getInvitations();
         this.snackbar.text = "Invitation deleted";
         this.snackbar.enabled = true;

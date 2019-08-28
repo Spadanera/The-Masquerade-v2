@@ -41,6 +41,9 @@ app.use("/auth", require('./routes/middlewares/auth').default);
 // API routing
 app.use("/api", require("./routes/router").default);
 
+// GraphQl routing
+app.use("/graphql", require("./graphql/express").default);
+
 // Static content
 app.use(express.static(path.join(__dirname, 'static')));
 

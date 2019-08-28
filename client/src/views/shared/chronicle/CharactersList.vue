@@ -31,7 +31,7 @@
       :coterie-id="this.$route.params.listid"
       @submitted="getCharacters"
       @close="dialog = false"
-      :characterService="characterService"
+      :characterService="groupService"
     />
   </v-flex>
 </template>
@@ -43,8 +43,7 @@ export default {
     AddCharacter
   },
   props: {
-    listService: Object,
-    characterService: Object,
+    groupService: Object,
     edit: Boolean
   },
   data() {
@@ -55,17 +54,17 @@ export default {
   },
   methods: {
     async getCharacters(listid) {
-      await this.listService.getCharacters(listid, this);
+      this.characters = await this.groupService.getGroupCharacters(listid, this);
     },
     openCharacter(characterId) {
-      this.listService.openCharacter(characterId, this.$router, this.$route);
+      this.groupService.openCharacter(characterId, this.$router, this.$route);
     },
     async killOrResumeCharacter(character, alive) {
-      await this.characterService.killOrResume(character, alive, this)
+      await this.groupService.killOrResume(character, alive, this)
     }
   },
   created() {
-    this.getCharacters();
+    this.getCharacters(this.$route.params.listid);
   },
   beforeRouteUpdate(to, from, next) {
     this.getCharacters(to.params.listid);
