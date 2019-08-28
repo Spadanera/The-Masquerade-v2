@@ -3,6 +3,6 @@ server/dist/
 /server/dist/gmailAuth.js
 /server/src/gmailAuth.js
 /.project
-/.vscode/
+.vscode/
 /db/*
 package-lock.json
