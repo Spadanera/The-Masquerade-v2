@@ -19,11 +19,10 @@ const coteries = {
         await client.delete(`/api/coteries/${groupId}`);
         return;
     },
-    getAllCharacters: async (chronicleId) => {
+    getAllCharacters: async () => {
         
     },
     getGroupCharacters: async (listId) => {
-        listId = listId || component.$route.params.listid;
         let response = await await client.get(`/api/coteries/${listId}`);
         return response.data.characters.sort((a, b) => {
             if (a.alive > b.alive) {
@@ -52,21 +51,15 @@ const coteries = {
     createCharacterInGroup: async (character, coterieId) => {
         await client.post(`/api/characters/${coterieId}`, character);
     },
-    updateCharacter: async (component) => {
-        await client.put(`/api/characters/${component.character._id}`, component.character);
-        if (!component.fighting && !component.live) {
-            component.snackbar.text = "Save successfully";
-            component.snackbar.enabled = true;
-        }
-        component.readonly = true;
+    updateCharacter: async (characterId, character) => {
+        let response = await client.put(`/api/characters/${characterId}`, character);
+        return response.data;
     },
-    getCharacter: async (component) => {
-        let response = await client.get(`/api/characters/${component.characterId}`);
+    getCharacter: async (characterId) => {
+        let response = await client.get(`/api/characters/${characterId}`);
         response.data.mainInformation = response.data.mainInformation || {};
         response.data.mortal = response.data.mortal || {};
-        component.character = response.data;
-        component.loaded = true;
-        component.readonly = true;
+        return response.data;
     },
     killOrResumeCharacter: async (character, alive, component) => {
         let res = await component.$confirm(

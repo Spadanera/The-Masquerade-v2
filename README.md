@@ -9,10 +9,6 @@ To run the application it is necessary docker installed on your machine.
 First of all, clone this repository. After that run the following command in the root folder:
 
 ```
-npm run install
-```
-
-```
 npm start
 ```
 

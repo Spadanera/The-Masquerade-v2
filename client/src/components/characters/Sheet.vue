@@ -13,7 +13,7 @@
     >
       <v-toolbar-side-icon>
         <v-avatar size="40px">
-          <img :src="character.picture" :alt="character.name">
+          <img :src="character.picture" :alt="character.name" />
         </v-avatar>
       </v-toolbar-side-icon>
       <v-toolbar-title>
@@ -55,13 +55,13 @@
       v-bind:class="{ padding: internalShowToolbar, paddinged: !live }"
     >
       <v-tab-item>
-        <Characteristics :character="character" :readonly="readonly" :fighting="fighting"/>
+        <Characteristics :character="character" :readonly="readonly" :fighting="fighting" />
       </v-tab-item>
       <v-tab-item>
-        <Background :character="character" :readonly="readonly"/>
+        <Background :character="character" :readonly="readonly" />
       </v-tab-item>
       <v-tab-item>
-        <Story :character="character" :readonly="readonly"/>
+        <Story :character="character" :readonly="readonly" />
       </v-tab-item>
     </v-tabs-items>
     <v-snackbar
@@ -154,7 +154,11 @@ export default {
   },
   methods: {
     async loadCharacter() {
-      await this.characterService.getCharacter(this);
+      this.character = await this.characterService.getCharacter(
+        this.characterId
+      );
+      this.loaded = true;
+      this.readonly = true;
     },
     close() {
       this.$emit("close");
@@ -163,7 +167,15 @@ export default {
       return input.charAt(0).toUpperCase() + input.slice(1);
     },
     async save() {
-      await this.characterService.save(this);
+      await this.characterService.updateCharacter(
+        this.characterId,
+        this.character
+      );
+      if (!this.fighting && !this.live) {
+        this.snackbar.text = "Save successfully";
+        this.snackbar.enabled = true;
+      }
+      this.readonly = true;
     },
     async killOrResumeCharacter(alive) {
       await this.characterService.killOrResume(this.character, alive, this);

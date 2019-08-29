@@ -21,5 +21,14 @@
   "bugs": {
     "url": "https://github.com/Spadanera/The-Masquerade-v2/issues"
   },
-  "homepage": "https://github.com/Spadanera/The-Masquerade-v2#readme"
+  "homepage": "https://github.com/Spadanera/The-Masquerade-v2#readme",
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.2.2",
+    "eslint-plugin-vue": "^5.2.3",
+    "grunt": "^1.0.4",
+    "grunt-contrib-jshint": "^2.1.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-exec": "^3.0.0"
+  }
 }

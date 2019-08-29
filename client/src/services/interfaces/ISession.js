@@ -1,4 +1,3 @@
-import client from '../client';
 import { Interface, type } from 'implement-js';
 
 const Session = Interface('Session')({

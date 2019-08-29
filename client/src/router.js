@@ -2,50 +2,68 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import RestService from './services/rest/rest-services';
 
+// Component
+import Public from './views/Public.vue';
+import Home from './views/public/Home.vue';
+import About from './views/public/About.vue';
+import Join from './views/public/Join.vue';
+import StoryTeller from './views/StoryTeller.vue';
+import ChroniclesList from './views/story-teller/ChroniclesList.vue';
+import Chronicle from './views/shared/Chronicle.vue';
+import Dashboard from '/views/story-teller/chronicle/Dashboard.vue';
+import Stories from './views/shared/chronicle/Stories.vue';
+import Story from './views/shared/chronicle/Story.vue';
+import Players from './views/story-teller/chronicle/Players.vue';
+import CharacterList from './views/shared/chronicle/CharactersList.vue';
+import Character from './views/shared/chronicle/Character.vue';
+import Coteries from './views/story-teller/chronicle/Coteries.vue';
+import Live from './views/story-teller/chronicle/Live.vue';
+import Player from './views/Player.vue';
+import PlayerChroniclesList from './views/player/ChroniclesList.vue';
+
 Vue.use(Router);
 
 let Service;
 
-if (process.env.VUE_APP_API === "graphql") {
+// if (process.env.VUE_APP_API === "graphql") {
 
-}
-else {
-  Service = RestService;
-}
+// }
+// else {
+Service = RestService;
+// }
 
-/* jshint ignore: start */
 export default new Router({
   routes: [
     {
       path: "/",
-      component: () => import('./views/Public.vue'),
+      component: () => Public,
       children: [
         {
           path: '/',
-          component: () => import('./views/public/Home.vue')
+          component: () => Home
         },
         {
           path: '/about',
-          component: () => import('./views/public/About.vue')
+          component: () => About
         },
         {
           path: '/join/:token',
-          component: () => import('./views/public/Join.vue')
+          component: () => Join
         }
       ]
     },
     {
       path: '/story-teller',
-      component: () => import('./views/StoryTeller.vue'),
+      component: () => StoryTeller,
       children: [
         {
           path: '',
-          component: () => import('./views/story-teller/ChroniclesList.vue')
+          component: () => ChroniclesList
         },
         {
           path: 'chronicle/:id',
-          component: () => import('./views/shared/Chronicle.vue'),
-          props: (route) => ({
+          component: () => Chronicle,
+          props: () => ({
             sections: [
               {
                 tooltip: "Dashboard",
@@ -83,34 +101,34 @@ export default new Router({
           children: [
             {
               path: "dashboard",
-              component: () => import("./views/story-teller/chronicle/Dashboard.vue")
+              component: () => Dashboard
             },
             {
               path: "stories",
-              component: () => import('./views/shared/chronicle/Stories.vue'),
+              component: () => Stories,
               children: [
                 {
                   path: ":storyid",
-                  component: () => import("./views/shared/chronicle/Story.vue"),
+                  component: () => Story,
                 }
               ]
             },
             {
               path: "players",
-              component: () => import('./views/story-teller/chronicle/Players.vue'),
+              component: () => Players,
               children: [
                 {
                   path: ":listid",
-                  component: () => import('./views/shared/chronicle/CharactersList.vue'),
-                  props: (route) => ({
+                  component: () => CharacterList,
+                  props: () => ({
                     groupService: Service.playerService,
                     edit: false
                   })
                 },
                 {
                   path: ":listid/character/:characterid",
-                  component: () => import('./views/shared/chronicle/Character.vue'),
-                  props: (route) => ({
+                  component: () => Character,
+                  props: () => ({
                     groupService: Service.playerService,
                     edit: false
                   })
@@ -119,20 +137,20 @@ export default new Router({
             },
             {
               path: "coteries",
-              component: () => import('./views/story-teller/chronicle/Coteries.vue'),
+              component: () => Coteries,
               children: [
                 {
                   path: ":listid",
-                  component: () => import('./views/shared/chronicle/CharactersList.vue'),
-                  props: (route) => ({
+                  component: () => CharacterList,
+                  props: () => ({
                     groupService: Service.coterieService,
                     edit: true
                   })
                 },
                 {
                   path: ":listid/character/:characterid",
-                  component: () => import('./views/shared/chronicle/Character.vue'),
-                  props: (route) => ({
+                  component: () => Character,
+                  props: () => ({
                     groupService: Service.coterieService,
                     edit: true
                   })
@@ -141,7 +159,7 @@ export default new Router({
             },
             {
               path: "live",
-              component: () => import('./views/story-teller/chronicle/Live.vue')
+              component: () => Live
             }
           ]
         }
@@ -149,16 +167,16 @@ export default new Router({
     },
     {
       path: "/player",
-      component: () => import('./views/Player.vue'),
+      component: () => Player,
       children: [
         {
           path: "",
-          component: () => import('./views/player/ChroniclesList.vue')
+          component: () => PlayerChroniclesList
         },
         {
           path: 'chronicle/:id',
-          component: () => import('./views/shared/Chronicle.vue'),
-          props: (route) => ({
+          component: () => Chronicle,
+          props: () => ({
             sections: [
               {
                 tooltip: "Characters",
@@ -184,30 +202,30 @@ export default new Router({
           children: [
             {
               path: "dashboard",
-              component: () => import("./views/story-teller/chronicle/Dashboard.vue")
+              component: () => Dashboard
             },
             {
               path: "stories",
-              component: () => import('./views/shared/chronicle/Stories.vue'),
+              component: () => Stories,
               children: [
                 {
                   path: ":storyid",
-                  component: () => import("./views/shared/chronicle/Story.vue"),
+                  component: () => Story,
                 }
               ]
             },
             {
               path: "characters",
-              component: () => import('./views/shared/chronicle/CharactersList.vue'),
-              props: (route) => ({
+              component: () => CharacterList,
+              props: () => ({
                 groupService: Service.dedicatedPlayerService.playerService,
                 edit: true
               })
             },
             {
               path: "characters/:characterid",
-              component: () => import('./views/shared/chronicle/Character.vue'),
-              props: (route) => ({
+              component: () => Character,
+              props: () => ({
                 characterService: Service.dedicatedPlayerService.playerService,
                 edit: true
               })
@@ -218,4 +236,3 @@ export default new Router({
     }
   ]
 });
-/* jshint ignore: end */

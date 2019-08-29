@@ -35,12 +35,12 @@ Vue.use(VuetifyConfirm, {
 Vue.config.productionTip = false;
 Vue.prototype.moment = moment;
 
-if (process.env.VUE_APP_API === "graphql") {
+// if (process.env.VUE_APP_API === "graphql") {
 
-}
-else {
-  Vue.prototype.Service = RestService;
-}
+// }
+// else {
+Vue.prototype.Service = RestService;
+// }
 
 new Vue({
   router,
