@@ -103,7 +103,7 @@ export default {
     this.getCoteries();
   },
   watch: {
-    navVisible: function(newValue, oldValue) {
+    navVisible: function(newValue) {
       this.ownNavVisible = newValue;
     }
   },

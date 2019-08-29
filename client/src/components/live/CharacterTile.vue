@@ -1,5 +1,5 @@
-<template v-for="(player) in players">
-  
+<template>
+  <div></div>
 </template>
 
 <script>

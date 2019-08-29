@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import client from '../../services/client';
 export default {
   name: "ChronicleForm",
   data() {

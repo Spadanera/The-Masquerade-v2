@@ -106,9 +106,9 @@ export default {
     },
     async getStories() {
       this.stories = await this.Service.storyService.getStories(this.$route.params.id);
-      this.stories.forEach(async (story) => {
-        story.sessions = await this.Service.sessionService.getSessions(story._id);
-      });
+      for (let i = 0; i < this.stories.length; i++) {
+        this.stories[i].sessions = await this.Service.sessionService.getSessions(this.stories[i]._id);
+      }
     }
   },
   watch: {

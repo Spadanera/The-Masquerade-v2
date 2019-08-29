@@ -48,7 +48,7 @@ export default {
     async submit() {
       if (this.$refs.form.validate()) {
         await this.Service.storyService.createStory(this.chronicleId, this.story);
-        this.$emit("submitted", story._id);
+        this.$emit("submitted", this.story._id);
         this.$emit("close", false);
       }
     }

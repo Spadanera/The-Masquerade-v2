@@ -46,11 +46,9 @@
 </template>
 
 <script>
-import NoChronicles from "../../components/chronicles/NoChronicles.vue";
 import ChronicleCard from "../../components/chronicles/ChronicleCard.vue";
 export default {
   components: {
-    NoChronicles,
     ChronicleCard
   },
   data() {

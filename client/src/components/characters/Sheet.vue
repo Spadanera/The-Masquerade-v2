@@ -104,7 +104,6 @@
 </template>
 
 <script>
-import client from "../../services/client";
 import Characteristics from "./Characteristics.vue";
 import Story from "./Story.vue";
 import Background from "./Background.vue";
@@ -197,6 +196,7 @@ export default {
       handler: function(val) {
         if (val) {
           this.snackbar.text = "Fight started - auto-save enable";
+          this.characterTabs = 0;
         } else {
           this.snackbar.text = "Fight ended - auto-save disable";
         }
@@ -210,13 +210,6 @@ export default {
         }
       },
       deep: true
-    },
-    fighting: {
-      handler: function(val) {
-        if (val) {
-          this.characterTabs = 0;
-        }
-      }
     }
   },
   computed: {

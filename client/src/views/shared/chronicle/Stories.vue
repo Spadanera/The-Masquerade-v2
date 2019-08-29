@@ -52,7 +52,8 @@ export default {
     navVisible: Boolean
   },
   methods: {
-    async getStories(storyId) {
+    async getStories() {
+      // input storyId
       // let response = await storyService.loadList(this);
       // this.stories = response.data;
       // if (this.stories.length) {
@@ -81,7 +82,7 @@ export default {
     this.getStories();
   },
   watch: {
-    navVisible: function(newValue, oldValue) {
+    navVisible: function(newValue) {
       this.ownNavVisible = newValue;
     }
   },

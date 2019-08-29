@@ -130,7 +130,7 @@ export default {
     this.enableWatcher = true;
   },
   watch: {
-    characters: function(newValue, oldValue) {
+    characters: function(newValue) {
       if (this.enableWatcher) {
         this.$session.set("selectedCharacters", JSON.stringify(newValue));
       }
@@ -144,7 +144,7 @@ export default {
         this.selection = [];
       }
     },
-    navVisible: function(newValue, oldValue) {
+    navVisible: function(newValue) {
       this.ownNavVisible = newValue;
     },
     selection: function(newValue, oldValue) {

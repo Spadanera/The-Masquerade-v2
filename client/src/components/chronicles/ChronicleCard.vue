@@ -17,7 +17,6 @@
 
 <script>
 import Confirm from "../layout/Confirm.vue";
-import client from "../../services/client";
 export default {
   name: "ChronicleCard",
   data() {
@@ -44,7 +43,7 @@ export default {
       await this.Service.chronicleService.deleteChronicle(this.chronicle._id);
       this.$emit("submitted", "Chronicle successfully deleted");
     },
-    openChronicle (id, name) {
+    openChronicle (id) {
       this.$router.push({ path: `${this.$route.path}/chronicle/${id}/${this.$route.path === '/story-teller' ? 'dashboard' : 'characters'}` });
     }
   }

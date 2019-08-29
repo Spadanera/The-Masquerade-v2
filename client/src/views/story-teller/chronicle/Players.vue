@@ -137,7 +137,7 @@ export default {
     this.getInvitations();
   },
   watch: {
-    navVisible: function(newValue, oldValue) {
+    navVisible: function(newValue) {
       this.ownNavVisible = newValue;
     }
   },

@@ -10,7 +10,7 @@ import Join from './views/public/Join.vue';
 import StoryTeller from './views/StoryTeller.vue';
 import ChroniclesList from './views/story-teller/ChroniclesList.vue';
 import Chronicle from './views/shared/Chronicle.vue';
-import Dashboard from '/views/story-teller/chronicle/Dashboard.vue';
+import Dashboard from './views/story-teller/chronicle/Dashboard.vue';
 import Stories from './views/shared/chronicle/Stories.vue';
 import Story from './views/shared/chronicle/Story.vue';
 import Players from './views/story-teller/chronicle/Players.vue';
@@ -36,33 +36,33 @@ export default new Router({
   routes: [
     {
       path: "/",
-      component: () => Public,
+      component: Public,
       children: [
         {
           path: '/',
-          component: () => Home
+          component: Home
         },
         {
           path: '/about',
-          component: () => About
+          component: About
         },
         {
           path: '/join/:token',
-          component: () => Join
+          component: Join
         }
       ]
     },
     {
       path: '/story-teller',
-      component: () => StoryTeller,
+      component: StoryTeller,
       children: [
         {
           path: '',
-          component: () => ChroniclesList
+          component: ChroniclesList
         },
         {
           path: 'chronicle/:id',
-          component: () => Chronicle,
+          component: Chronicle,
           props: () => ({
             sections: [
               {
@@ -101,25 +101,25 @@ export default new Router({
           children: [
             {
               path: "dashboard",
-              component: () => Dashboard
+              component: Dashboard
             },
             {
               path: "stories",
-              component: () => Stories,
+              component: Stories,
               children: [
                 {
                   path: ":storyid",
-                  component: () => Story,
+                  component: Story,
                 }
               ]
             },
             {
               path: "players",
-              component: () => Players,
+              component: Players,
               children: [
                 {
                   path: ":listid",
-                  component: () => CharacterList,
+                  component: CharacterList,
                   props: () => ({
                     groupService: Service.playerService,
                     edit: false
@@ -127,7 +127,7 @@ export default new Router({
                 },
                 {
                   path: ":listid/character/:characterid",
-                  component: () => Character,
+                  component: Character,
                   props: () => ({
                     groupService: Service.playerService,
                     edit: false
@@ -137,11 +137,11 @@ export default new Router({
             },
             {
               path: "coteries",
-              component: () => Coteries,
+              component: Coteries,
               children: [
                 {
                   path: ":listid",
-                  component: () => CharacterList,
+                  component: CharacterList,
                   props: () => ({
                     groupService: Service.coterieService,
                     edit: true
@@ -149,7 +149,7 @@ export default new Router({
                 },
                 {
                   path: ":listid/character/:characterid",
-                  component: () => Character,
+                  component: Character,
                   props: () => ({
                     groupService: Service.coterieService,
                     edit: true
@@ -159,7 +159,7 @@ export default new Router({
             },
             {
               path: "live",
-              component: () => Live
+              component: Live
             }
           ]
         }
@@ -167,15 +167,15 @@ export default new Router({
     },
     {
       path: "/player",
-      component: () => Player,
+      component: Player,
       children: [
         {
           path: "",
-          component: () => PlayerChroniclesList
+          component: PlayerChroniclesList
         },
         {
           path: 'chronicle/:id',
-          component: () => Chronicle,
+          component: Chronicle,
           props: () => ({
             sections: [
               {
@@ -202,21 +202,21 @@ export default new Router({
           children: [
             {
               path: "dashboard",
-              component: () => Dashboard
+              component: Dashboard
             },
             {
               path: "stories",
-              component: () => Stories,
+              component: Stories,
               children: [
                 {
                   path: ":storyid",
-                  component: () => Story,
+                  component: Story,
                 }
               ]
             },
             {
               path: "characters",
-              component: () => CharacterList,
+              component: CharacterList,
               props: () => ({
                 groupService: Service.dedicatedPlayerService.playerService,
                 edit: true
@@ -224,7 +224,7 @@ export default new Router({
             },
             {
               path: "characters/:characterid",
-              component: () => Character,
+              component: Character,
               props: () => ({
                 characterService: Service.dedicatedPlayerService.playerService,
                 edit: true
