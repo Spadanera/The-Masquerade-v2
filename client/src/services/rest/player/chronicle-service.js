@@ -3,9 +3,9 @@ import IChronicle from '../../interfaces/IChronicle';
 import implement from 'implement-js';
 
 const chronicle = {
-    getChronicle: async (component) => {
+    getChronicle: async (chronicleId) => {
         return await client.get(
-            `/api/chronicles/player/${component.$route.params.id}`
+            `/api/chronicles/player/${chronicleId}`
         );
     },
     getChronicles: async () => {

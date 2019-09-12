@@ -57,7 +57,7 @@ export default {
       this.characters = await this.groupService.getGroupCharacters(listid, this);
     },
     openCharacter(characterId) {
-      this.groupService.openCharacter(characterId, this.$router, this.$route);
+      this.groupService.openCharacter(characterId, this);
     },
     async killOrResumeCharacter(character, alive) {
       await this.groupService.killOrResume(character, alive, this)

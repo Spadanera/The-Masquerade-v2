@@ -55,7 +55,7 @@
               :showActions="false"
               :autoReload="character.player"
               @close="closeCharacter"
-              :characterService="character.player ? playerCharacterService : coterieCharacterService"
+              :characterService="character.player ? Service.playerService : Service.coterieService"
               :edit="false"
               :live="true"
             />
@@ -114,11 +114,11 @@ export default {
     }
   },
   async created() {
-    let response = await this.Service.coterieServices(this.$route.params.id);
+    let response = await this.Service.coterieService.getGroups(this.$route.params.id);
     this.groups = this.groups.concat(
       response.filter(group => group.characters.length > 0)
     );
-    response = await this.Service.playerService(this.$route.params.id);
+    response = await this.Service.playerService.getAllCharacters(this.$route.params.id);
     this.groups[0].characters = response.map(character => {
       character.player = true;
       return character;

@@ -57,9 +57,12 @@ const coteries = {
     },
     getCharacter: async (characterId) => {
         let response = await client.get(`/api/characters/${characterId}`);
-        response.data.mainInformation = response.data.mainInformation || {};
-        response.data.mortal = response.data.mortal || {};
-        return response.data;
+        if (response.data) {
+            response.data.mainInformation = response.data.mainInformation || {};
+            response.data.mortal = response.data.mortal || {};
+            return response.data;
+        }
+        return {};
     },
     killOrResumeCharacter: async (character, alive, component) => {
         let res = await component.$confirm(
