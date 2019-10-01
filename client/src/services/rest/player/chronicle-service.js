@@ -9,7 +9,7 @@ const chronicle = {
         );
     },
     getChronicles: async () => {
-        let response = await client.get("/api/chronicles");
+        let response = await client.get("/api/chronicles/player");
         return response.data;
     },
     goTo: (route, component) => {

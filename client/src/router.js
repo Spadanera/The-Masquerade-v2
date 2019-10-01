@@ -226,7 +226,7 @@ export default new Router({
               path: "characters/:characterid",
               component: Character,
               props: () => ({
-                characterService: Service.dedicatedPlayerService.playerService,
+                groupService: Service.dedicatedPlayerService.playerService,
                 edit: true
               })
             }

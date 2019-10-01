@@ -72,10 +72,10 @@ const players = {
     deleteCharacterInGroup: async () => { }
 };
 
-function getCharacters(groupId) {
+function getCharacters() {
     let iteration = 0;
     return new Promise((resolve, reject) => {
-        client.get(`/api/players/${groupId}/characters/`).then((response) => {
+        client.get(`/api/players/characters/`).then((response) => {
             if (response.status === 204) {
                 if (iteration > 500) {
                     reject("Timeout exeeded waiting session playerId");
