@@ -2,6 +2,8 @@
 server/dist/
 /server/dist/gmailAuth.js
 /server/src/gmailAuth.js
+/server/.DS_Store
+.DS_Store
 /.project
 .vscode/
 node_modules/
