@@ -1,6 +1,6 @@
 // vue.config.js
 module.exports = {
     devServer: {
-      public: '127.0.0.100:8080'
+      public: '192.168.3.148:8080'
     }
   }

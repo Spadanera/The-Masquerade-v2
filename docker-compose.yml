@@ -4,7 +4,7 @@ services:
   client:
     build: ./client
     ports:
-      - 127.0.0.100:8080:8080
+      - 192.168.3.148:8080:8080
     volumes:
       - ./client:/data
     environment:
