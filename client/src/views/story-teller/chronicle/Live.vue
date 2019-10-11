@@ -47,7 +47,7 @@
           </v-avatar>
           {{ character.name }}
         </v-tab>
-        <v-tab-item v-for="(character, i) in selection" :key="i" class="fill-height">
+        <v-tab-item :transition="false" :reverse-transition="false" v-for="(character, i) in selection" :key="i" class="fill-height">
           <div class="bring-up fill-height">
             <Sheet
               :characterId="character._id"
