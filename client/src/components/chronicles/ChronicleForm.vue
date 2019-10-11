@@ -25,7 +25,7 @@ export default {
     async submit() {
       if (this.$refs.form.validate()) {
         // call action
-        this.Service.chronicleService.createCronicle(this.chronicle);
+        this.Service.chronicleService.createChronicle(this.chronicle);
         this.$emit("submitted");
       }
     }

@@ -125,7 +125,7 @@ export default {
         }
       );
       if (res) {
-        await this.Service.invitationService.delete(invitation._id);
+        await this.Service.invitationService.deleteInvitation(invitation._id);
         this.getInvitations();
         this.snackbar.text = "Invitation deleted";
         this.snackbar.enabled = true;

@@ -15,8 +15,6 @@ const service = {
     }
 };
 
-console.log(service.dedicatedPlayerService.playerService);
-
 implement(IService)(service);
 
 export default service;

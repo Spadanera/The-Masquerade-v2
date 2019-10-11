@@ -54,16 +54,15 @@ router.post("/", async (req, res) => {
                 let player = await Player.findOne({ userId: user._id, chronicleId: req.body.chronicleId });
                 if (player) {
                     res.status(204).send();
-                }
-                else {
-                    req.body.token = uuid.v4();
-                    await mailSender.sendMail(req.body.emailAddress,
-                        "Your invite to partecipate to Vampiere The Masquerade Chronicle",
-                        `Open this link to join ${process.env.PROTOCOL || "http"}://${process.env.ORIGIN || "localhost"}/#/join/${req.body.token}`);
-                    let invitation = new Invitation(req.body);
-                    res.json(await invitation.save());
+                    return;
                 }
             }
+            req.body.token = uuid.v4();
+            await mailSender.sendMail(req.body.emailAddress,
+                "Your invitation to partecipate to Vampiere The Masquerade Chronicle",
+                `Open this link to join ${process.env.PROTOCOL || "http"}://${process.env.ORIGIN || "localhost"}/#/join/${req.body.token}`);
+            let invitation = new Invitation(req.body);
+            res.json(await invitation.save());
         }
         else {
             res.status(400).send("Chronicle not found");

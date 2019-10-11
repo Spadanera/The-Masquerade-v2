@@ -47,7 +47,7 @@ export default {
         try {
           this.invitation.chronicleId = this.chronicleId;
           this.loading = true;
-          let response = await this.Service.invitationService.create(this.invitation);
+          let response = await this.Service.invitationService.createInvitation(this.invitation);
           if (response.status === 204) {
             this.$emit("submitted", "Player already exists");
           }
@@ -57,6 +57,7 @@ export default {
           this.closeModal();
         }
         catch (err) {
+          console.log(err);
           alert("Error executing invitation");
         }
         finally {
