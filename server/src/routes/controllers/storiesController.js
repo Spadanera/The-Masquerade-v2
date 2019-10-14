@@ -36,6 +36,15 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+router.put("/:id", async (req, res) => {
+    try {
+        res.json(await Story.findOneAndUpdate({ _id: req.params.id, storyTeller: req.session.userId }, req.body));
+    } catch (e) {
+        console.log(e);
+        res.status(500).json(e);
+    }
+});
+
 // get all by chronicle id
 router.get("/all/:id", async (req, res) => {
     try {

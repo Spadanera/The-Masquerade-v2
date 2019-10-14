@@ -9,13 +9,21 @@ const story = {
         );
         return response.data;
     },
-    getStory: async () => {},
+    getStory: async (storyId) => {
+        let response = await client.get(
+            `/api/stories/${storyId}`
+        );
+        return response.data;
+    },
     createStory: async (chronicleId, input) => {
         await client.post(`/api/stories/${chronicleId}`, input);
     },
-    updateStory: async () => {},
-    insertSession: async () => {},
-    deleteSession: async () => {}
+    updateStory: async (storyId, input) => {
+        console.log(storyId);
+        await client.put(`/api/stories/${storyId}`, input);
+    },
+    insertSession: async () => { },
+    deleteSession: async () => { }
 };
 
 implement(IStory)(story);

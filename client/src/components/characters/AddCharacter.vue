@@ -32,7 +32,7 @@
               ref="image"
               accept="image/*"
               @change="onFilePicked"
-            >
+            />
           </v-form>
         </v-container>
       </v-card-text>
@@ -79,7 +79,10 @@ export default {
     async submit() {
       if (this.$refs.form.validate()) {
         this.character.picture = this.imageUrl;
-        await this.characterService.createCharacterInGroup(this.character, this.coterieId);
+        await this.characterService.createCharacterInGroup(
+          this.character,
+          this.coterieId
+        );
         this.$emit("submitted", this.coterieId);
         this.closeModal();
       }

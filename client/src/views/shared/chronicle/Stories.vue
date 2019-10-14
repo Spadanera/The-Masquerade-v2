@@ -6,7 +6,7 @@
       disable-route-watcher
       :fixed="this.$vuetify.breakpoint.mdAndDown"
       :stateless="true"
-      style="z-index: 6"
+      style="z-index: 6; min-width: 300px"
     >
       <v-list
         subheader
@@ -52,19 +52,18 @@ export default {
     navVisible: Boolean
   },
   methods: {
-    async getStories() {
+    async getStories(storyId) {
       // input storyId
-      // let response = await storyService.loadList(this);
-      // this.stories = response.data;
-      // if (this.stories.length) {
-      //   let find = this.stories.find(s => s._id === storyId);
-      //   if (find) {
-      //     this.select(find, true);
-      //   }
-      //   else {
-      //     this.select(this.stories[0], true);
-      //   }
-      // }
+      this.stories = await this.Service.storyService.getStories(this.$route.params.id);
+      if (this.stories.length) {
+        let find = this.stories.find(s => s._id === storyId);
+        if (find) {
+          this.select(find, true);
+        }
+        else {
+          this.select(this.stories[0], true);
+        }
+      }
     },
     select(story, notToCloseNav) {
       this.$router.push(
