@@ -3,26 +3,27 @@
 const router = require('express').Router();
 import Session from '../../models/Session';
 import Story from '../../models/Story';
+import Chronicle from '../../models/Chronicle';
 
 // Create new session
 router.post("/:id", async (req, res) => {
     try {
-        let story = await Story.findOne({ _id: req.params.id }); //, storyTeller: req.session.userId });
-        if (story) {
-            console.log(req.body);
+        let ongoingStory = await getOngoingStory(req.params.id, req.session.userId);
+        if (ongoingStory) {
             let session = new Session(req.body);
+            session.storyTeller = req.session.userId;
             await session.save();
-            story.sessions.push(session);
-            await story.save();
+            ongoingStory.sessions.push(session);
+            await ongoingStory.save();
             res.json(session);
         }
         else {
-            res.status(500).send("Story not found");
+            res.status(404).send("Story not found");
         }
     }
     catch (e) {
         console.error(e);
-        res.status(500).json(e);
+        res.status(500).send(e.message);
     }
 });
 
@@ -30,6 +31,16 @@ router.post("/:id", async (req, res) => {
 router.get("/:id", async (req, res) => {
     try {
         res.json(await Session.findOne({ _id: req.params.id, storyTeller: req.session.userId }));
+    } catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
+});
+
+// get on going session
+router.get("/ongoing/:id", async (req, res) => {
+    try {
+        res.json(await Session.findOne({ chronicleId: req.params.id, storyTeller: req.session.userId }));
     } catch (e) {
         console.error(e);
         res.status(500).json(e);
@@ -57,5 +68,13 @@ router.delete("/:id", async (req, res) => {
     await session.remove();
     res.send("Deleted");
 });
+
+async function getOngoingStory(chronicleId, userId) {
+    let chronicle = await Chronicle.findOne({ _id: chronicleId, storyTeller: userId }).populate("stories");
+    if (chronicle) {
+        let story = chronicle.stories.find(s => s.onGoing);
+        return story;
+    }
+}
 
 export default router;
