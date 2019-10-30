@@ -12,7 +12,7 @@ First of all, clone this repository. After that run the following command in the
 grunt
 ```
 
-It will ask you your gmail credentials. It is necessary to send invitation email. In this case you should do an addictional step in gmail to allow your account to send email. You could skip this step. If the credentials are empty, the invitation invitation is created at db level, but the email will not be sent.
+It will ask you your gmail credentials. It is necessary to send invitation email. In this case you should do an addictional step in gmail to allow your account to send email. You could skip this step. If the credentials are empty, the invitation is created at db level, but the email will not be sent.
 
 After that you can access the application at:
 
