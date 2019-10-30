@@ -9,19 +9,23 @@ module.exports.sendMail = (to, subject, text) => {
         });
 
         var mailOptions = {
-            from: 'ziro84@gmail.com',
+            from: 'info@themasquerade.com',
             to: to,
             subject: subject,
             text: text
         };
-
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log(error);
-                reject(error);
-            } else {
-                resolve(info);
-            }
-        });
+        if (gmailAuth.pass && gmailAuth.user) {
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log(error);
+                    reject(error);
+                } else {
+                    resolve(info);
+                }
+            });
+        }
+        else {
+            resolve();
+        }
     });
 };
