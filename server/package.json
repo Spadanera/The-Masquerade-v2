@@ -4,7 +4,7 @@
   "description": "Web app to manage The Masquerade Chronicle",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon --exec babel-node ./src/app.js",
+    "start": "nodemon --inspect=0.0.0.0:9229 --exec babel-node ./src/app.js",
     "build": "babel ./src --out-dir ./dist --copy-files",
     "serve": "node ./dist/app.js"
   },

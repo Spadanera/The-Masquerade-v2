@@ -16,6 +16,7 @@ services:
     build: ./server
     ports:
       - 3000
+      - 9229:9229
     volumes:
       - ./server:/data
     depends_on: 
