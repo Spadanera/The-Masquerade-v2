@@ -19,7 +19,6 @@ const story = {
         await client.post(`/api/stories/${chronicleId}`, input);
     },
     updateStory: async (storyId, input) => {
-        console.log(storyId);
         await client.put(`/api/stories/${storyId}`, input);
     },
     insertSession: async () => { },

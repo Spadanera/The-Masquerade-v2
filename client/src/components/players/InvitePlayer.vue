@@ -57,7 +57,6 @@ export default {
           this.closeModal();
         }
         catch (err) {
-          console.log(err);
           alert("Error executing invitation");
         }
         finally {
