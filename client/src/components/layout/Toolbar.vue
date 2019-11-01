@@ -28,14 +28,6 @@
       </template>
       <v-card>
         <v-list>
-          <!-- <v-list-tile>
-            <v-list-tile-content>
-              Settings
-            </v-list-tile-content>
-            <v-list-tile-action>
-              <v-icon>settings</v-icon>        
-            </v-list-tile-action>
-          </v-list-tile>-->
           <v-list-tile @click="toggleDarkTheme">
             <v-list-tile-content>Toggle dark theme</v-list-tile-content>
             <v-list-tile-action>
