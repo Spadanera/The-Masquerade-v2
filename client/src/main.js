@@ -17,7 +17,13 @@ Vue.use(Vuetify, {
     primary: colors.red.darken4,
     secondary: '#b0bec5',
     accent: '#FFFAFA',
-    error: '#b71c1c'
+    error: '#b71c1c',
+    light: {
+      background: '#FFFFFF'
+    },
+    dark: {
+      background: '#424242'
+    }
   }
 });
 Vue.use(CKEditor);

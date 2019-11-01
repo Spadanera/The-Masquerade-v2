@@ -9,6 +9,7 @@ let SessionSchema = new mongoose.Schema({
     characters: [
         {
             characterId: mongoose.Schema.Types.ObjectId,
+            characterName: String,
             experiencePoints: { type: Number, default: 0 },
             storyTellerNote: String,
             playerNote: String

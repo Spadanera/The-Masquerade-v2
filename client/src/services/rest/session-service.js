@@ -19,7 +19,14 @@ const session = {
         let response = await client.get(`/api/sessions/ongoing/${chronicleId}`);
         return response.data;
     },
-    updateSession: async () => {}
+    updateSession: async (session) => {
+        let response = await client.put(`/api/sessions/${session._id}`, session);
+        return response.data;
+    },
+    deleteSession: async (sessionId) => {
+        let response = await client.delete(`/api/sessions/${sessionId}`);
+        return response.data;
+    }
 };
 
 implement(ISession)(session);

@@ -30,8 +30,25 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <div class="layer" v-if="navVisible && this.$vuetify.breakpoint.mdAndDown" @click="navVisible = false"></div>
-    <router-view style="height: 100%" @updated="loadChronicle" :navVisible="navVisible" @closenavbar="closeNavBar"></router-view>
+    <div
+      class="layer"
+      v-if="navVisible && this.$vuetify.breakpoint.mdAndDown"
+      @click="navVisible = false"
+    ></div>
+    <router-view
+      style="height: 100%"
+      @updated="loadChronicle"
+      :navVisible="navVisible"
+      @closenavbar="closeNavBar"
+    ></router-view>
+    <v-alert
+      v-if="$route.fullPath.indexOf('live') < 0"
+      style="position: absolute; bottom: 0; width: 100%; margin-bottom: 0"
+      :value="sessionOnGoing"
+      color="primary"
+      icon="priority_high"
+      transition="scale-transition"
+    >Session on going</v-alert>
   </v-layout>
 </template>
 
@@ -45,16 +62,18 @@ export default {
   data() {
     return {
       chronicle: {},
-      liveSession: false
+      sessionOnGoing: false
     };
   },
   methods: {
     async loadChronicle() {
-      this.chronicle = await this.chronicleService.getChronicle(this.$route.params.id);
+      this.chronicle = await this.chronicleService.getChronicle(
+        this.$route.params.id
+      );
       this.$emit("chronicle", this.chronicle.name);
     },
     goTo(route) {
-        this.chronicleService.goTo(route, this)
+      this.chronicleService.goTo(route, this);
     },
     selected(route) {
       return this.$route.path.indexOf(route) > -1;
@@ -65,6 +84,18 @@ export default {
   },
   created() {
     this.loadChronicle();
+    window.setInterval(async () => {
+      this.onGoingSession =
+        (await this.Service.sessionService.getOnGoingSession(
+          this.$route.params.id
+        )) || {};
+      if (this.onGoingSession.sessionDate) {
+        this.sessionOnGoing = true;
+      }
+      else {
+        this.sessionOnGoing = false;
+      }
+    }, 1000);
   },
   computed: {
     navVisible: {

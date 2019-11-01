@@ -35,11 +35,7 @@
         return-object
       ></v-treeview>
       <v-footer :fixed="true">
-        <v-btn
-          v-if="!sessionOnGoing"
-          class="footer-button"
-          @click="dialog=true"
-        >Start Session</v-btn>
+        <v-btn v-if="!sessionOnGoing" class="footer-button" @click="dialog=true">Start Session</v-btn>
         <v-btn
           v-else
           class="footer-button"
@@ -83,17 +79,23 @@
       </v-tabs>
     </div>
     <v-bottom-sheet v-model="sheet" persistent>
-      <SessionForm :characters="this.groups[0].characters" :readonly="true" :session="onGoingSession" @close="sheet=false" />
+      <SessionForm
+        :readonly="false"
+        :sessionid="onGoingSession._id"
+        @close="sheet=false"
+        @complete="sessionCompleted"
+      />
     </v-bottom-sheet>
     <v-dialog v-model="dialog" width="290">
       <v-date-picker v-model="sessionDate" color="primary"></v-date-picker>
       <v-footer>
-        <v-btn class="footer-button" style="width: 50%" color="primary" @click="startSession()">
-          Start
-        </v-btn>
-        <v-btn class="footer-button" style="width: 50%" @click="dialog = false">
-          Cancel
-        </v-btn>
+        <v-btn
+          class="footer-button"
+          style="width: 50%"
+          color="primary"
+          @click="startSession()"
+        >Start</v-btn>
+        <v-btn class="footer-button" style="width: 50%" @click="dialog = false">Cancel</v-btn>
       </v-footer>
     </v-dialog>
     <v-snackbar
@@ -159,10 +161,16 @@ export default {
     },
     async startSession() {
       this.onGoingSession = await this.Service.sessionService.createSession(
-        this.$route.params.id, 
-        { 
+        this.$route.params.id,
+        {
           sessionDate: moment(this.sessionDate, "YYYY-MM-DD").format(),
-          characters: this.groups[0].characters.reduce(character => { return { characterId: character._id, experiencePoints: 0 }; }),
+          characters: this.groups[0].characters.map(character => {
+            return {
+              characterId: character._id,
+              experiencePoints: 0,
+              characterName: character.name
+            };
+          }),
           completed: false,
           chronicleId: this.$route.params.id
         }
@@ -172,10 +180,15 @@ export default {
       this.snackbar = {
         enabled: true,
         text: "Session started"
-      }
+      };
     },
     sessionDetails() {
       this.sheet = true;
+    },
+    sessionCompleted() {
+      this.onGoingSession = {};
+      this.sessionOnGoing = false;
+      this.sheet = false;
     }
   },
   computed: {
@@ -210,13 +223,16 @@ export default {
     }
     this.enableWatcher = true;
 
-    this.onGoingSession = await this.Service.sessionService.getOnGoingSession(this.$route.params.id) || {};
+    this.onGoingSession =
+      (await this.Service.sessionService.getOnGoingSession(
+        this.$route.params.id
+      )) || {};
     if (this.onGoingSession.sessionDate) {
       this.sessionOnGoing = true;
     }
   },
   watch: {
-    characters: function(newValue) {
+    characters(newValue) {
       if (this.enableWatcher) {
         this.$session.set("selectedCharacters", JSON.stringify(newValue));
       }
@@ -227,10 +243,10 @@ export default {
         this.selection = [];
       }
     },
-    navVisible: function(newValue) {
+    navVisible(newValue) {
       this.ownNavVisible = newValue;
     },
-    selection: function(newValue, oldValue) {
+    selection(newValue, oldValue) {
       if (newValue && oldValue) {
         if (newValue.length > oldValue.length) {
           this.selectedCharacter = newValue.length - 1;
@@ -253,7 +269,7 @@ export default {
 }
 
 .footer-button {
-  margin: 0; 
+  margin: 0;
   width: 100%;
 }
 

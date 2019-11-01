@@ -1,23 +1,24 @@
 <template>
-  <v-layout column>
+  <v-layout column :style="{background: darkTheme ? '#424242' : '#FFFFFF' }">
     <v-layout>
       <v-flex shrink>
-        <v-date-picker v-model="sessionDate" color="primary"></v-date-picker>
+        <v-date-picker :readonly="readonly" v-model="sessionDate" color="primary"></v-date-picker>
       </v-flex>
       <v-flex>
         <v-tabs grow v-model="active" slider-color="primary">
           <v-tab>Main</v-tab>
-          <v-tab v-for="(character, i) in characters" :key="i">{{character.name}}</v-tab>
+          <v-tab v-for="(character, i) in session.characters" :key="i">{{character.characterName}}</v-tab>
           <v-tab-item>
-            <v-card flat>
+            <v-card flat style="margin-left: 5px;">
               <v-card-text>
                 <v-layout>
                   <v-flex grow pa-1>
                     <v-textarea
                       auto-grow
-                      v-model="sessionNote"
+                      v-model="session.globalNote"
                       label="Global Note"
                       clearable
+                      :readonly="readonly"
                       rows="1"
                     />
                   </v-flex>
@@ -25,9 +26,48 @@
               </v-card-text>
             </v-card>
           </v-tab-item>
-          <v-tab-item v-for="(character, i) in characters" :key="i">
-            <v-card flat>
-              <v-card-text>{{character.name}}</v-card-text>
+          <v-tab-item v-for="(character, i) in session.characters" :key="i">
+            <v-card flat style="margin-left: 5px;">
+              <v-card-text>
+                <v-form>
+                  <v-container>
+                    <v-layout column>
+                      <v-flex xs12>
+                        <v-textarea
+                          auto-grow
+                          v-model="character.storyTellerNote"
+                          label="Story-teller Note"
+                          clearable
+                          :readonly="readonly"
+                          rows="1"
+                        />
+                      </v-flex>
+                      <v-flex>
+                        <v-layout>
+                          <v-flex xs12 sm3 pr-2>
+                            <v-text-field
+                              :readonly="readonly"
+                              type="number"
+                              label="Experience Poings"
+                              v-model="character.experiencePoints"
+                            ></v-text-field>
+                          </v-flex>
+                          <v-flex grow>
+                            <v-textarea
+                              auto-grow
+                              v-model="character.playerNote"
+                              label="Player Note"
+                              clearable
+                              readonly
+                              rows="1"
+                            />
+                          </v-flex>
+                        </v-layout>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-form>
+              </v-card-text>
             </v-card>
           </v-tab-item>
         </v-tabs>
@@ -35,15 +75,21 @@
     </v-layout>
     <v-footer color="primary" height="auto" style="width: 100%" class="session-footer">
       <v-layout justify-space-between>
-        <v-flex shrink>
-          <v-btn flat color="white" ma-0>Complete</v-btn>
+        <v-flex shrink v-if="modified">
+          <v-btn flat color="white" @click="save" ma-0>Save</v-btn>
+        </v-flex>
+        <v-flex shrink v-if="modified">
+          <v-btn flat color="white" @click="getSession(sessionid)" ma-0>Undo</v-btn>
+        </v-flex>
+        <v-flex shrink v-if="!readonly">
+          <v-btn flat color="white" ma-0 @click="complete">Complete</v-btn>
         </v-flex>
         <v-flex shrink>
           <v-btn flat color="white" @click="close" ma-0>Close</v-btn>
         </v-flex>
         <v-flex grow>
           <v-layout justify-end>
-            <v-btn flat color="white">Delete</v-btn>
+            <v-btn flat color="white" @click="deleteSession">Delete</v-btn>
           </v-layout>
         </v-flex>
       </v-layout>
@@ -56,31 +102,82 @@ import moment from "moment";
 export default {
   name: "SessionForm",
   props: {
-    characters: Array,
     readonly: Boolean,
-    session: Object
+    sessionid: String
   },
   data() {
     return {
       active: 0,
       sessionDate: "",
-      sessionNote: "",
-      sessionCharacters: []
+      session: {},
+      modified: false,
+      darkTheme: localStorage.darkTheme
     };
   },
   methods: {
     close() {
       this.$emit("close");
+    },
+    async save() {
+      this.session.sessionDate = moment(this.sessionDate, "YYYY-MM-DD");
+      await this.Service.sessionService.updateSession(this.session);
+      this.modified = false;
+    },
+    async complete() {
+      let res = await this.$confirm(`Do you really want to complete session?`, {
+        title: "Warning"
+      });
+      if (res) {
+        this.session.completed = true;
+        await this.save();
+        this.$emit("complete");
+      }
+    },
+    async deleteSession() {
+      let res = await this.$confirm(
+        `Do you really want to delete this session?`,
+        {
+          title: "Warning"
+        }
+      );
+      if (res) {
+        this.Service.sessionService.deleteSession(this.session._id);
+        this.$emit("complete");
+      }
+    },
+    async getSession(sessionId) {
+      if (sessionId) {
+        this.session =
+          (await this.Service.sessionService.getSession(sessionId)) || {};
+        this.sessionDate = moment(this.session.sessionDate).format(
+          "YYYY-MM-DD"
+        );
+        window.setTimeout(() => (this.modified = false), 100);
+      }
     }
   },
-  created() {
-    this.sessionDate = moment(this.session.sessionDate).format("YYYY-MM-DD");
+  async created() {
+    this.getSession(this.sessionid);
+  },
+  watch: {
+    sessionid: async function(newValue) {
+      this.getSession(newValue);
+    },
+    session: {
+      handler() {
+        this.modified = true;
+      },
+      deep: true
+    },
+    sessionDate() {
+      this.modified = true;
+    }
   }
 };
 </script>
 
 <style>
-  .session-footer button {
-    margin: 0;
-  }
+.session-footer button {
+  margin: 0;
+}
 </style>

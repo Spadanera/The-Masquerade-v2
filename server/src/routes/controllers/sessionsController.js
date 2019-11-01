@@ -37,10 +37,23 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+// update by id
+router.put("/:id", async (req, res) => {
+    try {
+        res.json(await Session.findOneAndUpdate({ 
+            _id: req.params.id, 
+            storyTeller: req.session.userId,
+        }, req.body ));
+    } catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
+});
+
 // get on going session
 router.get("/ongoing/:id", async (req, res) => {
     try {
-        res.json(await Session.findOne({ chronicleId: req.params.id, storyTeller: req.session.userId }));
+        res.json(await Session.findOne({ chronicleId: req.params.id, storyTeller: req.session.userId, completed: false }));
     } catch (e) {
         console.error(e);
         res.status(500).json(e);
@@ -52,7 +65,7 @@ router.get("/all/:id", async (req, res) => {
     try {
         let story = await Story.findOne({ _id: req.params.id, storyTeller: req.session.userId }).populate("sessions");
         if (story) {
-            res.json(story.sessions.sort((a, b) => a.createdAt < b.createdAt));
+            res.json(story.sessions.filter(s => s.completed === true).sort((a, b) => a.createdAt < b.createdAt));
         }
         else {
             res.json([]);
