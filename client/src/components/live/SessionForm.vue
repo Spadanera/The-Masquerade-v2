@@ -17,7 +17,7 @@
                       auto-grow
                       v-model="session.globalNote"
                       label="Global Note"
-                      clearable
+                      :clearable="!readonly"
                       :readonly="readonly"
                       rows="1"
                     />
@@ -31,19 +31,19 @@
               <v-card-text>
                 <v-form>
                   <v-container>
-                    <v-layout column>
-                      <v-flex xs12>
+                    <v-layout>
+                      <v-flex xs6>
                         <v-textarea
                           auto-grow
                           v-model="character.storyTellerNote"
                           label="Story-teller Note"
-                          clearable
+                          :clearable="!readonly"
                           :readonly="readonly"
                           rows="1"
                         />
                       </v-flex>
                       <v-flex>
-                        <v-layout>
+                        <v-layout column>
                           <v-flex xs12 sm3 pr-2>
                             <v-text-field
                               :readonly="readonly"
@@ -57,7 +57,7 @@
                               auto-grow
                               v-model="character.playerNote"
                               label="Player Note"
-                              clearable
+                              :clearable="!readonly"
                               readonly
                               rows="1"
                             />

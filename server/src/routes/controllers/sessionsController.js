@@ -65,7 +65,7 @@ router.get("/all/:id", async (req, res) => {
     try {
         let story = await Story.findOne({ _id: req.params.id, storyTeller: req.session.userId }).populate("sessions");
         if (story) {
-            res.json(story.sessions.filter(s => s.completed === true).sort((a, b) => a.createdAt < b.createdAt));
+            res.json(story.sessions.filter(s => s.completed === true).sort((a, b) => a.sessionDate < b.sessionDate));
         }
         else {
             res.json([]);

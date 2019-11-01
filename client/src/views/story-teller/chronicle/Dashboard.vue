@@ -2,14 +2,14 @@
   <v-layout fluid fill-height row wrap>
     <v-flex id="story" xs12 sm12 md12 lg6 pa-3>
       <v-card>
-          <v-container fill-height fluid>
-            <v-layout fill-height>
-              <v-flex xs12 align-end flexbox>
-                <div class="headline">{{ $parent.chronicle.name }}</div>
-                <span>{{ $parent.chronicle.shortDescription }}</span>
-              </v-flex>
-            </v-layout>
-          </v-container>
+        <v-container fill-height fluid>
+          <v-layout fill-height>
+            <v-flex xs12 align-end flexbox>
+              <div class="headline">{{ $parent.chronicle.name }}</div>
+              <span>{{ $parent.chronicle.shortDescription }}</span>
+            </v-flex>
+          </v-layout>
+        </v-container>
         <v-card-text>
           <v-tabs centered grow slider-color="primary" v-model="selectedTab">
             <v-tab>Public Story</v-tab>
@@ -57,9 +57,10 @@
             <div class="title text-xs-center">{{story.name}}</div>
             <v-timeline-item v-for="session in story.sessions" v-bind:key="session._id">
               <div class="py-3">
-                <h2
-                  class="headline font-weight-light mb-3"
-                >{{moment(session.sessionDate).format("YYYY-MM-DD")}}</h2>
+                <h2 class="headline font-weight-light mb-3">
+                  {{moment(session.sessionDate).format("YYYY-MM-DD")}}
+                  <v-btn @click="viewSession(session._id)">Details</v-btn>
+                </h2>
                 <div>{{ session.globalNote }}</div>
               </div>
             </v-timeline-item>
@@ -67,12 +68,23 @@
         </v-card-text>
       </v-card>
     </v-flex>
+    <v-bottom-sheet v-model="sessionSheet">
+      <SessionForm
+        :readonly="true"
+        :sessionid="selectedSession"
+        @close="sessionSheet=false"
+      />
+    </v-bottom-sheet>
   </v-layout>
 </template>
 
 <script>
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import SessionForm from "../../../components/live/SessionForm";
 export default {
+  components: {
+    SessionForm
+  },
   data() {
     return {
       stories: [],
@@ -82,7 +94,9 @@ export default {
       editor: ClassicEditor,
       editorConfig: {
         // The configuration of the editor.
-      }
+      },
+      sessionSheet: false,
+      selectedSession: ""
     };
   },
   methods: {
@@ -100,15 +114,28 @@ export default {
       } else {
         input.publicStory = this.editStory;
       }
-      await this.Service.chronicleService.updateChronicle(this.$route.params.id, input);
+      await this.Service.chronicleService.updateChronicle(
+        this.$route.params.id,
+        input
+      );
       this.$emit("updated");
       this.editing = false;
     },
     async getStories() {
-      this.stories = await this.Service.storyService.getStories(this.$route.params.id);
+      this.stories = await this.Service.storyService.getStories(
+        this.$route.params.id
+      );
       for (let i = 0; i < this.stories.length; i++) {
-        this.stories[i].sessions = await this.Service.sessionService.getSessions(this.stories[i]._id);
+        this.stories[
+          i
+        ].sessions = await this.Service.sessionService.getSessions(
+          this.stories[i]._id
+        );
       }
+    },
+    async viewSession(sessionId) {
+      this.selectedSession = sessionId;
+      this.sessionSheet = true;
     }
   },
   watch: {
