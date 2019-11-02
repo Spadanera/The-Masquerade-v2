@@ -6,9 +6,9 @@
       </v-flex>
       <v-flex>
         <v-tabs grow v-model="active" slider-color="primary">
-          <v-tab>Main</v-tab>
-          <v-tab v-for="(character, i) in session.characters" :key="i">{{character.characterName}}</v-tab>
-          <v-tab-item>
+          <v-tab :key="0">Main</v-tab>
+          <v-tab v-for="(character, i) in session.characters" :key="i + 1">{{character.characterName}}</v-tab>
+          <v-tab-item :key="0">
             <v-card flat style="margin-left: 5px;">
               <v-card-text>
                 <v-layout>
@@ -20,13 +20,18 @@
                       :clearable="!readonly"
                       :readonly="readonly"
                       rows="1"
+                      v-if="!readonly"
                     />
+                    <div v-else>
+                      <h4>Global Note</h4>
+                      {{session.globalNote}}
+                    </div>
                   </v-flex>
                 </v-layout>
               </v-card-text>
             </v-card>
           </v-tab-item>
-          <v-tab-item v-for="(character, i) in session.characters" :key="i">
+          <v-tab-item v-for="(character, i) in session.characters" :key="i + 1">
             <v-card flat style="margin-left: 5px;">
               <v-card-text>
                 <v-form>
@@ -40,7 +45,12 @@
                           :clearable="!readonly"
                           :readonly="readonly"
                           rows="1"
+                          v-if="!readonly"
                         />
+                        <div v-else>
+                          <h4>Story-teller Note</h4>
+                          {{character.storyTellerNote}}
+                        </div>
                       </v-flex>
                       <v-flex>
                         <v-layout column>
@@ -60,7 +70,12 @@
                               :clearable="!readonly"
                               readonly
                               rows="1"
+                              v-if="!readonly"
                             />
+                            <div v-else>
+                              <h4>Player Note</h4>
+                              {{character.playerNote}}
+                            </div>
                           </v-flex>
                         </v-layout>
                       </v-flex>

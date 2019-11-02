@@ -1,5 +1,5 @@
 <template>
-  <v-layout fluid fill-height row wrap>
+  <v-layout fluid fill-height row wrap style="overflow: auto">
     <v-flex id="story" xs12 sm12 md12 lg6 pa-3>
       <v-card>
         <v-container fill-height fluid>

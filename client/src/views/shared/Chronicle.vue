@@ -1,5 +1,5 @@
 <template>
-  <v-layout align-start justify-start fill-height>
+  <v-layout align-start justify-start fill-height style="overflow: auto;">
     <v-navigation-drawer
       v-model="navVisible"
       mini-variant
@@ -43,7 +43,13 @@
     ></router-view>
     <v-alert
       v-if="$route.fullPath.indexOf('live') < 0"
-      style="position: absolute; bottom: 0; width: 100%; margin-bottom: 0"
+      style="position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 380px;
+    margin-bottom: 0px;
+    z-index: 10;
+    border-radius: 5px;"
       :value="sessionOnGoing"
       color="primary"
       icon="priority_high"
@@ -91,8 +97,7 @@ export default {
         )) || {};
       if (this.onGoingSession.sessionDate) {
         this.sessionOnGoing = true;
-      }
-      else {
+      } else {
         this.sessionOnGoing = false;
       }
     }, 1000);
