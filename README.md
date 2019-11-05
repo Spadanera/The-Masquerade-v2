@@ -4,7 +4,7 @@ Web app to help story-teller to manage his chronicle, players, characters and so
 
 ## Run the application
 
-To run the application it is necessary docker installed on your machine. 
+To run the application it is necessary docker and docker-compose installed on your machine. 
 
 First of all, clone this repository. After that run the following command in the root folder:
 
