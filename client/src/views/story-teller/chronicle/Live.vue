@@ -34,7 +34,7 @@
         indeterminate-icon="indeterminate_check_box"
         return-object
       ></v-treeview>
-      <v-footer :fixed="true">
+      <v-footer :fixed="true" v-if="onGoingStory">
         <v-btn v-if="!sessionOnGoing" class="footer-button" @click="dialog=true">Start Session</v-btn>
         <v-btn
           v-else
@@ -147,7 +147,8 @@ export default {
       snackbar: {
         enabled: false,
         text: ""
-      }
+      },
+      onGoingStory: false
     };
   },
   methods: {
@@ -230,6 +231,7 @@ export default {
     if (this.onGoingSession.sessionDate) {
       this.sessionOnGoing = true;
     }
+    this.onGoingStory = !this.onGoingSession.noStory;
   },
   watch: {
     characters(newValue) {

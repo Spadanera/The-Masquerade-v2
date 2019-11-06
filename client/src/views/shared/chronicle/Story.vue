@@ -67,12 +67,14 @@
         </v-card-text>
       </v-card>
     </v-flex>
+    <v-btn @click="endStory(story._id)" v-if="story.onGoing && !sessionOnGoing" color="primary" dark fixed bottom right>
+      <span>End story</span>
+    </v-btn>
+    <v-btn @click="setOnGoing(story._id)" v-if="!story.onGoing && !onGoingStory && !sessionOnGoing" color="primary" dark fixed bottom right>
+      <span>Set as on going story</span>
+    </v-btn>
     <v-bottom-sheet v-model="sessionSheet">
-      <SessionForm
-        :readonly="true"
-        :sessionid="selectedSession"
-        @close="sessionSheet=false"
-      />
+      <SessionForm :readonly="true" :sessionid="selectedSession" @close="sessionSheet=false" />
     </v-bottom-sheet>
   </v-layout>
 </template>
@@ -83,6 +85,10 @@ import SessionForm from "../../../components/live/SessionForm";
 export default {
   components: {
     SessionForm
+  },
+  props: {
+    onGoingStory: Boolean,
+    sessionOnGoing: Boolean
   },
   data() {
     return {
@@ -120,17 +126,42 @@ export default {
       this.getStory();
       this.editing = false;
     },
-    async getStory() {
-      this.story = await this.Service.storyService.getStory(
-        this.$route.params.storyid
-      );
+    async getStory(storyId) {
+      storyId = storyId || this.$route.params.storyid;
+      this.story = await this.Service.storyService.getStory(storyId);
       this.story.sessions = await this.Service.sessionService.getSessions(
-        this.$route.params.storyid
+        storyId
       );
     },
     async viewSession(sessionId) {
       this.selectedSession = sessionId;
       this.sessionSheet = true;
+    },
+    async setOnGoing(storyId) {
+      let res = await this.$confirm(
+        `Do you really want remove start this story?`,
+        {
+          title: "Warning"
+        }
+      );
+      if (res) {
+        await this.Service.storyService.startStory(this.$route.params.id, storyId);
+        this.getStory();
+        this.$emit("ongoing");
+      }
+    },
+    async endStory(storyId) {
+      let res = await this.$confirm(
+        `Do you really want remove end this story?`,
+        {
+          title: "Warning"
+        }
+      );
+      if (res) {
+        await this.Service.storyService.closeStory(storyId);
+        this.getStory();
+        this.$emit("ongoing");
+      }
     }
   },
   watch: {
@@ -140,6 +171,10 @@ export default {
   },
   created() {
     this.getStory();
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.getStory(to.params.storyid);
+    next();
   }
 };
 </script>

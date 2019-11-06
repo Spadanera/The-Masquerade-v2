@@ -50,6 +50,7 @@ export default {
         await this.Service.storyService.createStory(this.chronicleId, this.story);
         this.$emit("submitted", this.story._id);
         this.$emit("close", false);
+        this.story = {};
       }
     }
   }

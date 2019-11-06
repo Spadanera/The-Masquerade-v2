@@ -17,24 +17,25 @@ let SessionSchema = new mongoose.Schema({
     ],
     completed: Boolean,
     chronicleId: mongoose.Schema.Types.ObjectId,
+    storyId: mongoose.Schema.Types.ObjectId,
     storyTeller: mongoose.Schema.Types.ObjectId
 });
 
-SessionSchema.index({ "characters.storyTellerNote": "text", "characters.playerNote": "text" });
+SessionSchema.index({ "globalNote": "text", "characters.storyTellerNote": "text", "characters.playerNote": "text" });
 
-// SessionSchema.post("remove", async session => {
-//     let stories = await Story.find({ sessions: { $in: [session._id] } });
-//     Promise.all(
-//         stories.map(story =>
-//             Story.findOneAndUpdate(
-//                 story._id,
-//                 { $pull: { sessions: session._id } },
-//                 { new: true }
-//             )
-//         )
-//     );
-//     await SetExperiencePointsForCharacters(session);
-// });
+SessionSchema.post("remove", async session => {
+    let stories = await Story.find({ sessions: { $in: [session._id] } });
+    Promise.all(
+        stories.map(story =>
+            Story.findOneAndUpdate(
+                story._id,
+                { $pull: { sessions: session._id } },
+                { new: true }
+            )
+        )
+    );
+    await SetExperiencePointsForCharacters(session);
+});
 
 // SessionSchema.post("save", async session => {
 //     await SetExperiencePointsForCharacters(session);

@@ -6,7 +6,9 @@ const Story = Interface('Story')({
     createStory: type('function'),
     updateStory: type('function'),
     insertSession: type('function'),
-    deleteSession: type('function')
+    deleteSession: type('function'),
+    startStory: type('function'),
+    closeStory: type('function')
 }, {
     error: true,
     strict: true 

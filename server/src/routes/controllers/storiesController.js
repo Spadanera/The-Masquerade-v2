@@ -11,6 +11,8 @@ router.post("/:id", async (req, res) => {
         if (chronicle) {
             let story = new Story(req.body);
             story.storyTeller = chronicle.storyTeller;
+            story.onGoing = false;
+            story.chronicleId = chronicle._id;
             await story.save();
             chronicle.stories.push(story);
             await chronicle.save();
@@ -60,11 +62,43 @@ router.get("/all/:id", async (req, res) => {
     }
 });
 
+router.put("/start/:chronicleid/:id", async (req, res) => {
+    try {
+        let onGoingStory = await Story.findOne({ chronicleId: req.chronicleid, onGoing: true });
+        if (onGoingStory) {
+            res.status(500).send("Another story is on going");
+        }
+        else {
+            let story = await setOnGoing(req.params.id, req.session.userId, true);
+            res.json(story);
+        }
+    } catch (e) {
+        console.log(e);
+        res.status(500).json(e);
+    }
+});
+
+router.put("/close/:id", async (req, res) => {
+    try {
+        let story = await setOnGoing(req.params.id, req.session.userId, false);
+        res.json(story);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json(e);
+    }
+});
+
 // delete stories
 router.delete("/:id", async (req, res) => {
     let story = await Story.findOne({ _id: req.params.id, storyTeller: req.session.userId });
     await story.remove();
     res.send("Deleted");
 });
+
+async function setOnGoing(storyId, userId, onGoing) {
+    return await Story.findOneAndUpdate({ _id: storyId, storyTeller: userId }, {
+        onGoing: onGoing
+    });
+}
 
 export default router;

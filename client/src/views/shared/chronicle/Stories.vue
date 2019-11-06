@@ -8,16 +8,18 @@
       :stateless="true"
       style="z-index: 6; min-width: 300px"
     >
-      <v-list
-        subheader
-        three-line
-      >
+      <v-list subheader three-line>
         <v-subheader class="headline">Stories</v-subheader>
         <template v-for="(story) in stories">
           <v-list-tile :key="story._id" @click="select(story)">
             <v-list-tile-content>
-              <v-list-tile-title v-html="story.name"></v-list-tile-title>
-              <v-list-tile-sub-title v-html="story.shortDescription"></v-list-tile-sub-title>
+              <v-list-tile-title>{{story.name}}</v-list-tile-title>
+              <v-list-tile-sub-title>
+                <v-chip v-if="story.onGoing" label color="primary" text-color="white" small>On Going</v-chip>
+              </v-list-tile-sub-title>
+              <v-list-tile-sub-title>
+                <div v-html="story.shortDescription"></div>
+              </v-list-tile-sub-title>
             </v-list-tile-content>
             <div class="selected-element primary" v-if="story._id === $route.params.storyid"></div>
           </v-list-tile>
@@ -25,7 +27,7 @@
       </v-list>
       <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">Create Story</v-btn>
     </v-navigation-drawer>
-    <router-view></router-view>
+    <router-view :onGoingStory="onGoingStory" @ongoing="getStories" :sessionOnGoing="sessionOnGoing"></router-view>
     <AddStory
       :dialog="dialog"
       :chronicle-id="this.$route.params.id"
@@ -45,22 +47,40 @@ export default {
     return {
       stories: [],
       dialog: false,
-      selectedIndex: -1
+      selectedIndex: -1,
+      onGoingStory: false
     };
   },
   props: {
-    navVisible: Boolean
+    navVisible: Boolean,
+    sessionOnGoing: Boolean
   },
   methods: {
     async getStories(storyId) {
       // input storyId
-      this.stories = await this.Service.storyService.getStories(this.$route.params.id);
+      this.stories = await this.Service.storyService.getStories(
+        this.$route.params.id
+      );
+      if (this.stories.find(s => s.onGoing)) {
+        this.onGoingStory = true;
+      }
+      else {
+        this.onGoingStory = false;
+      }
+      this.stories.sort((a, b) => {
+        if (a.onGoing) {
+          return -1;
+        }
+        if (b.onGoing) {
+          return 1;
+        }
+        return a.createdAt > b.createdAt ? -1 : 1;
+      });
       if (this.stories.length) {
         let find = this.stories.find(s => s._id === storyId);
         if (find) {
           this.select(find, true);
-        }
-        else {
+        } else {
           this.select(this.stories[0], true);
         }
       }
@@ -96,6 +116,10 @@ export default {
         }
       }
     }
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.getStories(to.params.storyid);
+    next();
   }
 };
 </script>

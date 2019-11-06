@@ -40,6 +40,7 @@
       @updated="loadChronicle"
       :navVisible="navVisible"
       @closenavbar="closeNavBar"
+      :sessionOnGoing="sessionOnGoing"
     ></router-view>
     <v-alert
       v-if="$route.fullPath.indexOf('live') < 0"
@@ -48,9 +49,8 @@
     left: 0px;
     width: 380px;
     margin-bottom: 0px;
-    z-index: 10;
-    border-radius: 5px;"
-      :value="sessionOnGoing"
+    z-index: 10;"
+      :value="sessionOnGoing && navVisible"
       color="primary"
       icon="priority_high"
       transition="scale-transition"

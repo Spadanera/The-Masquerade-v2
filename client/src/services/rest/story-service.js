@@ -22,7 +22,13 @@ const story = {
         await client.put(`/api/stories/${storyId}`, input);
     },
     insertSession: async () => { },
-    deleteSession: async () => { }
+    deleteSession: async () => { },
+    startStory: async (chronicleId, storyId) => {
+        await client.put(`/api/stories/start/${chronicleId}/${storyId}`);
+    },
+    closeStory: async (storyId) => {
+        await client.put(`/api/stories/close/${storyId}`);
+     }
 };
 
 implement(IStory)(story);

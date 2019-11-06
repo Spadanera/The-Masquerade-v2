@@ -12,6 +12,7 @@ router.post("/:id", async (req, res) => {
         if (ongoingStory) {
             let session = new Session(req.body);
             session.storyTeller = req.session.userId;
+            session.storyId = ongoingStory._id;
             await session.save();
             ongoingStory.sessions.push(session);
             await ongoingStory.save();
@@ -50,10 +51,15 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-// get on going session
+// get on going session by chronicle id
 router.get("/ongoing/:id", async (req, res) => {
     try {
-        res.json(await Session.findOne({ chronicleId: req.params.id, storyTeller: req.session.userId, completed: false }));
+        if (await Story.findOne({ chronicleId: req.params.id, onGoing: true })) {
+            res.json(await Session.findOne({ chronicleId: req.params.id, storyTeller: req.session.userId, completed: false }));
+        }
+        else {
+            res.json({ noStory: true });
+        }
     } catch (e) {
         console.error(e);
         res.status(500).json(e);
@@ -83,11 +89,8 @@ router.delete("/:id", async (req, res) => {
 });
 
 async function getOngoingStory(chronicleId, userId) {
-    let chronicle = await Chronicle.findOne({ _id: chronicleId, storyTeller: userId }).populate("stories");
-    if (chronicle) {
-        let story = chronicle.stories.find(s => s.onGoing);
-        return story;
-    }
+    console.log(chronicleId, userId);
+    return await Story.findOne({ chronicleId: chronicleId, onGoing: true, storyTeller: userId });
 }
 
 export default router;

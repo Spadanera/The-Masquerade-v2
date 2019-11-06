@@ -8,6 +8,7 @@ let StorySchema = new mongoose.Schema({
     privateStory: String,
     publicStory: String,
     storyTeller: mongoose.Schema.Types.ObjectId,
+    chronicleId: mongoose.Schema.Types.ObjectId,
     onGoing: Boolean,
     createdAt: { type: Date, default: Date.now },
     updateAt: { type: Date, default: Date.now },

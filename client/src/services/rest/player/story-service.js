@@ -12,7 +12,9 @@ const story = {
     createStory: async () => {},
     updateStory: async () => {},
     insertSession: async () => {},
-    deleteSession: async () => {}
+    deleteSession: async () => {},
+    startStory: async () => {},
+    closeStory: async () => {}
 };
 
 implement(IStory)(story);
