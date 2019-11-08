@@ -42,7 +42,7 @@ module.exports = function (grunt) {
                             message: "What's your gmail password? (leave it blank if you don't want to send invitation)",
                         }
                     ],
-                    then: function (answers) {
+                    then: (answers) => {
                         let gmailAuth = `
                             module.exports = {
                                 user: '${(answers.user || '')}',
@@ -57,7 +57,7 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask("default", function () {
+    grunt.registerTask("default", () => {
         if (!grunt.file.exists(gmailAuthPath)) {
             grunt.task.run("prompt:init");
         }
