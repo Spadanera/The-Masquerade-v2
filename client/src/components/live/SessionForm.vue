@@ -7,7 +7,10 @@
       <v-flex>
         <v-tabs grow v-model="active" slider-color="primary">
           <v-tab :key="0">Main</v-tab>
-          <v-tab v-for="(character, i) in session.characters" :key="i + 1">{{character.characterName}}</v-tab>
+          <v-tab
+            v-for="(character, i) in session.characters"
+            :key="i + 1"
+          >{{character.characterName}}</v-tab>
           <v-tab-item :key="0">
             <v-card flat style="margin-left: 5px;">
               <v-card-text>
@@ -24,7 +27,7 @@
                     />
                     <div v-else>
                       <h4>Global Note</h4>
-                      {{session.globalNote}}
+                      <text-highlight :queries="search">{{session.globalNote}}</text-highlight>
                     </div>
                   </v-flex>
                 </v-layout>
@@ -49,7 +52,7 @@
                         />
                         <div v-else>
                           <h4>Story-teller Note</h4>
-                          {{character.storyTellerNote}}
+                          <text-highlight :queries="search">{{character.storyTellerNote}}</text-highlight>
                         </div>
                       </v-flex>
                       <v-flex>
@@ -74,7 +77,7 @@
                             />
                             <div v-else>
                               <h4>Player Note</h4>
-                              {{character.playerNote}}
+                              <text-highlight :queries="search">{{character.playerNote}}</text-highlight>
                             </div>
                           </v-flex>
                         </v-layout>
@@ -118,7 +121,8 @@ export default {
   name: "SessionForm",
   props: {
     readonly: Boolean,
-    sessionid: String
+    sessionid: String,
+    search: Array
   },
   data() {
     return {

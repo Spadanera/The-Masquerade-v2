@@ -88,6 +88,24 @@ router.delete("/:id", async (req, res) => {
     res.send("Deleted");
 });
 
+router.get("/search/:chronicleid/", async (req, res) => {
+    try {
+        let search = { 
+            $text: { $search: req.query.search },
+            chronicleId: req.params.chronicleid,
+            // userId: req.session.userId
+        };
+        if (req.query.storyid) {
+            search.storyId = req.query.storyid;
+        }
+        let sessions = await Session.find(search);
+        res.send(sessions);
+    } catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
+});
+
 async function getOngoingStory(chronicleId, userId) {
     console.log(chronicleId, userId);
     return await Story.findOne({ chronicleId: chronicleId, onGoing: true, storyTeller: userId });

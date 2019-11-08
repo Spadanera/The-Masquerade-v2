@@ -50,7 +50,16 @@
     <v-flex id="sessions" xs12 sm12 md12 lg6 pa-3>
       <v-card>
         <v-card-title>
-          <span class="headline">Sessions timeline</span>
+          <v-layout wrap>
+            <v-flex xs12 sm6 md8 lg6 xl7>
+              <span class="headline">Sessions timeline</span>
+            </v-flex>
+            <v-flex xs12 sm6 md4 lg6 xl5>
+              <v-form @submit.prevent="getSessions(story._id)">
+                <v-text-field @click:clear="getSessions(story._id, true)" solo prepend-inner-icon="search" clearable v-model="search" @click:prepend-inner="getSessions(story._id)"></v-text-field>
+              </v-form>
+            </v-flex>
+          </v-layout>
         </v-card-title>
         <v-card-text>
           <v-timeline dense>
@@ -60,21 +69,45 @@
                   {{moment(session.sessionDate).format("YYYY-MM-DD")}}
                   <v-btn @click="viewSession(session._id)">Details</v-btn>
                 </h2>
-                <div>{{ session.globalNote }}</div>
+                <div>
+                  <text-highlight :queries="search ? search.split(' ') : []">{{ session.globalNote }}</text-highlight>
+                </div>
               </div>
             </v-timeline-item>
           </v-timeline>
         </v-card-text>
       </v-card>
     </v-flex>
-    <v-btn @click="endStory(story._id)" v-if="story.onGoing && !sessionOnGoing" color="primary" dark fixed bottom right>
+    <v-btn
+      @click="endStory(story._id)"
+      v-if="story.onGoing && !sessionOnGoing"
+      color="primary"
+      dark
+      fixed
+      bottom
+      right
+    >
       <span>End story</span>
     </v-btn>
-    <v-btn @click="setOnGoing(story._id)" v-if="!story.onGoing && !onGoingStory && !sessionOnGoing" color="primary" dark fixed bottom right>
+    <v-btn
+      @click="setOnGoing(story._id)"
+      v-if="!story.onGoing && !onGoingStory && !sessionOnGoing"
+      color="primary"
+      dark
+      fixed
+      bottom
+      right
+    >
       <span>Set as on going story</span>
     </v-btn>
     <v-bottom-sheet v-model="sessionSheet">
-      <SessionForm :readonly="true" :sessionid="selectedSession" @close="sessionSheet=false" />
+      <SessionForm
+        :readonly="true"
+        :sessionid="selectedSession"
+        @close="sessionSheet=false"
+        @complete="getStory"
+        :search="search ? search.split(' ') : []"
+      />
     </v-bottom-sheet>
   </v-layout>
 </template>
@@ -101,7 +134,8 @@ export default {
         // The configuration of the editor.
       },
       sessionSheet: false,
-      selectedSession: ""
+      selectedSession: "",
+      search: ""
     };
   },
   methods: {
@@ -127,11 +161,26 @@ export default {
       this.editing = false;
     },
     async getStory(storyId) {
+      this.sessionSheet = false;
       storyId = storyId || this.$route.params.storyid;
       this.story = await this.Service.storyService.getStory(storyId);
-      this.story.sessions = await this.Service.sessionService.getSessions(
-        storyId
-      );
+      this.getSessions(storyId);
+    },
+    async getSessions(storyId, clear) {
+      if (clear) {
+        this.search = "";
+      }
+      if (this.search) {
+        this.story.sessions = await this.Service.sessionService.searchSessions(
+          this.search,
+          this.$route.params.id,
+          storyId
+        );
+      } else {
+        this.story.sessions = await this.Service.sessionService.getSessions(
+          storyId
+        );
+      }
     },
     async viewSession(sessionId) {
       this.selectedSession = sessionId;
@@ -145,7 +194,10 @@ export default {
         }
       );
       if (res) {
-        await this.Service.storyService.startStory(this.$route.params.id, storyId);
+        await this.Service.storyService.startStory(
+          this.$route.params.id,
+          storyId
+        );
         this.getStory();
         this.$emit("ongoing");
       }
@@ -173,6 +225,7 @@ export default {
     this.getStory();
   },
   beforeRouteUpdate(to, from, next) {
+    this.search = "";
     this.getStory(to.params.storyid);
     next();
   }

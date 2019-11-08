@@ -6,6 +6,7 @@ import Vuetify from 'vuetify';
 import moment from 'moment';
 import colors from 'vuetify/es5/util/colors';
 import VuetifyConfirm from 'vuetify-confirm';
+import TextHighlight from 'vue-text-highlight';
 import { clans, generations, disciplines } from './config/enum';
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import VueSessionStorage from 'vue-sessionstorage';
@@ -37,6 +38,7 @@ Vue.use(VuetifyConfirm, {
   width: 350,
   property: '$confirm'
 });
+Vue.component('text-highlight', TextHighlight);
 
 Vue.config.productionTip = false;
 Vue.prototype.moment = moment;

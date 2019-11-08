@@ -50,7 +50,23 @@
     <v-flex id="sessions" xs12 sm12 md12 lg6 pa-3>
       <v-card>
         <v-card-title>
-          <span class="headline">Sessions timeline</span>
+          <v-layout wrap>
+            <v-flex xs12 sm6 md8 lg6 xl7>
+              <span class="headline">Sessions timeline</span>
+            </v-flex>
+            <v-flex xs12 sm6 md4 lg6 xl5>
+              <v-form @submit.prevent="getSessions()">
+                <v-text-field
+                  @click:clear="getSessions(true)"
+                  solo
+                  prepend-inner-icon="search"
+                  clearable
+                  v-model="search"
+                  @click:prepend-inner="getSessions()"
+                ></v-text-field>
+              </v-form>
+            </v-flex>
+          </v-layout>
         </v-card-title>
         <v-card-text>
           <v-timeline dense v-for="story in stories" v-bind:key="story._id">
@@ -61,7 +77,7 @@
                   {{moment(session.sessionDate).format("YYYY-MM-DD")}}
                   <v-btn @click="viewSession(session._id)">Details</v-btn>
                 </h2>
-                <div>{{ session.globalNote }}</div>
+                <text-highlight :queries="search ? search.split(' ') : []">{{ session.globalNote }}</text-highlight>
               </div>
             </v-timeline-item>
           </v-timeline>
@@ -73,6 +89,8 @@
         :readonly="true"
         :sessionid="selectedSession"
         @close="sessionSheet=false"
+        @complete="getStories"
+        :search="search ? search.split(' ') : []"
       />
     </v-bottom-sheet>
   </v-layout>
@@ -96,7 +114,8 @@ export default {
         // The configuration of the editor.
       },
       sessionSheet: false,
-      selectedSession: ""
+      selectedSession: "",
+      search: ""
     };
   },
   methods: {
@@ -125,12 +144,29 @@ export default {
       this.stories = await this.Service.storyService.getStories(
         this.$route.params.id
       );
+      await this.getSessions();
+      this.sessionSheet = false;
+    },
+    async getSessions(clear) {
+      if (clear) {
+        this.search = "";
+      }
       for (let i = 0; i < this.stories.length; i++) {
-        this.stories[
-          i
-        ].sessions = await this.Service.sessionService.getSessions(
-          this.stories[i]._id
-        );
+        if (this.search) {
+          this.stories[
+            i
+          ].sessions = await this.Service.sessionService.searchSessions(
+            this.search,
+            this.$route.params.id,
+            this.stories[i]._id
+          );
+        } else {
+          this.stories[
+            i
+          ].sessions = await this.Service.sessionService.getSessions(
+            this.stories[i]._id
+          );
+        }
       }
     },
     async viewSession(sessionId) {

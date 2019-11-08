@@ -6,7 +6,8 @@ const Session = Interface('Session')({
     getSession: type('function'),
     getOnGoingSession: type('function'),
     updateSession: type('function'),
-    deleteSession: type('function')
+    deleteSession: type('function'),
+    searchSessions: type('function')
 }, {
     error: true,
     strict: true 

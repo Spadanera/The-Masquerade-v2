@@ -3,9 +3,12 @@ import ISession from '../../interfaces/ISession';
 import implement from 'implement-js';
 
 const session = {
+    createSession: async () => {},
     getSessions: async () => {},
-    getSession: async () => {},
-    updateSession: async () => {}
+    getOnGoingSession: async () => {},
+    updateSession: async () => {},
+    deleteSession: async () => {},
+    searchSessions: async () => {}
 };
 
 implement(ISession)(session);
