@@ -16,7 +16,17 @@
               <v-list-tile-title v-html="coterie.name"></v-list-tile-title>
               <v-list-tile-sub-title v-html="coterie.description"></v-list-tile-sub-title>
             </v-list-tile-content>
-            <v-btn color="primary" dark absolute small bottom right fab class="onhover" @click="modalDelete(coterie._id)">
+            <v-btn
+              color="primary"
+              dark
+              absolute
+              small
+              bottom
+              right
+              fab
+              class="onhover"
+              @click="modalDelete(coterie._id)"
+            >
               <v-icon>clear</v-icon>
             </v-btn>
             <div class="selected-element primary" v-if="coterie._id === $route.params.listid"></div>
@@ -25,7 +35,9 @@
       </v-list>
       <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">Create Coterie</v-btn>
     </v-navigation-drawer>
-    <router-view></router-view>
+
+    <router-view :description="coterieDescription"></router-view>
+
     <v-flex v-if="coteries.length === 0 && !navVisible" class="hidden-lg-and-up">
       <v-btn color="primary" @click="dialog=true">Create Coterie</v-btn>
     </v-flex>
@@ -35,7 +47,13 @@
       @submitted="coterieAdded"
       @close="dialog = false"
     />
-    <Confirm :dialog="modal" @confirm="deleteGroup" :title="modalTitle" :text="modalText" @close="modal = false" />
+    <Confirm
+      :dialog="modal"
+      @confirm="deleteGroup"
+      :title="modalTitle"
+      :text="modalText"
+      @close="modal = false"
+    />
   </v-layout>
 </template>
 
@@ -57,7 +75,8 @@ export default {
       modal: false,
       modalTitle: "",
       modalText: "",
-      coterieIdToDelete: ""
+      coterieIdToDelete: "",
+      coterieDescription: ""
     };
   },
   methods: {
@@ -80,6 +99,7 @@ export default {
         this.$router.push(
           `/story-teller/chronicle/${this.$route.params.id}/coteries/${coterie._id}`
         );
+        this.coterieDescription = coterie.description;
       }
       if (!notToCloseNav) {
         this.ownNavVisible = false;
@@ -94,7 +114,7 @@ export default {
     },
     modalDelete(coterieId) {
       this.coterieIdToDelete = coterieId;
-      this.modalTitle = "Are you sure"
+      this.modalTitle = "Are you sure";
       this.modalText = "All the characters connected will be deleted";
       this.modal = true;
     }
@@ -127,7 +147,7 @@ export default {
   display: none;
 }
 
-div[role=listitem]:hover .onhover {
+div[role="listitem"]:hover .onhover {
   display: block !important;
 }
 </style>

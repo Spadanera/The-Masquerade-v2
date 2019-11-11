@@ -91,14 +91,16 @@ export default {
   created() {
     this.loadChronicle();
     window.setInterval(async () => {
-      this.onGoingSession =
-        (await this.Service.sessionService.getOnGoingSession(
-          this.$route.params.id
-        )) || {};
-      if (this.onGoingSession.sessionDate) {
-        this.sessionOnGoing = true;
-      } else {
-        this.sessionOnGoing = false;
+      if (this.$route.params.id) {
+        this.onGoingSession =
+          (await this.Service.sessionService.getOnGoingSession(
+            this.$route.params.id
+          )) || {};
+        if (this.onGoingSession.sessionDate) {
+          this.sessionOnGoing = true;
+        } else {
+          this.sessionOnGoing = false;
+        }
       }
     }, 1000);
   },

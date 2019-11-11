@@ -6,7 +6,10 @@
   "scripts": {
     "start": "nodemon --inspect=0.0.0.0:9229 --exec babel-node ./src/app.js",
     "build": "babel ./src --out-dir ./dist --copy-files",
-    "serve": "node ./dist/app.js"
+    "serve": "node ./dist/app.js",
+    "build-sample-data": "rm -rf dist/dist-sample-data && babel . --out-dir ./dist/dist-sample-data --copy-files --ignore \"node_modules\",\"dist\"",
+    "sample-data": "node dist/dist-sample-data/sample-data.js",
+    "generate-sample-data": "npm run build-sample-data && npm run sample-data"
   },
   "author": "Nicola Zirilli",
   "license": "ISC",
@@ -35,6 +38,8 @@
     "@babel/core": "^7.3.4",
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.3.4",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "lorem-ipsum": "^2.0.3",
+    "prompts": "^2.2.1"
   }
 }

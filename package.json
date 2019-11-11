@@ -10,7 +10,7 @@
     "build-server": "cd server && npm run build",
     "build-client": "cd client && npm run build",
     "build": "npm run build-server && npm run build-client",
-    "deploy": "npm run build && cd server/dist && eb deploy"
+    "deploy": "rm -rf server/dist/dist-sample-data && npm run build && cd server/dist && eb deploy"
   },
   "repository": {
     "type": "git",

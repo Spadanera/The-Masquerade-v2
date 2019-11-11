@@ -10,6 +10,8 @@ router.post("/:id", async (req, res) => {
         let chronicle = await Chronicle.findOne({ _id: req.params.id, storyTeller: req.session.userId });
         if (chronicle) {
             let coterie = new Coterie(req.body);
+            coterie.chronicleId = chronicle._id;
+            coterie.userId = req.session.userId;
             await coterie.save();
             chronicle.coteries.push(coterie);
             await chronicle.save();
@@ -28,13 +30,7 @@ router.post("/:id", async (req, res) => {
 // get by id
 router.get("/:id", async (req, res) => {
     try {
-        let chronicle = Chronicle.findOne({ storyTeller: req.session.userId, coteries: { "$in": [req.params.id] } });
-        if (chronicle) {
-            res.json(await Coterie.findOne({ _id: req.params.id }).populate("characters"));
-        }
-        else {
-            res.status(500).json({ error: "User not authorized to see this coterie" });
-        }
+        res.json(await Coterie.findOne({ _id: req.params.id, userId: req.session.userId }).populate("characters"));
     } catch (e) {
         console.error(e);
         res.status(500).json(e);

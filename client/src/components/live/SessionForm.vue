@@ -5,7 +5,7 @@
         <v-date-picker :readonly="readonly" v-model="sessionDate" color="primary"></v-date-picker>
       </v-flex>
       <v-flex>
-        <v-tabs grow v-model="active" slider-color="primary">
+        <v-tabs grow v-model="active" slider-color="primary" show-arrows>
           <v-tab :key="0">Main</v-tab>
           <v-tab
             v-for="(character, i) in session.characters"
@@ -40,7 +40,7 @@
                 <v-form>
                   <v-container>
                     <v-layout>
-                      <v-flex xs6>
+                      <v-flex xs12 sm6>
                         <v-textarea
                           auto-grow
                           v-model="character.storyTellerNote"
@@ -55,13 +55,13 @@
                           <text-highlight :queries="search">{{character.storyTellerNote}}</text-highlight>
                         </div>
                       </v-flex>
-                      <v-flex>
+                      <v-flex xs12 sm6>
                         <v-layout column>
                           <v-flex xs12 sm3 pr-2>
                             <v-text-field
                               :readonly="readonly"
                               type="number"
-                              label="Experience Poings"
+                              label="Experience Points"
                               v-model="character.experiencePoints"
                             ></v-text-field>
                           </v-flex>

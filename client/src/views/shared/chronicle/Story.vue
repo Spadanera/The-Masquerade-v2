@@ -56,7 +56,14 @@
             </v-flex>
             <v-flex xs12 sm6 md4 lg6 xl5>
               <v-form @submit.prevent="getSessions(story._id)">
-                <v-text-field @click:clear="getSessions(story._id, true)" solo prepend-inner-icon="search" clearable v-model="search" @click:prepend-inner="getSessions(story._id)"></v-text-field>
+                <v-text-field
+                  @click:clear="getSessions(story._id, true)"
+                  solo
+                  prepend-inner-icon="search"
+                  clearable
+                  v-model="search"
+                  @click:prepend-inner="getSessions(story._id)"
+                ></v-text-field>
               </v-form>
             </v-flex>
           </v-layout>
@@ -70,7 +77,9 @@
                   <v-btn @click="viewSession(session._id)">Details</v-btn>
                 </h2>
                 <div>
-                  <text-highlight :queries="search ? search.split(' ') : []">{{ session.globalNote }}</text-highlight>
+                  <text-highlight
+                    :queries="search ? search.split(' ') : []"
+                  >{{ session.globalNote }}</text-highlight>
                 </div>
               </div>
             </v-timeline-item>
@@ -233,4 +242,16 @@ export default {
 </script>
 
 <style>
+#sessions {
+  height: 100%;
+}
+
+#sessions > .v-card {
+  height: 100%;
+}
+
+#sessions > .v-card > .v-card__text {
+  max-height: calc(100% - 108px);
+  overflow-y: auto;
+}
 </style>

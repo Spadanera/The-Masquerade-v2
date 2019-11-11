@@ -262,6 +262,9 @@ export default {
 </script>
 
 <style>
+.v-treeview .v-treeview-node:first-child .v-treeview-node__label {
+  font-weight: "bold"
+}
 .v-tabs.fill-height > .v-window {
   height: calc(100% - 48px);
 }

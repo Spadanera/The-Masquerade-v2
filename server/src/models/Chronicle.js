@@ -13,7 +13,6 @@ const Statuses = Object.freeze({
 const ChronicleSchema = new mongoose.Schema({
   name: String,
   shortDescription: String,
-  story: String,
   privateStory: String,
   publicStory: String,
   storyTeller: mongoose.Schema.Types.ObjectId,

@@ -186,4 +186,16 @@ export default {
 </script>
 
 <style>
+  #sessions {
+    height: 100%;
+  }
+
+  #sessions > .v-card {
+    height: 100%;
+  }
+
+  #sessions > .v-card > .v-card__text {
+        max-height: calc(100% - 108px);
+        overflow-y: auto;
+  }
 </style>
