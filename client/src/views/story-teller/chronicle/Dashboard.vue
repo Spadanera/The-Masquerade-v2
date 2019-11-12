@@ -186,6 +186,7 @@ export default {
 </script>
 
 <style>
+@media screen and (min-width: 1265px) {
   #sessions {
     height: 100%;
   }
@@ -195,7 +196,8 @@ export default {
   }
 
   #sessions > .v-card > .v-card__text {
-        max-height: calc(100% - 108px);
-        overflow-y: auto;
+    max-height: calc(100% - 108px);
+    overflow-y: auto;
   }
+}
 </style>
