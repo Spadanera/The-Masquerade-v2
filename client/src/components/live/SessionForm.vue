@@ -51,7 +51,7 @@
                           v-if="!readonly"
                         />
                         <div v-else>
-                          <h4>Story-teller Note</h4>
+                          <h3>Story-teller Note</h3>
                           <text-highlight :queries="search">{{character.storyTellerNote}}</text-highlight>
                         </div>
                       </v-flex>
@@ -63,7 +63,11 @@
                               type="number"
                               label="Experience Points"
                               v-model="character.experiencePoints"
+                              v-if="!readonly"
                             ></v-text-field>
+                            <div v-else>
+                              <h3>Experience Points: <span style="font-weight: normal;">{{character.experiencePoints}}</span></h3>
+                            </div>
                           </v-flex>
                           <v-flex grow>
                             <v-textarea
@@ -76,7 +80,7 @@
                               v-if="!readonly"
                             />
                             <div v-else>
-                              <h4>Player Note</h4>
+                              <h3>Player Note</h3>
                               <text-highlight :queries="search">{{character.playerNote}}</text-highlight>
                             </div>
                           </v-flex>
