@@ -93,7 +93,7 @@ const randomDate = (year) => {
 
 // main function
 (async () => {
-    let userId = end === "dev" ? "5d9f31495ede5b00273c3ae9" : "5dc1d5d8968abf0f0f4d7dbe";
+    let userId = env === "dev" ? "5d9f31495ede5b00273c3ae9" : "5dc1d5d8968abf0f0f4d7dbe";
     await dbConnect();
     try {
 
@@ -110,7 +110,7 @@ const randomDate = (year) => {
 
 
 function dbConnect() {
-    var connectionString = end === "dev" ? 'mongodb://127.0.0.1:27017/the-masquerade' : 'mongodb+srv://admin:admin@themasquerade-dfbrl.mongodb.net/test?retryWrites=true';
+    var connectionString = env === "dev" ? 'mongodb://127.0.0.1:27017/the-masquerade' : 'mongodb+srv://admin:admin@themasquerade-dfbrl.mongodb.net/test?retryWrites=true';
     return new Promise((resolve, reject) => {
         mongoose.connect(connectionString, { promiseLibrary: require('bluebird'), useNewUrlParser: true, useUnifiedTopology: true })
             .then(() => {
@@ -170,7 +170,7 @@ async function importData(userId) {
             let coterieLength = 3 + Math.floor(Math.random() * 5);
 
             for (j = 0; j < coterieLength; j++) {
-                let character = await createCharacter(chronicle._id);
+                let character = await createCharacter(userId);
                 coterie.characters.push(character);
             }
             await coterie.save();
