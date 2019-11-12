@@ -9,7 +9,7 @@
       <img src="../../assets/vmplogo.png">
     </router-link>
     <v-toolbar-title class="headline text-uppercase">
-      <router-link :to="rootMenu" tag="span">
+      <router-link :to="rootMenu" tag="span" id="title">
         <span class="hidden-sm-and-down">{{ title }}</span>
         <span class="hidden-md-and-up" v-if="!leftIconVisible()">{{ shortTitle }}</span>
       </router-link>
