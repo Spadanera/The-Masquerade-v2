@@ -36,7 +36,7 @@
       <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">Create Coterie</v-btn>
     </v-navigation-drawer>
 
-    <router-view :description="coterieDescription"></router-view>
+    <router-view :description="coterieDescription" :groupname="coterieName"></router-view>
 
     <v-flex v-if="coteries.length === 0 && !navVisible" class="hidden-lg-and-up">
       <v-btn color="primary" @click="dialog=true">Create Coterie</v-btn>
@@ -76,7 +76,8 @@ export default {
       modalTitle: "",
       modalText: "",
       coterieIdToDelete: "",
-      coterieDescription: ""
+      coterieDescription: "",
+      coterieName: ""
     };
   },
   methods: {
@@ -100,6 +101,7 @@ export default {
           `/story-teller/chronicle/${this.$route.params.id}/coteries/${coterie._id}`
         );
         this.coterieDescription = coterie.description;
+        this.coterieName = coterie.name;
       }
       if (!notToCloseNav) {
         this.ownNavVisible = false;
