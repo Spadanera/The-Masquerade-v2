@@ -45,6 +45,34 @@ const lorem = new LoremIpsum({
     }
 });
 
+const clans = [
+    "Bruja",
+    "Gangrel",
+    "Malkavian",
+    "Nosferatu",
+    "Toreador",
+    "Tremere",
+    "Ventrue",
+    "Caitiff"
+];
+
+const generations = [
+    "14th",
+    "13th",
+    "12th",
+    "11th",
+    "10th",
+    "9th",
+    "8th",
+    "7th",
+    "6th",
+    "5th",
+    "4th",
+    "3rd",
+    "2nd",
+    "1st"
+];
+
 const randomImage = () => {
     return characterImages[Math.floor(Math.random() * (characterImages.length))];
 }
@@ -61,6 +89,7 @@ const randomDate = (year) => {
     return date;
 }
 
+// main function
 (async () => {
     let userId = "5d9f31495ede5b00273c3ae9";
     await dbConnect();
@@ -81,7 +110,7 @@ const randomDate = (year) => {
 function dbConnect() {
     var connectionString = 'mongodb://127.0.0.1:27017/the-masquerade';
     return new Promise((resolve, reject) => {
-        mongoose.connect(connectionString, { promiseLibrary: require('bluebird'), useNewUrlParser: true })
+        mongoose.connect(connectionString, { promiseLibrary: require('bluebird'), useNewUrlParser: true, useUnifiedTopology: true })
             .then(() => {
                 console.log('connection succesful');
                 resolve();
@@ -216,7 +245,11 @@ async function createCharacter(userId) {
         startingExperience: 20,
         totalExperience: 100,
         mortal: {},
-        mainInformation: {},
+        mainInformation: {
+            clan: clans[Math.floor(Math.random() * (clans.length))],
+            generation: generations[Math.floor(Math.random() * (generations.length))],
+            sire: `${capitalize(lorem.generateWords(1))} ${capitalize(lorem.generateWords(1))}`
+        },
         health: {},
         willPower: {},
         attributes: {
