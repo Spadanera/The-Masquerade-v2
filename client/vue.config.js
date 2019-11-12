@@ -1,6 +1,11 @@
 // vue.config.js
 module.exports = {
     devServer: {
-      public: '127.0.0.1:8080'
+      public: 'localhost:8080',
+      watchOptions: {
+        ignored: /node_modules/,
+        aggregateTimeout: 300,
+        poll: 1000,
+      }
     }
   }
