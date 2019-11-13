@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>
       <v-layout wrap>
-        <v-flex xs12>
+        <v-flex xs12 sm6 md8 lg6 xl7>
           <span class="headline">Sessions timeline</span>
         </v-flex>
         <v-flex xs12 sm6 md4 lg6 xl5>
