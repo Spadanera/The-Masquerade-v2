@@ -27,5 +27,6 @@ router.use("/sessions", require("./controllers/sessionsController").default);
 router.use("/coteries", require("./controllers/coteriesController").default);
 router.use("/invitations", require("./controllers/invitationsController").default);
 router.use("/players", require("./controllers/playersController").default);
+router.use("/attachments", require("./controllers/attachmentsController").default);
 
 export default router;

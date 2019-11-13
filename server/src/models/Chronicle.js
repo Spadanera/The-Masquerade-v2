@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import Story from './Story';
 import Coterie from './Coterie';
 import Player from './Player';
+import Attachment from './Attachment';
 
 const Statuses = Object.freeze({
   Draft: 'draft',
@@ -22,6 +23,7 @@ const ChronicleSchema = new mongoose.Schema({
   stories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Story' }],
   coteries: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Coterie' }],
   players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }],
+  attachments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Attachment' }],
   backgroundImage: String
 });
 
@@ -39,6 +41,11 @@ ChronicleSchema.post("remove", async chronicle => {
   if (chronicle.players) {
     chronicle.players.forEach(async element => {
       await Player.deleteOne({ _id: element });
+    });
+  }
+  if (chronicle.attachments) {
+    chronicle.attachments.forEach(async element => {
+      await Attachment.deleteOne({ _id: element });
     });
   }
 });

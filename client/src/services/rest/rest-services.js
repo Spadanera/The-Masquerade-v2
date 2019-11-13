@@ -8,10 +8,12 @@ const service = {
     playerService: require('./player-service').default,
     coterieService: require('./coterie-service').default,
     invitationService: require('./invitation-service').default,
+    attachmentService: require('./attachment-service').default,
     dedicatedPlayerService: {
         chronicleService: require('./player/chronicle-service').default,
         storyService: require('./player/story-service').default,
-        playerService: require('./player/player-service').default
+        playerService: require('./player/player-service').default,
+        attachmentService: require('./player/attachment-service').default,
     }
 };
 
