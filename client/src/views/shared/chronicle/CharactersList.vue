@@ -23,6 +23,10 @@
                 Sire:
                 <strong>{{character.mainInformation.sire}}</strong>
               </div>
+              <div v-if="character.mainInformation" class="grey--text">
+                Last update:
+                <strong>{{moment(character.updateAt).format("YYYY-MM-DD")}}</strong>
+              </div>
             </div>
           </v-card-title>
           <v-card-actions class="justify-center">

@@ -73,7 +73,8 @@ let CharacterSchema = new mongoose.Schema({
     humanity: { type: Number, default: 10 },
     bloodPotency: { type: Number, default: 10 },
     advantages: [Capacity],
-    flaws: [Capacity]
+    flaws: [Capacity],
+    updateAt: { type: Date, default: Date.now },
 });
 
 CharacterSchema.statics.createCapacities = (names) => {
