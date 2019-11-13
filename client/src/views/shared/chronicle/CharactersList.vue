@@ -5,7 +5,7 @@
       <div class="subheading" v-html="description" v-if="description"></div>
     </div>
     <v-layout v-if="characters.length" fluid align-center justify-center row wrap>
-      <v-flex v-for="character in characters" v-bind:key="character._id" pa-2 xs12 sm6 md4 lg3 xl3>
+      <v-flex v-for="character in characters" v-bind:key="character._id" pa-2 xs12 sm6 md4 lg4 xl3>
         <v-card v-bind:class="{ dead: !character.alive }">
           <v-img :src="character.picture" height="200px"></v-img>
           <v-card-title>

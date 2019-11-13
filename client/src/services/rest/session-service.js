@@ -30,6 +30,10 @@ const session = {
     searchSessions: async (search, chronicleId, storyId) => {
         let response = await client.get(`/api/sessions/search/${chronicleId}?search=${search}&storyid=${storyId}`);
         return response.data;
+    },
+    getCharacterSessions: async (search, characterId) => {
+        let response = await client.get(`/api/sessions/character/${characterId}?search=${search}`);
+        return response.data;
     }
 };
 

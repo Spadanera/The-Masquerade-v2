@@ -41,10 +41,10 @@ router.get("/:id", async (req, res) => {
 // update by id
 router.put("/:id", async (req, res) => {
     try {
-        res.json(await Session.findOneAndUpdate({ 
-            _id: req.params.id, 
+        res.json(await Session.findOneAndUpdate({
+            _id: req.params.id,
             storyTeller: req.session.userId,
-        }, req.body ));
+        }, req.body));
     } catch (e) {
         console.error(e);
         res.status(500).json(e);
@@ -71,7 +71,7 @@ router.get("/all/:id", async (req, res) => {
     try {
         let story = await Story.findOne({ _id: req.params.id, storyTeller: req.session.userId }).populate("sessions");
         if (story) {
-            res.json(story.sessions.filter(s => s.completed === true).sort((a, b) => a.sessionDate < b.sessionDate));
+            res.json(story.sessions.filter(s => s.completed === true).sort((a, b) => a.sessionDate < b.sessionDate ? 1 : -1));
         }
         else {
             res.json([]);
@@ -90,7 +90,7 @@ router.delete("/:id", async (req, res) => {
 
 router.get("/search/:chronicleid/", async (req, res) => {
     try {
-        let search = { 
+        let search = {
             $text: { $search: req.query.search },
             chronicleId: req.params.chronicleid,
             // userId: req.session.userId
@@ -106,8 +106,33 @@ router.get("/search/:chronicleid/", async (req, res) => {
     }
 });
 
+router.get("/character/:characterid", async (req, res) => {
+    try {
+        let filter = {
+            completed: true,
+            "characters.characterId": req.params.characterid,
+        };
+        if (req.query.search) {
+            filter.$text = { $search: req.query.search };
+        }
+        if (req.query.storyid) {
+            filter.storyId = { $search: req.query.storyid };
+        }
+        let sessions = await Session.find(filter, {
+            sessionDate: 1,
+            "characters.playerNote": 1,
+            characters: {
+                $elemMatch: { characterId: req.params.characterid }
+            }
+        });
+        res.json(sessions.sort((a, b) => a.sessionDate < b.sessionDate ? 1 : -1));
+    } catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
+});
+
 async function getOngoingStory(chronicleId, userId) {
-    console.log(chronicleId, userId);
     return await Story.findOne({ chronicleId: chronicleId, onGoing: true, storyTeller: userId });
 }
 

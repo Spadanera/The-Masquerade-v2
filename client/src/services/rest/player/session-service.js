@@ -8,7 +8,8 @@ const session = {
     getOnGoingSession: async () => {},
     updateSession: async () => {},
     deleteSession: async () => {},
-    searchSessions: async () => {}
+    searchSessions: async () => {},
+    getCharacterSessions: async () => {}
 };
 
 implement(ISession)(session);

@@ -39,6 +39,7 @@
           <v-tab>Characteristics</v-tab>
           <v-tab>Background</v-tab>
           <v-tab>Story</v-tab>
+          <v-tab v-if="sessions.length">History</v-tab>
         </v-tabs>
       </template>
     </v-toolbar>
@@ -62,6 +63,9 @@
       </v-tab-item>
       <v-tab-item>
         <Story :character="character" :readonly="readonly" />
+      </v-tab-item>
+      <v-tab-item v-if="sessions.length">
+        <History :sessions="sessions" @search="getSessions"  />
       </v-tab-item>
     </v-tabs-items>
     <v-snackbar
@@ -107,11 +111,13 @@
 import Characteristics from "./Characteristics.vue";
 import Story from "./Story.vue";
 import Background from "./Background.vue";
+import History from "./History.vue";
 export default {
   components: {
     Characteristics,
     Story,
-    Background
+    Background,
+    History
   },
   props: {
     characterId: String,
@@ -120,7 +126,8 @@ export default {
     autoReload: Boolean,
     live: Boolean,
     characterService: Object,
-    edit: Boolean
+    edit: Boolean,
+    sessions: []
   },
   data() {
     return {
@@ -159,6 +166,12 @@ export default {
       this.loaded = true;
       this.readonly = true;
     },
+    async getSessions(search) {
+      if (this.characterId) {
+        search = search || "";
+        this.sessions = await this.Service.sessionService.getCharacterSessions(search, this.characterId);
+      }
+    },
     close() {
       this.$emit("close");
     },
@@ -177,14 +190,15 @@ export default {
       this.readonly = true;
     },
     async killOrResumeCharacter(alive) {
-      await this.characterService.killOrResume(this.character, alive, this);
+      await this.characterService.killOrResumeCharacter(this.character, alive, this);
     }
   },
-  created() {
-    this.loadCharacter();
+  async created() {
+    await this.loadCharacter();
     if (this.autoReload) {
       this.intervals.push(setInterval(this.loadCharacter, 3000));
     }
+    this.getSessions();
   },
   beforeDestroy() {
     if (this.autoReload) {
