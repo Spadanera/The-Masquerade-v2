@@ -132,7 +132,7 @@ export default {
       groups: [
         {
           _id: "players",
-          name: "Players",
+          name: "PLAYERS",
           characters: []
         }
       ],
@@ -276,6 +276,10 @@ export default {
 .footer-button {
   margin: 0;
   width: 100%;
+}
+
+.v-navigation-drawer > .v-treeview > .v-treeview-node:first-child > .v-treeview-node__root .v-treeview-node__label {
+  font-weight: bold;
 }
 
 @media only screen and (max-width: 1264px) {
