@@ -75,6 +75,7 @@ export default {
   },
   methods: {
     async getCharacters(listid) {
+      listid = listid || this.$route.params.listid;
       this.characters = await this.groupService.getGroupCharacters(
         listid,
         this
@@ -84,7 +85,7 @@ export default {
       this.groupService.openCharacter(characterId, this);
     },
     async killOrResumeCharacter(character, alive) {
-      await this.groupService.killOrResume(character, alive, this);
+      await this.groupService.killOrResumeCharacter(character, alive, this);
     }
   },
   created() {
