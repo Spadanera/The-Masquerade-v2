@@ -84,7 +84,7 @@ export default new Router({
                 route: "players"
               },
               {
-                tooltip: "Coterie",
+                tooltip: "Coterie / Pack",
                 icon: "people",
                 iconClass: "icon-coterie",
                 route: "coteries"

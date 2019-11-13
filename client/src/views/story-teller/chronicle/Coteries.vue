@@ -9,7 +9,7 @@
       style="z-index: 6; min-width: 300px"
     >
       <v-list subheader three-line>
-        <v-subheader class="headline">Coterie</v-subheader>
+        <v-subheader class="headline">Coterie / Pack</v-subheader>
         <template v-for="(coterie) in coteries">
           <v-list-tile :key="coterie._id" @click="select(coterie, false, true)">
             <v-list-tile-content>
@@ -33,7 +33,7 @@
           </v-list-tile>
         </template>
       </v-list>
-      <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">Create Coterie</v-btn>
+      <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">Create Coterie / Pack</v-btn>
     </v-navigation-drawer>
 
     <router-view :description="coterieDescription" :groupname="coterieName"></router-view>
