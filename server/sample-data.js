@@ -246,7 +246,9 @@ async function createCharacter(userId) {
         picture: randomImage(),
         startingExperience: 20,
         totalExperience: 100,
-        mortal: {},
+        mortal: {
+            story: lorem.generateParagraphs(1)
+        },
         mainInformation: {
             clan: clans[Math.floor(Math.random() * (clans.length))],
             generation: generations[Math.floor(Math.random() * (generations.length))],
