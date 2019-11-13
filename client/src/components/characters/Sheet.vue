@@ -39,7 +39,7 @@
           <v-tab>Characteristics</v-tab>
           <v-tab>Background</v-tab>
           <v-tab>Story</v-tab>
-          <v-tab v-if="sessions.length">History</v-tab>
+          <v-tab v-if="sessions && sessions.length">History</v-tab>
         </v-tabs>
       </template>
     </v-toolbar>
@@ -64,7 +64,7 @@
       <v-tab-item>
         <Story :character="character" :readonly="readonly" />
       </v-tab-item>
-      <v-tab-item v-if="sessions.length">
+      <v-tab-item v-if="sessions && sessions.length">
         <History :sessions="sessions" @search="getSessions"  />
       </v-tab-item>
     </v-tabs-items>
@@ -126,8 +126,7 @@ export default {
     autoReload: Boolean,
     live: Boolean,
     characterService: Object,
-    edit: Boolean,
-    sessions: []
+    edit: Boolean
   },
   data() {
     return {
@@ -155,7 +154,8 @@ export default {
         text: ""
       },
       characterTabs: 0,
-      fab: false
+      fab: false,
+      sessions: []
     };
   },
   methods: {
@@ -191,6 +191,7 @@ export default {
     },
     async killOrResumeCharacter(alive) {
       await this.characterService.killOrResumeCharacter(this.character, alive, this);
+      await this.loadCharacter();
     }
   },
   async created() {

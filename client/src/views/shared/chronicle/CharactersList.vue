@@ -86,6 +86,7 @@ export default {
     },
     async killOrResumeCharacter(character, alive) {
       await this.groupService.killOrResumeCharacter(character, alive, this);
+      await this.getCharacters();
     }
   },
   created() {

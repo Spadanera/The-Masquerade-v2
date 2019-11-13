@@ -66,7 +66,6 @@ const players = {
         );
         if (res) {
             await client.put(`api/characters/${character._id}`, { alive });
-            component.getCharacters();
         }
     },
     deleteCharacterInGroup: async () => { }
