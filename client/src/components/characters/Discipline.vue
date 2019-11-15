@@ -8,7 +8,7 @@
         empty-icon="radio_button_unchecked"
         full-icon="radio_button_checked"
         clearable
-        class="text-xs-center"
+        class="text-center"
         dense
         small
         background-color="secondary"
@@ -19,7 +19,7 @@
     </v-card-title>
     <v-card-text>
       <v-list>
-        <v-list-tile v-for="(power, index) in discipline.powers" v-bind:key="index">
+        <v-list-item v-for="(power, index) in discipline.powers" v-bind:key="index">
           <v-select
             style="width: 50px; margin-right: 15px;"
             v-model="power.level"
@@ -36,7 +36,7 @@
             :readonly="readonly"
             v-model="power.power"
           ></v-select>
-        </v-list-tile>
+        </v-list-item>
       </v-list>
       <v-fab-transition>
         <v-btn color="alert" @click="remove" v-show="!readonly" fab dark small absolute bottom right>

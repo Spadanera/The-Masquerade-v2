@@ -1,16 +1,10 @@
 <template>
-  <v-layout fluid fill-height row wrap style="overflow: auto">
+  <v-layout fluid fill-height wrap style="overflow: auto;">
     <v-flex id="story" xs12 sm12 md12 lg6 pa-3>
       <v-card>
-        <v-container fill-height fluid>
-          <v-layout fill-height>
-            <v-flex xs12 align-end flexbox>
-              <div class="headline">{{ $parent.chronicle.name }}</div>
-              <span>{{ $parent.chronicle.shortDescription }}</span>
-            </v-flex>
-          </v-layout>
-        </v-container>
-        <v-card-text>
+        <v-card-title class="headline">{{ $parent.chronicle.name }}</v-card-title>
+        <v-card-subtitle>{{ $parent.chronicle.shortDescription }}</v-card-subtitle>
+        <v-card-text style="padding: 0;">
           <v-tabs centered grow slider-color="primary" v-model="selectedTab">
             <v-tab>Public Story</v-tab>
             <v-tab>Private Story</v-tab>
@@ -70,7 +64,7 @@
         </v-card-title>
         <v-card-text>
           <v-timeline dense v-for="story in stories" v-bind:key="story._id">
-            <div class="title text-xs-center">{{story.name}}</div>
+            <div class="title text-center">{{story.name}}</div>
             <v-timeline-item v-for="session in story.sessions" v-bind:key="session._id">
               <div class="py-3">
                 <h2 class="headline font-weight-light mb-3">
@@ -186,18 +180,4 @@ export default {
 </script>
 
 <style>
-@media screen and (min-width: 1265px) {
-  #sessions {
-    height: 100%;
-  }
-
-  #sessions > .v-card {
-    height: 100%;
-  }
-
-  #sessions > .v-card > .v-card__text {
-    max-height: calc(100% - 108px);
-    overflow-y: auto;
-  }
-}
 </style>

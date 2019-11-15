@@ -35,11 +35,9 @@ export default {
 <style>
 @import "~animate.css";
 .damasco {
-  /* background-image: url(assets/blood5.png);
-  background-repeat: repeat-y;
-  background-attachment: fixed; */
-  /*background-size: cover; */
-  background-size: contain;
+  background-image: url(assets/damasco.jpg);
+  background-repeat: repeat;
+  background-attachment: fixed;
 }
 
 @media screen and (max-width: 1264px) {

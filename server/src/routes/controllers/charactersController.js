@@ -84,7 +84,7 @@ router.post("/:id", async (req, res) => {
 // Edit character
 router.put("/:id", async (req, res) => {
     try {
-        req.body.updateAt = Date.now;
+        req.body.updateAt = Date.now();
         res.json(await Character.findByIdAndUpdate({ _id: req.params.id, userId: req.session.userId }, req.body));
     } catch (e) {
         console.error(e);

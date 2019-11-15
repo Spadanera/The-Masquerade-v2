@@ -3,7 +3,7 @@
     <v-flex pa-3>
       <v-card>
         <v-card-text>
-            <div class="xs12 title text-xs-center" style="margin: auto">Main Information</div>
+            <div class="xs12 title text-center" style="margin: auto">Main Information</div>
           <v-layout row wrap justify-space-around justify-center>
             <v-flex shrink xs12 sm4 pa-2>
               <v-text-field
@@ -49,7 +49,7 @@
     <v-flex pa-3>
       <v-card>
         <v-card-text>
-          <div class="xs12 title text-xs-center" style="margin: auto">Mortal life</div>
+          <div class="xs12 title text-center" style="margin: auto">Mortal life</div>
           <v-layout row wrap justify-space-around justify-center>
             <v-flex shrink xs16 sm3 pa-2>
               <v-text-field

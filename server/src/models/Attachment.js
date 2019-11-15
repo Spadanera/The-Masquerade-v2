@@ -10,6 +10,6 @@ const AttachmentSchema = new mongoose.Schema({
     playerVisibility: [mongoose.Schema.Types.ObjectId]
 });
 
-let Attachment = mongoose.model('Chronicle', AttachmentSchema);
+let Attachment = mongoose.model('Attachment', AttachmentSchema);
 
 export default Attachment;

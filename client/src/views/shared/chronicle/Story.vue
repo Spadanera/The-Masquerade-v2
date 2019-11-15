@@ -1,16 +1,10 @@
 <template>
-  <v-layout fluid fill-height row wrap style="overflow: auto">
+  <v-layout fluid fill-height wrap style="overflow: auto">
     <v-flex id="story" xs12 sm12 md12 lg6 pa-3>
       <v-card>
-        <v-container fill-height fluid>
-          <v-layout fill-height>
-            <v-flex xs12 align-end flexbox>
-              <div class="headline">{{ story.name }}</div>
-              <span>{{ story.shortDescription }}</span>
-            </v-flex>
-          </v-layout>
-        </v-container>
-        <v-card-text>
+        <v-card-title class="headline">{{ story.name }}</v-card-title>
+        <v-card-subtitle>{{ story.shortDescription }}</v-card-subtitle>
+        <v-card-text style="padding: 0;">
           <v-tabs centered grow slider-color="primary" v-model="selectedTab">
             <v-tab>Public Story</v-tab>
             <v-tab>Private Story</v-tab>
@@ -242,18 +236,5 @@ export default {
 </script>
 
 <style>
-@media screen and (min-width: 1265px) {
-  #sessions {
-    height: 100%;
-  }
 
-  #sessions > .v-card {
-    height: 100%;
-  }
-
-  #sessions > .v-card > .v-card__text {
-    max-height: calc(100% - 108px);
-    overflow-y: auto;
-  }
-}
 </style>

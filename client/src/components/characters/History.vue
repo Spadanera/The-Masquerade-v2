@@ -22,7 +22,7 @@
     <v-card-text>
       <v-timeline dense>
       <!-- <v-timeline dense v-for="story in stories" v-bind:key="story._id"> -->
-        <!-- <div class="title text-xs-center">{{story.name}}</div> -->
+        <!-- <div class="title text-center">{{story.name}}</div> -->
         <v-timeline-item v-for="session in sessions" v-bind:key="session._id">
           <div class="py-3">
             <h2 class="headline font-weight-light mb-3">
@@ -48,7 +48,7 @@ export default {
       }
   },
   methods: {
-    getSession(clear) {
+    getSessions(clear) {
       if (clear) {
         this.search = "";
       }

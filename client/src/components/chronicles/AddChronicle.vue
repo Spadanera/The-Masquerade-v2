@@ -11,8 +11,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" flat @click="closeModal">Dismiss</v-btn>
-        <v-btn color="blue darken-1" flat @click="submitForm">Save</v-btn>
+        <v-btn color="blue darken-1" text @click="closeModal">Dismiss</v-btn>
+        <v-btn color="blue darken-1" text @click="submitForm">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
