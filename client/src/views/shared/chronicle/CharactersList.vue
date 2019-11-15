@@ -1,16 +1,18 @@
 <template>
   <v-flex grow style="height: 100%; width: calc(100% - 300px)">
-    <div class="pa-2">
+    <div class="pa-2 elevation-4" v-if="groupname" :style="{background: darkTheme ? '#424242' : '#FFFFFF' }">
       <div class="headline" v-html="groupname" v-if="groupname"></div>
-      <div class="subheading" v-html="description" v-if="description"></div>
+      <div class="subheading font-weight-light" v-html="description" v-if="description"></div>
     </div>
-    <v-layout v-if="characters.length" fluid align-center justify-center row wrap>
+    <v-layout v-if="characters.length" fluid align-center justify-center wrap style="overflow: auto; max-height: calc(100% - 72px);">
       <v-flex v-for="character in characters" v-bind:key="character._id" pa-2 xs12 sm6 md4 lg4 xl3>
         <v-card v-bind:class="{ dead: !character.alive }">
           <v-img :src="character.picture" height="200px"></v-img>
           <v-card-title>
+            <div class="headline">{{ character.name }}</div>
+          </v-card-title>
+          <v-card-text>
             <div>
-              <div class="headline">{{ character.name }}</div>
               <div v-if="character.mainInformation" class="grey--text">
                 Generation:
                 <strong>{{character.mainInformation.generation}}</strong>
@@ -28,7 +30,7 @@
                 <strong>{{moment(character.updateAt).format("YYYY-MM-DD")}}</strong>
               </div>
             </div>
-          </v-card-title>
+          </v-card-text>
           <v-card-actions class="justify-center">
             <v-btn @click="openCharacter(character._id)">Open</v-btn>
             <v-btn

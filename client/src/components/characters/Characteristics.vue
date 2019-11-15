@@ -2,10 +2,10 @@
   <v-layout column>
     <v-flex pa-3>
       <v-card>
-        <v-card-title>
+        <v-card-text>
           <v-layout row wrap justify-space-around justify-center>
             <v-flex shrink xs12 sm6 md3>
-              <div class="subheading text-xs-center mb-2">Health</div>
+              <div class="title text-center mb-2">Health</div>
               <div style="width: 190px; margin: auto">
                 <v-rating
                   v-model="damage"
@@ -43,7 +43,7 @@
               </div>
             </v-flex>
             <v-flex shrink xs12 sm6 md3>
-              <div class="subheading text-xs-center mb-2">Will Power</div>
+              <div class="title text-center mb-2">Will Power</div>
               <div style="width: 190px; margin: auto">
                 <v-rating
                   v-model="character.willPower.pool"
@@ -70,13 +70,13 @@
               </div>
             </v-flex>
             <v-flex shrink xs12 sm6 md3>
-              <div class="subheading text-xs-center mb-2">Humanity</div>
+              <div class="title text-center mb-2">Humanity</div>
               <v-rating
                 v-model="character.humanity"
                 empty-icon="radio_button_unchecked"
                 full-icon="radio_button_checked"
                 clearable
-                class="text-xs-center"
+                class="text-center"
                 dense
                 small
                 background-color="secondary"
@@ -85,13 +85,13 @@
               ></v-rating>
             </v-flex>
             <v-flex shrink xs12 sm6 md3>
-              <div class="subheading text-xs-center mb-2">Blood Potency</div>
+              <div class="title text-center mb-2">Blood Potency</div>
               <v-rating
                 v-model="character.bloodPotency"
                 empty-icon="radio_button_unchecked"
                 full-icon="radio_button_checked"
                 clearable
-                class="text-xs-center"
+                class="text-center"
                 dense
                 small
                 background-color="secondary"
@@ -100,7 +100,7 @@
               ></v-rating>
             </v-flex>
           </v-layout>
-        </v-card-title>
+        </v-card-text>
         <v-card-text>
           <v-layout row justify-space-around justify-center wrap>
             <v-flex xs12 md6>
@@ -136,13 +136,13 @@
                   ></v-text-field>
                 </v-flex>
                 <v-flex shrink ma-2>
-                  <div class="subheading text-xs-center mb-2">Hunger</div>
+                  <div class="subheading text-center mb-2">Hunger</div>
                   <v-rating
                     v-model="character.hunger"
                     empty-icon="radio_button_unchecked"
                     full-icon="radio_button_checked"
                     clearable
-                    class="text-xs-center"
+                    class="text-center"
                     dense
                     small
                     background-color="secondary"
@@ -158,9 +158,9 @@
       </v-card>
     </v-flex>
     <v-flex pa-3>
-      <!-- <div class="xs12 headline text-xs-center mb-3">Attributes</div> -->
+      <!-- <div class="xs12 headline text-center mb-3">Attributes</div> -->
       <v-card>
-        <v-card-title>
+        <v-card-text>
           <v-layout row wrap>
             <v-flex
               md4
@@ -168,7 +168,7 @@
               v-for="(value, groupName) in character.attributes"
               v-bind:key="groupName"
             >
-              <div class="title text-xs-center">{{ capitalize(groupName) }}</div>
+              <div class="title text-center">{{ capitalize(groupName) }}</div>
               <div v-for="(attribute, propertyName) in value" v-bind:key="propertyName">
                 <Capacity
                   :capacity="attribute"
@@ -179,13 +179,13 @@
               </div>
             </v-flex>
           </v-layout>
-        </v-card-title>
+        </v-card-text>
       </v-card>
     </v-flex>
     <v-flex pa-3>
-      <!-- <div class="xs12 headline text-xs-center mb-3">Skills</div> -->
+      <!-- <div class="xs12 headline text-center mb-3">Skills</div> -->
       <v-card>
-        <v-card-title>
+        <v-card-text>
           <v-layout row wrap>
             <v-flex md4 sm12 v-for="(value, groupName) in character.skills" v-bind:key="groupName">
               <div v-for="(attribute, propertyName) in value" v-bind:key="propertyName">
@@ -193,11 +193,11 @@
               </div>
             </v-flex>
           </v-layout>
-        </v-card-title>
+        </v-card-text>
       </v-card>
     </v-flex>
     <v-flex pa-3>
-      <div class="xs12 headline text-xs-center mb-3">
+      <div class="xs12 headline text-center mb-3">
         Disciplines
         <v-fab-transition>
         <v-btn v-show="!readonly" fab small color="primary" @click="dialog=true">

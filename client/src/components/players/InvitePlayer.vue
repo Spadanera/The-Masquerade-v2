@@ -14,8 +14,8 @@
       <v-card-actions>
         <v-progress-circular v-if="loading" indeterminate color="red"></v-progress-circular>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" :disabled="loading" flat @click="closeModal">Dismiss</v-btn>
-        <v-btn color="blue darken-1" :disabled="loading" flat @click="submit">Send</v-btn>
+        <v-btn color="blue darken-1" :disabled="loading" text @click="closeModal">Dismiss</v-btn>
+        <v-btn color="blue darken-1" :disabled="loading" text @click="submit">Send</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

@@ -1,32 +1,16 @@
 import Vue from 'vue';
-import './plugins/vuetify';
+import vuetify from './plugins/vuetify';
 import App from './App.vue';
 import router from './router';
-import Vuetify from 'vuetify';
 import moment from 'moment';
-import colors from 'vuetify/es5/util/colors';
 import VuetifyConfirm from 'vuetify-confirm';
 import TextHighlight from 'vue-text-highlight';
 import { clans, generations, disciplines } from './config/enum';
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import VueSessionStorage from 'vue-sessionstorage';
 import RestService from './services/rest/rest-services';
+import 'vuetify/dist/vuetify.min.css'
 
-Vue.use(Vuetify, {
-  iconfont: 'md',
-  theme: {
-    primary: colors.red.darken4,
-    secondary: '#b0bec5',
-    accent: '#FFFAFA',
-    error: '#b71c1c',
-    light: {
-      background: '#FFFFFF'
-    },
-    dark: {
-      background: '#424242'
-    }
-  }
-});
 Vue.use(CKEditor);
 Vue.use(VueSessionStorage);
 Vue.use(VuetifyConfirm, {
@@ -36,7 +20,8 @@ Vue.use(VuetifyConfirm, {
   icon: 'warning',
   title: 'Warning',
   width: 350,
-  property: '$confirm'
+  property: '$confirm',
+  vuetify
 });
 Vue.component('text-highlight', TextHighlight);
 
@@ -51,6 +36,7 @@ Vue.prototype.Service = RestService;
 // }
 
 new Vue({
+  vuetify,
   router,
   data() {
     return {

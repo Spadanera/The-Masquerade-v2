@@ -67,7 +67,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 // get all attachments
-router.get("(chronicle/:chronicleid", async (req, res) => {
+router.get("/chronicle/:chronicleid", async (req, res) => {
     try {
         let attachment = await Attachment.findOne({ chronicleId: req.params.chronicleid });
         res.json(attachment);

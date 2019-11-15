@@ -13,10 +13,7 @@
         placeholder="special"
       ></v-text-field>
     </v-flex>
-    <v-flex
-      style="padding-top: 15px; padding-right: 10px; min-width: 108px; width: 108px;"
-      shrink
-    >
+    <v-flex style="padding-top: 15px; padding-right: 10px; min-width: 108px; width: 108px;" shrink>
       <div v-if="internalFighting">
         <v-rating
           v-model="capacity.points"
@@ -41,6 +38,7 @@
           color="secondary"
           :length="fightingPool"
           :readonly="false"
+          style="display: flex; flex-wrap: wrap;"
         ></v-rating>
       </div>
       <v-rating
@@ -104,4 +102,5 @@ export default {
 </script>
 
 <style>
+
 </style>

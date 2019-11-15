@@ -4,45 +4,47 @@
     v-if="loaded"
     class="max-height sheet-container"
   >
-    <v-toolbar
+    <v-app-bar
       tabs
-      style="text-xs-center"
+      style="text-center"
       absolute
       v-bind:class="{ primary: fighting }"
       v-if="!live"
     >
-      <v-toolbar-side-icon>
+      <v-app-bar-nav-icon>
         <v-avatar size="40px">
           <img :src="character.picture" :alt="character.name" />
         </v-avatar>
-      </v-toolbar-side-icon>
+      </v-app-bar-nav-icon>
       <v-toolbar-title>
         <v-text-field v-if="!readonly" :readonly="readonly" v-model="character.name" label></v-text-field>
         <span v-else>{{ character.name }}</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <div v-if="character.alive && $vuetify.breakpoint.mdAndUp">
-        <v-btn v-if="readonly && !fighting && edit" color="primary" @click="fighting = true">Fight</v-btn>
-        <v-btn v-if="readonly && fighting && edit" @click="fighting = false">End Fight</v-btn>
-        <v-btn @click="readonly= false" v-if="readonly && !fighting && edit">Edit</v-btn>
-        <v-btn @click="save" v-if="!readonly && !fighting && edit">Save</v-btn>
-        <v-btn @click="loadCharacter" v-if="!readonly && !fighting && edit">Undu</v-btn>
-        <v-btn @click="killOrResumeCharacter(false)" v-if="edit">Kill</v-btn>
+        <v-btn-toggle>
+          <v-btn v-if="readonly && !fighting && edit" color="primary" @click="fighting = true">Fight</v-btn>
+          <v-btn v-if="readonly && fighting && edit" @click="fighting = false">End Fight</v-btn>
+          <v-btn @click="readonly= false" v-if="readonly && !fighting && edit">Edit</v-btn>
+          <v-btn @click="save" v-if="!readonly && !fighting && edit">Save</v-btn>
+          <v-btn @click="loadCharacter" v-if="!readonly && !fighting && edit">Undu</v-btn>
+          <v-btn @click="killOrResumeCharacter(false)" v-if="edit">Kill</v-btn>
+          <v-btn
+            v-if="!character.alive && $vuetify.breakpoint.mdAndUp && edit"
+            @click="killOrResumeCharacter(true)"
+          >Resume</v-btn>
+          <v-btn v-if="$vuetify.breakpoint.mdAndUp" @click="close">Close</v-btn>
+        </v-btn-toggle>
       </div>
-      <v-btn
-        v-if="!character.alive && $vuetify.breakpoint.mdAndUp && edit"
-        @click="killOrResumeCharacter(true)"
-      >Resume</v-btn>
-      <v-btn v-if="$vuetify.breakpoint.mdAndUp" @click="close">Close</v-btn>
       <template v-slot:extension style="padding: 0" v-if="internalShowToolbar">
-        <v-tabs v-model="characterTabs" slider-color="primary" centered grow>
+        <v-tabs v-model="characterTabs" slider-color="primary" centered grow style="margin: 0;">
           <v-tab>Characteristics</v-tab>
           <v-tab>Background</v-tab>
           <v-tab>Story</v-tab>
-          <v-tab v-if="sessions && sessions.length">History</v-tab>
+          <v-tab v-if="history">History</v-tab>
         </v-tabs>
       </template>
-    </v-toolbar>
+    </v-app-bar>
     <Characteristics
       v-if="live"
       :character="character"
@@ -64,8 +66,8 @@
       <v-tab-item>
         <Story :character="character" :readonly="readonly" />
       </v-tab-item>
-      <v-tab-item v-if="sessions && sessions.length">
-        <History :sessions="sessions" @search="getSessions"  />
+      <v-tab-item v-if="history">
+        <History :sessions="sessions" @search="getSessions" />
       </v-tab-item>
     </v-tabs-items>
     <v-snackbar
@@ -78,7 +80,7 @@
       :vertical="false"
     >
       {{ snackbar.text }}
-      <v-btn color="red" flat @click="snackbar.enabled = false">Close</v-btn>
+      <v-btn color="red" text @click="snackbar.enabled = false">Close</v-btn>
     </v-snackbar>
     <v-speed-dial
       v-model="fab"
@@ -92,8 +94,8 @@
     >
       <template v-slot:activator>
         <v-btn v-model="fab" color="primary" dark fab>
-          <v-icon>more_vert</v-icon>
-          <v-icon>close</v-icon>
+          <v-icon v-if="fab">close</v-icon>
+          <v-icon v-else>more_vert</v-icon>
         </v-btn>
       </template>
       <v-btn v-if="readonly && !fighting && edit" color="primary" @click="fighting = true">Fight</v-btn>
@@ -155,7 +157,8 @@ export default {
       },
       characterTabs: 0,
       fab: false,
-      sessions: []
+      sessions: [],
+      history: false
     };
   },
   methods: {
@@ -169,7 +172,10 @@ export default {
     async getSessions(search) {
       if (this.characterId) {
         search = search || "";
-        this.sessions = await this.Service.sessionService.getCharacterSessions(search, this.characterId);
+        this.sessions = await this.Service.sessionService.getCharacterSessions(
+          search,
+          this.characterId
+        );
       }
     },
     close() {
@@ -190,7 +196,11 @@ export default {
       this.readonly = true;
     },
     async killOrResumeCharacter(alive) {
-      await this.characterService.killOrResumeCharacter(this.character, alive, this);
+      await this.characterService.killOrResumeCharacter(
+        this.character,
+        alive,
+        this
+      );
       await this.loadCharacter();
     }
   },
@@ -199,7 +209,10 @@ export default {
     if (this.autoReload) {
       this.intervals.push(setInterval(this.loadCharacter, 3000));
     }
-    this.getSessions();
+    await this.getSessions();
+    if (this.sessions.length) {
+      this.history = true;
+    }
   },
   beforeDestroy() {
     if (this.autoReload) {
@@ -252,5 +265,9 @@ export default {
 
 .sheet-container > .v-window.padding {
   padding-top: 112px !important;
+}
+
+.v-speed-dial--right {
+  right: 32px !important
 }
 </style>

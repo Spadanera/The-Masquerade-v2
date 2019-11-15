@@ -10,20 +10,19 @@
     >
       <v-list subheader three-line>
         <v-subheader class="headline">Stories</v-subheader>
-        <template v-for="(story) in stories">
-          <v-list-tile :key="story._id" @click="select(story)">
-            <v-list-tile-content>
-              <v-list-tile-title>{{story.name}}</v-list-tile-title>
-              <v-list-tile-sub-title>
+        <v-list-item-group v-model="index">
+          <v-list-item v-for="(story, i) in stories" :key="i" @click="select(story)">
+            <v-list-item-content>
+              <v-list-item-title>{{story.name}}</v-list-item-title>
+              <v-list-item-subtitle>
                 <v-chip v-if="story.onGoing" label color="primary" text-color="white" small>On Going</v-chip>
-              </v-list-tile-sub-title>
-              <v-list-tile-sub-title>
+              </v-list-item-subtitle>
+              <v-list-item-subtitle>
                 <div v-html="story.shortDescription"></div>
-              </v-list-tile-sub-title>
-            </v-list-tile-content>
-            <div class="selected-element primary" v-if="story._id === $route.params.storyid"></div>
-          </v-list-tile>
-        </template>
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
       </v-list>
       <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">Create Story</v-btn>
     </v-navigation-drawer>
@@ -48,7 +47,8 @@ export default {
       stories: [],
       dialog: false,
       selectedIndex: -1,
-      onGoingStory: false
+      onGoingStory: false,
+      index: 0
     };
   },
   props: {

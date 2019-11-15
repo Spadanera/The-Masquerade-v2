@@ -1,20 +1,20 @@
 <template>
-  <v-layout align-start justify-start fill-height style="overflow: auto;">
+  <v-layout align-start justify-start fill-height style="overflow-y: auto;">
     <v-navigation-drawer
       v-model="navVisible"
       mini-variant
       disable-route-watcher
       :fixed="this.$vuetify.breakpoint.mdAndDown"
-      style="min-width: 80px; z-index: 4 !important"
+      style="min-width: 80px; z-index: 5 !important"
       stateless
     >
       <v-list class="pt-0" dense>
-        <v-list-tile
+        <v-list-item
           v-for="section in this.sections"
           v-bind:key="section.route"
           style="border-bottom: 1px solid darkgrey; padding: 10px 0"
         >
-          <v-list-tile-action>
+          <v-list-item-action>
             <v-tooltip right v-bind:key="section.route">
               <template v-slot:activator="{ on }">
                 <v-icon
@@ -26,8 +26,8 @@
               </template>
               <span>{{ section.tooltip }}</span>
             </v-tooltip>
-          </v-list-tile-action>
-        </v-list-tile>
+          </v-list-item-action>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <div
@@ -90,19 +90,19 @@ export default {
   },
   created() {
     this.loadChronicle();
-    // window.setInterval(async () => {
-    //   if (this.$route.params.id) {
-    //     this.onGoingSession =
-    //       (await this.Service.sessionService.getOnGoingSession(
-    //         this.$route.params.id
-    //       )) || {};
-    //     if (this.onGoingSession.sessionDate) {
-    //       this.sessionOnGoing = true;
-    //     } else {
-    //       this.sessionOnGoing = false;
-    //     }
-    //   }
-    // }, 1000);
+    window.setInterval(async () => {
+      if (this.$route.params.id) {
+        this.onGoingSession =
+          (await this.Service.sessionService.getOnGoingSession(
+            this.$route.params.id
+          )) || {};
+        if (this.onGoingSession.sessionDate) {
+          this.sessionOnGoing = true;
+        } else {
+          this.sessionOnGoing = false;
+        }
+      }
+    }, 1000);
   },
   computed: {
     navVisible: {
@@ -143,5 +143,24 @@ export default {
   background-color: lightgray;
   opacity: 0.5;
   z-index: 3;
+}
+
+@media screen and (min-width: 1265px) {
+  #sessions {
+    height: 100%;
+  }
+
+  #sessions > .v-card {
+    height: 100%;
+  }
+
+  #sessions > .v-card > .v-card__text {
+    max-height: calc(100% - 110px);
+    overflow-y: auto;
+  }
+
+  .v-timeline-item__dot {
+    z-index: 0;
+  }
 }
 </style>

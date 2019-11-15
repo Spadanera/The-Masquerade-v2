@@ -23,6 +23,15 @@ router.get('/google', passport.authenticate('google', {
         'https://www.googleapis.com/auth/userinfo.email']
 }));
 
+router.get('/checkauthentication', (req, res) => {
+    if (req.session.userId) {
+        res.send(req.session.role);
+    }
+    else {
+        res.send("");
+    }
+});
+
 router.get('/google/callback',
     passport.authenticate('google', {
         failureRedirect: '/'

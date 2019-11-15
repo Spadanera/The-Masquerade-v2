@@ -10,12 +10,12 @@
     >
       <v-list subheader three-line>
         <v-subheader class="headline">Coterie / Pack</v-subheader>
-        <template v-for="(coterie) in coteries">
-          <v-list-tile :key="coterie._id" @click="select(coterie, false, true)">
-            <v-list-tile-content>
-              <v-list-tile-title v-html="coterie.name"></v-list-tile-title>
-              <v-list-tile-sub-title v-html="coterie.description"></v-list-tile-sub-title>
-            </v-list-tile-content>
+        <v-list-item-group v-model="index">
+          <v-list-item v-for="(coterie, i) in coteries" :key="i" @click="select(coterie, false, true)">
+            <v-list-item-content>
+              <v-list-item-title v-html="coterie.name"></v-list-item-title>
+              <v-list-item-subtitle v-html="coterie.description"></v-list-item-subtitle>
+            </v-list-item-content>
             <v-btn
               color="primary"
               dark
@@ -29,9 +29,8 @@
             >
               <v-icon>clear</v-icon>
             </v-btn>
-            <div class="selected-element primary" v-if="coterie._id === $route.params.listid"></div>
-          </v-list-tile>
-        </template>
+          </v-list-item>
+        </v-list-item-group>
       </v-list>
       <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">Create Coterie / Pack</v-btn>
     </v-navigation-drawer>
@@ -77,7 +76,8 @@ export default {
       modalText: "",
       coterieIdToDelete: "",
       coterieDescription: "",
-      coterieName: ""
+      coterieName: "",
+      index: 0
     };
   },
   methods: {

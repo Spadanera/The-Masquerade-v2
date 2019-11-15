@@ -66,4 +66,5 @@ module.exports = function (grunt) {
 
     // grunt.registerTask("default", ["exec:dockerStart", "watch"]);
     grunt.registerTask("stop", ["exec:dockerStop"]);
+    grunt.registerTask("init", ["prompt:init"]);
 };

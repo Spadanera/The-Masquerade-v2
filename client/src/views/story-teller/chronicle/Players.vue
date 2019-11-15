@@ -10,32 +10,31 @@
     >
       <v-list avatar>
         <v-subheader class="headline">Players</v-subheader>
-        <template v-for="(player) in players">
-          <v-list-tile :key="player._id" @click="select(player, false, true)" class="padding-list-item">
-            <v-list-tile-content>
-              <v-list-tile-title v-html="player.userDisplayName"></v-list-tile-title>
-              <!-- <v-list-tile-sub-title v-html="player.description"></v-list-tile-sub-title> -->
-            </v-list-tile-content>
-            <v-list-tile-avatar>
+        <v-list-item-group v-model="index">
+          <v-list-item v-for="(player, i) in players" :key="i" @click="select(player, false, true)" >
+            <v-list-item-content>
+              <v-list-item-title v-html="player.userDisplayName"></v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-avatar>
               <img :src="player.userPicture" :alt="player.userDisplayName">
-            </v-list-tile-avatar>
-            <div class="selected-element primary" v-if="player._id === $route.params.listid"></div>
-          </v-list-tile>
-        </template>
+            </v-list-item-avatar>
+            <!-- <div class="selected-element primary" v-if="player._id === $route.params.listid"></div> -->
+          </v-list-item>
+        </v-list-item-group>
       </v-list>
       <v-list v-if="invitations.length > 0" avatar>
         <v-subheader class="headline">Pending Invitations</v-subheader>
         <template v-for="(invitation) in invitations">
-          <v-list-tile :key="invitation._id">
-            <v-list-tile-content>
-              <v-list-tile-title v-html="invitation.emailAddress"></v-list-tile-title>
-            </v-list-tile-content>
-            <v-list-tile-avatar>
-              <v-btn flat icon @click="deleteInvitation(invitation)">
+          <v-list-item :key="invitation._id">
+            <v-list-item-content>
+              <v-list-item-title v-html="invitation.emailAddress"></v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-avatar>
+              <v-btn text icon @click="deleteInvitation(invitation)">
                 <v-icon>delete</v-icon>
               </v-btn>
-            </v-list-tile-avatar>
-          </v-list-tile>
+            </v-list-item-avatar>
+          </v-list-item>
         </template>
       </v-list>
       <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">Invite Player</v-btn>
@@ -60,7 +59,7 @@
       :vertical="false"
     >
       {{ snackbar.text }}
-      <v-btn color="red" flat @click="snackbar.enabled = false">Close</v-btn>
+      <v-btn color="red" text @click="snackbar.enabled = false">Close</v-btn>
     </v-snackbar>
   </v-layout>
 </template>
@@ -82,7 +81,8 @@ export default {
       snackbar: {
         enabled: false,
         text: ""
-      }
+      },
+      index: 0
     };
   },
   methods: {

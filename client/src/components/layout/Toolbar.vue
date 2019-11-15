@@ -1,14 +1,14 @@
 <template>
-  <v-toolbar app fixed clipped-left color="primary" dark>
-    <v-toolbar-side-icon
+  <v-app-bar app clipped-left fixed color="primary" dark >
+    <v-app-bar-nav-icon
       class="hidden-lg-and-up"
       v-if="leftIconVisible()"
       @click="$emit('toggle-nav')"
-    ></v-toolbar-side-icon>
+    ></v-app-bar-nav-icon>
     <router-link :to="rootMenu" tag="span" style="cursor: pointer">
       <img src="../../assets/vmplogo.png">
     </router-link>
-    <v-toolbar-title class="headline text-uppercase">
+    <v-toolbar-title class="headline text-uppercase pl-5">
       <router-link :to="rootMenu" tag="span" id="title">
         <span class="hidden-sm-and-down">{{ title }}</span>
         <span class="hidden-md-and-up" v-if="!leftIconVisible()">{{ shortTitle }}</span>
@@ -28,30 +28,30 @@
       </template>
       <v-card>
         <v-list>
-          <v-list-tile @click="toggleDarkTheme">
-            <v-list-tile-content>Toggle dark theme</v-list-tile-content>
-            <v-list-tile-action>
+          <v-list-item @click="toggleDarkTheme">
+            <v-list-item-content>Toggle dark theme</v-list-item-content>
+            <v-list-item-action>
               <v-icon v-if="!darkTheme">toggle_off</v-icon>
               <v-icon v-else>toggle_on</v-icon>
-            </v-list-tile-action>
-          </v-list-tile>
-          <v-list-tile @click="toggleFullScreen" class="hidden-sm-and-down">
-            <v-list-tile-content>Full screen</v-list-tile-content>
-            <v-list-tile-action >
+            </v-list-item-action>
+          </v-list-item>
+          <v-list-item @click="toggleFullScreen" class="hidden-sm-and-down">
+            <v-list-item-content>Full screen</v-list-item-content>
+            <v-list-item-action >
               <v-icon v-if="!fullscreen">fullscreen</v-icon>
               <v-icon v-else>toggle_on</v-icon>
-            </v-list-tile-action>
-          </v-list-tile>
-          <v-list-tile @click="logout">
-            <v-list-tile-content>Logout</v-list-tile-content>
-            <v-list-tile-action>
+            </v-list-item-action>
+          </v-list-item>
+          <v-list-item @click="logout">
+            <v-list-item-content>Logout</v-list-item-content>
+            <v-list-item-action>
               <v-icon>exit_to_app</v-icon>
-            </v-list-tile-action>
-          </v-list-tile>
+            </v-list-item-action>
+          </v-list-item>
         </v-list>
       </v-card>
     </v-menu>
-  </v-toolbar>
+  </v-app-bar>
 </template>
 
 <script>

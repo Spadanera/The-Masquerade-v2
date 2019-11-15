@@ -1,6 +1,6 @@
 <template>
   <v-container fluid grid-list-md>
-    <div v-if="!chronicles.length">
+    <div v-if="!chronicles.length && loaded">
       <NoChronicles @submitted="submitted('Chronicle successfully created')"/>
     </div>
     <div v-if="chronicles.length">
@@ -37,7 +37,7 @@
       :vertical="false"
     >
       {{ snackbar.text }}
-      <v-btn color="red" flat @click="snackbar.enabled = false">Close</v-btn>
+      <v-btn color="red" text @click="snackbar.enabled = false">Close</v-btn>
     </v-snackbar>
   </v-container>
 </template>
@@ -60,12 +60,14 @@ export default {
       snackbar: {
         enebled: false,
         text: ""
-      }
+      },
+      loaded: false
     };
   },
   methods: {
     async loadList() {
       this.chronicles = await this.Service.chronicleService.getChronicles();
+      this.loaded = true;
     },
     submitted(text) {
       this.snackbar = {
