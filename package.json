@@ -6,7 +6,7 @@
   "scripts": {
     "start": "grunt",
     "init": "grunt init",
-    "stop": "docker-compose stop",
+    "stop": "grunt stop",
     "docker-build": "docker-compose build",
     "build-server": "cd server && npm run build",
     "build-client": "cd client && npm run build",
