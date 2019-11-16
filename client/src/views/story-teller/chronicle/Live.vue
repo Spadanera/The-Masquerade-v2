@@ -35,11 +35,12 @@
         return-object
       ></v-treeview>
       <v-footer :fixed="true" v-if="onGoingStory">
-        <v-btn v-if="!sessionOnGoing" class="footer-button" @click="dialog=true">Start Session</v-btn>
+        <v-btn v-if="!sessionOnGoing" class="footer-button" text @click="dialog=true">Start Session</v-btn>
         <v-btn
           v-else
           class="footer-button"
           color="primary"
+          text
           @click="sessionDetails()"
         >Session Details</v-btn>
       </v-footer>
@@ -93,9 +94,10 @@
           class="footer-button"
           style="width: 50%"
           color="primary"
+          text
           @click="startSession()"
         >Start</v-btn>
-        <v-btn class="footer-button" style="width: 50%" @click="dialog = false">Cancel</v-btn>
+        <v-btn class="footer-button" text style="width: 50%" @click="dialog = false">Cancel</v-btn>
       </v-footer>
     </v-dialog>
     <v-snackbar
