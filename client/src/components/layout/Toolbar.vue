@@ -28,13 +28,6 @@
       </template>
       <v-card>
         <v-list>
-          <v-list-item @click="toggleDarkTheme">
-            <v-list-item-content>Toggle dark theme</v-list-item-content>
-            <v-list-item-action>
-              <v-icon v-if="!darkTheme">toggle_off</v-icon>
-              <v-icon v-else>toggle_on</v-icon>
-            </v-list-item-action>
-          </v-list-item>
           <v-list-item @click="toggleFullScreen" class="hidden-sm-and-down">
             <v-list-item-content>Full screen</v-list-item-content>
             <v-list-item-action >
