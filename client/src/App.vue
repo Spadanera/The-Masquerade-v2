@@ -77,4 +77,8 @@ export default {
   -webkit-box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);
   box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
+
+.v-speed-dial--right {
+  right: 32px !important
+}
 </style>

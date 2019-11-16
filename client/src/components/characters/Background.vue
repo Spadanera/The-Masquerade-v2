@@ -51,7 +51,7 @@
         <v-card-text>
           <div class="xs12 title text-center" style="margin: auto">Mortal life</div>
           <v-layout row wrap justify-space-around justify-center>
-            <v-flex shrink xs16 sm3 pa-2>
+            <v-flex shrink xs6 sm3 pa-2>
               <v-text-field
                 :readonly="readonly"
                 v-model="character.mortal.trueAge"
@@ -59,7 +59,7 @@
                 type="number"
               ></v-text-field>
             </v-flex>
-            <v-flex shrink xs16 sm3 pa-2>
+            <v-flex shrink xs6 sm3 pa-2>
               <v-text-field
                 :readonly="readonly"
                 v-model="character.mortal.apparentAge"
@@ -67,7 +67,7 @@
                 type="number"
               ></v-text-field>
             </v-flex>
-            <v-flex shrink xs16 sm3 pa-2>
+            <v-flex shrink xs6 sm3 pa-2>
               <v-text-field
                 :readonly="readonly"
                 v-model="character.mortal.dateOfBirth"
@@ -75,7 +75,7 @@
                 type="date"
               ></v-text-field>
             </v-flex>
-            <v-flex shrink xs16 sm3 pa-2>
+            <v-flex shrink xs6 sm3 pa-2>
               <v-text-field
                 :readonly="readonly"
                 v-model="character.mortal.dateOfDeath"

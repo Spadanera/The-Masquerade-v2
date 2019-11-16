@@ -267,7 +267,7 @@ export default {
   padding-top: 112px !important;
 }
 
-.v-speed-dial--right {
-  right: 32px !important
+.v-window {
+  background: transparent !important;
 }
 </style>
