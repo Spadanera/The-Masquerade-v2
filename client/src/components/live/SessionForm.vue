@@ -1,7 +1,10 @@
 <template>
   <v-layout column :style="{background: darkTheme ? '#424242' : '#FFFFFF' }">
+    <v-banner 
+    class="primary white--text" 
+    v-if="$vuetify.breakpoint.smAndDown">{{moment(sessionDate).format("MMMM Do YYYY")}}</v-banner>
     <v-layout>
-      <v-flex shrink>
+      <v-flex shrink v-if="$vuetify.breakpoint.mdAndUp">
         <v-date-picker :readonly="readonly" v-model="sessionDate" color="primary"></v-date-picker>
       </v-flex>
       <v-flex>
@@ -66,7 +69,12 @@
                               v-if="!readonly"
                             ></v-text-field>
                             <div v-else>
-                              <h3>Experience Points: <span style="font-weight: normal;">{{character.experiencePoints}}</span></h3>
+                              <h3>
+                                Experience Points:
+                                <span
+                                  style="font-weight: normal;"
+                                >{{character.experiencePoints}}</span>
+                              </h3>
                             </div>
                           </v-flex>
                           <v-flex grow>
@@ -134,7 +142,8 @@ export default {
       sessionDate: "",
       session: {},
       modified: false,
-      darkTheme: localStorage.darkTheme
+      darkTheme: false, //localStorage.darkTheme,
+      menu: false
     };
   },
   methods: {

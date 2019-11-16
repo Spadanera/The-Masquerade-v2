@@ -18,9 +18,9 @@ export default {
     }
   },
   mounted() {
-    if (localStorage.darkTheme !== undefined) {
-      this.darkTheme = localStorage.darkTheme === "true";
-    }
+    // if (localStorage.darkTheme !== undefined) {
+    //   this.darkTheme = localStorage.darkTheme === "true";
+    // }
   },
   computed: {
     scrollbarColor: {
