@@ -20,6 +20,7 @@ import Coteries from './views/story-teller/chronicle/Coteries.vue';
 import Live from './views/story-teller/chronicle/Live.vue';
 import Player from './views/Player.vue';
 import PlayerChroniclesList from './views/player/ChroniclesList.vue';
+import Attachments from './views/shared/chronicle/Attachments';
 
 Vue.use(Router);
 
@@ -94,6 +95,12 @@ export default new Router({
                 icon: "play_circle_outline",
                 iconClass: "icon-play",
                 route: "live"
+              },
+              {
+                tooltip: "Attachments",
+                icon: "",
+                iconClass: "icon-play",
+                route: "attachments"
               }
             ],
             chronicleService: Service.chronicleService
@@ -160,6 +167,14 @@ export default new Router({
             {
               path: "live",
               component: Live
+            },
+            {
+              path: "attachments",
+              component: Attachments,
+              props: () => ({
+                attachmentService: Service.attachmentService,
+                isStoryTeller: true
+              })
             }
           ]
         }
@@ -195,6 +210,12 @@ export default new Router({
                 icon: "book",
                 iconClass: "icon-stories",
                 route: "stories"
+              },
+              {
+                tooltip: "Attachments",
+                icon: "",
+                iconClass: "icon-play",
+                route: "attachments"
               }
             ],
             chronicleService: Service.dedicatedPlayerService.chronicleService
@@ -228,6 +249,14 @@ export default new Router({
               props: () => ({
                 groupService: Service.dedicatedPlayerService.playerService,
                 edit: true
+              })
+            },
+            {
+              path: "attachments",
+              component: Attachments,
+              props: () => ({
+                attachmentService: Service.dedicatedPlayerService.attachmentService,
+                isStoryTeller: false
               })
             }
           ]

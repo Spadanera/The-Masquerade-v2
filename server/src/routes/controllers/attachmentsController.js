@@ -3,6 +3,7 @@
 const router = require('express').Router();
 import Attachment from "../../models/Attachment";
 import Chronicle from '../../models/Chronicle';
+import Player from "../../models/Player";
 
 // create attachment
 router.post("/:chronicleid", async (req, res) => {
@@ -10,6 +11,11 @@ router.post("/:chronicleid", async (req, res) => {
         let chronicle = await Chronicle.findOne({ _id: req.params.chronicleid, storyTeller: req.session.userId });
         if (chronicle) {
             let attachment = new Attachment(req.body);
+            for (let i = 0; i < attachment.playerVisibility.length; i++) {
+                let player = await Player.findById(attachment.playerVisibility[i].playerId);
+                attachment.playerVisibility[i].playerName = player.userDisplayName;
+                attachment.playerVisibility[i].playerImage = player.userPicture;
+            }
             await attachment.save();
             chronicle.attachments.push(attachment);
             await chronicle.save();
@@ -69,7 +75,7 @@ router.delete("/:id", async (req, res) => {
 // get all attachments
 router.get("/chronicle/:chronicleid", async (req, res) => {
     try {
-        let attachment = await Attachment.findOne({ chronicleId: req.params.chronicleid });
+        let attachment = await Attachment.find({ chronicleId: req.params.chronicleid });
         res.json(attachment);
     }
 
