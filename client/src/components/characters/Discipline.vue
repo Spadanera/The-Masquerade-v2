@@ -39,7 +39,7 @@
         </v-list-item>
       </v-list>
       <v-fab-transition>
-        <v-btn color="alert" @click="remove" v-show="!readonly" fab dark small absolute bottom right>
+        <v-btn color="alert" @click="remove" v-show="!readonly" fab dark small absolute bottom left>
           <v-icon>clear</v-icon>
         </v-btn>
       </v-fab-transition>
