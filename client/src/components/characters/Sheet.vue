@@ -37,7 +37,7 @@
         </v-btn-toggle>
       </div>
       <template v-slot:extension style="padding: 0" v-if="internalShowToolbar">
-        <v-tabs v-model="characterTabs" slider-color="primary" centered grow style="margin: 0;">
+        <v-tabs v-model="characterTabs" slider-color="primary" centered grow style="margin: 0;" show-arrows>
           <v-tab>Characteristics</v-tab>
           <v-tab>Background</v-tab>
           <v-tab>Story</v-tab>
