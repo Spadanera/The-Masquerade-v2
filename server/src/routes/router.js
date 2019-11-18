@@ -8,14 +8,13 @@ router.use(async (req, res, next) => {
         next();
     }
     else {
-        // let user = await User.findOne({ _id: req.session.userId, token: req.session.token });
-        // if (user) {
-        //     next();
-        // }
-        // else {
-        //     res.status(401).send("Unauthorized");
-        // }
-        next();
+        let user = await User.findOne({ _id: req.session.userId, token: req.session.token });
+        if (user) {
+            next();
+        }
+        else {
+            res.status(401).send("Unauthorized");
+        }
     }
 });
 
