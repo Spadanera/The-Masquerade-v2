@@ -48,7 +48,13 @@ router.get("/:id", async (req, res) => {
 // update attachment
 router.put("/:id", async (req, res) => {
     try {
-        await Attachment.findOneAndUpdate({ _id: req.params.id }, req.body);
+        let attachment = req.body;
+        for (let i = 0; i < attachment.playerVisibility.length; i++) {
+            let player = await Player.findById(attachment.playerVisibility[i].playerId);
+            attachment.playerVisibility[i].playerName = player.userDisplayName;
+            attachment.playerVisibility[i].playerImage = player.userPicture;
+        }
+        await Attachment.findOneAndUpdate({ _id: req.params.id }, attachment);
         res.json();
     }
 

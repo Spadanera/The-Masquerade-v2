@@ -14,8 +14,12 @@ const attachment = {
         attachment.chronicleId = chronicleId;
         await client.post(`/api/attachments/${chronicleId}`, attachment);
     },
-    updateAttachment: () => {},
-    deleteAttachment: () => {}
+    updateAttachment: async (attachmentId, attachment) => {
+        await client.put(`/api/attachments/${attachmentId}`, attachment);
+    },
+    deleteAttachment: async (attachmentId) => {
+        await client.delete(`/api/attachments/${attachmentId}`);
+    }
 };
 
 implement(IAttachment)(attachment);

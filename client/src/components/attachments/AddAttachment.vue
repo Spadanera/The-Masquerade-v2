@@ -2,7 +2,8 @@
   <v-dialog v-model="dialog" persistent max-width="700px">
     <v-card>
       <v-card-title>
-        <span class="headline">Create New Attachment</span>
+        <span v-if="!attachment._id" class="headline">Create New Attachment</span>
+        <span v-else>Update Attachment</span>
       </v-card-title>
       <v-card-text>
         <v-container grid-list-md>
@@ -14,6 +15,7 @@
               v-model="imageName"
               prepend-icon="attach_file"
               required
+              v-if="!attachment._id"
             ></v-text-field>
             <input
               type="file"
@@ -72,7 +74,8 @@
 <script>
 export default {
   props: {
-    dialog: Boolean
+    dialog: Boolean,
+    attachment: Object
   },
   data() {
     return {
@@ -107,14 +110,22 @@ export default {
             });
           }
         }
-        await this.Service.attachmentService.createAttachment(
-          this.$route.params.id,
-          {
+        if (this.attachment._id) {
+          await this.Service.attachmentService.updateAttachment(this.attachment._id, {
             title: this.title,
             file: this.imageUrl,
             playerVisibility: playerVisibility
-          }
-        );
+          });
+        } else {
+          await this.Service.attachmentService.createAttachment(
+            this.$route.params.id,
+            {
+              title: this.title,
+              file: this.imageUrl,
+              playerVisibility: playerVisibility
+            }
+          );
+        }
         this.$emit("submitted", this.coterieId);
         this.closeModal();
       }
@@ -152,6 +163,31 @@ export default {
     this.players = await this.Service.playerService.getGroups(
       this.$route.params.id
     );
+  },
+  computed: {
+    attachmentId() {
+      return this.attachment._id;
+    }
+  },
+  watch: {
+    attachmentId: {
+      immediate: true,
+      handler(value) {
+        if (value) {
+          this.title = this.attachment.title;
+          this.selectedPlayers = this.attachment.playerVisibility.map(p => p.playerId);
+          this.imageName = "";
+          this.imageUrl = this.attachment.file;
+          this.imageFile = "";
+        } else {
+          this.title = "";
+          this.selectedPlayers = [];
+          this.imageName = "";
+          this.imageUrl = "";
+          this.imageFile = "";
+        }
+      }
+    }
   }
 };
 </script>
