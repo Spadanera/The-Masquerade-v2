@@ -91,16 +91,22 @@ export default new Router({
                 route: "coteries"
               },
               {
-                tooltip: "Live Session",
-                icon: "play_circle_outline",
-                iconClass: "icon-play",
-                route: "live"
-              },
-              {
                 tooltip: "Attachments",
                 icon: "",
-                iconClass: "icon-play",
+                iconClass: "icon-attachment",
                 route: "attachments"
+              },
+              {
+                tooltip: "Places",
+                icon: "",
+                iconClass: "icon-places",
+                route: "places"
+              },
+              {
+                tooltip: "Live Session",
+                icon: "play_circle_outline",
+                iconClass: "icon-live",
+                route: "live"
               }
             ],
             chronicleService: Service.chronicleService
@@ -216,6 +222,18 @@ export default new Router({
                 icon: "",
                 iconClass: "icon-play",
                 route: "attachments"
+              },
+              {
+                tooltip: "Attachments",
+                icon: "",
+                iconClass: "icon-attachment",
+                route: "attachments"
+              },
+              {
+                tooltip: "Places",
+                icon: "",
+                iconClass: "icon-places",
+                route: "places"
               }
             ],
             chronicleService: Service.dedicatedPlayerService.chronicleService

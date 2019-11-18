@@ -1,12 +1,13 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?14u2q3');
-  src:  url('fonts/icomoon.eot?14u2q3#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?14u2q3') format('truetype'),
-    url('fonts/icomoon.woff?14u2q3') format('woff'),
-    url('fonts/icomoon.svg?14u2q3#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?yy1vmj');
+  src:  url('fonts/icomoon.eot?yy1vmj#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?yy1vmj') format('truetype'),
+    url('fonts/icomoon.woff?yy1vmj') format('woff'),
+    url('fonts/icomoon.svg?yy1vmj#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
+  font-display: block;
 }
 
 [class^="icon-"], [class*=" icon-"] {
@@ -24,18 +25,24 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-play:before {
-  content: "\e902";
-}
-.icon-coterie:before {
-  content: "\e903";
-}
-.icon-stories:before {
+.icon-attachment:before {
   content: "\e900";
 }
+.icon-coterie:before {
+  content: "\e901";
+}
 .icon-dashboard:before {
+  content: "\e902";
+}
+.icon-live:before {
+  content: "\e903";
+}
+.icon-places:before {
   content: "\e904";
 }
 .icon-players:before {
-  content: "\e901";
+  content: "\e905";
+}
+.icon-stories:before {
+  content: "\e906";
 }
