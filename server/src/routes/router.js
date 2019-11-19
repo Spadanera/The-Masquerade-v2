@@ -13,6 +13,8 @@ router.use(async (req, res, next) => {
             next();
         }
         else {
+            req.session.userId = undefined;
+            req.session.token = undefined;
             res.status(401).send("Unauthorized");
         }
     }

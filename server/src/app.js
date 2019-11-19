@@ -1,5 +1,7 @@
 "use strict";
 import path from 'path';
+const formData = require("express-form-data");
+const os = require("os");
 
 // Mongoose configuration
 import mongoose from "mongoose";
@@ -18,9 +20,23 @@ const PORT = process.env.PORT || 3000;
 import express, { json, urlencoded } from 'express';
 import cors from "cors";
 const app = express();
-app.use(json());
-app.use(urlencoded({ extended: false }));
+app.use(json({ limit: "300mb" }));
+app.use(urlencoded({ extended: true, limit: "300mb" }));
 app.use(cors());
+
+const options = {
+  uploadDir: os.tmpdir(),
+  autoClean: true
+};
+ 
+// parse data with connect-multiparty. 
+app.use(formData.parse(options));
+// delete from the request all empty files (size == 0)
+app.use(formData.format());
+// change the file objects to fs.ReadStream 
+app.use(formData.stream());
+// union the body and the files
+app.use(formData.union());
 
 // Auth Configuration
 import passport from 'passport';

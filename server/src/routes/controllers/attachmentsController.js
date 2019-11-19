@@ -1,6 +1,7 @@
 "use strict";
 
 const router = require('express').Router();
+const imageToUri = require('image-to-uri');
 import Attachment from "../../models/Attachment";
 import Chronicle from '../../models/Chronicle';
 import Player from "../../models/Player";
@@ -25,7 +26,24 @@ router.post("/:chronicleid", async (req, res) => {
             res.status(500).send("Chronacle not found");
         }
     }
+    catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
+});
 
+router.post("/file/:attachmentid", async (req, res) => {
+    try {
+        if (req.files && req.files.file) {
+            let attachment = await Attachment.findById(req.params.attachmentid);
+            attachment.file = imageToUri(req.files.file.path);
+            await attachment.save();
+            res.json(attachment);
+        }
+        else {
+            throw "Missing file";
+        }
+    }
     catch (e) {
         console.error(e);
         res.status(500).json(e);

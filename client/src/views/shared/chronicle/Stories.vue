@@ -7,6 +7,7 @@
       :fixed="this.$vuetify.breakpoint.mdAndDown"
       :stateless="true"
       style="z-index: 6; min-width: 300px"
+      v-touch="{ left: () => ownNavVisible = false }"
     >
       <v-list subheader three-line>
         <v-subheader class="headline">Stories</v-subheader>
@@ -26,7 +27,11 @@
       </v-list>
       <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">Create Story</v-btn>
     </v-navigation-drawer>
-    <router-view :onGoingStory="onGoingStory" @ongoing="getStories" :sessionOnGoing="sessionOnGoing"></router-view>
+    <router-view
+      :onGoingStory="onGoingStory"
+      @ongoing="getStories"
+      :sessionOnGoing="sessionOnGoing"
+    ></router-view>
     <AddStory
       :dialog="dialog"
       :chronicle-id="this.$route.params.id"
@@ -63,8 +68,7 @@ export default {
       );
       if (this.stories.find(s => s.onGoing)) {
         this.onGoingStory = true;
-      }
-      else {
+      } else {
         this.onGoingStory = false;
       }
       this.stories.sort((a, b) => {

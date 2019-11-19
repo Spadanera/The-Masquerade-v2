@@ -121,7 +121,7 @@ export default {
             this.$route.params.id,
             {
               title: this.title,
-              file: this.imageUrl,
+              file: this.imageFile,
               playerVisibility: playerVisibility
             }
           );

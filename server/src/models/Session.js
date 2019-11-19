@@ -34,7 +34,7 @@ SessionSchema.post("remove", async session => {
             )
         )
     );
-    await SetExperiencePointsForCharacters(session);
+    // await SetExperiencePointsForCharacters(session);
 });
 
 // SessionSchema.post("save", async session => {
