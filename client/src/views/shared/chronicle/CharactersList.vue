@@ -7,7 +7,7 @@
     <v-layout fluid justify-center wrap style="overflow: auto; max-height: calc(100% - 72px);">
       <v-flex v-for="character in characters" v-bind:key="character._id" pa-2 xs12 sm6 md4 lg4 xl3>
         <v-card v-bind:class="{ dead: !character.alive }">
-          <v-img :src="character.picture" height="200px"></v-img>
+          <v-img v-if="character.picture" :src="character.picture" height="200px"></v-img>
           <v-card-title>
             <div class="headline">{{ character.name }}</div>
           </v-card-title>
