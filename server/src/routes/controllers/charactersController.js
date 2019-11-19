@@ -1,6 +1,7 @@
 "use strict";
 
 const router = require('express').Router();
+const imageToUri = require('image-to-uri');
 import Character from '../../models/Character';
 import Coterie from '../../models/Coterie';
 import Player from '../../models/Player';
@@ -65,7 +66,7 @@ router.post("/:id", async (req, res) => {
             if (coterie) {
                 coterie.characters.push(character);
                 await coterie.save();
-                res.json(character.save());
+                res.json(await character.save());
             }
             else {
                 res.status(500).json({ error: "Coterie not found" });
@@ -73,6 +74,25 @@ router.post("/:id", async (req, res) => {
         }
         else {
             res.status(500).json({ error: "User not authorized to create character in this coterie" });
+        }
+    }
+    catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
+});
+
+// set image for character
+router.post("/picture/:characterid", async (req, res) => {
+    try {
+        if (req.files && req.files.file) {
+            let character = await Character.findById(req.params.characterid);
+            character.picture = imageToUri(req.files.file.path);
+            await character.save();
+            res.send();
+        }
+        else {
+            throw "Missing file";
         }
     }
     catch (e) {

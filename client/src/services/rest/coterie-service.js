@@ -49,9 +49,13 @@ const coteries = {
         );
     },
     createCharacterInGroup: async (character, coterieId) => {
-        await client.post(`/api/characters/${coterieId}`, character);
+        let picture = character.picture;
+        delete character.picture;
+        let response = await client.post(`/api/characters/${coterieId}`, character);
+        await savePictureFile(response.data._id, picture, true);
     },
     updateCharacter: async (characterId, character) => {
+        delete character.picture;
         let response = await client.put(`/api/characters/${characterId}`, character);
         return response.data;
     },
@@ -77,6 +81,23 @@ const coteries = {
     },
     deleteCharacterInGroup: async () => {}
 };
+
+async function savePictureFile(characterId, file, toDelete) {
+    let formData = new FormData();
+    formData.append('file', file);
+    try {
+        await client.post(`/api/characters/picture/${characterId}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+    } catch (error) {
+        if (toDelete) {
+            await client.delete(`/api/characters/${characterId}`);
+        }
+        throw error;
+    }
+}
 
 implement(IVampireGroups)(coteries);
 

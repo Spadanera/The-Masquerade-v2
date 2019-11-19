@@ -78,7 +78,7 @@ export default {
     },
     async submit() {
       if (this.$refs.form.validate()) {
-        this.character.picture = this.imageUrl;
+        this.character.picture = this.imageFile;
         await this.characterService.createCharacterInGroup(
           this.character,
           this.coterieId
