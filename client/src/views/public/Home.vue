@@ -16,7 +16,7 @@
     <v-flex xs12 sm6 md6 lg5 xl3 pa-3>
       <v-card>
         <v-img :src="require('@/assets/player-card.jpg')" height="300px"></v-img>
-        <v-card-title>Playar</v-card-title>
+        <v-card-title>Player</v-card-title>
         <v-card-subtitle>Create your characters and join chronicle</v-card-subtitle>
         <v-card-actions>
           <v-btn @click="login('player')" color="primary">
