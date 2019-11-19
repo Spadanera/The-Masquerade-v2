@@ -23,7 +23,7 @@ router.post("/:chronicleid", async (req, res) => {
             res.json(attachment);
         }
         else {
-            res.status(500).send("Chronacle not found");
+            res.status(500).send("Chronicle not found");
         }
     }
     catch (e) {
