@@ -7,6 +7,7 @@
       :fixed="this.$vuetify.breakpoint.mdAndDown"
       :stateless="true"
       style="z-index: 6; min-width: 300px"
+      v-touch="{ left: () => ownNavVisible = false }"
     >
       <v-list subheader three-line>
         <v-subheader class="headline">Coterie / Pack</v-subheader>
