@@ -1,6 +1,6 @@
 <template>
   <v-layout wrap justify-space-around v-show="loaded">
-    <v-flex xs12 sm6 md6 lg5 xl3 pa-3>
+    <v-flex xs12 sm6 md6 lg5 xl4 pa-3>
       <v-card>
         <v-img :src="require('@/assets/story-teller-card.png')" height="300px"></v-img>
         <v-card-title>Story Teller</v-card-title>
@@ -13,7 +13,7 @@
         </v-card-actions>
       </v-card>
     </v-flex>
-    <v-flex xs12 sm6 md6 lg5 xl3 pa-3>
+    <v-flex xs12 sm6 md6 lg5 xl4 pa-3>
       <v-card>
         <v-img :src="require('@/assets/player-card.jpg')" height="300px"></v-img>
         <v-card-title>Player</v-card-title>
