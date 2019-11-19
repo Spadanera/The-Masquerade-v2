@@ -73,7 +73,8 @@ export default {
   data() {
     return {
       characters: [],
-      dialog: false
+      dialog: false,
+      darkTheme: false
     };
   },
   methods: {
