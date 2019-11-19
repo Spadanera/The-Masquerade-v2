@@ -1,18 +1,18 @@
 <template>
   <v-layout wrap justify-space-around>
-    <v-flex xs12 sm8 md6 lg4 x3>
+    <v-flex xs12 sm8 md6 lg5 xl4 pa-3>
       <v-card>
+        <v-img :src="require('@/assets/story-teller-card.png')" height="300px"></v-img>
         <v-card-title primary-title>
-          <div>
-            <div class="headline">{{ chronicle.name }}</div>
-            <span
-              class="grey--text"
-            >{{ moment(chronicle.createdAt).format('MMMM Do YYYY, h:mm:ss a') }}</span>
-          </div>
+          {{ chronicle.name }}
         </v-card-title>
+        <v-card-subtitle>{{ moment(chronicle.createdAt).format('MMMM Do YYYY, h:mm:ss a') }}</v-card-subtitle>
         <v-card-text style="flex: 1">{{ chronicle.shortDescription }}</v-card-text>
-        <v-card-actions class="justify-center">
-          <v-btn @click="join">Join the chronicle</v-btn>
+        <v-card-actions>
+          <v-btn @click="join" color="primary">
+            <img class="gbutton" src="../../assets/btn_google_light_normal_ios.svg" alt />
+            Join the chronicle
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
