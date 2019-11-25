@@ -6,7 +6,7 @@
       </v-card-title>
       <v-card-text>
         <v-container grid-list-md>
-          <v-form ref="form" v-model="valid">
+          <v-form autocomplete="off" ref="form" v-model="valid">
             <v-text-field v-model="story.name" label="Name" required></v-text-field>
             <v-textarea
               v-model="story.shortDescription"

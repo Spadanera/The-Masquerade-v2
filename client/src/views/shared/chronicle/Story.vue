@@ -45,11 +45,11 @@
       <v-card>
         <v-card-title>
           <v-layout wrap>
-            <v-flex xs12 sm6 md8 lg6 xl7>
+            <v-flex ref="headline" xs12 sm6 md8 lg6 xl7>
               <span class="headline">Sessions timeline</span>
             </v-flex>
             <v-flex xs12 sm6 md4 lg6 xl5>
-              <v-form @submit.prevent="getSessions(story._id)">
+              <v-form autocomplete="off" @submit.prevent="getSessions(story._id)">
                 <v-text-field
                   @click:clear="getSessions(story._id, true)"
                   solo
@@ -184,6 +184,7 @@ export default {
           storyId
         );
       }
+      this.$refs.headline.click();
     },
     async viewSession(sessionId) {
       this.selectedSession = sessionId;

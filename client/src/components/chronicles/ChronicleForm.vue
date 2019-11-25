@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid">
+  <v-form autocomplete="off" ref="form" v-model="valid">
     <v-text-field v-model="chronicle.name" label="Name" required></v-text-field>
     <v-textarea
       v-model="chronicle.shortDescription"

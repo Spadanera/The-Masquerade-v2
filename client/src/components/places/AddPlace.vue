@@ -7,7 +7,7 @@
       </v-card-title>
       <v-card-text>
         <v-container grid-list-md>
-          <v-form ref="form" v-model="valid">
+          <v-form autocomplete="off" ref="form" v-model="valid">
             <!-- <gmap-autocomplete @place_changed="setPlace"></gmap-autocomplete> -->
             <GoogleMapsAutocomplete
               @input="setPlace"

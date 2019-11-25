@@ -7,7 +7,7 @@
       </v-card-title>
       <v-card-text>
         <v-container grid-list-md>
-          <v-form ref="form" v-model="valid">
+          <v-form autocomplete="off" ref="form" v-model="valid">
             <v-text-field v-model="title" label="Name" required></v-text-field>
             <v-text-field
               label="Select Image"
