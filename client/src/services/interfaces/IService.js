@@ -4,7 +4,8 @@ const PlayerService = Interface('PlayerService')({
     chronicleService: type('object'),
     storyService: type('object'),
     playerService: type('object'),
-    attachmentService: type('object')
+    attachmentService: type('object'),
+    placeService: type('object')
 }, {
     error: true,
     strict: true 
@@ -18,6 +19,7 @@ const Service = Interface('Service')({
     coterieService: type('object'),
     invitationService: type('object'),
     attachmentService: type('object'),
+    placeService: type('object'),
     dedicatedPlayerService: type('object', PlayerService)
 }, {
     error: true,

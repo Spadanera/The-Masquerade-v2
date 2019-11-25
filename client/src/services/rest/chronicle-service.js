@@ -15,7 +15,7 @@ const chronicle = {
     },
     goTo: (route, component) => {
         component.$router.push(`/story-teller/chronicle/${component.$route.params.id}/${route}`);
-        if (route === "dashboard") {
+        if (route === "dashboard" || route === "attachments") {
             component.nav.visible = false;
         }
     },

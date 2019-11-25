@@ -41,6 +41,7 @@
       :navVisible="navVisible"
       @closenavbar="closeNavBar"
       :sessionOnGoing="sessionOnGoing"
+      :gmaps="chronicle.gmaps"
     ></router-view>
     <v-alert
       v-if="$route.fullPath.indexOf('live') < 0"
@@ -90,19 +91,6 @@ export default {
   },
   created() {
     this.loadChronicle();
-    // window.setInterval(async () => {
-    //   if (this.$route.params.id) {
-    //     this.onGoingSession =
-    //       (await this.Service.sessionService.getOnGoingSession(
-    //         this.$route.params.id
-    //       )) || {};
-    //     if (this.onGoingSession.sessionDate) {
-    //       this.sessionOnGoing = true;
-    //     } else {
-    //       this.sessionOnGoing = false;
-    //     }
-    //   }
-    // }, 1000);
   },
   computed: {
     navVisible: {
@@ -113,6 +101,20 @@ export default {
         this.nav.visible = val;
       }
     }
+  },
+  async beforeRouteUpdate(to, from, next) {
+    if (this.$route.params.id) {
+        this.onGoingSession =
+          (await this.Service.sessionService.getOnGoingSession(
+            this.$route.params.id
+          )) || {};
+        if (this.onGoingSession.sessionDate) {
+          this.sessionOnGoing = true;
+        } else {
+          this.sessionOnGoing = false;
+        }
+      }
+    next();
   }
 };
 </script>

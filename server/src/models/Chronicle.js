@@ -3,6 +3,7 @@ import Story from './Story';
 import Coterie from './Coterie';
 import Player from './Player';
 import Attachment from './Attachment';
+import Place from './Place';
 
 const Statuses = Object.freeze({
   Draft: 'draft',
@@ -24,7 +25,9 @@ const ChronicleSchema = new mongoose.Schema({
   coteries: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Coterie' }],
   players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }],
   attachments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Attachment' }],
-  backgroundImage: String
+  backgroundImage: String,
+  gmaps: String,
+  places: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Place' }]
 });
 
 ChronicleSchema.post("remove", async chronicle => {
@@ -46,6 +49,11 @@ ChronicleSchema.post("remove", async chronicle => {
   if (chronicle.attachments) {
     chronicle.attachments.forEach(async element => {
       await Attachment.deleteOne({ _id: element });
+    });
+  }
+  if (chronicle.places) {
+    chronicle.places.forEach(async element => {
+      await Place.deleteOne({ _id: element });
     });
   }
 });

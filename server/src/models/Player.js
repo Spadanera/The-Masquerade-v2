@@ -7,7 +7,8 @@ let PlayerSchema = new mongoose.Schema({
     chronicleId: mongoose.Schema.Types.ObjectId,
     createdAt: { type: Date, default: Date.now },
     active: Boolean,
-    characters: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Character' }]
+    characters: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Character' }],
+    refuge: String
 });
 
 export default mongoose.model("Player", PlayerSchema);
