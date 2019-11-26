@@ -9,11 +9,13 @@ const service = {
     coterieService: require('./coterie-service').default,
     invitationService: require('./invitation-service').default,
     attachmentService: require('./attachment-service').default,
+    placeService: require('./place-service').default,
     dedicatedPlayerService: {
         chronicleService: require('./player/chronicle-service').default,
         storyService: require('./player/story-service').default,
         playerService: require('./player/player-service').default,
         attachmentService: require('./player/attachment-service').default,
+        placeService: require('./player/place-service').default
     }
 };
 

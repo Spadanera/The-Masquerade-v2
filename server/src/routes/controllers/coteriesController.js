@@ -18,7 +18,7 @@ router.post("/:id", async (req, res) => {
             res.json(coterie);
         }
         else {
-            res.status(500).send("Chronacle not found");
+            res.status(500).send("Chronicle not found");
         }
     }
     catch (e) {

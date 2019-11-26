@@ -1,6 +1,6 @@
 import { Interface, type } from 'implement-js';
 
-const Attachment = Interface('Story')({
+const Attachment = Interface('Attachment')({
     getAttachments: type('function'),
     getAttachment: type('function'),
     createAttachment: type('function'),

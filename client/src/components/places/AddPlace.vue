@@ -2,28 +2,27 @@
   <v-dialog v-model="dialog" persistent max-width="700px">
     <v-card>
       <v-card-title>
-        <span v-if="!attachment._id" class="headline">Create New Attachment</span>
-        <span v-else>Update Attachment</span>
+        <span v-if="!place._id" class="headline">Create New Place</span>
+        <span v-else>Update Place</span>
       </v-card-title>
       <v-card-text>
         <v-container grid-list-md>
           <v-form autocomplete="off" ref="form" v-model="valid">
-            <v-text-field v-model="title" label="Name" required></v-text-field>
-            <v-text-field
-              label="Select Image"
-              @click="pickFile"
-              v-model="imageName"
-              prepend-icon="attach_file"
-              required
-              v-if="!attachment._id"
-            ></v-text-field>
-            <input
-              type="file"
-              style="display: none"
-              ref="image"
-              accept="image/*"
-              @change="onFilePicked"
+            <!-- <gmap-autocomplete @place_changed="setPlace"></gmap-autocomplete> -->
+            <GoogleMapsAutocomplete
+              @input="setPlace"
+              v-model="currentPlace"
+              label="Enter an address"
+              v-if="!place._id"
             />
+            <v-text-field
+              readonly
+              v-else
+              v-model="currentPlace.formatted_address"
+              label="Address"
+              placeholder="Placeholder"
+            ></v-text-field>
+            <v-text-field v-model="title" label="Name" required></v-text-field>
             <v-autocomplete
               v-model="selectedPlayers"
               :items="players"
@@ -72,19 +71,22 @@
 </template>
 
 <script>
+import GoogleMapsAutocomplete from "../../components/places/GoogleMapsAutocomplete";
 export default {
+  components: {
+    GoogleMapsAutocomplete
+  },
   props: {
     dialog: Boolean,
-    attachment: Object
+    place: Object,
+    players: Array
   },
   data() {
     return {
       valid: true,
       title: "",
-      imageName: "",
-      imageUrl: "",
-      imageFile: "",
-      players: [],
+      description: "",
+      currentPlace: {},
       selectedPlayers: []
     };
   },
@@ -92,10 +94,11 @@ export default {
     closeModal() {
       this.$emit("close", false);
       this.title = "";
+      this.description = "";
       this.selectedPlayers = [];
-      this.imageName = "";
-      this.imageUrl = "";
-      this.imageFile = "";
+    },
+    setPlace(place) {
+      this.currentPlace = place;
     },
     async submit() {
       if (this.$refs.form.validate()) {
@@ -110,46 +113,23 @@ export default {
             });
           }
         }
-        if (this.attachment._id) {
-          await this.Service.attachmentService.updateAttachment(this.attachment._id, {
+        if (this.place._id) {
+          await this.Service.placeService.updatePlace(this.place._id, {
             title: this.title,
-            file: this.imageUrl,
+            description: this.description,
+            gmaps: JSON.stringify(this.currentPlace),
             playerVisibility: playerVisibility
           });
         } else {
-          await this.Service.attachmentService.createAttachment(
-            this.$route.params.id,
-            {
-              title: this.title,
-              file: this.imageFile,
-              playerVisibility: playerVisibility
-            }
-          );
+          await this.Service.placeService.createPlace(this.$route.params.id, {
+            title: this.title,
+            description: this.description,
+            gmaps: JSON.stringify(this.currentPlace),
+            playerVisibility: playerVisibility
+          });
         }
         this.$emit("submitted", this.coterieId);
         this.closeModal();
-      }
-    },
-    pickFile() {
-      this.$refs.image.click();
-    },
-    onFilePicked(e) {
-      const files = e.target.files;
-      if (files[0] !== undefined) {
-        this.imageName = files[0].name;
-        if (this.imageName.lastIndexOf(".") <= 0) {
-          return;
-        }
-        const fr = new FileReader();
-        fr.readAsDataURL(files[0]);
-        fr.addEventListener("load", () => {
-          this.imageUrl = fr.result;
-          this.imageFile = files[0]; // this is an image file that can be sent to server...
-        });
-      } else {
-        this.imageName = "";
-        this.imageFile = "";
-        this.imageUrl = "";
       }
     },
     remove(item) {
@@ -159,32 +139,29 @@ export default {
       }
     }
   },
-  async created() {
-    this.players = await this.Service.playerService.getGroups(
-      this.$route.params.id
-    );
-  },
+  async created() {},
   computed: {
-    attachmentId() {
-      return this.attachment._id;
+    placeId() {
+      return this.place._id;
     }
   },
   watch: {
-    attachmentId: {
+    placeId: {
       immediate: true,
       handler(value) {
         if (value) {
-          this.title = this.attachment.title;
-          this.selectedPlayers = this.attachment.playerVisibility.map(p => p.playerId);
-          this.imageName = "";
-          this.imageUrl = this.attachment.file;
-          this.imageFile = "";
+          this.title = this.place.title;
+          this.description = this.place.description;
+          if (this.place.playerVisibility) {
+            this.selectedPlayers = this.place.playerVisibility.map(
+              p => p.playerId
+            );
+          }
+          this.currentPlace = this.place.gmaps;
         } else {
           this.title = "";
+          this.description = "";
           this.selectedPlayers = [];
-          this.imageName = "";
-          this.imageUrl = "";
-          this.imageFile = "";
         }
       }
     }

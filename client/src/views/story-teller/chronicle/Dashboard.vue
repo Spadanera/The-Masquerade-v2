@@ -49,7 +49,7 @@
               <span class="headline">Sessions timeline</span>
             </v-flex>
             <v-flex xs12 sm6 md4 lg6 xl5>
-              <v-form @submit.prevent="getSessions()">
+              <v-form autocomplete="off" @submit.prevent="getSessions()">
                 <v-text-field
                   @click:clear="getSessions(true)"
                   solo

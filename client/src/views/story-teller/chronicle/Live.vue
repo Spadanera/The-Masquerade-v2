@@ -48,7 +48,7 @@
     </v-navigation-drawer>
     <!-- Character visualization -->
     <div v-if="selection.length === 0" class="pa-3">
-      <span class="headline">No character selected</span>
+      
     </div>
     <div class="fill-height custom-width" v-else>
       <v-tabs v-model="selectedCharacter" slider-color="#b71c1c" class="fill-height" grow  show-arrows>

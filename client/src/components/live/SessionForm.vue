@@ -40,7 +40,7 @@
           <v-tab-item v-for="(character, i) in session.characters" :key="i + 1">
             <v-card flat style="margin-left: 5px;">
               <v-card-text>
-                <v-form>
+                <v-form autocomplete="off">
                   <v-container>
                     <v-layout>
                       <v-flex xs12 sm6>

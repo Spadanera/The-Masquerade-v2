@@ -42,6 +42,7 @@ router.post("/", async (req, res) => {
         let character = createCharacter(req);
         let player = await Player.findOne({ _id: req.session.playerId });
         if (player) {
+            character.chronicleId = player.chronicleId;
             player.characters.push(character);
             await player.save();
             res.json(character.save());

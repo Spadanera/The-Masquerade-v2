@@ -21,6 +21,7 @@ import Live from './views/story-teller/chronicle/Live.vue';
 import Player from './views/Player.vue';
 import PlayerChroniclesList from './views/player/ChroniclesList.vue';
 import Attachments from './views/shared/chronicle/Attachments';
+import Places from './views/shared/chronicle/Places';
 
 Vue.use(Router);
 
@@ -181,6 +182,14 @@ export default new Router({
                 attachmentService: Service.attachmentService,
                 isStoryTeller: true
               })
+            },
+            {
+              path: "places",
+              component: Places,
+              props: () => ({
+                placeService: Service.placeService,
+                isStoryTeller: true
+              })
             }
           ]
         }
@@ -274,6 +283,14 @@ export default new Router({
               component: Attachments,
               props: () => ({
                 attachmentService: Service.dedicatedPlayerService.attachmentService,
+                isStoryTeller: false
+              })
+            },
+            {
+              path: "places",
+              component: Places,
+              props: () => ({
+                placeService: Service.dedicatedPlayerService.placeService,
                 isStoryTeller: false
               })
             }
