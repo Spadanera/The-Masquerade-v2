@@ -89,7 +89,6 @@
         :position="place.gmaps.geometry.location"
         :clickable="true"
         @click="selectPlace(place, i)"
-        :icon="i === index && place.gmaps.icon ? { url: place.gmaps.icon } : undefined"
       />
       <GmapMarker
         :key="place._id"
@@ -99,7 +98,6 @@
         :position="place.gmaps.geometry.location"
         :clickable="true"
         @click="selectPlace(place, i, true)"
-        :icon="i === index && place.gmaps.icon ? { url: place.gmaps.icon } : undefined"
       />
     </GmapMap>
     <v-layout v-if="index > -1"></v-layout>
