@@ -16,48 +16,6 @@
             <v-list-item-content>
               <v-list-item-title>{{place.title}}</v-list-item-title>
               <v-list-item-subtitle>{{place.gmaps.formatted_address}}</v-list-item-subtitle>
-              <!-- <v-list-item-subtitle>
-                <v-autocomplete
-                  v-if="isStoryTeller"
-                  v-model="place.selectedPlayers"
-                  :items="place.players"
-                  chips
-                  item-text="userDisplayName"
-                  item-value="_id"
-                  label="Player visibility"
-                  multiple
-                >
-                  <template v-slot:selection="data">
-                    <v-tooltip top>
-                      <template v-slot:activator="{ on }">
-                        <v-chip
-                          v-on="on"
-                          v-bind="data.attrs"
-                          :input-value="data.selected"
-                          close
-                          @click="data.select"
-                          @click:close="remove(place._id, data.item._id)"
-                        >
-                          <v-avatar left>
-                            <v-img :src="data.item.userPicture"></v-img>
-                          </v-avatar>
-                        </v-chip>
-                      </template>
-                      <span>{{data.item.userDisplayName}}</span>
-                    </v-tooltip>
-                  </template>
-                  <template v-slot:item="data">
-                    <template>
-                      <v-list-item-avatar>
-                        <img :src="data.item.userPicture" />
-                      </v-list-item-avatar>
-                      <v-list-item-content>
-                        <v-list-item-title v-html="data.item.userDisplayName"></v-list-item-title>
-                      </v-list-item-content>
-                    </template>
-                  </template>
-                </v-autocomplete>
-              </v-list-item-subtitle> -->
             </v-list-item-content>
             <v-btn
               color="primary"
@@ -215,10 +173,13 @@ export default {
       this.selectedPlace = {};
       this.dialog = false;
     },
-    selectPlace(place, index) {
+    selectPlace(place, index, notToCloseNav) {
       this.index = index;
       this.selectedPlace = place;
       this.center = place.gmaps.geometry.location;
+      if (!notToCloseNav) {
+        this.ownNavVisible = false;
+      }
     }
   },
   watch: {
