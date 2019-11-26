@@ -24,6 +24,7 @@ const Background = {
 let CharacterSchema = new mongoose.Schema({
     name: String,
     userId: mongoose.Schema.Types.ObjectId,
+    chronicleId: mongoose.Schema.Types.ObjectId,
     alive: Boolean,
     picture: String,
     startingExperience: { type: Number, default: 0 },
@@ -75,6 +76,7 @@ let CharacterSchema = new mongoose.Schema({
     advantages: [Capacity],
     flaws: [Capacity],
     updateAt: { type: Date, default: Date.now },
+    refuge: String
 });
 
 CharacterSchema.statics.createCapacities = (names) => {

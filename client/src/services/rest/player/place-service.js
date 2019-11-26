@@ -9,6 +9,7 @@ const place = {
         );
         return response.data;
     },
+    getRefuges: () => { },
     getPlace: () => { },
     createPlace: async (chronicleId, place) => {
         await client.post(`/api/places/${chronicleId}`, place);

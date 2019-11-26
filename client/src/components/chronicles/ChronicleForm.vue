@@ -1,6 +1,11 @@
 <template>
   <v-form autocomplete="off" ref="form" v-model="valid">
     <v-text-field v-model="chronicle.name" label="Name" required></v-text-field>
+    <GoogleMapsAutocomplete
+              @input="setPlace"
+              v-model="currentPlace"
+              label="Enter an address"
+            />
     <v-textarea
       v-model="chronicle.shortDescription"
       label="Short Description"
@@ -13,21 +18,29 @@
 </template>
 
 <script>
+import GoogleMapsAutocomplete from "../../components/places/GoogleMapsAutocomplete";
 export default {
+  components: {
+    GoogleMapsAutocomplete
+  },
   name: "ChronicleForm",
   data() {
     return {
       valid: true,
-      chronicle: {}
+      chronicle: {},
+      currentPlace: {}
     };
   },
   methods: {
     async submit() {
       if (this.$refs.form.validate()) {
         // call action
-        this.Service.chronicleService.createChronicle(this.chronicle);
+        await this.Service.chronicleService.createChronicle(this.chronicle);
         this.$emit("submitted");
       }
+    },
+    setPlace(place) {
+      this.chronicle.gmaps = JSON.stringify(place);
     }
   }
 };

@@ -9,6 +9,12 @@ const place = {
         );
         return response.data;
     },
+    getRefuges: async (chronicleId) => {
+        let response = await client.get(
+            `/api/places/refuges/${chronicleId}`
+        );
+        return response.data;
+    },
     getPlace: () => { },
     createPlace: async (chronicleId, place) => {
         await client.post(`/api/places/${chronicleId}`, place);

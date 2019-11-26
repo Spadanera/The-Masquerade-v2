@@ -98,7 +98,7 @@
           <v-icon v-else>more_vert</v-icon>
         </v-btn>
       </template>
-      <v-btn v-if="readonly && !fighting && edit" color="primary" @click="fighting = true">Fight</v-btn>
+      <v-btn v-if="readonly && !fighting && edit" @click="fighting = true">Fight</v-btn>
       <v-btn v-if="readonly && fighting && edit" @click="fighting = false">End Fight</v-btn>
       <v-btn @click="readonly= false" v-if="readonly && !fighting && edit">Edit</v-btn>
       <v-btn @click="save" v-if="!readonly && !fighting && edit">Save</v-btn>

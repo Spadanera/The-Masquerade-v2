@@ -152,9 +152,11 @@ export default {
         if (value) {
           this.title = this.place.title;
           this.description = this.place.description;
-          this.selectedPlayers = this.place.playerVisibility.map(
-            p => p.playerId
-          );
+          if (this.place.playerVisibility) {
+            this.selectedPlayers = this.place.playerVisibility.map(
+              p => p.playerId
+            );
+          }
           this.currentPlace = this.place.gmaps;
         } else {
           this.title = "";

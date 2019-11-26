@@ -9,52 +9,96 @@
       style="z-index: 6; min-width: 300px"
       v-touch="{ left: () => ownNavVisible = false }"
     >
-      <v-list subheader two-line>
-        <v-subheader class="headline">Places</v-subheader>
-        <v-list-item-group v-model="index">
-          <v-list-item v-for="(place, i) in places" :key="i" @click="selectPlace(place, i)">
-            <v-list-item-content>
-              <v-list-item-title>{{place.title}}</v-list-item-title>
-              <v-list-item-subtitle>{{place.gmaps.formatted_address}}</v-list-item-subtitle>
-            </v-list-item-content>
-            <v-btn
-              color="primary"
-              dark
-              absolute
-              small
-              bottom
-              right
-              fab
-              class="onhover"
-              @click="deletePlace(place)"
-            >
-              <v-icon>clear</v-icon>
-            </v-btn>
-            <v-btn
-              color="primary"
-              dark
-              absolute
-              small
-              bottom
-              right
-              fab
-              class="onhover move-left"
-              @click="editPlace(place)"
-            >
-              <v-icon>edit</v-icon>
-            </v-btn>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
+      <div class="v-subheader headline theme--light">Places</div>
+      <v-expansion-panels multiple class="no-padding">
+        <v-expansion-panel>
+          <v-expansion-panel-header>General</v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-list subheader two-line>
+              <v-list-item-group v-model="index">
+                <v-list-item
+                  v-for="(place, i) in places"
+                  :key="i"
+                  @click="selectPlace(place, i, false)"
+                >
+                  <v-list-item-content>
+                    <v-list-item-title>{{place.title}}</v-list-item-title>
+                    <v-list-item-subtitle>{{place.gmaps.formatted_address}}</v-list-item-subtitle>
+                  </v-list-item-content>
+                  <v-btn
+                    color="primary"
+                    dark
+                    absolute
+                    small
+                    bottom
+                    right
+                    fab
+                    class="onhover"
+                    @click="deletePlace(place)"
+                  >
+                    <v-icon>clear</v-icon>
+                  </v-btn>
+                  <v-btn
+                    color="primary"
+                    dark
+                    absolute
+                    small
+                    bottom
+                    right
+                    fab
+                    class="onhover move-left"
+                    @click="editPlace(place)"
+                  >
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+        <v-expansion-panel>
+          <v-expansion-panel-header>Refuges</v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-list subheader two-line>
+              <v-list-item-group v-model="indexRefuge">
+                <v-list-item
+                  v-for="(place, i) in refuges"
+                  :key="i"
+                  @click="selectPlace(place, i, true)"
+                >
+                  <v-list-item-avatar>
+                    <img :src="place.picture" :alt="place.name" />
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title>{{place.name}}</v-list-item-title>
+                    <v-list-item-subtitle>{{place.gmaps.formatted_address}}</v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
     </v-navigation-drawer>
     <GmapMap :center="center" :zoom="zoom" style="width: 100%; height: 100%">
       <GmapMarker
         :key="i"
         :title="place.title"
+        :label="i === index && place.title ? place.title : undefined"
         v-for="(place, i) in places"
         :position="place.gmaps.geometry.location"
         :clickable="true"
         @click="selectPlace(place, i)"
+        :icon="i === index && place.gmaps.icon ? { url: place.gmaps.icon } : undefined"
+      />
+      <GmapMarker
+        :key="place._id"
+        :title="place.name"
+        :label="i === indexRefuge && place.name ? place.name : undefined"
+        v-for="(place, i) in refuges"
+        :position="place.gmaps.geometry.location"
+        :clickable="true"
+        @click="selectPlace(place, i, true)"
         :icon="i === index && place.gmaps.icon ? { url: place.gmaps.icon } : undefined"
       />
     </GmapMap>
@@ -82,15 +126,17 @@ export default {
   props: {
     navVisible: Boolean,
     sessionOnGoing: Boolean,
-    gmaps: Object,
+    gmaps: String,
     isStoryTeller: Boolean
   },
   data() {
     return {
       markers: [],
       places: [],
-      zoom: 13,
+      refuges: [],
+      zoom: 12,
       index: -1,
+      indexRefuge: -1,
       center: { lat: 45.46, lng: 9.19 },
       dialog: false,
       selectedPlace: {},
@@ -99,9 +145,10 @@ export default {
   },
   async created() {
     if (this.gmaps) {
+      let gmaps = JSON.parse(this.gmaps);
       this.center = {
-        lat: this.gmaps.lat,
-        lng: this.gmaps.lng
+        lat: parseFloat(gmaps.geometry.location.lat),
+        lng: parseFloat(gmaps.geometry.location.lng)
       };
     }
     this.players = await this.Service.playerService.getGroups(
@@ -144,18 +191,6 @@ export default {
       this.dialog = true;
       this.selectedPlace = {};
     },
-    addMarker() {
-      if (this.currentPlace) {
-        const marker = {
-          lat: this.currentPlace.geometry.location.lat(),
-          lng: this.currentPlace.geometry.location.lng()
-        };
-        this.markers.push({ position: marker });
-        this.places.push(this.currentPlace);
-        this.center = marker;
-        this.currentPlace = null;
-      }
-    },
     async getPlaces() {
       let places = (places = await this.Service.placeService.getPlaces(
         this.$route.params.id
@@ -168,33 +203,46 @@ export default {
         );
       }
       this.places = places;
+
+      places = places = await this.Service.placeService.getRefuges(
+        this.$route.params.id
+      );
+      for (let i = 0; i < places.length; i++) {
+        let gmaps = JSON.parse(places[i].refuge);
+        places[i].gmaps = gmaps;
+      }
+      this.refuges = places;
     },
     closeModal() {
       this.selectedPlace = {};
       this.dialog = false;
     },
-    selectPlace(place, index, notToCloseNav) {
-      this.index = index;
+    selectPlace(place, index, isRefuge) {
+      if (isRefuge) {
+        this.index = -1;
+        this.indexRefuge = index;
+      } else {
+        this.index = index;
+        this.indexRefuge = -1;
+      }
       this.selectedPlace = place;
       this.center = place.gmaps.geometry.location;
-      if (!notToCloseNav) {
-        this.ownNavVisible = false;
-      }
+      this.ownNavVisible = false;
     }
   },
   watch: {
     navVisible: function(newValue) {
       this.ownNavVisible = newValue;
-    },
-    gmaps: function(newValue) {
-      if (newValue) {
-        this.center = {
-          lat: newValue.lat,
-          lng: newValue.lng
-        };
-        this.zoom = newValue.zoom;
-      }
     }
+    // gmaps: function(newValue) {
+    // if (newValue) {
+    //   this.center = {
+    //     lat: newValue.lat,
+    //     lng: newValue.lng
+    //   };
+    //   this.zoom = newValue.zoom;
+    // }
+    // }
   },
   computed: {
     ownNavVisible: {
@@ -281,6 +329,14 @@ label {
 }
 
 .move-left {
-  right: 60px !important
+  right: 60px !important;
+}
+
+.no-padding .v-expansion-panel-content__wrap {
+  padding: 0;
+}
+
+.vue-map-container div {
+  font-size: 20px !important;
 }
 </style>

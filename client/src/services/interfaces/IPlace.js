@@ -2,6 +2,7 @@ import { Interface, type } from 'implement-js';
 
 const Place = Interface('Place')({
     getPlaces: type('function'),
+    getRefuges: type('function'),
     getPlace: type('function'),
     createPlace: type('function'),
     updatePlace: type('function'),

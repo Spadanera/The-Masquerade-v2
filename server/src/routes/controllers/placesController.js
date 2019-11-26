@@ -4,6 +4,7 @@ const router = require('express').Router();
 import Place from "../../models/Place";
 import Player from "../../models/Player";
 import Chronicle from "../../models/Chronicle";
+import Character from "../../models/Character";
 
 // create places
 router.post("/:chronicleid", async (req, res) => {
@@ -51,6 +52,20 @@ router.get("/:id", async (req, res) => {
 router.get("/chronicle/:chronicleid", async (req, res) => {
     try {
         let places = await Place.find({ chronicleId: req.params.chronicleid });
+        res.json(places);
+    }
+    catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
+});
+
+// get all refuges
+router.get("/refuges/:chronicleid", async (req, res) => {
+    try {
+        let places = await Character.find({ chronicleId: req.params.chronicleid, alive: true, refuge: { $exists: true } }, {
+            name: 1, picture: 1, refuge: 1
+        });
         res.json(places);
     }
     catch (e) {
