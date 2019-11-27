@@ -11,6 +11,7 @@ import VueSessionStorage from 'vue-sessionstorage';
 import RestService from './services/rest/rest-services';
 import 'vuetify/dist/vuetify.min.css'
 import * as VueGoogleMaps from 'vue2-google-maps'
+import gmapsKey from './gmapsKey';
 
 Vue.use(CKEditor);
 Vue.use(VueSessionStorage);
@@ -28,7 +29,7 @@ Vue.component('text-highlight', TextHighlight);
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyBGBiV3riVMUmKxciE43wLvYyW10U2bs7w',
+    key: gmapsKey.apiKey,
     libraries: 'places,drawing,visualization', // This is required if you use the Autocomplete plugin
     language: 'en'
   },

@@ -1,4 +1,5 @@
 let gmailAuthPath = `${__dirname}/server/src/gmailAuth.js`;
+let gmapsKeyPath = `${__dirname}/client/src/gmapsKey.js`;
 
 module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -40,6 +41,11 @@ module.exports = function (grunt) {
                             type: 'input',
                             config: 'pass',
                             message: "What's your gmail password? (leave it blank if you don't want to send invitation)",
+                        },
+                        {
+                            type: 'input',
+                            config: 'apikey',
+                            message: "What's your Google Maps API KEY? (it is necessary for the Places section)",
                         }
                     ],
                     then: (answers) => {
@@ -51,6 +57,15 @@ module.exports = function (grunt) {
                         `;
                         grunt.file.write(gmailAuthPath, gmailAuth);
                         grunt.log.writeln("Successfully created gmailAuth");
+
+                        let gmapsKey = `
+                            module.exports = {
+                                apiKey: '${(answers.apikey || '')}'
+                            };
+                        `;
+
+                        grunt.file.write(gmapsKeyPath, gmapsKey);
+                        grunt.log.writeln("Successfully created gmapsKey");
                     }
                 }
             }
