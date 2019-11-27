@@ -37,12 +37,14 @@ Service = RestService;
 export default new Router({
   routes: [
     {
-      path: "/",
+      path: "/",      
       component: Public,
       children: [
         {
           path: '/',
-          component: Home
+          name: "home",
+          component: Home,
+          props: true
         },
         {
           path: '/about',

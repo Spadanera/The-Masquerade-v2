@@ -147,19 +147,23 @@ export default {
       }
       for (let i = 0; i < this.stories.length; i++) {
         if (this.search) {
-          this.stories[
-            i
-          ].sessions = await this.Service.sessionService.searchSessions(
-            this.search,
-            this.$route.params.id,
-            this.stories[i]._id
-          );
+          let story = this.stories[i];
+          this.Service.sessionService
+            .searchSessions(
+              this.search,
+              this.$route.params.id,
+              this.stories[i]._id
+            )
+            .then(response => {
+              story.sessions = response;
+            });
         } else {
-          this.stories[
-            i
-          ].sessions = await this.Service.sessionService.getSessions(
-            this.stories[i]._id
-          );
+          let story = this.stories[i];
+          this.Service.sessionService
+            .getSessions(this.stories[i]._id)
+            .then(response => {
+              story.sessions = response;
+            });
         }
       }
     },

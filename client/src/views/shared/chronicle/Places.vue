@@ -190,26 +190,30 @@ export default {
       this.selectedPlace = {};
     },
     async getPlaces() {
-      let places = (places = await this.Service.placeService.getPlaces(
+      this.Service.placeService.getPlaces(
         this.$route.params.id
-      ));
-      for (let i = 0; i < places.length; i++) {
-        let gmaps = JSON.parse(places[i].gmaps);
-        places[i].gmaps = gmaps;
-        places[i].selectedPlayers = places[i].playerVisibility.map(
-          pv => pv.playerId
-        );
-      }
-      this.places = places;
+      ).then(response => {
+        let places = response;
+        for (let i = 0; i < places.length; i++) {
+          let gmaps = JSON.parse(places[i].gmaps);
+          places[i].gmaps = gmaps;
+          places[i].selectedPlayers = places[i].playerVisibility.map(
+            pv => pv.playerId
+          );
+        }
+        this.places = places;
+      });
 
-      places = places = await this.Service.placeService.getRefuges(
+      this.Service.placeService.getRefuges(
         this.$route.params.id
-      );
-      for (let i = 0; i < places.length; i++) {
-        let gmaps = JSON.parse(places[i].refuge);
-        places[i].gmaps = gmaps;
-      }
-      this.refuges = places;
+      ).then(response => {
+        places = response;
+        for (let i = 0; i < places.length; i++) {
+          let gmaps = JSON.parse(places[i].refuge);
+          places[i].gmaps = gmaps;
+        }
+        this.refuges = places;
+      });
     },
     closeModal() {
       this.selectedPlace = {};
@@ -232,15 +236,6 @@ export default {
     navVisible: function(newValue) {
       this.ownNavVisible = newValue;
     }
-    // gmaps: function(newValue) {
-    // if (newValue) {
-    //   this.center = {
-    //     lat: newValue.lat,
-    //     lng: newValue.lng
-    //   };
-    //   this.zoom = newValue.zoom;
-    // }
-    // }
   },
   computed: {
     ownNavVisible: {

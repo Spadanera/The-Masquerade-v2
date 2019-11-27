@@ -26,12 +26,27 @@
         </v-card-actions>
       </v-card>
     </v-flex>
+    <v-snackbar
+      v-model="snackbar.enabled"
+      :bottom="true"
+      :left="false"
+      :multi-line="false"
+      :right="false"
+      :timeout="3000"
+      :vertical="false"
+    >
+      {{ snackbar.text }}
+      <v-btn color="red" text @click="snackbar.enabled = false">Close</v-btn>
+    </v-snackbar>
   </v-layout>
 </template>
 
 <script>
 import client from "../../services/client";
 export default {
+  props: {
+    message: String
+  },
   methods: {
     login(role) {
       location.href = `/auth/google-role/${role}`;
@@ -39,6 +54,10 @@ export default {
   },
   data() {
     return {
+      snackbar: {
+        enabled: false,
+        text: ""
+      },
       loaded: false
     };
   },
@@ -50,6 +69,10 @@ export default {
         this.$router.push(`/${isLoggedIn}`);
       } else {
         this.loaded = true;
+      }
+      if (this.message) {
+        this.snackbar.text = this.message;
+        this.snackbar.enabled = true;
       }
     } catch (error) {
       this.loaded = true;
