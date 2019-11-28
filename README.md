@@ -18,6 +18,8 @@ npm start
 
 It will ask you your gmail credentials. It is necessary to send invitation email. In this case you should do an addictional step in gmail to allow your account to send email. You could skip this step. If the credentials are empty, the invitation is created at db level, but the email will not be sent.
 
+Moreover, you should provide a valid Google Maps API Key to use the place section
+
 After that you can access the application at:
 
 http://localhost
