@@ -36,14 +36,14 @@
         return-object
       ></v-treeview>
       <v-footer :fixed="true" v-if="onGoingStory">
-        <v-btn v-if="!sessionOnGoing" class="footer-button" text @click="dialog=true">Start Session</v-btn>
+        <v-btn v-if="!sessionOnGoing" class="footer-button" text @click="dialog=true">{{$ml.get("startSession")}}</v-btn>
         <v-btn
           v-else
           class="footer-button"
           color="primary"
           text
           @click="sessionDetails()"
-        >Session Details</v-btn>
+        >{{$ml.get("sessionDetails")}}</v-btn>
       </v-footer>
     </v-navigation-drawer>
     <!-- Character visualization -->
@@ -97,8 +97,8 @@
           color="primary"
           text
           @click="startSession()"
-        >Start</v-btn>
-        <v-btn class="footer-button" text style="width: 50%" @click="dialog = false">Cancel</v-btn>
+        >{{$ml.get("start")}}</v-btn>
+        <v-btn class="footer-button" text style="width: 50%" @click="dialog = false">{{$ml.get("cancel")}}</v-btn>
       </v-footer>
     </v-dialog>
     <v-snackbar
@@ -111,7 +111,7 @@
       :vertical="false"
     >
       {{ snackbar.text }}
-      <v-btn color="red" text @click="snackbar.enabled = false">Close</v-btn>
+      <v-btn color="red" text @click="snackbar.enabled = false">{{$ml.get("close")}}</v-btn>
     </v-snackbar>
   </v-layout>
 </template>

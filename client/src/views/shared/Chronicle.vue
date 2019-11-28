@@ -24,7 +24,7 @@
                   v-bind:class="[section.iconClass, selected(section.route) ? 'selected' : '']"
                 ></v-icon>
               </template>
-              <span>{{ section.tooltip }}</span>
+              <span>{{ $ml.get(section.tooltip) }}</span>
             </v-tooltip>
           </v-list-item-action>
         </v-list-item>

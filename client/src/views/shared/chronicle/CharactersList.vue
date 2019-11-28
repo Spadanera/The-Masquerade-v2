@@ -14,33 +14,34 @@
           <v-card-text>
             <div>
               <div v-if="character.mainInformation" class="grey--text">
-                Generation:
+                {{$ml.get("generation")}}:
                 <strong>{{character.mainInformation.generation}}</strong>
               </div>
               <div v-if="character.mainInformation" class="grey--text">
-                Clan:
+                {{$ml.get("clan")}}:
                 <strong>{{character.mainInformation.clan}}</strong>
               </div>
               <div v-if="character.mainInformation" class="grey--text">
-                Sire:
+                {{$ml.get("sire")}}:
                 <strong>{{character.mainInformation.sire}}</strong>
               </div>
               <div v-if="character.mainInformation" class="grey--text">
-                Last update:
+                {{$ml.get("lastUpdate")}}:
                 <strong>{{moment(character.updateAt).format("YYYY-MM-DD")}}</strong>
               </div>
             </div>
           </v-card-text>
-          <v-card-actions class="justify-center">
-            <v-btn @click="openCharacter(character._id)">Open</v-btn>
-            <v-btn
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn text @click="openCharacter(character._id)">{{$ml.get("open")}}</v-btn>
+            <v-btn text color="error"
               v-if="character.alive && edit"
               @click="killOrResumeCharacter(character, false)"
-            >Kill</v-btn>
-            <v-btn
+            >{{$ml.get("kill")}}</v-btn>
+            <v-btn text
               v-if="!character.alive && edit"
               @click="killOrResumeCharacter(character, true)"
-            >Resume</v-btn>
+            >{{$ml.get("resume")}}</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>

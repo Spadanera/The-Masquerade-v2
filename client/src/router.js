@@ -70,43 +70,43 @@ export default new Router({
           props: () => ({
             sections: [
               {
-                tooltip: "Dashboard",
+                tooltip: "dashboard",
                 icon: "dashboard",
                 iconClass: "icon-dashboard",
                 route: "dashboard"
               },
               {
-                tooltip: "Stories",
+                tooltip: "stories",
                 icon: "book",
                 iconClass: "icon-stories",
                 route: "stories"
               },
               {
-                tooltip: "Players",
+                tooltip: "players",
                 icon: "account_circle",
                 iconClass: "icon-players",
                 route: "players"
               },
               {
-                tooltip: "Coterie / Pack",
+                tooltip: "coterie",
                 icon: "people",
                 iconClass: "icon-coterie",
                 route: "coteries"
               },
               {
-                tooltip: "Attachments",
+                tooltip: "attachments",
                 icon: "",
                 iconClass: "icon-attachment",
                 route: "attachments"
               },
               {
-                tooltip: "Places",
+                tooltip: "places",
                 icon: "",
                 iconClass: "icon-places",
                 route: "places"
               },
               {
-                tooltip: "Live Session",
+                tooltip: "session",
                 icon: "play_circle_outline",
                 iconClass: "icon-live",
                 route: "live"
@@ -211,37 +211,37 @@ export default new Router({
           props: () => ({
             sections: [
               {
-                tooltip: "Characters",
+                tooltip: "characters",
                 icon: "account_circle",
                 iconClass: "icon-players",
                 route: "characters"
               },
               {
-                tooltip: "Dashboard",
+                tooltip: "dashboard",
                 icon: "dashboard",
                 iconClass: "icon-dashboard",
                 route: "dashboard"
               },
               {
-                tooltip: "Stories",
+                tooltip: "stories",
                 icon: "book",
                 iconClass: "icon-stories",
                 route: "stories"
               },
               {
-                tooltip: "Attachments",
+                tooltip: "attachments",
                 icon: "",
                 iconClass: "icon-play",
                 route: "attachments"
               },
               {
-                tooltip: "Attachments",
+                tooltip: "attachments",
                 icon: "",
                 iconClass: "icon-attachment",
                 route: "attachments"
               },
               {
-                tooltip: "Places",
+                tooltip: "places",
                 icon: "",
                 iconClass: "icon-places",
                 route: "places"

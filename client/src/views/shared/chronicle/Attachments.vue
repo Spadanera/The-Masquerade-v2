@@ -18,8 +18,9 @@
             </v-item-group>
           </v-card-text>
           <v-card-actions>
-            <v-btn text v-if="isStoryTeller" @click="editAttachment(attachment)">Edit</v-btn>
-            <v-btn text v-if="isStoryTeller" @click="deleteAttachment(attachment)">Delete</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn text v-if="isStoryTeller" @click="editAttachment(attachment)">{{$ml.get("edit")}}</v-btn>
+            <v-btn text v-if="isStoryTeller" color="error" @click="deleteAttachment(attachment)">{{$ml.get("delete")}}</v-btn>
           </v-card-actions>
         </v-card>
       </v-hover>

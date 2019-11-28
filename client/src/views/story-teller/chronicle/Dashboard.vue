@@ -6,8 +6,8 @@
         <v-card-subtitle>{{ $parent.chronicle.shortDescription }}</v-card-subtitle>
         <v-card-text style="padding: 0;">
           <v-tabs centered grow slider-color="primary" v-model="selectedTab">
-            <v-tab>Public Story</v-tab>
-            <v-tab>Private Story</v-tab>
+            <v-tab>{{$ml.get("publicStory")}}</v-tab>
+            <v-tab>{{$ml.get("privateStory")}}</v-tab>
             <v-tab-item>
               <v-card flat>
                 <v-card-text v-if="!editing" v-html="$parent.chronicle.publicStory"></v-card-text>
@@ -35,9 +35,9 @@
           </v-tabs>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="primary" @click="startEditing" v-if="!editing">Edit</v-btn>
-          <v-btn @click="saveStory()" v-if="editing">Save</v-btn>
-          <v-btn @click="editing=false" v-if="editing">Cancel</v-btn>
+          <v-btn text @click="startEditing" v-if="!editing">{{$ml.get("edit")}}</v-btn>
+          <v-btn text @click="saveStory()" v-if="editing">{{$ml.get("save")}}</v-btn>
+          <v-btn text @click="editing=false" v-if="editing">{{$ml.get("cancel")}}</v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -46,7 +46,7 @@
         <v-card-title>
           <v-layout wrap>
             <v-flex xs12 sm6 md8 lg6 xl7>
-              <span class="headline">Sessions timeline</span>
+              <span class="headline">{{$ml.get("sessionsTimeline")}}</span>
             </v-flex>
             <v-flex xs12 sm6 md4 lg6 xl5>
               <v-form autocomplete="off" @submit.prevent="getSessions()">
@@ -69,7 +69,7 @@
               <div class="py-3">
                 <h2 class="headline font-weight-light mb-3">
                   {{moment(session.sessionDate).format("YYYY-MM-DD")}}
-                  <v-btn @click="viewSession(session._id)">Details</v-btn>
+                  <v-btn text @click="viewSession(session._id)">{{$ml.get("details")}}</v-btn>
                 </h2>
                 <text-highlight :queries="search ? search.split(' ') : []">{{ session.globalNote }}</text-highlight>
               </div>

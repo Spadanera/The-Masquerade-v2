@@ -21,8 +21,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="closeModal">Dismiss</v-btn>
-        <v-btn color="blue darken-1" text @click="submit">Save</v-btn>
+        <v-btn color="blue darken-1" text @click="closeModal">{{$ml.get("dismiss")}}</v-btn>
+        <v-btn color="blue darken-1" text @click="submit">{{$ml.get("save")}}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

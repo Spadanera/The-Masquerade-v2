@@ -14,6 +14,7 @@ import 'vuetify/dist/vuetify.min.css'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import gmapsKey from './gmapsKey';
 import client from "./services/client";
+import './ml';
 
 const options = {
   latencyThreshold: 100, // Number of ms before progressbar starts showing, default: 100,

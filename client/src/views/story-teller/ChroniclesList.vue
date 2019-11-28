@@ -37,7 +37,7 @@
       :vertical="false"
     >
       {{ snackbar.text }}
-      <v-btn color="red" text @click="snackbar.enabled = false">Close</v-btn>
+      <v-btn color="red" text @click="snackbar.enabled = false">{{$ml.get("close")}}</v-btn>
     </v-snackbar>
   </v-container>
 </template>

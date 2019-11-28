@@ -1,0 +1,140 @@
+import Vue from 'vue'
+import { MLInstaller, MLCreate, MLanguage } from 'vue-multilanguage'
+
+Vue.use(MLInstaller)
+
+export default new MLCreate({
+    initial: 'italian',
+    save: true, // process.env.NODE_ENV === 'production',
+    languages: [
+        new MLanguage('english').create({
+            italian: "Italian",
+            english: "English",
+            storyTeller: "Story Teller",
+            player: "Player",
+            storyTellerLoginSubtitle: "Manage yuor chronicle an invite your players",
+            playerLoginSubtitle: "Create your characters and join chronicles",
+            loginButton: "Sing in with Google",
+            publicStory: "Public Story",
+            privateStory: "Privite Story",
+            sessionsTimeline: "Sessions Timeline",
+            joinChronicle: "Join the Chronicle",
+
+            // button label
+            close: "Close",
+            open: "Open",
+            edit: "Edit",
+            delete: "Delete",
+            fight: "Fight",
+            endFight: "End Fight",
+            kill: "Kill",
+            logout: "Logout",
+            details: "Details",
+            createStory: "Create Story",
+            dismiss: "Dismiss",
+            confirm: "Confirm",
+            save: "Save",
+            setOngoingStory: "Set as on going story",
+            invitePlayer: "Invite player",
+            createCoterie: "Create Coterie / Pack",
+            fullScreen: "Full screen",
+            send: "Send",
+            complete: "Complete",
+            undo: "Undo",
+            createChronicle: "Create new Chronicle",
+            resume: "Resume",
+            add: "Add",
+            start: "Start",
+            startSession: "Start Session",
+            sessionDetails: "Session Details",
+            endStory: "End Story",
+            onGoing: "On Going",
+            cancel: "Cancel",
+
+            // icon tooltip
+            dashboard: "Dashboard",
+            stories: "Stories",
+            players: "Players",
+            coterie: "Coterie / Pack",
+            attachments: "Attachments",
+            places: "Places",
+            live: "Session",
+            characters: "Characters",
+
+            // sheet label
+            characteristics: "Characteristics",
+            background: "Background",
+            story: "Story",
+            history: "History",
+            generation: "Generation",
+            clan: "Clan",
+            sire: "Sire",
+            lastUpdate: "Last Update"
+        }),
+
+        new MLanguage('italian').create({
+            italian: "Italiano",
+            english: "Inglese",
+            storyTeller: "Narratore",
+            player: "Giocatore",
+            storyTellerLoginSubtitle: "Gestisci le tue cronache e invita i tuoi giocatori",
+            playerLoginSubtitle: "Crea il tuo personaggio e partecipa alle cronache",
+            loginButton: "Accedi con Google",
+            publicStory: "Storia Pubblica",
+            privateStory: "Storia Privata",
+            sessionsTimeline: "Cronologia sessioni",
+            joinChronicle: "Partecipa alla cronaca",
+
+            // button label
+            close: "Chiudi",
+            open: "Apri",
+            edit: "Modifica",
+            delete: "Elimina",
+            fight: "Combatti",
+            endFight: "Termina",
+            kill: "Uccidi",
+            logout: "Esci",
+            details: "Dettagli",
+            createStory: "Crea Storia",
+            dismiss: "Annulla",
+            confirm: "Conferma",
+            save: "Salva",
+            setOngoingStory: "Imposta come storia attiva",
+            invitePlayer: "Invita giocatore",
+            createCoterie: "Crea Coterie / Pack",
+            fullScreen: "Schermo intero",
+            send: "Invia",
+            complete: "Complete",
+            undo: "Annulla",
+            createChronicle: "Crea una nuova cronaca",
+            resume: "Resume",
+            add: "Aggiungi",
+            start: "Inizia",
+            startSession: "Inizia Session",
+            sessionDetails: "Dettagli Sessione",
+            endStory: "Termina storia",
+            onGoing: "Attiva",
+            cancel: "Cancella",
+
+            // icon tooltip
+            dashboard: "Riepilogo",
+            stories: "Storie",
+            players: "Giocatori",
+            coterie: "Coterie / Pack",
+            attachments: "Allegati",
+            places: "Luoghi",
+            session: "Sessione",
+            characters: "Personaggi",
+
+            // sheet label
+            characteristics: "Caratteristiche",
+            background: "Passato",
+            story: "Storia",
+            history: "Cronologia",
+            generation: "Generazione",
+            clan: "Clan",
+            sire: "Sire",
+            lastUpdate: "Ultimo aggiornamento"
+        })
+    ]
+})

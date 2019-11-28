@@ -9,7 +9,7 @@
       style="z-index: 6; min-width: 300px"
       v-touch="{ left: () => ownNavVisible = false }"
     >
-      <div class="v-subheader headline theme--light">Places</div>
+      <div class="v-subheader headline theme--light">{{$ml.get("places")}}</div>
       <v-expansion-panels multiple class="no-padding">
         <v-expansion-panel>
           <v-expansion-panel-header>General</v-expansion-panel-header>

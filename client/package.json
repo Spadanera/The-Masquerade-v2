@@ -17,6 +17,7 @@
     "moment": "^2.24.0",
     "vue": "^2.6.6",
     "vue-cookies": "^1.5.12",
+    "vue-multilanguage": "^4.0.9",
     "vue-nprogress": "^0.1.5",
     "vue-router": "^3.0.1",
     "vue-sessionstorage": "^1.0.0",

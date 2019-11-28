@@ -18,7 +18,7 @@
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <h3 class="text-truncate" v-if="userMenu">{{ chronicleName }}</h3>
-    <v-menu v-if="userMenu">
+    <v-menu v-if="userMenu" :close-on-content-click="false" v-model="menu">
       <template v-slot:activator="{ on }">
         <v-btn fab icon v-on="on">
           <v-avatar size="40px">
@@ -28,8 +28,16 @@
       </template>
       <v-card>
         <v-list>
+          <v-list-item>
+            <v-list-item-content>
+              <LanguageSwitcher @close="menu = false" />
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-icon>translate</v-icon>
+            </v-list-item-action>
+          </v-list-item>
           <v-list-item @click="toggleFullScreen" class="hidden-sm-and-down">
-            <v-list-item-content>Full screen</v-list-item-content>
+            <v-list-item-content>{{$ml.get("fullScreen")}}</v-list-item-content>
             <v-list-item-action >
               <v-icon v-if="!fullscreen">fullscreen</v-icon>
               <v-icon v-else>toggle_on</v-icon>
@@ -44,13 +52,18 @@
         </v-list>
       </v-card>
     </v-menu>
+    <LanguageSwitcher v-else />
   </v-app-bar>
 </template>
 
 <script>
 import client from "../../services/client";
+import LanguageSwitcher from "./LanguageSwitcher";
 export default {
   name: "Toolbar",
+  components: {
+    LanguageSwitcher
+  },
   props: {
     title: String,
     shortTitle: String,
@@ -61,14 +74,17 @@ export default {
   },
   data() {
     return {
-      user: {}
+      user: {},
+      menu: false
     };
   },
   methods: {
     logout() {
+      this.menu = false;
       location.href = "/auth/logout";
     },
     toggleDarkTheme() {
+      this.menu = false;
       this.$emit("theme");
     },
     leftIconVisible() {
@@ -86,6 +102,7 @@ export default {
       } else {
         this.GoInFullscreen();
       }
+      this.menu = false;
     },
     GoInFullscreen() {
       let element = document.querySelector("#app");

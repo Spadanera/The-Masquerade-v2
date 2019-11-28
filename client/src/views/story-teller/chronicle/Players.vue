@@ -38,11 +38,11 @@
           </v-list-item>
         </template>
       </v-list>
-      <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">Invite Player</v-btn>
+      <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">{{$ml.get("invitePlayer")}}</v-btn>
     </v-navigation-drawer>
     <router-view></router-view>
     <v-flex v-if="players.length === 0 && !navVisible" class="hidden-lg-and-up">
-      <v-btn color="primary" @click="dialog=true">Invite Player</v-btn>
+      <v-btn color="primary" @click="dialog=true">{{$ml.get("invitePlayer")}}</v-btn>
     </v-flex>
     <InvitePlayer
       :dialog="dialog"
@@ -60,7 +60,7 @@
       :vertical="false"
     >
       {{ snackbar.text }}
-      <v-btn color="red" text @click="snackbar.enabled = false">Close</v-btn>
+      <v-btn color="red" text @click="snackbar.enabled = false">{{$ml.get("close")}}</v-btn>
     </v-snackbar>
   </v-layout>
 </template>

@@ -23,25 +23,25 @@
       <v-spacer></v-spacer>
       <div v-if="character.alive && $vuetify.breakpoint.mdAndUp">
         <v-btn-toggle>
-          <v-btn v-if="readonly && !fighting && edit" color="primary" @click="fighting = true">Fight</v-btn>
-          <v-btn v-if="readonly && fighting && edit" @click="fighting = false">End Fight</v-btn>
-          <v-btn @click="readonly= false" v-if="readonly && !fighting && edit">Edit</v-btn>
-          <v-btn @click="save" v-if="!readonly && !fighting && edit">Save</v-btn>
-          <v-btn @click="loadCharacter" v-if="!readonly && !fighting && edit">Undu</v-btn>
-          <v-btn @click="killOrResumeCharacter(false)" v-if="edit">Kill</v-btn>
+          <v-btn v-if="readonly && !fighting && edit" color="primary" @click="fighting = true">{{$ml.get("fight")}}</v-btn>
+          <v-btn v-if="readonly && fighting && edit" @click="fighting = false">{{$ml.get("endFIght")}}</v-btn>
+          <v-btn @click="readonly= false" v-if="readonly && !fighting && edit">{{$ml.get("edit")}}</v-btn>
+          <v-btn @click="save" v-if="!readonly && !fighting && edit">{{$ml.get("save")}}</v-btn>
+          <v-btn @click="loadCharacter" v-if="!readonly && !fighting && edit">{{$ml.get("undo")}}</v-btn>
+          <v-btn @click="killOrResumeCharacter(false)" v-if="edit">{{$ml.get("kill")}}</v-btn>
           <v-btn
             v-if="!character.alive && $vuetify.breakpoint.mdAndUp && edit"
             @click="killOrResumeCharacter(true)"
-          >Resume</v-btn>
-          <v-btn v-if="$vuetify.breakpoint.mdAndUp" @click="close">Close</v-btn>
+          >{{$ml.get("resume")}}</v-btn>
+          <v-btn v-if="$vuetify.breakpoint.mdAndUp" @click="close">{{$ml.get("close")}}</v-btn>
         </v-btn-toggle>
       </div>
       <template v-slot:extension style="padding: 0" v-if="internalShowToolbar">
         <v-tabs v-model="characterTabs" slider-color="primary" centered grow style="margin: 0;" show-arrows>
-          <v-tab>Characteristics</v-tab>
-          <v-tab>Background</v-tab>
-          <v-tab>Story</v-tab>
-          <v-tab v-if="history">History</v-tab>
+          <v-tab>{{$ml.get("characteristics")}}</v-tab>
+          <v-tab>{{$ml.get("background")}}</v-tab>
+          <v-tab>{{$ml.get("story")}}</v-tab>
+          <v-tab v-if="history">{{$ml.get("history")}}</v-tab>
         </v-tabs>
       </template>
     </v-app-bar>
@@ -98,13 +98,13 @@
           <v-icon v-else>more_vert</v-icon>
         </v-btn>
       </template>
-      <v-btn v-if="readonly && !fighting && edit" @click="fighting = true">Fight</v-btn>
-      <v-btn v-if="readonly && fighting && edit" @click="fighting = false">End Fight</v-btn>
-      <v-btn @click="readonly= false" v-if="readonly && !fighting && edit">Edit</v-btn>
-      <v-btn @click="save" v-if="!readonly && !fighting && edit">Save</v-btn>
-      <v-btn @click="loadCharacter" v-if="!readonly && !fighting && edit">Undu</v-btn>
-      <v-btn @click="killOrResumeCharacter(false)" v-if="edit">Kill</v-btn>
-      <v-btn @click="close">Close</v-btn>
+      <v-btn v-if="readonly && !fighting && edit" @click="fighting = true">{{$ml.get("fight")}}</v-btn>
+      <v-btn v-if="readonly && fighting && edit" @click="fighting = false">{{$ml.get("endFight")}}</v-btn>
+      <v-btn @click="readonly= false" v-if="readonly && !fighting && edit">{{$ml.get("edit")}}</v-btn>
+      <v-btn @click="save" v-if="!readonly && !fighting && edit">{{$ml.get("save")}}</v-btn>
+      <v-btn @click="loadCharacter" v-if="!readonly && !fighting && edit">{{$ml.get("undo")}}</v-btn>
+      <v-btn @click="killOrResumeCharacter(false)" v-if="edit">{{$ml.get("kill")}}</v-btn>
+      <v-btn @click="close">{{$ml.get("close")}}</v-btn>
     </v-speed-dial>
   </div>
 </template>

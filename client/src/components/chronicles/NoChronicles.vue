@@ -10,7 +10,7 @@
           </div>
         </v-card-title>
         <v-card-actions class="justify-center">
-          <v-btn @click="dialog=true">Create New Chronicle</v-btn>
+          <v-btn @click="dialog=true">{{$ml.get("createChronicle")}}</v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>

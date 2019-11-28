@@ -33,13 +33,13 @@
           </v-list-item>
         </v-list-item-group>
       </v-list>
-      <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">Create Coterie / Pack</v-btn>
+      <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">{{$ml.get("createCoterie")}}</v-btn>
     </v-navigation-drawer>
 
     <router-view :description="coterieDescription" :groupname="coterieName"></router-view>
 
     <v-flex v-if="coteries.length === 0 && !navVisible" class="hidden-lg-and-up">
-      <v-btn color="primary" @click="dialog=true">Create Coterie</v-btn>
+      <v-btn color="primary" @click="dialog=true">{{$ml.get("createCoterie")}}</v-btn>
     </v-flex>
     <AddCoterie
       :dialog="dialog"

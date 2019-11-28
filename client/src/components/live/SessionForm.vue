@@ -106,20 +106,20 @@
     <v-footer color="primary" height="auto" style="width: 100%" class="session-footer">
       <v-layout justify-space-between>
         <v-flex shrink v-if="modified">
-          <v-btn text color="white" @click="save" ma-0>Save</v-btn>
+          <v-btn text color="white" @click="save" ma-0>{{$ml.get("save")}}</v-btn>
         </v-flex>
         <v-flex shrink v-if="modified">
-          <v-btn text color="white" @click="getSession(sessionid)" ma-0>Undo</v-btn>
+          <v-btn text color="white" @click="getSession(sessionid)" ma-0>{{$ml.get("undo")}}</v-btn>
         </v-flex>
         <v-flex shrink v-if="!readonly">
-          <v-btn text color="white" ma-0 @click="complete">Complete</v-btn>
+          <v-btn text color="white" ma-0 @click="complete">{{$ml.get("complete")}}</v-btn>
         </v-flex>
         <v-flex shrink>
-          <v-btn text color="white" @click="close" ma-0>Close</v-btn>
+          <v-btn text color="white" @click="close" ma-0>{{$ml.get("close")}}</v-btn>
         </v-flex>
         <v-flex grow>
           <v-layout justify-end>
-            <v-btn text color="white" @click="deleteSession">Delete</v-btn>
+            <v-btn text color="white" @click="deleteSession">{{$ml.get("delete")}}</v-btn>
           </v-layout>
         </v-flex>
       </v-layout>

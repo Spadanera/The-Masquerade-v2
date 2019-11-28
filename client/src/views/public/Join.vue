@@ -11,7 +11,7 @@
         <v-card-actions>
           <v-btn @click="join" color="primary">
             <img class="gbutton" src="../../assets/btn_google_light_normal_ios.svg" alt />
-            Join the chronicle
+            {{$ml.get("joinChronicle")}}
           </v-btn>
         </v-card-actions>
       </v-card>

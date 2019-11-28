@@ -3,12 +3,12 @@
     <v-flex xs12 sm6 md6 lg5 xl4 pa-3>
       <v-card>
         <v-img :src="require('@/assets/story-teller-card.png')" height="300px"></v-img>
-        <v-card-title>Story Teller</v-card-title>
-        <v-card-subtitle>Manage yuor chronicle an invite players</v-card-subtitle>
+        <v-card-title>{{$ml.get('storyTeller')}}</v-card-title>
+        <v-card-subtitle>{{$ml.get('storyTellerLoginSubtitle')}}</v-card-subtitle>
         <v-card-actions>
           <v-btn @click="login('story-teller')" color="primary">
             <img class="gbutton" src="../../assets/btn_google_light_normal_ios.svg" alt />
-            Sing in with Google
+            {{$ml.get('loginButton')}}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -16,12 +16,12 @@
     <v-flex xs12 sm6 md6 lg5 xl4 pa-3>
       <v-card>
         <v-img :src="require('@/assets/player-card.jpg')" height="300px"></v-img>
-        <v-card-title>Player</v-card-title>
-        <v-card-subtitle>Create your characters and join chronicle</v-card-subtitle>
+        <v-card-title>{{$ml.get('player')}}</v-card-title>
+        <v-card-subtitle>{{$ml.get('playerLoginSubtitle')}}</v-card-subtitle>
         <v-card-actions>
           <v-btn @click="login('player')" color="primary">
             <img class="gbutton" src="../../assets/btn_google_light_normal_ios.svg" alt />
-            Sing in with Google
+            {{$ml.get('loginButton')}}
           </v-btn>
         </v-card-actions>
       </v-card>

@@ -3,9 +3,10 @@
     <v-card-title class="headline">{{ chronicle.name }}</v-card-title>
     <v-card-subtitle>{{ moment(chronicle.createdAt).format('MMMM Do YYYY, h:mm:ss a') }}</v-card-subtitle>
     <v-card-text style="flex: 1">{{ chronicle.shortDescription }}</v-card-text>
-    <v-card-actions class="justify-center">
-      <v-btn color="info" dark @click="openChronicle(chronicle._id)">Open</v-btn>
-      <v-btn v-if="!player" color="error" @click="modalDelete">Delete</v-btn>
+    <v-card-actions >
+      <v-spacer></v-spacer>
+      <v-btn text @click="openChronicle(chronicle._id)">{{$ml.get("open")}}</v-btn>
+      <v-btn text v-if="!player" color="error" @click="modalDelete">{{$ml.get("delete")}}</v-btn>
     </v-card-actions>
     <Confirm v-if="!player" :dialog="dialog" @confirm="deleteChronicle" :title="modalTitle" :text="modalText" @close="dialog = false" />
   </v-card>
