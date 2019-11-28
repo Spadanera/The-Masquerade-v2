@@ -1,24 +1,27 @@
 <template>
-    <div>
-      <Toolbar
-        @theme="toggleTheme"
-        v-on:toggle-nav="toggleNav"
-        title="vampire the masquerade"
-        short-title="VTM"
-        :chronicle-name="chronicleName"
-        :user-menu="true"
-        rootMenu="/story-teller"
-      />
-      <v-content class="max-height">
-        <router-view @chronicle="setChronicle" class="max-height" :nav="nav" />
-      </v-content>
-    </div>
+  <div>
+    <Toolbar
+      @theme="toggleTheme"
+      v-on:toggle-nav="toggleNav"
+      title="vampire the masquerade"
+      short-title="VTM"
+      :chronicle-name="chronicleName"
+      :user-menu="true"
+      rootMenu="/story-teller"
+    />
+    <v-content class="max-height">
+      <router-view @chronicle="setChronicle" class="max-height" :nav="nav" />
+    </v-content>
+    <NprogressContainer />
+  </div>
 </template>
 
 <script>
+import NprogressContainer from "vue-nprogress/src/NprogressContainer";
 import Toolbar from "../components/layout/Toolbar.vue";
 export default {
   components: {
+    NprogressContainer,
     Toolbar
   },
   data() {
