@@ -1,5 +1,4 @@
 <template>
-  <!-- <nprogress-container> -->
     <div>
       <Toolbar
         @theme="toggleTheme"
@@ -14,16 +13,13 @@
         <router-view @chronicle="setChronicle" class="max-height" :nav="nav" />
       </v-content>
     </div>
-  <!-- </nprogress-container> -->
 </template>
 
 <script>
 import Toolbar from "../components/layout/Toolbar.vue";
-import NprogressContainer from "vue-nprogress/src/NprogressContainer";
 export default {
   components: {
-    Toolbar,
-    NprogressContainer
+    Toolbar
   },
   data() {
     return {
