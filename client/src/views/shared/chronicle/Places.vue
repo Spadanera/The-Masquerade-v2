@@ -207,7 +207,7 @@ export default {
       this.Service.placeService.getRefuges(
         this.$route.params.id
       ).then(response => {
-        places = response;
+        let places = response;
         for (let i = 0; i < places.length; i++) {
           let gmaps = JSON.parse(places[i].refuge);
           places[i].gmaps = gmaps;
