@@ -12,12 +12,12 @@
       <v-list avatar>
         <v-subheader class="headline">{{$ml.get('players')}}</v-subheader>
         <v-list-item-group v-model="index">
-          <v-list-item v-for="(player, i) in players" :key="i" @click="select(player, false, true)" >
+          <v-list-item v-for="(player, i) in players" :key="i" @click="select(player, false, true)">
             <v-list-item-content>
               <v-list-item-title v-html="player.userDisplayName"></v-list-item-title>
             </v-list-item-content>
             <v-list-item-avatar>
-              <img :src="player.userPicture" :alt="player.userDisplayName">
+              <img :src="player.userPicture" :alt="player.userDisplayName" />
             </v-list-item-avatar>
           </v-list-item>
         </v-list-item-group>
@@ -37,7 +37,11 @@
           </v-list-item>
         </template>
       </v-list>
-      <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">{{$ml.get("invitePlayer")}}</v-btn>
+      <v-btn
+        color="primary"
+        style="padding-top: 2px;"
+        @click="dialog=true"
+      >{{$ml.get("invitePlayer")}}</v-btn>
     </v-navigation-drawer>
     <router-view></router-view>
     <v-flex v-if="players.length === 0 && !navVisible" class="hidden-lg-and-up">
@@ -87,7 +91,9 @@ export default {
   },
   methods: {
     async getPlayers() {
-      this.players = await this.Service.playerService.getGroups(this.$route.params.id);
+      this.players = await this.Service.playerService.getGroups(
+        this.$route.params.id
+      );
       if (this.players.length) {
         let find = this.players.find(p => p._id === this.$route.params.listid);
         if (find) {
@@ -100,9 +106,7 @@ export default {
     select(player, notToCloseNav, forceNavigation) {
       if (!this.$route.params.characterid || forceNavigation) {
         this.$router.push(
-          `/story-teller/chronicle/${this.$route.params.id}/players/${
-            player._id
-          }`
+          `/story-teller/chronicle/${this.$route.params.id}/players/${player._id}`
         );
       }
       if (!notToCloseNav) {
@@ -115,11 +119,15 @@ export default {
       this.getInvitations();
     },
     async getInvitations() {
-      this.invitations = await this.Service.invitationService.getInvitations(this.$route.params.id);
+      this.invitations = await this.Service.invitationService.getInvitations(
+        this.$route.params.id
+      );
     },
     async deleteInvitation(invitation) {
       let res = await this.$confirm(
-        this.$ml.with('0', invitation.emailAddress).get("confirmInvitationDelete"),
+        this.$ml
+          .with("0", invitation.emailAddress)
+          .get("confirmInvitationDelete"),
         {
           title: this.$ml.get("warning")
         }

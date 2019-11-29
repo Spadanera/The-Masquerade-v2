@@ -12,7 +12,11 @@
       <v-list subheader three-line>
         <v-subheader class="headline">{{$ml.get("coterie")}}</v-subheader>
         <v-list-item-group v-model="index">
-          <v-list-item v-for="(coterie, i) in coteries" :key="i" @click="select(coterie, false, true)">
+          <v-list-item
+            v-for="(coterie, i) in coteries"
+            :key="i"
+            @click="select(coterie, false, true)"
+          >
             <v-list-item-content>
               <v-list-item-title v-html="coterie.name"></v-list-item-title>
               <v-list-item-subtitle v-html="coterie.description"></v-list-item-subtitle>
@@ -33,7 +37,11 @@
           </v-list-item>
         </v-list-item-group>
       </v-list>
-      <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">{{$ml.get("createCoterie")}}</v-btn>
+      <v-btn
+        color="primary"
+        style="padding-top: 2px;"
+        @click="dialog=true"
+      >{{$ml.get("createCoterie")}}</v-btn>
     </v-navigation-drawer>
 
     <router-view :description="coterieDescription" :groupname="coterieName"></router-view>
@@ -153,4 +161,22 @@ export default {
 div[role="listitem"]:hover .onhover {
   display: block !important;
 }
+
+/* .fade-enter-active,
+.fade-leave-active {
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-move {
+  -webkit-transition: -webkit-transform .3s;
+  transition: -webkit-transform .3s;
+  transition: transform .3s;
+  transition: transform .3s, -webkit-transform .3s;
+} */
 </style>
