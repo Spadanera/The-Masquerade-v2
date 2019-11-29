@@ -192,9 +192,9 @@ export default {
     },
     async setOnGoing(storyId) {
       let res = await this.$confirm(
-        `Do you really want remove start this story?`,
+        this.$ml.get("startStory"),
         {
-          title: "Warning"
+          title: this.$ml.get("warning")
         }
       );
       if (res) {
@@ -208,9 +208,9 @@ export default {
     },
     async endStory(storyId) {
       let res = await this.$confirm(
-        `Do you really want remove end this story?`,
+        this.$ml.get("endStory"),
         {
-          title: "Warning"
+          title: this.$ml.get("warning")
         }
       );
       if (res) {

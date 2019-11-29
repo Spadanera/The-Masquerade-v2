@@ -55,7 +55,7 @@
       color="primary"
       icon="priority_high"
       transition="scale-transition"
-    >Session on going</v-alert>
+    >{{$ml.get("sessionOnGoing")}}</v-alert>
   </v-layout>
 </template>
 

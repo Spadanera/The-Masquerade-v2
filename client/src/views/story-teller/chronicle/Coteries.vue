@@ -10,7 +10,7 @@
       v-touch="{ left: () => ownNavVisible = false }"
     >
       <v-list subheader three-line>
-        <v-subheader class="headline">Coterie / Pack</v-subheader>
+        <v-subheader class="headline">{{$ml.get("coterie")}}</v-subheader>
         <v-list-item-group v-model="index">
           <v-list-item v-for="(coterie, i) in coteries" :key="i" @click="select(coterie, false, true)">
             <v-list-item-content>
@@ -117,8 +117,8 @@ export default {
     },
     modalDelete(coterieId) {
       this.coterieIdToDelete = coterieId;
-      this.modalTitle = "Are you sure";
-      this.modalText = "All the characters connected will be deleted";
+      this.modalTitle = this.$ml.get("areYouSure");
+      this.modalText = this.$ml.get("charactersWillBeDeleted");
       this.modal = true;
     }
   },

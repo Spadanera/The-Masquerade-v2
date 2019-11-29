@@ -10,7 +10,7 @@
       v-touch="{ left: () => ownNavVisible = false }"
     >
       <v-list avatar>
-        <v-subheader class="headline">Players</v-subheader>
+        <v-subheader class="headline">{{$ml.get('players')}}</v-subheader>
         <v-list-item-group v-model="index">
           <v-list-item v-for="(player, i) in players" :key="i" @click="select(player, false, true)" >
             <v-list-item-content>
@@ -19,12 +19,11 @@
             <v-list-item-avatar>
               <img :src="player.userPicture" :alt="player.userDisplayName">
             </v-list-item-avatar>
-            <!-- <div class="selected-element primary" v-if="player._id === $route.params.listid"></div> -->
           </v-list-item>
         </v-list-item-group>
       </v-list>
       <v-list v-if="invitations.length > 0" avatar>
-        <v-subheader class="headline">Pending Invitations</v-subheader>
+        <v-subheader class="headline">{{$ml.get('pendingInvitation')}}</v-subheader>
         <template v-for="(invitation) in invitations">
           <v-list-item :key="invitation._id">
             <v-list-item-content>
@@ -111,7 +110,7 @@ export default {
       }
     },
     playerInvited(msg) {
-      this.snackbar.text = msg || "Invitation sent";
+      this.snackbar.text = msg || this.$ml.get("invitationSent");
       this.snackbar.enabled = true;
       this.getInvitations();
     },
@@ -120,15 +119,15 @@ export default {
     },
     async deleteInvitation(invitation) {
       let res = await this.$confirm(
-        `Do you really want to delete invitation sent to ${invitation.emailAddress}?`,
+        this.$ml.with('0', invitation.emailAddress).get("confirmInvitationDelete"),
         {
-          title: "Warning"
+          title: this.$ml.get("warning")
         }
       );
       if (res) {
         await this.Service.invitationService.deleteInvitation(invitation._id);
         this.getInvitations();
-        this.snackbar.text = "Invitation deleted";
+        this.snackbar.text = this.$ml.get("invitationDeleted");
         this.snackbar.enabled = true;
       }
     }

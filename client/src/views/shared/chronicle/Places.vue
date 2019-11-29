@@ -171,9 +171,9 @@ export default {
     },
     async deletePlace(place) {
       let res = await this.$confirm(
-        `Do you really want to delete ${place.title}?`,
+        this.$ml.with("0", place.title).get("confirmDelete"),
         {
-          title: "Warning"
+          title: this.$ml.get("warning")
         }
       );
       if (res) {

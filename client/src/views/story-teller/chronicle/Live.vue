@@ -135,7 +135,7 @@ export default {
       groups: [
         {
           _id: "players",
-          name: "PLAYERS",
+          name: this.$ml.get("players").toUpperCase(),
           characters: []
         }
       ],
@@ -183,7 +183,7 @@ export default {
       this.dialog = false;
       this.snackbar = {
         enabled: true,
-        text: "Session started"
+        text: this.$ml.get("sessionStarted")
       };
     },
     sessionDetails() {

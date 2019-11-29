@@ -19,6 +19,10 @@ export default new MLCreate({
             privateStory: "Privite Story",
             sessionsTimeline: "Sessions Timeline",
             joinChronicle: "Join the Chronicle",
+            pendingInvitation: "Pending Invitation",
+            invitationSent: "Invitation sent",
+            invitationDeleted: "Invitation deleted",
+            confirmInvitationDelete: "Do you really want to delete invitation sent to {0}?",
 
             // button label
             close: "Close",
@@ -47,9 +51,11 @@ export default new MLCreate({
             start: "Start",
             startSession: "Start Session",
             sessionDetails: "Session Details",
+            sessionOnGoing: "Session on going",
             endStory: "End Story",
             onGoing: "On Going",
             cancel: "Cancel",
+            warning: "Warning",
 
             // icon tooltip
             dashboard: "Dashboard",
@@ -69,7 +75,16 @@ export default new MLCreate({
             generation: "Generation",
             clan: "Clan",
             sire: "Sire",
-            lastUpdate: "Last Update"
+            lastUpdate: "Last Update",
+
+            // messages
+            chronicleSuccessCreation: "Chronicle successfully created",
+            sessionStarted: "Session started",
+            areYouSure: "Are you sure?",
+            charactersWillBeDeleted: "All the characters connected will be deleted",
+            startStory: "Do you really want to start this story?",
+            endStory: "Do you really want to end this story?",
+            confirmDelete: "Do you really want to delete {0}?",
         }),
 
         new MLanguage('italian').create({
@@ -84,6 +99,10 @@ export default new MLCreate({
             privateStory: "Storia Privata",
             sessionsTimeline: "Cronologia sessioni",
             joinChronicle: "Partecipa alla cronaca",
+            pendingInvitation: "Inviti in attesa",
+            invitationSent: "Invito inviato",
+            invitationDeleted: "Invito eliminato",
+            confirmInvitationDelete: "Sei sicuro voler eliminare l'invito inviato a {0}?",
 
             // button label
             close: "Chiudi",
@@ -112,9 +131,11 @@ export default new MLCreate({
             start: "Inizia",
             startSession: "Inizia Session",
             sessionDetails: "Dettagli Sessione",
+            sessionOnGoing: "Session attiva",
             endStory: "Termina storia",
             onGoing: "Attiva",
             cancel: "Cancella",
+            warning: "Attenzione",
 
             // icon tooltip
             dashboard: "Riepilogo",
@@ -134,7 +155,16 @@ export default new MLCreate({
             generation: "Generazione",
             clan: "Clan",
             sire: "Sire",
-            lastUpdate: "Ultimo aggiornamento"
+            lastUpdate: "Ultimo aggiornamento",
+
+            // messages
+            chronicleSuccessCreation: "Cronaca creata con successo",
+            sessionStarted: "Session avviata",
+            areYouSure: "Sei sicuro?",
+            charactersWillBeDeleted: "Tutti i personaggi collegati verranno eliminati",
+            startStory: "Vuoi davvero avviare questa storia?",
+            endStory: "Vuoi davvero terminare questa storia?",
+            confirmDelete: "Vuoi davvero eliminare {0}?",
         })
     ]
 })

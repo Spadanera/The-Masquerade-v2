@@ -1,7 +1,7 @@
 <template>
   <v-container fluid grid-list-md>
     <div v-if="!chronicles.length && loaded">
-      <NoChronicles @submitted="submitted('Chronicle successfully created')"/>
+      <NoChronicles @submitted="submitted($ml.get('chronicleSuccessCreation'))"/>
     </div>
     <div v-if="chronicles.length">
       <v-layout wrap justify-space-around>
@@ -21,7 +21,7 @@
       <AddChronicle
         :dialog="dialog"
         @close="dialog = false"
-        @submitted="submitted('Chronicle successfully created')"
+        @submitted="submitted($ml.get('chronicleSuccessCreation'))"
       />
       <v-btn color="primary" dark fixed bottom right fab @click="dialog = true">
         <v-icon @click="dialog=true">add</v-icon>

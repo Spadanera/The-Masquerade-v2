@@ -92,9 +92,9 @@ export default {
     },
     async deleteAttachment(attachment) {
       let res = await this.$confirm(
-        `Do you really want to delete ${attachment.title}?`,
+        this.$ml.with("0", attachment.title).get("confirmDelete"),
         {
-          title: "Warning"
+          title: this.$ml.get("warning")
         }
       );
       if (res) {
