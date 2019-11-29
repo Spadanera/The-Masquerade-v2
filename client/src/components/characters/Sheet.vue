@@ -80,7 +80,7 @@
       :vertical="false"
     >
       {{ snackbar.text }}
-      <v-btn color="red" text @click="snackbar.enabled = false">Close</v-btn>
+      <v-btn color="red" text @click="snackbar.enabled = false">{{$ml.get("close")}}</v-btn>
     </v-snackbar>
     <v-speed-dial
       v-model="fab"
@@ -190,7 +190,7 @@ export default {
         this.character
       );
       if (!this.fighting && !this.live) {
-        this.snackbar.text = "Save successfully";
+        this.snackbar.text = this.$ml.get("saveSuccessfully");
         this.snackbar.enabled = true;
       }
       this.readonly = true;
@@ -223,10 +223,10 @@ export default {
     fighting: {
       handler: function(val) {
         if (val) {
-          this.snackbar.text = "Fight started - auto-save enable";
+          this.snackbar.text = this.$ml.get("fightStarted");
           this.characterTabs = 0;
         } else {
-          this.snackbar.text = "Fight ended - auto-save disable";
+          this.snackbar.text = this.$ml.get("fightEnded");
         }
         this.snackbar.enabled = true;
       }

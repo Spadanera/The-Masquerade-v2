@@ -2,26 +2,26 @@
   <v-dialog v-model="dialog" persistent max-width="600px">
     <v-card>
       <v-card-title>
-        <span class="headline">Create New Character</span>
+        <span class="headline">{{$ml.get("createNewCharacter")}}</span>
       </v-card-title>
       <v-card-text>
         <v-container grid-list-md>
           <v-form autocomplete="off" ref="form" v-model="valid">
-            <v-text-field v-model="character.name" label="Name" required></v-text-field>
+            <v-text-field v-model="character.name" :label="$ml.get('name')" required></v-text-field>
             <v-text-field
               v-model="character.startingExperience"
               type="number"
-              label="Starting Experience Points"
+              :label="$ml.get('startingExperiencePoints')"
               required
             ></v-text-field>
             <v-select
               :items="$root.generations"
-              label="Generation"
+              :label="$ml.get('generation')"
               v-model="character.mainInformation.generation"
             ></v-select>
-            <v-select :items="$root.clans" label="Clan" v-model="character.mainInformation.clan"></v-select>
+            <v-select :items="$root.clans" :label="$ml.get('clan')" v-model="character.mainInformation.clan"></v-select>
             <v-text-field
-              label="Select Image"
+              :label="$ml.get('selectImage')"
               @click="pickFile"
               v-model="imageName"
               prepend-icon="attach_file"

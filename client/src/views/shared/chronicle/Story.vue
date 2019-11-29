@@ -35,9 +35,10 @@
           </v-tabs>
         </v-card-text>
         <v-card-actions>
+          <v-spacer></v-spacer>
           <v-btn text @click="startEditing" v-if="!editing">{{$ml.get("edit")}}</v-btn>
           <v-btn text @click="saveStory()" v-if="editing">{{$ml.get("save")}}</v-btn>
-          <v-btn text @click="editing=false" v-if="editing">{{$ml.get("cancel")}}</v-btn>
+          <v-btn text @click="editing=false" v-if="editing">{{$ml.get("dismiss")}}</v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -46,7 +47,7 @@
         <v-card-title>
           <v-layout wrap>
             <v-flex ref="headline" xs12 sm6 md8 lg6 xl7>
-              <span class="headline">{{$ml.get("sessionTimeline")}}</span>
+              <span class="headline">{{$ml.get("sessionsTimeline")}}</span>
             </v-flex>
             <v-flex xs12 sm6 md4 lg6 xl5>
               <v-form autocomplete="off" @submit.prevent="getSessions(story._id)">

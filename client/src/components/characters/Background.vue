@@ -3,27 +3,27 @@
     <v-flex pa-3>
       <v-card>
         <v-card-text>
-          <div class="xs12 title text-center" style="margin: auto">Main Information</div>
+          <div class="xs12 title text-center" style="margin: auto">{{$ml.get("mainInformation")}}</div>
           <v-layout row wrap justify-space-around justify-center>
             <v-flex shrink xs12 sm4 pa-2>
               <v-text-field
                 :readonly="readonly"
                 v-model="character.mainInformation.concept"
-                label="Concept"
+                :label="$ml.get('concept')"
               ></v-text-field>
             </v-flex>
             <v-flex shrink xs12 sm4 pa-2>
               <v-text-field
                 :readonly="readonly"
                 v-model="character.mainInformation.predator"
-                label="Predator"
+                :label="$ml.get('predator')"
               ></v-text-field>
             </v-flex>
             <v-flex shrink xs12 sm4 pa-2>
               <v-text-field
                 :readonly="readonly"
                 v-model="character.mainInformation.sire"
-                label="Sire"
+                :label="$ml.get('sire')"
               ></v-text-field>
             </v-flex>
           </v-layout>
@@ -32,14 +32,14 @@
               <v-text-field
                 :readonly="readonly"
                 v-model="character.mainInformation.ambition"
-                label="Ambition"
+                :label="$ml.get('ambition')"
               ></v-text-field>
             </v-flex>
             <v-flex shrink xs12 sm6 pa-2>
               <v-text-field
                 :readonly="readonly"
                 v-model="character.mainInformation.desire"
-                label="Desire"
+                :label="$ml.get('desire')"
               ></v-text-field>
             </v-flex>
           </v-layout>
@@ -49,13 +49,13 @@
     <v-flex pa-3>
       <v-card>
         <v-card-text>
-          <div class="xs12 title text-center" style="margin: auto">Mortal life</div>
+          <div class="xs12 title text-center" style="margin: auto">{{$ml.get("mortalLife")}}</div>
           <v-layout row wrap justify-space-around justify-center>
             <v-flex shrink xs6 sm3 pa-2>
               <v-text-field
                 :readonly="readonly"
                 v-model="character.mortal.trueAge"
-                label="True Age"
+                :label="$ml.get('trueAge')"
                 type="number"
               ></v-text-field>
             </v-flex>
@@ -63,7 +63,7 @@
               <v-text-field
                 :readonly="readonly"
                 v-model="character.mortal.apparentAge"
-                label="Apparent Age"
+                :label="$ml.get('apparentAge')"
                 type="number"
               ></v-text-field>
             </v-flex>
@@ -71,7 +71,7 @@
               <v-text-field
                 :readonly="readonly"
                 v-model="character.mortal.dateOfBirth"
-                label="Date of Birth"
+                :label="$ml.get('dateOfBirth')"
                 type="date"
               ></v-text-field>
             </v-flex>
@@ -79,7 +79,7 @@
               <v-text-field
                 :readonly="readonly"
                 v-model="character.mortal.dateOfDeath"
-                label="Date of Death"
+                :label="$ml.get('dateOfDeath')"
                 type="date"
               ></v-text-field>
             </v-flex>
@@ -90,7 +90,7 @@
     <v-flex pa-3>
       <v-card>
         <v-card-subtitle>
-          <div class="xs12 title text-center" style="margin: auto">Refuge</div>
+          <div class="xs12 title text-center" style="margin: auto">{{$ml.get("refuge")}}</div>
           <div v-if="place.geometry && readonly">
             {{place.formatted_address}}
           </div>
@@ -98,14 +98,14 @@
             <GoogleMapsAutocomplete
               @input="setPlace"
               v-model="currentPlace"
-              label="Enter an address"
+              :label="$ml.get('enterAnAddress')"
             />
           </div>
         </v-card-subtitle>
         <v-card-text v-if="place.geometry" style="height: 400px; ">
           <GmapMap :center="center" :zoom="zoom" style="width: 100%; height: 100%">
             <GmapMarker
-              title="Refuge"
+              :title="$ml.get('refuge')"
               :position="place.geometry.location"
               :clickable="true"
             />

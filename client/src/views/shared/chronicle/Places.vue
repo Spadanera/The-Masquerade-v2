@@ -12,7 +12,7 @@
       <div class="v-subheader headline theme--light">{{$ml.get("places")}}</div>
       <v-expansion-panels multiple class="no-padding">
         <v-expansion-panel>
-          <v-expansion-panel-header>General</v-expansion-panel-header>
+          <v-expansion-panel-header>{{$ml.get("general")}}</v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-list subheader two-line>
               <v-list-item-group v-model="index">
@@ -57,7 +57,7 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
         <v-expansion-panel>
-          <v-expansion-panel-header>Refuges</v-expansion-panel-header>
+          <v-expansion-panel-header>{{$ml.get("refuges")}}</v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-list subheader two-line>
               <v-list-item-group v-model="indexRefuge">

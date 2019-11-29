@@ -35,9 +35,10 @@
           </v-tabs>
         </v-card-text>
         <v-card-actions>
+          <v-spacer></v-spacer>
           <v-btn text @click="startEditing" v-if="!editing">{{$ml.get("edit")}}</v-btn>
           <v-btn text @click="saveStory()" v-if="editing">{{$ml.get("save")}}</v-btn>
-          <v-btn text @click="editing=false" v-if="editing">{{$ml.get("cancel")}}</v-btn>
+          <v-btn text @click="editing=false" v-if="editing">{{$ml.get("dismiss")}}</v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>

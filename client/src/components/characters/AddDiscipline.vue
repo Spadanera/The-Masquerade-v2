@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="400px">
     <v-card>
-      <v-card-title>Add Discipline</v-card-title>
+      <v-card-title>{{$ml.get("addDiscipline")}}</v-card-title>
       <v-card-text>
         <v-container grid-list-md>
           <v-form autocomplete="off" ref="form" v-model="valid">
@@ -9,7 +9,7 @@
               item-text="label"
               item-value="key"
               :items="disciplines"
-              label="Discipline"
+              :label="$ml.get('disciplines')"
               v-model="discipline"
             ></v-select>
           </v-form>

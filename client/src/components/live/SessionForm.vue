@@ -2,14 +2,14 @@
   <v-layout column :style="{background: darkTheme ? '#424242' : '#FFFFFF' }">
     <v-banner 
     class="primary white--text" 
-    v-if="$vuetify.breakpoint.smAndDown">{{moment(sessionDate).format("MMMM Do YYYY")}}</v-banner>
+    v-if="$vuetify.breakpoint.smAndDown">{{moment(sessionDate).format($ml.get("dateFormat"))}}</v-banner>
     <v-layout>
       <v-flex shrink v-if="$vuetify.breakpoint.mdAndUp">
-        <v-date-picker :readonly="readonly" v-model="sessionDate" color="primary"></v-date-picker>
+        <v-date-picker :locale="locale" :readonly="readonly" v-model="sessionDate" color="primary"></v-date-picker>
       </v-flex>
       <v-flex>
         <v-tabs style="padding-left: 3px;" grow v-model="active" slider-color="primary" show-arrows>
-          <v-tab :key="0">Main</v-tab>
+          <v-tab :key="0">{{$ml.get("main")}}</v-tab>
           <v-tab
             v-for="(character, i) in session.characters"
             :key="i + 1"
@@ -22,14 +22,14 @@
                     <v-textarea
                       auto-grow
                       v-model="session.globalNote"
-                      label="Global Note"
+                      :label="$ml.get('globalNote')"
                       :clearable="!readonly"
                       :readonly="readonly"
                       rows="1"
                       v-if="!readonly"
                     />
                     <div v-else>
-                      <h4>Global Note</h4>
+                      <h4>{{$ml.get("globalNote")}}</h4>
                       <text-highlight :queries="search">{{session.globalNote}}</text-highlight>
                     </div>
                   </v-flex>
@@ -47,14 +47,14 @@
                         <v-textarea
                           auto-grow
                           v-model="character.storyTellerNote"
-                          label="Story-teller Note"
+                          :label="$ml.get('storyTellerNote')"
                           :clearable="!readonly"
                           :readonly="readonly"
                           rows="1"
                           v-if="!readonly"
                         />
                         <div v-else>
-                          <h3>Story-teller Note</h3>
+                          <h3>{{$ml.get('storyTellerNote')}}</h3>
                           <text-highlight :queries="search">{{character.storyTellerNote}}</text-highlight>
                         </div>
                       </v-flex>
@@ -64,13 +64,13 @@
                             <v-text-field
                               :readonly="readonly"
                               type="number"
-                              label="Experience Points"
+                              :label="$ml.get('experiencePoints')"
                               v-model="character.experiencePoints"
                               v-if="!readonly"
                             ></v-text-field>
                             <div v-else>
                               <h3>
-                                Experience Points:
+                                {{$ml.get('experiencePoints')}}:
                                 <span
                                   style="font-weight: normal;"
                                 >{{character.experiencePoints}}</span>
@@ -81,14 +81,14 @@
                             <v-textarea
                               auto-grow
                               v-model="character.playerNote"
-                              label="Player Note"
+                              :label="$ml.get('playerNote')"
                               :clearable="!readonly"
                               readonly
                               rows="1"
                               v-if="!readonly"
                             />
                             <div v-else>
-                              <h3>Player Note</h3>
+                              <h3>{{$ml.get('playerNote')}}</h3>
                               <text-highlight :queries="search">{{character.playerNote}}</text-highlight>
                             </div>
                           </v-flex>
@@ -203,6 +203,20 @@ export default {
     },
     sessionDate() {
       this.modified = true;
+    }
+  },
+  computed: {
+    locale() {
+      let locale = "en";
+      switch (this.$ml.current) {
+        case "english":
+          locale = "en";
+          break;
+        case "italian":
+          locale = "it";
+          break;
+      }
+      return locale;
     }
   }
 };

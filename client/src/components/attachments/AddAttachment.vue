@@ -2,15 +2,15 @@
   <v-dialog v-model="dialog" persistent max-width="700px">
     <v-card>
       <v-card-title>
-        <span v-if="!attachment._id" class="headline">Create New Attachment</span>
-        <span v-else>Update Attachment</span>
+        <span v-if="!attachment._id" class="headline">{{$ml.get('createNewAttachment')}}</span>
+        <span v-else>{{$ml.get('updateAttachment')}}</span>
       </v-card-title>
       <v-card-text>
         <v-container grid-list-md>
           <v-form autocomplete="off" ref="form" v-model="valid">
-            <v-text-field v-model="title" label="Name" required></v-text-field>
+            <v-text-field v-model="title" :label="$ml.get('name')" required></v-text-field>
             <v-text-field
-              label="Select Image"
+              :label="$ml.get('selectImage')"
               @click="pickFile"
               v-model="imageName"
               prepend-icon="attach_file"
@@ -31,7 +31,7 @@
               chips
               item-text="userDisplayName"
               item-value="_id"
-              label="Player visibility"
+              :label="$ml.get('playerVisibility')"
               multiple
             >
               <template v-slot:selection="data">

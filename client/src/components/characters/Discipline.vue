@@ -31,7 +31,7 @@
             item-text="label"
             item-value="key"
             :items="configDiscipline.powers[power.level - 1]"
-            label="Discipline"
+            :label="$ml.get('discipline')"
             :disable="readonly"
             :readonly="readonly"
             v-model="power.power"
@@ -63,9 +63,9 @@ export default {
   methods: {
     async remove() {
       let res = await this.$confirm(
-        `Do you really want remove ${this.configDiscipline.label}?`,
+        this.$ml.with("0", this.configDiscipline.label).get("confirmDeleteDiscipline"),
         {
-          title: "Warning"
+          title: this.$ml.get("warning")
         }
       );
       if (res) {

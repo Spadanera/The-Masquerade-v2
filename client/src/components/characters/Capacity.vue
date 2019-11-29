@@ -1,7 +1,7 @@
 <template>
   <v-layout justify-start>
     <v-flex style="padding-top: 10px; margin-right: 15px;" shrink>
-      <span class="subheading">{{capitalize(capacity.name)}}</span>
+      <span class="subheading text-truncat">{{$ml.get(capacity.name)}}</span>
     </v-flex>
     <v-flex style="padding-right: 10px;">
       <v-text-field
@@ -10,7 +10,7 @@
         ref="name"
         v-model="capacity.speciality"
         label
-        placeholder="special"
+        :placeholder="$ml.get('special')"
       ></v-text-field>
     </v-flex>
     <v-flex style="padding-top: 15px; padding-right: 10px; min-width: 108px; width: 108px;" shrink>

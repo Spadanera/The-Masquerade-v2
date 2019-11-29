@@ -142,7 +142,7 @@ function createCharacter(req) {
             mental: Character.createCapacities(["intelligence", "wits", "resolve"])
         },
         skills: {
-            talents: Character.createCapacities(["athletics", "brawl", "Craft", "drive", "firearms", "larceny", "melee", "stealth", "survival"]),
+            talents: Character.createCapacities(["athletics", "brawl", "craft", "drive", "firearms", "larceny", "melee", "stealth", "survival"]),
             skills: Character.createCapacities(["animalKen", "etiquette", "insight", "intimidation", "leadership", "performance", "persuasion", "streetwise", "subterfuge"]),
             knowledges: Character.createCapacities(["academics", "awareness", "finance", "investigation", "medicine", "occult", "politics", "science", "technology"])
         },

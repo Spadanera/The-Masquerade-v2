@@ -13,6 +13,11 @@
 </template>
 
 <script>
+import moment from 'moment';
+// import 'moment/locale/en-us.js';
+import 'moment/locale/it';
+// import moment from 'moment/min/moment-with-locales.min.js';
+
 export default {
   data() {
     return {
@@ -23,7 +28,20 @@ export default {
     changeLanguage(lang) {
       this.currentLanguage = lang;
       this.$ml.change(lang);
-      this.$emit("close");
+      location.reload();
+    },
+    setMomentLocate() {
+      let locale = "en-us";
+      switch (this.currentLanguage) {
+        case "english":
+          locale = "en-us";
+          break;
+        case "italian":
+          locale = "it";
+          break;
+      }
+
+      moment.locale(locale);
     }
   },
   created() {
