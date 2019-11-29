@@ -5,6 +5,7 @@
               @input="setPlace"
               v-model="currentPlace"
               :label="$ml.get('enterAnAddress')"
+              :noResultFoundMessage="$ml.get('noResultFound')"
             />
     <v-textarea
       v-model="chronicle.shortDescription"

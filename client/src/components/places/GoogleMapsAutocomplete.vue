@@ -45,7 +45,7 @@ export default {
     },
     noResultsFoundMessage: {
       type: String,
-      default: this.$ml.get("noResultFound")
+      default: ""
     }
   },
   data() {

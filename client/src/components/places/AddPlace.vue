@@ -14,6 +14,7 @@
               v-model="currentPlace"
               :label="$ml.get('enterAnAddress')"
               v-if="!place._id"
+              :noResultFoundMessage="$ml.get('noResultFound')"
             />
             <v-text-field
               readonly
