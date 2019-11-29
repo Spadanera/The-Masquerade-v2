@@ -1,7 +1,7 @@
 <template>
   <v-card style="display: flex; flex-direction: column; height: 100%">
     <v-card-title class="headline">{{ chronicle.name }}</v-card-title>
-    <v-card-subtitle>{{ moment(chronicle.createdAt).format(`${ml.get("dateFormat")}, h:mm:ss a`) }}</v-card-subtitle>
+    <v-card-subtitle>{{ moment(chronicle.createdAt).format(`${$ml.get("dateFormat")}, h:mm:ss a`) }}</v-card-subtitle>
     <v-card-text style="flex: 1">{{ chronicle.shortDescription }}</v-card-text>
     <v-card-actions >
       <v-spacer></v-spacer>
