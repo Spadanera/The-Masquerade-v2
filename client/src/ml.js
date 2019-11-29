@@ -28,6 +28,10 @@ export default new MLCreate({
             updateAttachment: "Update attachment",
             createNewAttachment: "Create new attachment",
             createNewCharacter: "Create new character",
+            createNewStory: "Create new story",
+            createNewChronicle: "Create new chronicle",
+            createNewPlace: "Create new place",
+            updatePlace: "Update place",
             addDiscipline: "Add Discipline",
             disciplines: "Disciplines",
             saveSuccessfully: "Save successfully",
@@ -39,6 +43,10 @@ export default new MLCreate({
             playerNote: "Player Note",
             storyTellerNote: "Story-teller Note",
             dateFormat: "MMMM Do YYYY",
+            createNewCoterie: "Create new Coterie / Pack",
+            shortDescription: "Short description",
+            noChronicle: "No Chronicle created",
+            needCreation: "You have to create a Chronicle to start your story telling",
 
             // button label
             close: "Close",
@@ -78,6 +86,8 @@ export default new MLCreate({
             playerVisibility: "Player Visibility",
             name: "Name",
             enterAnAddress: "Enter an address",
+            address: "Address",
+            noResultFound: "No result found",
 
             // icon tooltip
             dashboard: "Dashboard",
@@ -160,7 +170,9 @@ export default new MLCreate({
             chronicleSuccessCreation: "Chronicle successfully created",
             sessionStarted: "Session started",
             areYouSure: "Are you sure?",
+            chronicleDeleted: "Chronicle successfully deleted",
             charactersWillBeDeleted: "All the characters connected will be deleted",
+            dataWillBeDeleted: "All the data connected will be deleted",
             confirmStartStory: "Do you really want to start this story?",
             confirmEndStory: "Do you really want to end this story?",
             confirmDelete: "Do you really want to delete {0}?",
@@ -189,6 +201,10 @@ export default new MLCreate({
             updateAttachment: "Aggiorna allegato",
             createNewAttachment: "Crea nuovo allegato",
             createNewCharacter: "Crea nuovo personaggio",
+            createNewStory: "Crea nuova storia",
+            createNewChronicle: "Crea nuova cronaca",
+            createNewPlace: "Crea nuovo luogo",
+            updatePlace: "Aggiorna luogo",
             addDiscipline: "Aggiungi Disciplina",
             disciplines: "Discipline",
             saveSuccessfully: "Salvataggio avvenuto con successo",
@@ -200,6 +216,10 @@ export default new MLCreate({
             playerNote: "Note Giocatore",
             storyTellerNote: "Note Narratore",
             dateFormat: "Do MMMM YYYY",
+            createNewCoterie: "Crea nuova Coterie / Pack",
+            shortDescription: "Breve descrizione",
+            noChronicle: "Nessuna cronaca creata",
+            needCreation: "E' necessario creare una cronaca per iniziare la tua narrazione",
 
             // button label
             close: "Chiudi",
@@ -239,6 +259,8 @@ export default new MLCreate({
             playerVisibility: "Visibilità giocatori",
             name: "Nome",
             enterAnAddress: "Inserisci un indirizzo",
+            address: "Indirizzo",
+            noResultFound: "Nessun risultato trovato",
 
             // icon tooltip
             dashboard: "Riepilogo",
@@ -321,7 +343,9 @@ export default new MLCreate({
             chronicleSuccessCreation: "Cronaca creata con successo",
             sessionStarted: "Session avviata",
             areYouSure: "Sei sicuro?",
+            chronicleDeleted: "Cronaca eliminata con successo",
             charactersWillBeDeleted: "Tutti i personaggi collegati verranno eliminati",
+            dataWillBeDeleted: "Tutte le informazioni collegate verranno eliminate",
             confirmStartStory: "Vuoi davvero avviare questa storia?",
             confirmEndStory: "Vuoi davvero terminare questa storia?",
             confirmDelete: "Vuoi davvero eliminare {0}?",

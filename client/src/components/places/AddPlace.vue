@@ -2,8 +2,8 @@
   <v-dialog v-model="dialog" persistent max-width="700px">
     <v-card>
       <v-card-title>
-        <span v-if="!place._id" class="headline">Create New Place</span>
-        <span v-else>Update Place</span>
+        <span v-if="!place._id" class="headline">{{$ml.get("createNewPlace")}}</span>
+        <span v-else>{{$ml.get("updatePlace")}}</span>
       </v-card-title>
       <v-card-text>
         <v-container grid-list-md>
@@ -12,14 +12,14 @@
             <GoogleMapsAutocomplete
               @input="setPlace"
               v-model="currentPlace"
-              label="Enter an address"
+              :label="$ml.get('enterAnAddress')"
               v-if="!place._id"
             />
             <v-text-field
               readonly
               v-else
               v-model="currentPlace.formatted_address"
-              label="Address"
+              :label="$ml.get('address')"
               placeholder="Placeholder"
             ></v-text-field>
             <v-text-field v-model="title" label="Name" required></v-text-field>

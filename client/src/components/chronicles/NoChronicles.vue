@@ -5,8 +5,8 @@
       <v-card>
         <v-card-title primary-title>
           <div>
-            <div class="headline">No Chronicle created</div>
-            <span class="grey--text">You have to create a Chronicle to start your story telling</span>
+            <div class="headline">{{$.get('noChronicle')}}</div>
+            <span class="grey--text">{{$.get('needCreation')}}</span>
           </div>
         </v-card-title>
         <v-card-actions class="justify-center">

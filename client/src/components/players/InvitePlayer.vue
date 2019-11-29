@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" persistent max-width="600px">
     <v-card>
       <v-card-title>
-        <span class="headline">Invite Player</span>
+        <span class="headline">{{$ml.get("invitePlayer")}}</span>
       </v-card-title>
       <v-card-text>
         <v-container grid-list-md>

@@ -1,14 +1,14 @@
 <template>
   <v-form autocomplete="off" ref="form" v-model="valid">
-    <v-text-field v-model="chronicle.name" label="Name" required></v-text-field>
+    <v-text-field v-model="chronicle.name" :label="$ml.get('name')" required></v-text-field>
     <GoogleMapsAutocomplete
               @input="setPlace"
               v-model="currentPlace"
-              label="Enter an address"
+              :label="$ml.get('enterAnAddress')"
             />
     <v-textarea
       v-model="chronicle.shortDescription"
-      label="Short Description"
+      :label="$ml.get('shortDescription')"
       name="description"
       auto-grow
       required

@@ -1,7 +1,7 @@
 <template>
   <v-card style="display: flex; flex-direction: column; height: 100%">
     <v-card-title class="headline">{{ chronicle.name }}</v-card-title>
-    <v-card-subtitle>{{ moment(chronicle.createdAt).format('MMMM Do YYYY, h:mm:ss a') }}</v-card-subtitle>
+    <v-card-subtitle>{{ moment(chronicle.createdAt).format(`${ml.get("dateFormat")}, h:mm:ss a`) }}</v-card-subtitle>
     <v-card-text style="flex: 1">{{ chronicle.shortDescription }}</v-card-text>
     <v-card-actions >
       <v-spacer></v-spacer>
@@ -32,13 +32,13 @@ export default {
   },
   methods: {
     modalDelete() {
-      this.modalTitle = "Are you sure"
-      this.modalText = "All the stories connected will be deleted";
+      this.modalTitle = this.$ml.get("areYouSure");
+      this.modalText = this.$ml.get("dataWillBeDeleted");
       this.dialog = true;
     },
     async deleteChronicle() {
       await this.Service.chronicleService.deleteChronicle(this.chronicle._id);
-      this.$emit("submitted", "Chronicle successfully deleted");
+      this.$emit("submitted", this.$ml.get("chronicleDeleted"));
     },
     openChronicle (id) {
       this.$router.push({ path: `${this.$route.path}/chronicle/${id}/${this.$route.path === '/story-teller' ? 'dashboard' : 'characters'}` });
