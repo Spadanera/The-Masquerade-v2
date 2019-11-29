@@ -192,7 +192,7 @@ export default {
     },
     async setOnGoing(storyId) {
       let res = await this.$confirm(
-        this.$ml.get("startStory"),
+        this.$ml.get("confirmStartStory"),
         {
           title: this.$ml.get("warning")
         }
@@ -208,7 +208,7 @@ export default {
     },
     async endStory(storyId) {
       let res = await this.$confirm(
-        this.$ml.get("endStory"),
+        this.$ml.get("confirmEndStory"),
         {
           title: this.$ml.get("warning")
         }

@@ -82,8 +82,8 @@ export default new MLCreate({
             sessionStarted: "Session started",
             areYouSure: "Are you sure?",
             charactersWillBeDeleted: "All the characters connected will be deleted",
-            startStory: "Do you really want to start this story?",
-            endStory: "Do you really want to end this story?",
+            confirmStartStory: "Do you really want to start this story?",
+            confirmEndStory: "Do you really want to end this story?",
             confirmDelete: "Do you really want to delete {0}?",
         }),
 
@@ -162,8 +162,8 @@ export default new MLCreate({
             sessionStarted: "Session avviata",
             areYouSure: "Sei sicuro?",
             charactersWillBeDeleted: "Tutti i personaggi collegati verranno eliminati",
-            startStory: "Vuoi davvero avviare questa storia?",
-            endStory: "Vuoi davvero terminare questa storia?",
+            confirmStartStory: "Vuoi davvero avviare questa storia?",
+            confirmEndStory: "Vuoi davvero terminare questa storia?",
             confirmDelete: "Vuoi davvero eliminare {0}?",
         })
     ]
