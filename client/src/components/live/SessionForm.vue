@@ -5,7 +5,7 @@
     v-if="$vuetify.breakpoint.smAndDown">{{moment(sessionDate).format($ml.get("dateFormat"))}}</v-banner>
     <v-layout>
       <v-flex shrink v-if="$vuetify.breakpoint.mdAndUp">
-        <v-date-picker :locale="locale" :readonly="readonly" v-model="sessionDate" color="primary"></v-date-picker>
+        <v-date-picker :locale="$ml.current" :readonly="readonly" v-model="sessionDate" color="primary"></v-date-picker>
       </v-flex>
       <v-flex>
         <v-tabs style="padding-left: 3px;" grow v-model="active" slider-color="primary" show-arrows>
@@ -203,20 +203,6 @@ export default {
     },
     sessionDate() {
       this.modified = true;
-    }
-  },
-  computed: {
-    locale() {
-      let locale = "en";
-      switch (this.$ml.current) {
-        case "english":
-          locale = "en";
-          break;
-        case "italian":
-          locale = "it";
-          break;
-      }
-      return locale;
     }
   }
 };

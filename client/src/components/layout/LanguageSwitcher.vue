@@ -21,7 +21,7 @@ import 'moment/locale/it';
 export default {
   data() {
     return {
-      currentLanguage: "english"
+      currentLanguage: "en"
     };
   },
   methods: {
@@ -33,10 +33,10 @@ export default {
     setMomentLocate() {
       let locale = "en-us";
       switch (this.currentLanguage) {
-        case "english":
+        case "en":
           locale = "en-us";
           break;
-        case "italian":
+        case "it":
           locale = "it";
           break;
       }
@@ -45,6 +45,9 @@ export default {
     }
   },
   created() {
+    if (this.$ml.current && this.$ml.current.length > 2) {
+      this.$ml.change("en");
+    }
     this.currentLanguage = this.$ml.current;
   }
 };

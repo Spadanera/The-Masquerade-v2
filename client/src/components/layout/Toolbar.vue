@@ -44,7 +44,7 @@
             </v-list-item-action>
           </v-list-item>
           <v-list-item @click="logout">
-            <v-list-item-content>Logout</v-list-item-content>
+            <v-list-item-content>{{$ml.get("logout")}}</v-list-item-content>
             <v-list-item-action>
               <v-icon>exit_to_app</v-icon>
             </v-list-item-action>
