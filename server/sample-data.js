@@ -145,17 +145,19 @@ function dbConnect() {
 }
 
 async function deleteData(userId) {
-    await Session.deleteMany({});
-    await Story.deleteMany({});
-    await Character.deleteMany({});
-    await Player.deleteMany({});
-    await Coterie.deleteMany({});
-    await User.deleteMany({
-        _id: {
-            $ne: userId
-        }
-    });
-    await Chronicle.deleteMany({});
+    if (env === "dev") {
+        await Session.deleteMany({});
+        await Story.deleteMany({});
+        await Character.deleteMany({});
+        await Player.deleteMany({});
+        await Coterie.deleteMany({});
+        await User.deleteMany({
+            _id: {
+                $ne: userId
+            }
+        });
+        await Chronicle.deleteMany({});
+    }
 }
 
 async function importData(userId) {
@@ -325,7 +327,7 @@ async function createCharacter(chronicleId, userId) {
         userId: userId,
         name: `${capitalize(lorem.generateWords(1))} ${capitalize(lorem.generateWords(1))}`,
         chronicleId: chronicleId,
-        alive: true,
+        alive: "alive",
         picture: randomImage(),
         startingExperience: 20,
         totalExperience: 100,

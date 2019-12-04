@@ -3,7 +3,6 @@
 const router = require('express').Router();
 import Player from "../../models/Player";
 import Chronicle from '../../models/Chronicle';
-import Character from "../../models/Character";
 
 // get all by chronicle id
 router.get("/all/:id", async (req, res) => {
@@ -30,7 +29,7 @@ router.get("/all-characters/:id", async (req, res) => {
             let players = await Player.find({ chronicleId: req.params.id, active: true }).populate("characters");
             let response = [];
             players.forEach(player => {
-                response = response.concat(player.characters.filter(character => character.alive ));
+                response = response.concat(player.characters.filter(character => character.alive === "alive" ));
             });
             res.json(response);
         }

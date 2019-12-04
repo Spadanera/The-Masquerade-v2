@@ -1,12 +1,21 @@
 <template>
   <v-flex grow style="height: 100%; width: calc(100% - 300px)">
-    <div class="pa-2 elevation-4" v-if="groupname" :style="{background: darkTheme ? '#424242' : '#FFFFFF' }">
+    <div
+      class="pa-2 elevation-4"
+      v-if="groupname"
+      :style="{background: darkTheme ? '#424242' : '#FFFFFF' }"
+    >
       <div class="headline" v-html="groupname" v-if="groupname"></div>
       <div class="subheading font-weight-light" v-html="description" v-if="description"></div>
     </div>
     <v-layout fluid justify-center wrap style="overflow: auto; max-height: calc(100% - 72px);">
       <v-flex v-for="character in characters" v-bind:key="character._id" pa-2 xs12 sm6 md4 lg4 xl3>
-        <v-card v-bind:class="{ dead: !character.alive }">
+        <v-card
+          v-bind:class="{ dead: character.alive === 'torpor' || character.alive === 'lastdeath' }"
+        >
+          <div class="lastdeath" v-if="character.alive === 'lastdeath'">
+            <img src="../../../assets/lastdeath.webp" alt />
+          </div>
           <v-img v-if="character.picture" :src="character.picture" height="200px"></v-img>
           <v-card-title>
             <div class="headline">{{ character.name }}</div>
@@ -34,13 +43,21 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn text @click="openCharacter(character._id)">{{$ml.get("open")}}</v-btn>
-            <v-btn text color="error"
-              v-if="character.alive && edit"
-              @click="killOrResumeCharacter(character, false)"
+            <v-btn
+              text
+              color="error"
+              v-if="character.alive === 'alive' && edit"
+              @click="killOrResumeCharacter(character, 0)"
             >{{$ml.get("kill")}}</v-btn>
-            <v-btn text
-              v-if="!character.alive && edit"
-              @click="killOrResumeCharacter(character, true)"
+            <v-btn
+              text
+              v-if="character.alive === 'alive' && edit"
+              @click="killOrResumeCharacter(character, -1)"
+            >{{$ml.get("lastdeath")}}</v-btn>
+            <v-btn
+              text
+              v-if="character.alive !== 'alive' && edit"
+              @click="killOrResumeCharacter(character, 1)"
             >{{$ml.get("resume")}}</v-btn>
           </v-card-actions>
         </v-card>
@@ -105,7 +122,23 @@ export default {
 </script>
 
 <style>
-.dead {
+.dead > .v-image,
+.dead > .v-card__tiel,
+.dead > .v-card__text {
   opacity: 0.3;
+}
+
+.lastdeath {
+  position: absolute;
+  left: 33%;
+  top: 7%;
+  width: 35%;
+  height: 30%;
+  z-index: 1;
+}
+
+.lastdeath > img {
+  width: 100%;
+  height: 100%;
 }
 </style>

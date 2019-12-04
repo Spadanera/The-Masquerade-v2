@@ -242,7 +242,7 @@ export default {
         this.$session.set("selectedCharacters", JSON.stringify(newValue));
       }
       if (newValue) {
-        let selectedCharacters = newValue.filter(character => character.alive);
+        let selectedCharacters = newValue.filter(character => character.alive === "alive");
         this.selection = selectedCharacters;
       } else {
         this.selection = [];

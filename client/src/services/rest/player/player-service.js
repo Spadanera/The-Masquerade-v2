@@ -61,14 +61,25 @@ const players = {
         return response.data;
     },
     killOrResumeCharacter: async (character, alive, component) => {
+        let label;
+        switch (alive) {
+            case 1:
+                label = "alive";
+                break;
+            case 0:
+                label = "torpor";
+                break;
+            case -1:
+                label = "lastdeath";
+        }
         let res = await component.$confirm(
-            `Do you really want to ${alive ? "resume" : "kill"} ${character.name}?`,
+            `Do you really want to set ${character.name} as ${component.$ml.get(label)}?`,
             {
-                title: "Warning"
+                title: component.$ml.get("warning")
             }
         );
         if (res) {
-            await client.put(`api/characters/${character._id}`, { alive });
+            await client.put(`api/characters/${character._id}`, { alive: label });
         }
     },
     deleteCharacterInGroup: async () => { }

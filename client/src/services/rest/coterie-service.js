@@ -25,12 +25,20 @@ const coteries = {
     getGroupCharacters: async (listId) => {
         let response = await await client.get(`/api/coteries/${listId}`);
         return response.data.characters.sort((a, b) => {
-            if (a.alive > b.alive) {
-                return -1;
-            } else if (a.alive < b.alive) {
-                return 1;
-            } else {
+            if (a.alive === b.alive) {
                 return a.createdAt - b.createdAt;
+            }
+            if (a.alive === "alive") {
+                return -1;
+            }
+            if (b.alive === "alive") {
+                return 1;
+            }
+            if (a.alive === "torpor") {
+                return -1;
+            }
+            if (b.alive === "torpor") {
+                return 1;
             }
         });
     },
@@ -69,14 +77,25 @@ const coteries = {
         return {};
     },
     killOrResumeCharacter: async (character, alive, component) => {
+        let label;
+        switch (alive) {
+            case 1:
+                label = "alive";
+                break;
+            case 0:
+                label = "torpor";
+                break;
+            case -1:
+                label = "lastdeath";
+        }
         let res = await component.$confirm(
-            `Do you really want to ${alive ? "resume" : "kill"} ${character.name}?`,
+            `Do you really want to set ${character.name} as ${component.$ml.get(label)}?`,
             {
-                title: "Warning"
+                title: component.$ml.get("warning")
             }
         );
         if (res) {
-            await client.put(`api/characters/${character._id}`, { alive });
+            await client.put(`api/characters/${character._id}`, { alive: label });
         }
     },
     deleteCharacterInGroup: async () => {}

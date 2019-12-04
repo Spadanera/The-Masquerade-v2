@@ -5,7 +5,7 @@ import Player from './Player';
 import Attachment from './Attachment';
 import Place from './Place';
 
-const Statuses = Object.freeze({
+const ChronicleStatuses = Object.freeze({
   Draft: 'draft',
   Live: 'live',
   Archived: 'archived',
@@ -20,7 +20,7 @@ const ChronicleSchema = new mongoose.Schema({
   storyTeller: mongoose.Schema.Types.ObjectId,
   createdAt: { type: Date, default: Date.now },
   updateAt: { type: Date, default: Date.now },
-  status: { type: String, enum: Object.values(Statuses), default: 'draft' },
+  status: { type: String, enum: Object.values(ChronicleStatuses), default: ChronicleStatuses.Draft },
   stories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Story' }],
   coteries: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Coterie' }],
   players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }],
@@ -58,7 +58,7 @@ ChronicleSchema.post("remove", async chronicle => {
   }
 });
 
-Object.assign(ChronicleSchema.static, { Statuses });
+Object.assign(ChronicleSchema.static, { ChronicleStatuses });
 
 let Chronicle = mongoose.model('Chronicle', ChronicleSchema); 
 

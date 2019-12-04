@@ -128,7 +128,7 @@ function createCharacter(req) {
     return new Character({
         userId: req.session.userId, // "5c97bdf8664eff178ec46579",
         name: req.body.name,
-        alive: true,
+        alive: "alive",
         picture: req.body.picture,
         startingExperience: req.body.startingExperience,
         totalExperience: req.body.startingExperience,

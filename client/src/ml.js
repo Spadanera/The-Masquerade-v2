@@ -90,6 +90,7 @@ export default new MLCreate({
             onGoing: "On Going",
             cancel: "Cancel",
             warning: "Warning",
+            lastdeath: "Last Death",
 
             // input label
             selectImage: "Select image",
@@ -257,7 +258,7 @@ export default new MLCreate({
             complete: "Complete",
             undo: "Annulla",
             createChronicle: "Crea una nuova cronaca",
-            resume: "Resume",
+            resume: "Risorgi",
             add: "Aggiungi",
             start: "Inizia",
             startSession: "Inizia Session",
@@ -267,6 +268,7 @@ export default new MLCreate({
             onGoing: "Attiva",
             cancel: "Cancella",
             warning: "Attenzione",
+            lastdeath: "Morte ultima",
 
             // input label
             selectImage: "Seleziona immagine",
@@ -443,6 +445,7 @@ export default new MLCreate({
             onGoing: "On Going",
             cancel: "Cancel",
             warning: "Warning",
+            lastdeath: "Last Death",
 
             // input label
             selectImage: "Select image",
@@ -620,6 +623,7 @@ export default new MLCreate({
             onGoing: "En marcha",
             cancel: "Cancelar",
             warning: "Advertencia",
+            lastdeath: "Ultima muerte",
 
             // input label
             selectImage: "Seleccionar imagen",
@@ -797,6 +801,7 @@ export default new MLCreate({
             onGoing: "Em progresso",
             cancel: "Cancelar",
             warning: "Atenção",
+            lastdeath: "Ultima morte",
 
             // input label
             selectImage: "Selecione a imagem",

@@ -63,7 +63,7 @@ router.get("/chronicle/:chronicleid", async (req, res) => {
 // get all refuges
 router.get("/refuges/:chronicleid", async (req, res) => {
     try {
-        let places = await Character.find({ chronicleId: req.params.chronicleid, alive: true, refuge: { $exists: true } }, {
+        let places = await Character.find({ chronicleId: req.params.chronicleid, alive: "alive", refuge: { $exists: true } }, {
             name: 1, picture: 1, refuge: 1
         });
         res.json(places);

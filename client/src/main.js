@@ -71,10 +71,12 @@ new Vue({
   created() {
     let requestCount = 0;
     client.interceptors.request.use(config => {
-      if (requestCount === 0) {
-        nprogress.start();
+      if (!/autoreload/.test(config.url)) {
+        if (requestCount === 0) {
+          nprogress.start();
+        }
+        requestCount++;
       }
-      requestCount++;
       return config;
     }, error => {
       return Promise.reject(error);

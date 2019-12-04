@@ -28,10 +28,11 @@
           <v-btn @click="readonly= false" v-if="readonly && !fighting && edit">{{$ml.get("edit")}}</v-btn>
           <v-btn @click="save" v-if="!readonly && !fighting && edit">{{$ml.get("save")}}</v-btn>
           <v-btn @click="loadCharacter" v-if="!readonly && !fighting && edit">{{$ml.get("undo")}}</v-btn>
-          <v-btn @click="killOrResumeCharacter(false)" v-if="edit">{{$ml.get("kill")}}</v-btn>
+          <v-btn @click="killOrResumeCharacter(0)" v-if="edit">{{$ml.get("kill")}}</v-btn>
+          <v-btn @click="killOrResumeCharacter(-1)" v-if="edit">{{$ml.get("lastdeath")}}</v-btn>
           <v-btn
-            v-if="!character.alive && $vuetify.breakpoint.mdAndUp && edit"
-            @click="killOrResumeCharacter(true)"
+            v-if="character.alive !== 'alive' && $vuetify.breakpoint.mdAndUp && edit"
+            @click="killOrResumeCharacter(1)"
           >{{$ml.get("resume")}}</v-btn>
           <v-btn v-if="$vuetify.breakpoint.mdAndUp" @click="close">{{$ml.get("close")}}</v-btn>
         </v-btn-toggle>
@@ -103,7 +104,12 @@
       <v-btn @click="readonly= false" v-if="readonly && !fighting && edit">{{$ml.get("edit")}}</v-btn>
       <v-btn @click="save" v-if="!readonly && !fighting && edit">{{$ml.get("save")}}</v-btn>
       <v-btn @click="loadCharacter" v-if="!readonly && !fighting && edit">{{$ml.get("undo")}}</v-btn>
-      <v-btn @click="killOrResumeCharacter(false)" v-if="edit">{{$ml.get("kill")}}</v-btn>
+      <v-btn @click="killOrResumeCharacter(0)" v-if="edit">{{$ml.get("kill")}}</v-btn>
+      <v-btn @click="killOrResumeCharacter(-1)" v-if="edit">{{$ml.get("lastdeath")}}</v-btn>
+      <v-btn
+            v-if="character.alive !== 'alive' && $vuetify.breakpoint.mdAndUp && edit"
+            @click="killOrResumeCharacter(1)"
+          >{{$ml.get("resume")}}</v-btn>
       <v-btn @click="close">{{$ml.get("close")}}</v-btn>
     </v-speed-dial>
   </div>
@@ -162,9 +168,9 @@ export default {
     };
   },
   methods: {
-    async loadCharacter() {
+    async loadCharacter(autoreload) {
       this.character = await this.characterService.getCharacter(
-        this.characterId
+        this.characterId, autoreload
       );
       this.loaded = true;
       this.readonly = true;
@@ -207,7 +213,7 @@ export default {
   async created() {
     await this.loadCharacter();
     if (this.autoReload) {
-      this.intervals.push(setInterval(this.loadCharacter, 3000));
+      this.intervals.push(setInterval(() => this.loadCharacter(true), 3000));
     }
     await this.getSessions();
     if (this.sessions.length) {
