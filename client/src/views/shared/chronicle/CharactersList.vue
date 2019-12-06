@@ -3,12 +3,12 @@
     <div
       class="pa-2 elevation-4"
       v-if="groupname"
-      style="height: 72px; max-height: 72px; overflow: auto;"
+      style="height: 90px; max-height: 90px; overflow: auto; background-color: #FFFFFF"
     >
       <div class="headline" v-html="groupname" v-if="groupname"></div>
       <div class="subheading font-weight-light" v-html="description" v-if="description"></div>
     </div>
-    <v-layout fluid justify-center wrap style="overflow: auto; max-height: calc(100% - 72px);">
+    <v-layout fluid justify-center wrap style="overflow: auto; max-height: calc(100% - 90px);">
       <v-flex v-for="character in characters" v-bind:key="character._id" pa-2 xs12 sm6 md4 lg4 xl3>
         <v-card
           v-bind:class="{ dead: character.alive === 'torpor' || character.alive === 'lastdeath' }"
@@ -51,6 +51,7 @@
             >{{$ml.get("kill")}}</v-btn>
             <v-btn
               text
+              color="error"
               v-if="character.alive === 'alive' && edit"
               @click="killOrResumeCharacter(character, -1)"
             >{{$ml.get("lastdeath")}}</v-btn>

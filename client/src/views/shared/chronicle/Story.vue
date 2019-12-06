@@ -100,7 +100,7 @@
       dark
       fixed
       bottom
-      right
+      left
     >
       <span>{{$ml.get("setOngoingStory")}}</span>
     </v-btn>

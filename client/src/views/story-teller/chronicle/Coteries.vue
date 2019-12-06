@@ -11,31 +11,37 @@
     >
       <v-list subheader three-line>
         <v-subheader class="headline">{{$ml.get("coterie")}}</v-subheader>
-        <v-list-item-group v-model="index">
-          <v-list-item
-            v-for="(coterie, i) in coteries"
-            :key="i"
-            @click="select(coterie, false, true)"
-          >
-            <v-list-item-content>
-              <v-list-item-title v-html="coterie.name"></v-list-item-title>
-              <v-list-item-subtitle v-html="coterie.description"></v-list-item-subtitle>
-            </v-list-item-content>
-            <v-btn
-              color="primary"
-              dark
-              absolute
-              small
-              bottom
-              right
-              fab
-              class="onhover"
-              @click="modalDelete(coterie._id)"
+        <v-skeleton-loader
+          type="list-item-three-line"
+          :loading="!loaded"
+          transition="fade-transition"
+        >
+          <v-list-item-group v-model="index">
+            <v-list-item
+              v-for="(coterie, i) in coteries"
+              :key="i"
+              @click="select(coterie, false, true)"
             >
-              <v-icon>clear</v-icon>
-            </v-btn>
-          </v-list-item>
-        </v-list-item-group>
+              <v-list-item-content>
+                <v-list-item-title v-html="coterie.name"></v-list-item-title>
+                <v-list-item-subtitle v-html="coterie.description"></v-list-item-subtitle>
+              </v-list-item-content>
+              <v-btn
+                color="primary"
+                dark
+                absolute
+                small
+                bottom
+                right
+                fab
+                class="onhover"
+                @click="modalDelete(coterie._id)"
+              >
+                <v-icon>clear</v-icon>
+              </v-btn>
+            </v-list-item>
+          </v-list-item-group>
+        </v-skeleton-loader>
       </v-list>
       <v-btn
         color="primary"
@@ -86,7 +92,8 @@ export default {
       coterieIdToDelete: "",
       coterieDescription: "",
       coterieName: "",
-      index: 0
+      index: 0,
+      loaded: false
     };
   },
   methods: {
@@ -103,12 +110,13 @@ export default {
           this.select(this.coteries[0], true);
         }
       }
+      window.setTimeout(() => (this.loaded = true), 300);
     },
     select(coterie, notToCloseNav, forceNavigation) {
       if (!this.$route.params.characterid || forceNavigation) {
         this.$router.push(
           `/story-teller/chronicle/${this.$route.params.id}/coteries/${coterie._id}`
-        );
+        ).catch(() => {});
         this.coterieDescription = coterie.description;
         this.coterieName = coterie.name;
       }

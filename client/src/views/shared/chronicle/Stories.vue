@@ -11,21 +11,37 @@
     >
       <v-list subheader three-line>
         <v-subheader class="headline">{{$ml.get("stories")}}</v-subheader>
-        <v-list-item-group v-model="index">
-          <v-list-item v-for="(story, i) in stories" :key="i" @click="select(story)">
-            <v-list-item-content>
-              <v-list-item-title>{{story.name}}</v-list-item-title>
-              <v-list-item-subtitle>
-                <v-chip v-if="story.onGoing" label color="primary" text-color="white" small>{{$ml.get("onGoing")}}</v-chip>
-              </v-list-item-subtitle>
-              <v-list-item-subtitle>
-                <div v-html="story.shortDescription"></div>
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
+        <v-skeleton-loader
+          type="list-item-three-line"
+          :loading="!loaded"
+          transition="fade-transition"
+        >
+          <v-list-item-group v-model="index">
+            <v-list-item v-for="(story, i) in stories" :key="i" @click="select(story)">
+              <v-list-item-content>
+                <v-list-item-title>{{story.name}}</v-list-item-title>
+                <v-list-item-subtitle>
+                  <v-chip
+                    v-if="story.onGoing"
+                    label
+                    color="primary"
+                    text-color="white"
+                    small
+                  >{{$ml.get("onGoing")}}</v-chip>
+                </v-list-item-subtitle>
+                <v-list-item-subtitle>
+                  <div v-html="story.shortDescription"></div>
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-skeleton-loader>
       </v-list>
-      <v-btn color="primary" style="padding-top: 2px;" @click="dialog=true">{{$ml.get("createStory")}}</v-btn>
+      <v-btn
+        color="primary"
+        style="padding-top: 2px;"
+        @click="dialog=true"
+      >{{$ml.get("createStory")}}</v-btn>
     </v-navigation-drawer>
     <router-view
       :onGoingStory="onGoingStory"
@@ -53,7 +69,8 @@ export default {
       dialog: false,
       selectedIndex: -1,
       onGoingStory: false,
-      index: 0
+      index: 0,
+      loaded: false
     };
   },
   props: {
@@ -88,11 +105,12 @@ export default {
           this.select(this.stories[0], true);
         }
       }
+      window.setTimeout(() => (this.loaded = true), 300);
     },
     select(story, notToCloseNav) {
       this.$router.push(
         `/story-teller/chronicle/${this.$route.params.id}/stories/${story._id}`
-      );
+      ).catch(() => {});
       if (!notToCloseNav) {
         this.ownNavVisible = false;
       }

@@ -5,7 +5,7 @@
       <v-flex xs12 sm6 md6 lg5 xl4 pa-3>
         <v-card>
           <v-img :src="require('@/assets/story-teller-card.png')" height="300px"></v-img>
-          <v-card-title>{{$ml.get('storyTeller')}}</v-card-title>
+          <v-card-title class="cavatelo" style="font-size: 2.25rem">{{$ml.get('storyTeller')}}</v-card-title>
           <v-card-subtitle>{{$ml.get('storyTellerLoginSubtitle')}}</v-card-subtitle>
           <v-card-actions>
             <v-btn @click="login('story-teller')" color="primary">
@@ -18,7 +18,7 @@
       <v-flex xs12 sm6 md6 lg5 xl4 pa-3>
         <v-card>
           <v-img :src="require('@/assets/player-card.jpg')" height="300px"></v-img>
-          <v-card-title>{{$ml.get('player')}}</v-card-title>
+          <v-card-title class="cavatelo" style="font-size: 2.25rem">{{$ml.get('player')}}</v-card-title>
           <v-card-subtitle>{{$ml.get('playerLoginSubtitle')}}</v-card-subtitle>
           <v-card-actions>
             <v-btn @click="login('player')" color="primary">

@@ -104,16 +104,16 @@ export default {
   },
   async beforeRouteUpdate(to, from, next) {
     if (this.$route.params.id) {
-        this.onGoingSession =
-          (await this.Service.sessionService.getOnGoingSession(
-            this.$route.params.id
-          )) || {};
-        if (this.onGoingSession.sessionDate) {
-          this.sessionOnGoing = true;
-        } else {
-          this.sessionOnGoing = false;
-        }
+      this.onGoingSession =
+        (await this.Service.sessionService.getOnGoingSession(
+          this.$route.params.id
+        )) || {};
+      if (this.onGoingSession.sessionDate) {
+        this.sessionOnGoing = true;
+      } else {
+        this.sessionOnGoing = false;
       }
+    }
     next();
   }
 };
@@ -160,9 +160,8 @@ export default {
     max-height: calc(100% - 110px);
     overflow-y: auto;
   }
-
-  .v-timeline-item__dot {
-    z-index: 0;
-  }
+}
+.v-timeline-item__dot {
+  z-index: 0 !important;
 }
 </style>

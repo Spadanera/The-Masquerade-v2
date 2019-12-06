@@ -9,18 +9,28 @@
       style="z-index: 6; min-width: 300px"
       v-touch="{ left: () => ownNavVisible = false }"
     >
-      <v-list avatar>
-        <v-subheader class="headline">{{$ml.get('players')}}</v-subheader>
-        <v-list-item-group v-model="index">
-          <v-list-item v-for="(player, i) in players" :key="i" @click="select(player, false, true)">
-            <v-list-item-content>
-              <v-list-item-title v-html="player.userDisplayName"></v-list-item-title>
-            </v-list-item-content>
-            <v-list-item-avatar>
-              <img :src="player.userPicture" :alt="player.userDisplayName" />
-            </v-list-item-avatar>
-          </v-list-item>
-        </v-list-item-group>
+      <v-list subheader avatar>
+        <v-subheader class="headline cavatelo">{{$ml.get('players')}}</v-subheader>
+        <v-skeleton-loader
+          type="list-item-avatar"
+          :loading="!loaded"
+          transition="fade-transition"
+        >
+          <v-list-item-group v-model="index">
+            <v-list-item
+              v-for="(player, i) in players"
+              :key="i"
+              @click="select(player, false, true)"
+            >
+              <v-list-item-avatar>
+                <img :src="player.userPicture" :alt="player.userDisplayName" />
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title v-html="player.userDisplayName"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-skeleton-loader>
       </v-list>
       <v-list v-if="invitations.length > 0" avatar>
         <v-subheader class="headline">{{$ml.get('pendingInvitation')}}</v-subheader>
@@ -86,7 +96,8 @@ export default {
         enabled: false,
         text: ""
       },
-      index: 0
+      index: 0,
+      loaded: false
     };
   },
   methods: {
@@ -102,12 +113,13 @@ export default {
           this.select(this.players[0], true);
         }
       }
+      window.setTimeout(() => (this.loaded = true), 300);
     },
     select(player, notToCloseNav, forceNavigation) {
       if (!this.$route.params.characterid || forceNavigation) {
         this.$router.push(
           `/story-teller/chronicle/${this.$route.params.id}/players/${player._id}`
-        );
+        ).catch(() => {});
       }
       if (!notToCloseNav) {
         this.ownNavVisible = false;
@@ -167,5 +179,9 @@ export default {
 <style>
 .padding-list-item {
   padding: 10px 0;
+}
+
+.v-skeleton-loader__avatar {
+  border-radius: 50% !important;
 }
 </style>
