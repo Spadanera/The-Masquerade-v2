@@ -4,13 +4,7 @@
     v-if="loaded"
     class="max-height sheet-container"
   >
-    <v-app-bar
-      tabs
-      style="text-center"
-      absolute
-      v-bind:class="{ primary: fighting }"
-      v-if="!live"
-    >
+    <v-app-bar tabs style="text-center" absolute v-bind:class="{ primary: fighting }" v-if="!live">
       <v-app-bar-nav-icon>
         <v-avatar size="40px">
           <img :src="character.picture" :alt="character.name" />
@@ -18,18 +12,37 @@
       </v-app-bar-nav-icon>
       <v-toolbar-title>
         <v-text-field v-if="!readonly" :readonly="readonly" v-model="character.name" label></v-text-field>
-        <span v-else>{{ character.name }}</span>
+        <span v-else>
+          {{ character.name }}
+          <span class="caption">{{$ml.get(character.alive)}}</span>
+        </span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <div v-if="character.alive && $vuetify.breakpoint.mdAndUp">
         <v-btn-toggle>
-          <v-btn v-if="readonly && !fighting && edit" color="primary" @click="fighting = true">{{$ml.get("fight")}}</v-btn>
-          <v-btn v-if="readonly && fighting && edit" @click="fighting = false">{{$ml.get("endFIght")}}</v-btn>
-          <v-btn @click="readonly= false" v-if="readonly && !fighting && edit">{{$ml.get("edit")}}</v-btn>
+          <v-btn
+            v-if="readonly && !fighting && edit && character.alive === 'alive'"
+            color="primary"
+            @click="fighting = true"
+          >{{$ml.get("fight")}}</v-btn>
+          <v-btn
+            v-if="readonly && fighting && edit"
+            @click="fighting = false"
+          >{{$ml.get("endFIght")}}</v-btn>
+          <v-btn
+            @click="readonly= false"
+            v-if="readonly && !fighting && edit && character.alive === 'alive'"
+          >{{$ml.get("edit")}}</v-btn>
           <v-btn @click="save" v-if="!readonly && !fighting && edit">{{$ml.get("save")}}</v-btn>
           <v-btn @click="loadCharacter" v-if="!readonly && !fighting && edit">{{$ml.get("undo")}}</v-btn>
-          <v-btn @click="killOrResumeCharacter(0)" v-if="edit">{{$ml.get("kill")}}</v-btn>
-          <v-btn @click="killOrResumeCharacter(-1)" v-if="edit">{{$ml.get("lastdeath")}}</v-btn>
+          <v-btn
+            @click="killOrResumeCharacter(0)"
+            v-if="edit && character.alive === 'alive'"
+          >{{$ml.get("kill")}}</v-btn>
+          <v-btn
+            @click="killOrResumeCharacter(-1)"
+            v-if="edit && character.alive !== 'lastdeath'"
+          >{{$ml.get("lastdeath")}}</v-btn>
           <v-btn
             v-if="character.alive !== 'alive' && $vuetify.breakpoint.mdAndUp && edit"
             @click="killOrResumeCharacter(1)"
@@ -38,7 +51,14 @@
         </v-btn-toggle>
       </div>
       <template v-slot:extension style="padding: 0" v-if="internalShowToolbar">
-        <v-tabs v-model="characterTabs" slider-color="primary" centered grow style="margin: 0;" show-arrows>
+        <v-tabs
+          v-model="characterTabs"
+          slider-color="primary"
+          centered
+          grow
+          style="margin: 0;"
+          show-arrows
+        >
           <v-tab>{{$ml.get("characteristics")}}</v-tab>
           <v-tab>{{$ml.get("background")}}</v-tab>
           <v-tab>{{$ml.get("story")}}</v-tab>
@@ -92,6 +112,7 @@
       transition="slide-y-reverse-transition"
       style="position: absolute"
       v-if="$vuetify.breakpoint.smAndDown && !live"
+      class="custom-speed-deal"
     >
       <template v-slot:activator>
         <v-btn v-model="fab" color="primary" dark fab>
@@ -99,17 +120,29 @@
           <v-icon v-else>more_vert</v-icon>
         </v-btn>
       </template>
-      <v-btn v-if="readonly && !fighting && edit" @click="fighting = true">{{$ml.get("fight")}}</v-btn>
+      <v-btn
+        v-if="readonly && !fighting && edit && character.alive === 'alive'"
+        @click="fighting = true" color="primary"
+      >{{$ml.get("fight")}}</v-btn>
       <v-btn v-if="readonly && fighting && edit" @click="fighting = false">{{$ml.get("endFight")}}</v-btn>
-      <v-btn @click="readonly= false" v-if="readonly && !fighting && edit">{{$ml.get("edit")}}</v-btn>
+      <v-btn
+        @click="readonly= false"
+        v-if="readonly && !fighting && edit && character.alive === 'alive'"
+      >{{$ml.get("edit")}}</v-btn>
       <v-btn @click="save" v-if="!readonly && !fighting && edit">{{$ml.get("save")}}</v-btn>
       <v-btn @click="loadCharacter" v-if="!readonly && !fighting && edit">{{$ml.get("undo")}}</v-btn>
-      <v-btn @click="killOrResumeCharacter(0)" v-if="edit">{{$ml.get("kill")}}</v-btn>
-      <v-btn @click="killOrResumeCharacter(-1)" v-if="edit">{{$ml.get("lastdeath")}}</v-btn>
       <v-btn
-            v-if="character.alive !== 'alive' && $vuetify.breakpoint.mdAndUp && edit"
-            @click="killOrResumeCharacter(1)"
-          >{{$ml.get("resume")}}</v-btn>
+        @click="killOrResumeCharacter(0)"
+        v-if="edit && character.alive === 'alive'"
+      >{{$ml.get("kill")}}</v-btn>
+      <v-btn
+        @click="killOrResumeCharacter(-1)"
+        v-if="edit && character.alive !== 'lastdeath'"
+      >{{$ml.get("lastdeath")}}</v-btn>
+      <v-btn
+        v-if="character.alive !== 'alive' && $vuetify.breakpoint.mdAndUp && edit"
+        @click="killOrResumeCharacter(1)"
+      >{{$ml.get("resume")}}</v-btn>
       <v-btn @click="close">{{$ml.get("close")}}</v-btn>
     </v-speed-dial>
   </div>
@@ -170,7 +203,8 @@ export default {
   methods: {
     async loadCharacter(autoreload) {
       this.character = await this.characterService.getCharacter(
-        this.characterId, autoreload
+        this.characterId,
+        autoreload
       );
       this.loaded = true;
       this.readonly = true;
@@ -275,5 +309,15 @@ export default {
 
 .v-window {
   background: transparent !important;
+}
+
+.custom-speed-deal {
+  position: absolute;
+  width: 200px;
+  text-align: right;
+}
+
+.custom-speed-deal > div.v-speed-dial__list > div {
+  width: 100%;
 }
 </style>

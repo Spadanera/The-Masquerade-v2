@@ -91,6 +91,8 @@ export default new MLCreate({
             cancel: "Cancel",
             warning: "Warning",
             lastdeath: "Last Death",
+            alive: "Alive",
+            torpor: "Torpor",
 
             // input label
             selectImage: "Select image",
@@ -269,6 +271,8 @@ export default new MLCreate({
             cancel: "Cancella",
             warning: "Attenzione",
             lastdeath: "Morte ultima",
+            alive: "Vivo",
+            torpor: "Torpore",
 
             // input label
             selectImage: "Seleziona immagine",
@@ -446,6 +450,8 @@ export default new MLCreate({
             cancel: "Cancel",
             warning: "Warning",
             lastdeath: "Last Death",
+            alive: "Alive",
+            torpor: "Torpor",
 
             // input label
             selectImage: "Select image",
@@ -624,6 +630,8 @@ export default new MLCreate({
             cancel: "Cancelar",
             warning: "Advertencia",
             lastdeath: "Ultima muerte",
+            alive: "Vivo",
+            torpor: "Entumecimiento",
 
             // input label
             selectImage: "Seleccionar imagen",
@@ -802,6 +810,8 @@ export default new MLCreate({
             cancel: "Cancelar",
             warning: "Atenção",
             lastdeath: "Ultima morte",
+            alive: "Vivo",
+            torpor: "Entorpecimento",
 
             // input label
             selectImage: "Selecione a imagem",

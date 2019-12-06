@@ -45,7 +45,6 @@ export default {
     }
   },
   created() {
-    console.log(this.$ml.current);
     if (this.$ml.current && this.$ml.current.length > 2) {
       this.$ml.change("en");
     }

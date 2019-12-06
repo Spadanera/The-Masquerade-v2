@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>The site is under development. Do not use for real chronicles</h1>
+    <!-- <h1>The site is under development. Do not use for real chronicles</h1> -->
     <v-layout wrap justify-space-around v-show="loaded">
       <v-flex xs12 sm6 md6 lg5 xl4 pa-3>
         <v-card>

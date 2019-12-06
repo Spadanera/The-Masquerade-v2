@@ -3,7 +3,7 @@
     <div
       class="pa-2 elevation-4"
       v-if="groupname"
-      :style="{background: darkTheme ? '#424242' : '#FFFFFF' }"
+      style="height: 72px; max-height: 72px; overflow: auto;"
     >
       <div class="headline" v-html="groupname" v-if="groupname"></div>
       <div class="subheading font-weight-light" v-html="description" v-if="description"></div>
@@ -14,7 +14,7 @@
           v-bind:class="{ dead: character.alive === 'torpor' || character.alive === 'lastdeath' }"
         >
           <div class="lastdeath" v-if="character.alive === 'lastdeath'">
-            <img src="../../../assets/lastdeath.webp" alt />
+            <img src="../../../assets/cross.png" alt />
           </div>
           <v-img v-if="character.picture" :src="character.picture" height="200px"></v-img>
           <v-card-title>
@@ -130,10 +130,10 @@ export default {
 
 .lastdeath {
   position: absolute;
-  left: 33%;
-  top: 7%;
-  width: 35%;
-  height: 30%;
+  left: 26%;
+  top: 4%;
+  width: 45%;
+  height: 40%;
   z-index: 1;
 }
 

@@ -8,8 +8,8 @@
     <router-link :to="rootMenu" tag="span" style="cursor: pointer">
       <img src="../../assets/vmplogo.png">
     </router-link>
-    <v-toolbar-title class="headline text-uppercase pl-5">
-      <router-link :to="rootMenu" tag="span" id="title">
+    <v-toolbar-title class="display-1 text-uppercase pl-5">
+      <router-link :to="rootMenu" tag="span" id="title" class="cavatelo">
         <span class="hidden-sm-and-down">{{ title }}</span>
         <span class="hidden-md-and-up" v-if="!leftIconVisible()">{{ shortTitle }}</span>
       </router-link>
@@ -17,7 +17,7 @@
       <span class="font-weight-light"></span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <h3 class="text-truncate" v-if="userMenu">{{ chronicleName }}</h3>
+    <div class="text-truncate headline" v-if="userMenu"><span class="cavatelo">{{ chronicleName }}</span></div>
     <v-menu v-if="userMenu" :close-on-content-click="false" v-model="menu">
       <template v-slot:activator="{ on }">
         <v-btn fab icon v-on="on">
