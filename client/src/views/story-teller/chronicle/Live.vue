@@ -56,7 +56,7 @@
           <v-avatar v-if="character.picture" size="30">
             <img :src="character.picture" :alt="character.name" style="margin-right: 15px" />
           </v-avatar>
-          {{ character.name }}
+          <span v-bind:style="{ textDecoration: character.player ? 'underline' : '' }">{{ character.name }}</span>
         </v-tab>
         <v-tab-item
           :transition="false"
