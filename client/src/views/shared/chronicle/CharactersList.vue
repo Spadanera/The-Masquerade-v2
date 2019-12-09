@@ -64,7 +64,7 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <v-btn color="primary" dark fixed bottom right fab @click="dialog = true">
+    <v-btn color="primary" v-if="edit" dark fixed bottom right fab @click="dialog = true">
       <v-icon>add</v-icon>
     </v-btn>
     <AddCharacter
@@ -73,6 +73,7 @@
       @submitted="getCharacters"
       @close="dialog = false"
       :characterService="groupService"
+      v-if="edit"
     />
   </v-flex>
 </template>
