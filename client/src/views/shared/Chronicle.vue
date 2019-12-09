@@ -42,6 +42,7 @@
       @closenavbar="closeNavBar"
       :sessionOnGoing="sessionOnGoing"
       :gmaps="chronicle.gmaps"
+      :loaded="loaded"
     ></router-view>
     <v-alert
       v-if="$route.fullPath.indexOf('live') < 0"
@@ -69,7 +70,8 @@ export default {
   data() {
     return {
       chronicle: {},
-      sessionOnGoing: false
+      sessionOnGoing: false,
+      loaded: false
     };
   },
   methods: {
@@ -78,6 +80,7 @@ export default {
         this.$route.params.id
       );
       this.$emit("chronicle", this.chronicle.name);
+      window.setTimeout(() => (this.loaded = true), 300);
     },
     goTo(route) {
       this.chronicleService.goTo(route, this);

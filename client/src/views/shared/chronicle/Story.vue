@@ -1,86 +1,93 @@
 <template>
   <v-layout fluid fill-height wrap style="overflow: auto">
     <v-flex id="story" xs12 sm12 md12 lg6 pa-3>
-      <v-card>
-        <v-card-title class="headline">{{ story.name }}</v-card-title>
-        <v-card-subtitle>{{ story.shortDescription }}</v-card-subtitle>
-        <v-card-text style="padding: 0;">
-          <v-tabs centered grow slider-color="primary" v-model="selectedTab">
-            <v-tab>{{$ml.get("publicStory")}}</v-tab>
-            <v-tab>{{$ml.get("privateStory")}}</v-tab>
-            <v-tab-item>
-              <v-card flat>
-                <v-card-text v-if="!editing" v-html="story.publicStory"></v-card-text>
-                <ckeditor
-                  :editor="editor"
-                  v-model="editStory"
-                  :config="editorConfig"
-                  v-else
-                  tag-name="textarea"
-                ></ckeditor>
-              </v-card>
-            </v-tab-item>
-            <v-tab-item>
-              <v-card flat>
-                <v-card-text v-html="story.privateStory" v-if="!editing"></v-card-text>
-                <ckeditor
-                  :editor="editor"
-                  v-model="editStory"
-                  :config="editorConfig"
-                  v-else
-                  tag-name="textarea"
-                ></ckeditor>
-              </v-card>
-            </v-tab-item>
-          </v-tabs>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text @click="startEditing" v-if="!editing">{{$ml.get("edit")}}</v-btn>
-          <v-btn text @click="saveStory()" v-if="editing">{{$ml.get("save")}}</v-btn>
-          <v-btn text @click="editing=false" v-if="editing">{{$ml.get("dismiss")}}</v-btn>
-        </v-card-actions>
-      </v-card>
+      <v-skeleton-loader type="article, divider, list-item-three-line, actions" :loading="!loaded">
+        <v-card>
+          <v-card-title class="headline">{{ story.name }}</v-card-title>
+          <v-card-subtitle>{{ story.shortDescription }}</v-card-subtitle>
+          <v-card-text style="padding: 0;">
+            <v-tabs centered grow slider-color="primary" v-model="selectedTab">
+              <v-tab>{{$ml.get("publicStory")}}</v-tab>
+              <v-tab>{{$ml.get("privateStory")}}</v-tab>
+              <v-tab-item>
+                <v-card flat>
+                  <v-card-text v-if="!editing" v-html="story.publicStory"></v-card-text>
+                  <ckeditor
+                    :editor="editor"
+                    v-model="editStory"
+                    :config="editorConfig"
+                    v-else
+                    tag-name="textarea"
+                  ></ckeditor>
+                </v-card>
+              </v-tab-item>
+              <v-tab-item>
+                <v-card flat>
+                  <v-card-text v-html="story.privateStory" v-if="!editing"></v-card-text>
+                  <ckeditor
+                    :editor="editor"
+                    v-model="editStory"
+                    :config="editorConfig"
+                    v-else
+                    tag-name="textarea"
+                  ></ckeditor>
+                </v-card>
+              </v-tab-item>
+            </v-tabs>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn text @click="startEditing" v-if="!editing">{{$ml.get("edit")}}</v-btn>
+            <v-btn text @click="saveStory()" v-if="editing">{{$ml.get("save")}}</v-btn>
+            <v-btn text @click="editing=false" v-if="editing">{{$ml.get("dismiss")}}</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-skeleton-loader>
     </v-flex>
     <v-flex id="sessions" xs12 sm12 md12 lg6 pa-3>
-      <v-card>
-        <v-card-title>
-          <v-layout wrap>
-            <v-flex ref="headline" xs12 sm6 md8 lg6 xl7>
-              <span class="headline">{{$ml.get("sessionsTimeline")}}</span>
-            </v-flex>
-            <v-flex xs12 sm6 md4 lg6 xl5>
-              <v-form autocomplete="off" @submit.prevent="getSessions(story._id)">
-                <v-text-field
-                  @click:clear="getSessions(story._id, true)"
-                  solo
-                  prepend-inner-icon="search"
-                  clearable
-                  v-model="search"
-                  @click:prepend-inner="getSessions(story._id)"
-                ></v-text-field>
-              </v-form>
-            </v-flex>
-          </v-layout>
-        </v-card-title>
-        <v-card-text>
-          <v-timeline dense>
-            <v-timeline-item v-for="session in story.sessions" v-bind:key="session._id">
-              <div class="py-3">
-                <h2 class="headline font-weight-light mb-3">
-                  {{moment(session.sessionDate).format("YYYY-MM-DD")}}
-                  <v-btn text @click="viewSession(session._id)">{{$ml.get("details")}}</v-btn>
-                </h2>
-                <div>
-                  <text-highlight
-                    :queries="search ? search.split(' ') : []"
-                  >{{ session.globalNote }}</text-highlight>
+      <v-skeleton-loader
+        type="card-heading, list-item, list-item-avatar-three-line"
+        :loading="!loadedSessions"
+      >
+        <v-card>
+          <v-card-title>
+            <v-layout wrap>
+              <v-flex ref="headline" xs12 sm6 md8 lg6 xl7>
+                <span class="headline">{{$ml.get("sessionsTimeline")}}</span>
+              </v-flex>
+              <v-flex xs12 sm6 md4 lg6 xl5>
+                <v-form autocomplete="off" @submit.prevent="getSessions(story._id)">
+                  <v-text-field
+                    @click:clear="getSessions(story._id, true)"
+                    solo
+                    prepend-inner-icon="search"
+                    clearable
+                    v-model="search"
+                    @click:prepend-inner="getSessions(story._id)"
+                  ></v-text-field>
+                </v-form>
+              </v-flex>
+            </v-layout>
+          </v-card-title>
+          <v-card-text>
+            <v-timeline dense>
+              <v-timeline-item v-for="session in story.sessions" v-bind:key="session._id">
+                <div class="py-3">
+                  <h2 class="headline font-weight-light mb-3">
+                    {{moment(session.sessionDate).format("YYYY-MM-DD")}}
+                    <v-btn text @click="viewSession(session._id)">{{$ml.get("details")}}</v-btn>
+                  </h2>
+                  <div>
+                    <text-highlight
+                      :queries="search ? search.split(' ') : []"
+                    >{{ session.globalNote }}</text-highlight>
+                  </div>
                 </div>
-              </div>
-            </v-timeline-item>
-          </v-timeline>
-        </v-card-text>
-      </v-card>
+              </v-timeline-item>
+            </v-timeline>
+          </v-card-text>
+        </v-card>
+      </v-skeleton-loader>
     </v-flex>
     <v-btn
       @click="endStory(story._id)"
@@ -139,7 +146,9 @@ export default {
       },
       sessionSheet: false,
       selectedSession: "",
-      search: ""
+      search: "",
+      loaded: false,
+      loadedSessions: false
     };
   },
   methods: {
@@ -169,6 +178,7 @@ export default {
       storyId = storyId || this.$route.params.storyid;
       this.story = await this.Service.storyService.getStory(storyId);
       this.getSessions(storyId);
+      this.loaded = true;
     },
     async getSessions(storyId, clear) {
       if (clear) {
@@ -185,19 +195,19 @@ export default {
           storyId
         );
       }
-      this.$refs.headline.click();
+      this.loadedSessions = true;
+      if (this.$refs.headline) {
+        this.$refs.headline.click();
+      }
     },
     async viewSession(sessionId) {
       this.selectedSession = sessionId;
       this.sessionSheet = true;
     },
     async setOnGoing(storyId) {
-      let res = await this.$confirm(
-        this.$ml.get("confirmStartStory"),
-        {
-          title: this.$ml.get("warning")
-        }
-      );
+      let res = await this.$confirm(this.$ml.get("confirmStartStory"), {
+        title: this.$ml.get("warning")
+      });
       if (res) {
         await this.Service.storyService.startStory(
           this.$route.params.id,
@@ -208,12 +218,9 @@ export default {
       }
     },
     async endStory(storyId) {
-      let res = await this.$confirm(
-        this.$ml.get("confirmEndStory"),
-        {
-          title: this.$ml.get("warning")
-        }
-      );
+      let res = await this.$confirm(this.$ml.get("confirmEndStory"), {
+        title: this.$ml.get("warning")
+      });
       if (res) {
         await this.Service.storyService.closeStory(storyId);
         this.getStory();
@@ -238,5 +245,4 @@ export default {
 </script>
 
 <style>
-
 </style>
