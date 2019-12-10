@@ -25,6 +25,16 @@ router.get("/story-teller/:id", async (req, res) => {
     }
 });
 
+// check if one character is alive
+router.get("/onealive/:choronicleid", async (req, res) => {
+    if (await Character.findOne({ userId: req.session.userId, alive: "alive", chronicleId: req.params.chronicleid })) {
+        res.send(true);
+    }
+    else {
+        res.send(false);
+    }
+});
+
 // Get single character
 router.get("/:id", async (req, res) => {
     try {
@@ -45,7 +55,8 @@ router.post("/", async (req, res) => {
             character.chronicleId = player.chronicleId;
             player.characters.push(character);
             await player.save();
-            res.json(character.save());
+            await character.save();
+            res.json(character);
         }
         else {
             res.status(500).json({ error: "Player not found" });

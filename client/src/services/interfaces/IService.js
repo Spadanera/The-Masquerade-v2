@@ -3,6 +3,7 @@ import { Interface, type } from 'implement-js';
 const PlayerService = Interface('PlayerService')({
     chronicleService: type('object'),
     storyService: type('object'),
+    sessionService: type('object'),
     playerService: type('object'),
     attachmentService: type('object'),
     placeService: type('object')

@@ -13,6 +13,7 @@ const service = {
     dedicatedPlayerService: {
         chronicleService: require('./player/chronicle-service').default,
         storyService: require('./player/story-service').default,
+        sessionService: require('./player/session-service').default,
         playerService: require('./player/player-service').default,
         attachmentService: require('./player/attachment-service').default,
         placeService: require('./player/place-service').default

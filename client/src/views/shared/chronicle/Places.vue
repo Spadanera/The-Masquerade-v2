@@ -26,6 +26,7 @@
                     <v-list-item-subtitle>{{place.gmaps.formatted_address}}</v-list-item-subtitle>
                   </v-list-item-content>
                   <v-btn
+                    v-if="isStoryTeller"
                     color="primary"
                     dark
                     absolute
@@ -39,6 +40,7 @@
                     <v-icon>clear</v-icon>
                   </v-btn>
                   <v-btn
+                    v-if="isStoryTeller"
                     color="primary"
                     dark
                     absolute
@@ -56,7 +58,7 @@
             </v-list>
           </v-expansion-panel-content>
         </v-expansion-panel>
-        <v-expansion-panel>
+        <v-expansion-panel v-if="isStoryTeller">
           <v-expansion-panel-header>{{$ml.get("refuges")}}</v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-list subheader two-line>
@@ -149,9 +151,11 @@ export default {
         lng: parseFloat(gmaps.geometry.location.lng)
       };
     }
-    this.players = await this.Service.playerService.getGroups(
-      this.$route.params.id
-    );
+    if (this.isStoryTeller) {
+      this.players = await this.Service.playerService.getGroups(
+        this.$route.params.id
+      );
+    }
     this.getPlaces();
   },
   methods: {
@@ -204,16 +208,18 @@ export default {
         this.places = places;
       });
 
-      this.Service.placeService.getRefuges(
-        this.$route.params.id
-      ).then(response => {
-        let places = response;
-        for (let i = 0; i < places.length; i++) {
-          let gmaps = JSON.parse(places[i].refuge);
-          places[i].gmaps = gmaps;
-        }
-        this.refuges = places;
-      });
+      if (this.isStoryTeller) {
+        this.Service.placeService.getRefuges(
+          this.$route.params.id
+        ).then(response => {
+          let places = response;
+          for (let i = 0; i < places.length; i++) {
+            let gmaps = JSON.parse(places[i].refuge);
+            places[i].gmaps = gmaps;
+          }
+          this.refuges = places;
+        });
+      }
     },
     closeModal() {
       this.selectedPlace = {};

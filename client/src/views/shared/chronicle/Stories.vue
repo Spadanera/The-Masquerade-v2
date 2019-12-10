@@ -75,12 +75,14 @@ export default {
   },
   props: {
     navVisible: Boolean,
-    sessionOnGoing: Boolean
+    sessionOnGoing: Boolean,
+    storyService: Object,
+    isPlayer: Boolean
   },
   methods: {
     async getStories(storyId) {
-      // input storyId
-      this.stories = await this.Service.storyService.getStories(
+      storyId = storyId || this.$route.params.storyid;
+      this.stories = await this.storyService.getStories(
         this.$route.params.id
       );
       if (this.stories.find(s => s.onGoing)) {
@@ -108,9 +110,12 @@ export default {
       window.setTimeout(() => (this.loaded = true), 300);
     },
     select(story, notToCloseNav) {
-      this.$router.push(
-        `/story-teller/chronicle/${this.$route.params.id}/stories/${story._id}`
-      ).catch(() => {});
+      this.index = this.stories.findIndex(s => s._id === story._id);
+      if (this.$route.params.storyid !== story._id) {
+        this.$router.push(
+          `/${this.isPlayer ? 'player' : 'story-teller'}/chronicle/${this.$route.params.id}/stories/${story._id}`
+        ).catch(() => {});
+      }
       if (!notToCloseNav) {
         this.ownNavVisible = false;
       }

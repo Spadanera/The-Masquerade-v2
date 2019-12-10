@@ -4,9 +4,10 @@ import implement from 'implement-js';
 
 const chronicle = {
     getChronicle: async (chronicleId) => {
-        return await client.get(
+        let response = await client.get(
             `/api/chronicles/player/${chronicleId}`
         );
+        return response.data;
     },
     getChronicles: async () => {
         let response = await client.get("/api/chronicles/player");

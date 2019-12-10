@@ -44,7 +44,7 @@
             v-if="edit && character.alive !== 'lastdeath'"
           >{{$ml.get("lastdeath")}}</v-btn>
           <v-btn
-            v-if="character.alive !== 'alive' && $vuetify.breakpoint.mdAndUp && edit"
+            v-if="character.alive !== 'alive' && $vuetify.breakpoint.mdAndUp && edit && (!isPlayer || !oneAlive)"
             @click="killOrResumeCharacter(1)"
           >{{$ml.get("resume")}}</v-btn>
           <v-btn v-if="$vuetify.breakpoint.mdAndUp" @click="close">{{$ml.get("close")}}</v-btn>
@@ -140,7 +140,7 @@
         v-if="edit && character.alive !== 'lastdeath'"
       >{{$ml.get("lastdeath")}}</v-btn>
       <v-btn
-        v-if="character.alive !== 'alive' && $vuetify.breakpoint.mdAndUp && edit"
+        v-if="character.alive !== 'alive' && $vuetify.breakpoint.mdAndUp && edit && (!isPlayer || !oneAlive)"
         @click="killOrResumeCharacter(1)"
       >{{$ml.get("resume")}}</v-btn>
       <v-btn @click="close">{{$ml.get("close")}}</v-btn>
@@ -167,7 +167,8 @@ export default {
     autoReload: Boolean,
     live: Boolean,
     characterService: Object,
-    edit: Boolean
+    edit: Boolean,
+    isPlayer: Boolean
   },
   data() {
     return {
@@ -197,7 +198,8 @@ export default {
       characterTabs: 0,
       fab: false,
       sessions: [],
-      history: false
+      history: false,
+      oneAlive: false
     };
   },
   methods: {
@@ -206,6 +208,9 @@ export default {
         this.characterId,
         autoreload
       );
+      if (this.isPlayer) {
+        this.oneAlive = await this.characterService.oneAlive();
+      }
       this.loaded = true;
       this.readonly = true;
     },

@@ -43,7 +43,7 @@
                 <v-form autocomplete="off">
                   <v-container>
                     <v-layout>
-                      <v-flex xs12 sm6>
+                      <v-flex xs12 sm6 v-if="!isPlayer">
                         <v-textarea
                           auto-grow
                           v-model="character.storyTellerNote"
@@ -58,7 +58,7 @@
                           <text-highlight :queries="search">{{character.storyTellerNote}}</text-highlight>
                         </div>
                       </v-flex>
-                      <v-flex xs12 sm6>
+                      <v-flex v-bind:class="{ xs12: !isPlayer, sm6: !isPlayer }">
                         <v-layout column>
                           <v-flex xs12 sm3 pr-2>
                             <v-text-field
@@ -105,20 +105,20 @@
     </v-layout>
     <v-footer color="primary" height="auto" style="width: 100%" class="session-footer">
       <v-layout justify-space-between>
-        <v-flex shrink v-if="modified">
+        <v-flex shrink v-if="modified && !isPlayer">
           <v-btn text color="white" @click="save" ma-0>{{$ml.get("save")}}</v-btn>
         </v-flex>
-        <v-flex shrink v-if="modified">
+        <v-flex shrink v-if="modified && !isPlayer">
           <v-btn text color="white" @click="getSession(sessionid)" ma-0>{{$ml.get("undo")}}</v-btn>
         </v-flex>
-        <v-flex shrink v-if="!readonly">
+        <v-flex shrink v-if="!readonly && !isPlayer">
           <v-btn text color="white" ma-0 @click="complete">{{$ml.get("complete")}}</v-btn>
         </v-flex>
         <v-flex shrink>
           <v-btn text color="white" @click="close" ma-0>{{$ml.get("close")}}</v-btn>
         </v-flex>
         <v-flex grow>
-          <v-layout justify-end>
+          <v-layout justify-end v-if="!isPlayer">
             <v-btn text color="white" @click="deleteSession">{{$ml.get("delete")}}</v-btn>
           </v-layout>
         </v-flex>
@@ -134,7 +134,9 @@ export default {
   props: {
     readonly: Boolean,
     sessionid: String,
-    search: Array
+    search: Array,
+    sessionService: Object,
+    isPlayer: Boolean
   },
   data() {
     return {
@@ -152,7 +154,7 @@ export default {
     },
     async save() {
       this.session.sessionDate = moment(this.sessionDate, "YYYY-MM-DD");
-      await this.Service.sessionService.updateSession(this.session);
+      await this.sessionService.updateSession(this.session);
       this.modified = false;
     },
     async complete() {
@@ -173,14 +175,14 @@ export default {
         }
       );
       if (res) {
-        this.Service.sessionService.deleteSession(this.session._id);
+        this.sessionService.deleteSession(this.session._id);
         this.$emit("complete");
       }
     },
     async getSession(sessionId) {
       if (sessionId) {
         this.session =
-          (await this.Service.sessionService.getSession(sessionId)) || {};
+          (await this.sessionService.getSession(sessionId)) || {};
         this.sessionDate = moment(this.session.sessionDate).format(
           "YYYY-MM-DD"
         );

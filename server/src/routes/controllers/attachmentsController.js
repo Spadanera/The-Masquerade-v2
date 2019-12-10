@@ -35,7 +35,7 @@ router.post("/:chronicleid", async (req, res) => {
 router.post("/file/:attachmentid", async (req, res) => {
     try {
         if (req.files && req.files.file) {
-            let attachment = await Attachment.findById(req.params.attachmentid);
+            let attachment = await Attachment.findOne({ _id: req.params.attachmentid, storyTeller: req.session.userId });
             attachment.file = imageToUri(req.files.file.path);
             await attachment.save();
             res.json(attachment);
@@ -53,7 +53,7 @@ router.post("/file/:attachmentid", async (req, res) => {
 // get attachment
 router.get("/:id", async (req, res) => {
     try {
-        let attachment = await Attachment.findOne({ _id: req.params.id });
+        let attachment = await Attachment.findOne(getQuery(req, { _id: req.params.id }));
         res.json(attachment);
     }
 
@@ -72,7 +72,7 @@ router.put("/:id", async (req, res) => {
             attachment.playerVisibility[i].playerName = player.userDisplayName;
             attachment.playerVisibility[i].playerImage = player.userPicture;
         }
-        await Attachment.findOneAndUpdate({ _id: req.params.id }, attachment);
+        await Attachment.findOneAndUpdate({ _id: req.params.id, storyTeller: req.session.userId }, attachment);
         res.json();
     }
 
@@ -85,7 +85,7 @@ router.put("/:id", async (req, res) => {
 // remove attachment
 router.delete("/:id", async (req, res) => {
     try {
-        let attachment = await Attachment.findOne({ _id: req.params.id });
+        let attachment = await Attachment.findOne({ _id: req.params.id, storyTeller: req.session.userId });
         attachment.remove();
         res.send("Deleted");
     }
@@ -99,7 +99,7 @@ router.delete("/:id", async (req, res) => {
 // get all attachments
 router.get("/chronicle/:chronicleid", async (req, res) => {
     try {
-        let attachment = await Attachment.find({ chronicleId: req.params.chronicleid });
+        let attachment = await Attachment.find(getQuery(req, { chronicleId: req.params.chronicleid }));
         res.json(attachment);
     }
 
@@ -108,5 +108,15 @@ router.get("/chronicle/:chronicleid", async (req, res) => {
         res.status(500).json(e);
     }
 });
+
+function getQuery(req, query) {
+    if (req.session.role === "story-teller") {
+        query.storyTeller = req.session.userId;
+    }
+    else {
+        query["playerVisibility.playerId"] = req.session.playerId;
+    }
+    return query;
+}
 
 export default router;

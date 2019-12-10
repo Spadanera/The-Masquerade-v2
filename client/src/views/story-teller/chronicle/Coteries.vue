@@ -114,9 +114,14 @@ export default {
     },
     select(coterie, notToCloseNav, forceNavigation) {
       if (!this.$route.params.characterid || forceNavigation) {
-        this.$router.push(
-          `/story-teller/chronicle/${this.$route.params.id}/coteries/${coterie._id}`
-        ).catch(() => {});
+        this.index = this.coteries.findIndex(c => c._id === coterie._id);
+        if (this.$route.params.listid !== coterie._id) {
+          this.$router
+            .push(
+              `/story-teller/chronicle/${this.$route.params.id}/coteries/${coterie._id}`
+            )
+            .catch(() => {});
+        }
         this.coterieDescription = coterie.description;
         this.coterieName = coterie.name;
       }

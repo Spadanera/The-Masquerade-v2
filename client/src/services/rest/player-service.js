@@ -22,12 +22,20 @@ const players = {
     getGroupCharacters: async (groupId) => {
         let response = await getCharacters(groupId);
         return response.data.characters.sort((a, b) => {
-            if (a.alive > b.alive) {
-                return -1;
-            } else if (a.alive < b.alive) {
-                return 1;
-            } else {
+            if (a.alive === b.alive) {
                 return a.createdAt - b.createdAt;
+            }
+            if (a.alive === "alive") {
+                return -1;
+            }
+            if (b.alive === "alive") {
+                return 1;
+            }
+            if (a.alive === "torpor") {
+                return -1;
+            }
+            if (b.alive === "torpor") {
+                return 1;
             }
         });
     },
@@ -83,7 +91,8 @@ const players = {
             await client.put(`api/characters/${character._id}`, { alive: label });
         }
     },
-    deleteCharacterInGroup: async () => { }
+    deleteCharacterInGroup: async () => { },
+    oneAlive: async () => { }
 };
 
 function getCharacters(groupId) {

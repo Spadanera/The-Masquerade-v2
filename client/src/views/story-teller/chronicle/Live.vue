@@ -86,6 +86,7 @@
         :sessionid="onGoingSession._id"
         @close="sheet=false"
         @complete="sessionCompleted"
+        :sessionService="Service.sessionService"
       />
     </v-bottom-sheet>
     <v-dialog v-model="dialog" width="290">

@@ -57,6 +57,7 @@ export default new MLCreate({
             shortDescription: "Short description",
             noChronicle: "No Chronicle created",
             needCreation: "You have to create a Chronicle to start your story telling",
+            personal: "Personal",
 
             // button label
             close: "Close",
@@ -237,6 +238,7 @@ export default new MLCreate({
             shortDescription: "Breve descrizione",
             noChronicle: "Nessuna cronaca creata",
             needCreation: "E' necessario creare una cronaca per iniziare la tua narrazione",
+            personal: "Personali",
 
             // button label
             close: "Chiudi",
@@ -596,6 +598,7 @@ export default new MLCreate({
             shortDescription: "Breve descripción",
             noChronicle: "No se ha creado ninguna crónica.",
             needCreation: "Tienes que crear una crónica para comenzar a contar tu historia",
+            personal: "Personal",
 
             // button label
             close: "Cerca",
@@ -776,6 +779,7 @@ export default new MLCreate({
             shortDescription: "Pequena descrição",
             noChronicle: "Nenhuma Crônica criada",
             needCreation: "Você precisa criar uma Crônica para começar a contar sua história",
+            personal: "Pessoal",
 
             // button label
             close: "Fechar",

@@ -37,7 +37,7 @@ router.post("/:chronicleid", async (req, res) => {
 // get place
 router.get("/:id", async (req, res) => {
     try {
-        let place = await Place.findOne({ _id: req.params.id });
+        let place = await Place.findOne({ _id: req.params.id, storyTellerId: req.session.userId });
         place.gmaps = JSON.parse(place.gmaps);
         res.json(place);
     }
@@ -51,7 +51,16 @@ router.get("/:id", async (req, res) => {
 // get all places
 router.get("/chronicle/:chronicleid", async (req, res) => {
     try {
-        let places = await Place.find({ chronicleId: req.params.chronicleid });
+        let query = {
+            chronicleId: req.params.chronicleid
+        };
+        if (req.session.role === "story-teller") {
+            query.storyTellerId = req.session.userId;
+        }
+        else {
+            query["playerVisibility.playerId"] = req.session.playerId;
+        }
+        let places = await Place.find(query);
         res.json(places);
     }
     catch (e) {
@@ -63,7 +72,7 @@ router.get("/chronicle/:chronicleid", async (req, res) => {
 // get all refuges
 router.get("/refuges/:chronicleid", async (req, res) => {
     try {
-        let places = await Character.find({ chronicleId: req.params.chronicleid, alive: "alive", refuge: { $exists: true } }, {
+        let places = await Character.find({ chronicleId: req.params.chronicleid, storyTellerId: req.session.userId, alive: "alive", refuge: { $exists: true } }, {
             name: 1, picture: 1, refuge: 1
         });
         res.json(places);
@@ -83,7 +92,7 @@ router.put("/:id", async (req, res) => {
             place.playerVisibility[i].playerName = player.userDisplayName;
             place.playerVisibility[i].playerImage = player.userPicture;
         }
-        await Place.findOneAndUpdate({ _id: place._id }, place);
+        await Place.findOneAndUpdate({ _id: place._id, storyTeller: req.session.userId }, place);
         res.send("updated");
     }
     catch (e) {
@@ -95,7 +104,7 @@ router.put("/:id", async (req, res) => {
 // remove place
 router.delete("/:id", async (req, res) => {
     try {
-        let place = await Place.findOne({ _id: req.params.id });
+        let place = await Place.findOne({ _id: req.params.id, storyTeller: req.session.userId });
         place.remove();
         res.send("Deleted");
     }

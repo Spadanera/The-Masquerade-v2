@@ -11,7 +11,7 @@
           <v-card-text style="padding: 0;">
             <v-tabs centered grow slider-color="primary" v-model="selectedTab">
               <v-tab>{{$ml.get("publicStory")}}</v-tab>
-              <v-tab>{{$ml.get("privateStory")}}</v-tab>
+              <v-tab v-if="!isPlayer">{{$ml.get("privateStory")}}</v-tab>
               <v-tab-item>
                 <v-card flat>
                   <v-card-text v-if="!editing" v-html="$parent.chronicle.publicStory"></v-card-text>
@@ -24,7 +24,7 @@
                   ></ckeditor>
                 </v-card>
               </v-tab-item>
-              <v-tab-item>
+              <v-tab-item v-if="!isPlayer">
                 <v-card flat>
                   <v-card-text v-html="$parent.chronicle.privateStory" v-if="!editing"></v-card-text>
                   <ckeditor
@@ -38,7 +38,7 @@
               </v-tab-item>
             </v-tabs>
           </v-card-text>
-          <v-card-actions>
+          <v-card-actions v-if="!isPlayer">
             <v-spacer></v-spacer>
             <v-btn text @click="startEditing" v-if="!editing">{{$ml.get("edit")}}</v-btn>
             <v-btn text @click="saveStory()" v-if="editing">{{$ml.get("save")}}</v-btn>
@@ -98,6 +98,8 @@
         @close="sessionSheet=false"
         @complete="getStories"
         :search="search ? search.split(' ') : []"
+        :isPlayer="isPlayer"
+        :sessionService="sessionService"
       />
     </v-bottom-sheet>
   </v-layout>
@@ -111,7 +113,10 @@ export default {
     SessionForm
   },
   props: {
-    loaded: Boolean
+    loaded: Boolean,
+    sessionService: Object,
+    storyService: Object,
+    isPlayer: Boolean
   },
   data() {
     return {
@@ -152,7 +157,7 @@ export default {
       this.editing = false;
     },
     async getStories() {
-      this.stories = await this.Service.storyService.getStories(
+      this.stories = await this.storyService.getStories(
         this.$route.params.id
       );
       await this.getSessions();
@@ -168,7 +173,7 @@ export default {
       for (let i = 0; i < storyLenght; i++) {
         if (this.search) {
           let story = this.stories[i];
-          this.Service.sessionService
+          this.sessionService
             .searchSessions(
               this.search,
               this.$route.params.id,
@@ -181,7 +186,7 @@ export default {
             });
         } else {
           let story = this.stories[i];
-          this.Service.sessionService
+          this.sessionService
             .getSessions(this.stories[i]._id)
             .then(response => {
               story.sessions = response;

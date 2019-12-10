@@ -57,14 +57,14 @@
             >{{$ml.get("lastdeath")}}</v-btn>
             <v-btn
               text
-              v-if="character.alive !== 'alive' && edit"
+              v-if="character.alive !== 'alive' && edit && (!player || !oneAlive)"
               @click="killOrResumeCharacter(character, 1)"
             >{{$ml.get("resume")}}</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
-    <v-btn color="primary" v-if="edit" dark fixed bottom right fab @click="dialog = true">
+    <v-btn color="primary" v-if="edit && (!player || !oneAlive)" dark fixed bottom right fab @click="dialog = true">
       <v-icon>add</v-icon>
     </v-btn>
     <AddCharacter
@@ -88,13 +88,15 @@ export default {
     groupService: Object,
     edit: Boolean,
     description: String,
-    groupname: String
+    groupname: String,
+    player: Boolean
   },
   data() {
     return {
       characters: [],
       dialog: false,
-      darkTheme: false
+      darkTheme: false,
+      oneAlive: false
     };
   },
   methods: {
@@ -104,6 +106,12 @@ export default {
         listid,
         this
       );
+      if (this.characters.find(c => c.alive === "alive")) {
+        this.oneAlive = true;
+      }
+      else {
+        this.oneAlive = false;
+      }
     },
     openCharacter(characterId) {
       this.groupService.openCharacter(characterId, this);

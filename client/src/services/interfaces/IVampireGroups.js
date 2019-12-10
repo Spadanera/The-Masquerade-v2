@@ -14,7 +14,8 @@ const VampireGroups = Interface('IVampireGroups')({
     updateCharacter: type('function'),
     getCharacter: type('function'),
     killOrResumeCharacter: type('function'),
-    deleteCharacterInGroup: type('function')
+    deleteCharacterInGroup: type('function'),
+    oneAlive: type('function')
 }, {
     error: true,
     strict: true 

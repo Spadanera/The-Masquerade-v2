@@ -98,7 +98,8 @@ const coteries = {
             await client.put(`api/characters/${character._id}`, { alive: label });
         }
     },
-    deleteCharacterInGroup: async () => {}
+    deleteCharacterInGroup: async () => {},
+    oneAlive: async () => { }
 };
 
 async function savePictureFile(characterId, file, toDelete) {

@@ -28,6 +28,46 @@ router.post("/:id", async (req, res) => {
     }
 });
 
+// get by id for player
+router.get("/player/:id", async (req, res) => {
+    try {
+        let story = await Story.findOne({ _id: req.params.id });
+        if (story) {
+            let chronicle = await Chronicle.findOne({
+                stories: { $in: [story._id] },
+                players: { $in: [req.session.playerId] }
+            });
+            if (chronicle) {
+                res.json(story);
+            }
+            else {
+                res.json({});
+            }
+        }
+        else {
+            res.json({});
+        }
+    } catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
+});
+
+// get all by chronicle id for player
+router.get("/all/player/:id", async (req, res) => {
+    try {
+        let chronicle = await Chronicle.findOne({ _id: req.params.id, players: { $in: [req.session.playerId] } }).populate("stories");
+        if (chronicle) {
+            res.json(chronicle.stories.sort((a, b) => a.createdAt < b.createdAt));
+        } else {
+            res.json([]);
+        }
+    } catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
+});
+
 // get by id
 router.get("/:id", async (req, res) => {
     try {

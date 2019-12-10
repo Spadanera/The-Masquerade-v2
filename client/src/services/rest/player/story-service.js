@@ -3,12 +3,18 @@ import IStory from '../../interfaces/IStory';
 import implement from 'implement-js';
 
 const story = {
-    getStories: async (component) => {
-        await client.get(
-            `/api/stories/all/${component.$route.params.id}`
+    getStories: async (chronicleId) => {
+        let response = await client.get(
+            `/api/stories/all/player/${chronicleId}`
         );
+        return response.data;
     },
-    getStory: async () => {},
+    getStory: async (storyId) => {
+        let response = await client.get(
+            `/api/stories/player/${storyId}`
+        );
+        return response.data;
+    },
     createStory: async () => {},
     updateStory: async () => {},
     insertSession: async () => {},

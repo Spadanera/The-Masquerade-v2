@@ -11,11 +11,7 @@
     >
       <v-list subheader avatar>
         <v-subheader class="headline cavatelo">{{$ml.get('players')}}</v-subheader>
-        <v-skeleton-loader
-          type="list-item-avatar"
-          :loading="!loaded"
-          transition="fade-transition"
-        >
+        <v-skeleton-loader type="list-item-avatar" :loading="!loaded" transition="fade-transition">
           <v-list-item-group v-model="index">
             <v-list-item
               v-for="(player, i) in players"
@@ -117,9 +113,14 @@ export default {
     },
     select(player, notToCloseNav, forceNavigation) {
       if (!this.$route.params.characterid || forceNavigation) {
-        this.$router.push(
-          `/story-teller/chronicle/${this.$route.params.id}/players/${player._id}`
-        ).catch(() => {});
+        this.index = this.players.findIndex(p => p._id === player._id);
+        if (this.$route.params.listid !== player._id) {
+          this.$router
+            .push(
+              `/story-teller/chronicle/${this.$route.params.id}/players/${player._id}`
+            )
+            .catch(() => {});
+        }
       }
       if (!notToCloseNav) {
         this.ownNavVisible = false;

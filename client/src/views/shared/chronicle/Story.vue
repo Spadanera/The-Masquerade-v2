@@ -53,7 +53,7 @@
           <v-card-title>
             <v-layout wrap>
               <v-flex ref="headline" xs12 sm6 md8 lg6 xl7>
-                <span class="headline">{{$ml.get("sessionsTimeline")}}</span>
+                <span class="headline" style="word-break: break-word;">{{$ml.get("sessionsTimeline")}}</span>
               </v-flex>
               <v-flex xs12 sm6 md4 lg6 xl5>
                 <v-form autocomplete="off" @submit.prevent="getSessions(story._id)">
@@ -91,7 +91,7 @@
     </v-flex>
     <v-btn
       @click="endStory(story._id)"
-      v-if="story.onGoing && !sessionOnGoing"
+      v-if="!isPlayer && story.onGoing && !sessionOnGoing"
       color="primary"
       dark
       fixed
@@ -102,7 +102,7 @@
     </v-btn>
     <v-btn
       @click="setOnGoing(story._id)"
-      v-if="!story.onGoing && !onGoingStory && !sessionOnGoing"
+      v-if="!isPlayer && !story.onGoing && !onGoingStory && !sessionOnGoing"
       color="primary"
       dark
       fixed
@@ -118,6 +118,8 @@
         @close="sessionSheet=false"
         @complete="getStory"
         :search="search ? search.split(' ') : []"
+        :isPlayer="isPlayer"
+        :sessionService="sessionService"
       />
     </v-bottom-sheet>
   </v-layout>
@@ -132,7 +134,10 @@ export default {
   },
   props: {
     onGoingStory: Boolean,
-    sessionOnGoing: Boolean
+    sessionOnGoing: Boolean,
+    storyService: Object,
+    sessionService: Object,
+    isPlayer: Boolean
   },
   data() {
     return {
@@ -176,7 +181,7 @@ export default {
     async getStory(storyId) {
       this.sessionSheet = false;
       storyId = storyId || this.$route.params.storyid;
-      this.story = await this.Service.storyService.getStory(storyId);
+      this.story = await this.storyService.getStory(storyId);
       this.getSessions(storyId);
       this.loaded = true;
     },
@@ -185,13 +190,13 @@ export default {
         this.search = "";
       }
       if (this.search) {
-        this.story.sessions = await this.Service.sessionService.searchSessions(
+        this.story.sessions = await this.sessionService.searchSessions(
           this.search,
           this.$route.params.id,
           storyId
         );
       } else {
-        this.story.sessions = await this.Service.sessionService.getSessions(
+        this.story.sessions = await this.sessionService.getSessions(
           storyId
         );
       }
@@ -209,7 +214,7 @@ export default {
         title: this.$ml.get("warning")
       });
       if (res) {
-        await this.Service.storyService.startStory(
+        await this.storyService.startStory(
           this.$route.params.id,
           storyId
         );
@@ -222,7 +227,7 @@ export default {
         title: this.$ml.get("warning")
       });
       if (res) {
-        await this.Service.storyService.closeStory(storyId);
+        await this.storyService.closeStory(storyId);
         this.getStory();
         this.$emit("ongoing");
       }

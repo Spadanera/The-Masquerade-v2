@@ -117,15 +117,26 @@ export default new Router({
           children: [
             {
               path: "dashboard",
-              component: Dashboard
+              component: Dashboard,
+              props: () => ({
+                sessionService: Service.sessionService,
+                storyService: Service.storyService
+              })
             },
             {
               path: "stories",
               component: Stories,
+              props: () => ({
+                storyService: Service.storyService
+              }),
               children: [
                 {
                   path: ":storyid",
                   component: Story,
+                  props: () => ({
+                    storyService: Service.storyService,
+                    sessionService: Service.sessionService,
+                  })
                 }
               ]
             },
@@ -231,12 +242,6 @@ export default new Router({
               {
                 tooltip: "attachments",
                 icon: "",
-                iconClass: "icon-play",
-                route: "attachments"
-              },
-              {
-                tooltip: "attachments",
-                icon: "",
                 iconClass: "icon-attachment",
                 route: "attachments"
               },
@@ -252,15 +257,29 @@ export default new Router({
           children: [
             {
               path: "dashboard",
-              component: Dashboard
+              component: Dashboard,
+              props: () => ({
+                isPlayer: true,
+                sessionService: Service.dedicatedPlayerService.sessionService,
+                storyService: Service.dedicatedPlayerService.storyService
+              })
             },
             {
               path: "stories",
               component: Stories,
+              props: () => ({
+                storyService: Service.dedicatedPlayerService.storyService,
+                isPlayer: true
+              }),
               children: [
                 {
                   path: ":storyid",
                   component: Story,
+                  props: () => ({
+                    storyService: Service.dedicatedPlayerService.storyService,
+                    sessionService: Service.dedicatedPlayerService.sessionService,
+                    isPlayer: true
+                  })
                 }
               ]
             },
@@ -269,7 +288,8 @@ export default new Router({
               component: CharacterList,
               props: () => ({
                 groupService: Service.dedicatedPlayerService.playerService,
-                edit: true
+                edit: true,
+                player: true
               })
             },
             {
@@ -277,7 +297,8 @@ export default new Router({
               component: Character,
               props: () => ({
                 groupService: Service.dedicatedPlayerService.playerService,
-                edit: true
+                edit: true,
+                isPlayer: true
               })
             },
             {

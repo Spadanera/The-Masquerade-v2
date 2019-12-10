@@ -7,6 +7,7 @@
     @close="close"
     :characterService="groupService"
     :edit="edit"
+    :isPlayer="isPlayer"
   />
 </template>
 
@@ -18,7 +19,8 @@ export default {
   },
   props: {
     groupService: Object,
-    edit: Boolean
+    edit: Boolean,
+    isPlayer: Boolean
   },
   methods: {
     close() {

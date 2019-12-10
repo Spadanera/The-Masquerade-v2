@@ -4,6 +4,7 @@ const router = require('express').Router();
 import Session from '../../models/Session';
 import Story from '../../models/Story';
 import Chronicle from '../../models/Chronicle';
+import Character from '../../models/Character';
 
 // Create new session
 router.post("/:id", async (req, res) => {
@@ -25,6 +26,39 @@ router.post("/:id", async (req, res) => {
     catch (e) {
         console.error(e);
         res.status(500).send(e.message);
+    }
+});
+
+// get by id for player
+router.get("/player/:id", async (req, res) => {
+    try {
+        let characters = await Character.find({ userId: req.session.userId }).select("_id");
+        let session = await Session.findOne({ _id: req.params.id, "characters.characterId": { $in: characters } }, {
+            globalNote: true,
+            characters: true,
+            sessionDate: true,
+            "characters.characterId": true,
+            "characters.playerNote": true,
+            "characters.experiencePoints": true,
+            "characters.characterName": true
+        });
+        if (session) {
+            res.json({
+                _id: session._id,
+                globalNote: session.globalNote,
+                characters: session.characters.filter(c => {
+                    return characters.find(character => {
+                        return character._id.equals(c.characterId);
+                    });
+                })
+            });
+        }
+        else {
+            res.json({});
+        }
+    } catch (e) {
+        console.error(e);
+        res.status(500).json(e);
     }
 });
 
@@ -69,13 +103,26 @@ router.get("/ongoing/:id", async (req, res) => {
 // get all by story id
 router.get("/all/:id", async (req, res) => {
     try {
-        let story = await Story.findOne({ _id: req.params.id, storyTeller: req.session.userId }).populate("sessions");
-        if (story) {
-            res.json(story.sessions.filter(s => s.completed === true).sort((a, b) => a.sessionDate < b.sessionDate ? 1 : -1));
+        var query = {
+            storyId: req.params.id,
+            completed: true
+        };
+
+        if (req.session.role === "player") {
+            let characters = await Character.find({ userId: req.session.userId }, "_id");
+            query["characters.characterId"] = {
+                $in: characters
+            };
         }
         else {
-            res.json([]);
+            query.storyTeller = req.session.userId;
         }
+
+        let sessions = await Session.find(query, {
+            sessionDate: true,
+            globalNote: true
+        });
+        res.json(sessions.sort((a, b) => a.sessionDate < b.sessionDate ? 1 : -1));
     } catch (e) {
         console.error(e);
         res.status(500).json(e);
@@ -90,16 +137,29 @@ router.delete("/:id", async (req, res) => {
 
 router.get("/search/:chronicleid/", async (req, res) => {
     try {
-        let search = {
+        let query = {
             $text: { $search: req.query.search },
-            chronicleId: req.params.chronicleid,
-            // userId: req.session.userId
+            chronicleId: req.params.chronicleid
         };
         if (req.query.storyid) {
-            search.storyId = req.query.storyid;
+            query.storyId = req.query.storyid;
         }
-        let sessions = await Session.find(search);
-        res.send(sessions);
+
+        if (req.session.role === "player") {
+            let characters = await Character.find({ userId: req.session.userId }, "_id");
+            query["characters.characterId"] = {
+                $in: characters
+            };
+        }
+        else {
+            query.storyTeller = req.session.userId;
+        }
+
+        let sessions = await Session.find(query, {
+            sessionDate: true,
+            globalNote: true
+        });
+        res.send(sessions.sort((a, b) => a.sessionDate < b.sessionDate ? 1 : -1));
     } catch (e) {
         console.error(e);
         res.status(500).json(e);
