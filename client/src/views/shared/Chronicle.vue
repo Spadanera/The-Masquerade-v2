@@ -46,15 +46,10 @@
         :loaded="loaded"
       ></router-view>
     </transition>
-    <v-alert
-      class="left-alert"
-      :value="sessionOnGoing && navVisible && $route.fullPath.indexOf('live') < 0"
-      color="primary"
-      icon="priority_high"
-      transition="scale-transition"
-    >
-    <span v-on:click="showSession()">{{$ml.get("sessionOnGoing")}}</span>
-    </v-alert>
+    <v-snackbar v-model="showSnackbar" :timeout="0">
+      {{ $ml.get("sessionOnGoing") }}
+      <v-btn color="primary" text @click="showSession()">{{$ml.get("open")}}</v-btn>
+    </v-snackbar>
     <v-bottom-sheet v-model="sheet" persistent>
       <SessionForm
         :readonly="false"
@@ -138,6 +133,11 @@ export default {
       },
       set(val) {
         this.nav.visible = val;
+      }
+    },
+    showSnackbar: {
+      get() {
+        return this.sessionOnGoing && this.navVisible && this.$route.fullPath.indexOf('live') < 0 && !this.sheet;
       }
     }
   },
