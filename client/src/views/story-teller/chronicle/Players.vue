@@ -47,9 +47,12 @@
         color="primary"
         style="padding-top: 2px;"
         @click="dialog=true"
+        v-if="loaded"
       >{{$ml.get("invitePlayer")}}</v-btn>
     </v-navigation-drawer>
-    <router-view></router-view>
+    <transition name="fade" mode="out-in">
+      <router-view :key="$route.fullPath"></router-view>
+    </transition>
     <v-flex v-if="players.length === 0 && !navVisible" class="hidden-lg-and-up">
       <v-btn color="primary" @click="dialog=true">{{$ml.get("invitePlayer")}}</v-btn>
     </v-flex>

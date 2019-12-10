@@ -78,7 +78,24 @@ export default {
   box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* .v-speed-dial--right {
-  right: 44px !important
-} */
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: .3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
+}
+
+.page-enter-active, .page-leave-active {
+  transition: opacity 1s, transform 1s;
+}
+.page-enter, .page-leave-to {
+  opacity: 0;
+  transform: translateX(30%);
+}
+
 </style>

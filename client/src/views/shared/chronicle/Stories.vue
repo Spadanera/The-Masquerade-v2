@@ -41,13 +41,17 @@
         color="primary"
         style="padding-top: 2px;"
         @click="dialog=true"
+        v-if="loaded"
       >{{$ml.get("createStory")}}</v-btn>
     </v-navigation-drawer>
-    <router-view
-      :onGoingStory="onGoingStory"
-      @ongoing="getStories"
-      :sessionOnGoing="sessionOnGoing"
-    ></router-view>
+    <transition name="fade" mode="out-in">
+      <router-view
+        :key="$route.fullPath"
+        :onGoingStory="onGoingStory"
+        @ongoing="getStories"
+        :sessionOnGoing="sessionOnGoing"
+      ></router-view>
+    </transition>
     <AddStory
       :dialog="dialog"
       :chronicle-id="this.$route.params.id"
@@ -82,9 +86,7 @@ export default {
   methods: {
     async getStories(storyId) {
       storyId = storyId || this.$route.params.storyid;
-      this.stories = await this.storyService.getStories(
-        this.$route.params.id
-      );
+      this.stories = await this.storyService.getStories(this.$route.params.id);
       if (this.stories.find(s => s.onGoing)) {
         this.onGoingStory = true;
       } else {
@@ -112,9 +114,13 @@ export default {
     select(story, notToCloseNav) {
       this.index = this.stories.findIndex(s => s._id === story._id);
       if (this.$route.params.storyid !== story._id) {
-        this.$router.push(
-          `/${this.isPlayer ? 'player' : 'story-teller'}/chronicle/${this.$route.params.id}/stories/${story._id}`
-        ).catch(() => {});
+        this.$router
+          .push(
+            `/${this.isPlayer ? "player" : "story-teller"}/chronicle/${
+              this.$route.params.id
+            }/stories/${story._id}`
+          )
+          .catch(() => {});
       }
       if (!notToCloseNav) {
         this.ownNavVisible = false;

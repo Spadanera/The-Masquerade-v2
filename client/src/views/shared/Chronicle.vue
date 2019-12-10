@@ -35,15 +35,17 @@
       v-if="navVisible && this.$vuetify.breakpoint.mdAndDown"
       @click="navVisible = false"
     ></div>
-    <router-view
-      style="height: 100%"
-      @updated="loadChronicle"
-      :navVisible="navVisible"
-      @closenavbar="closeNavBar"
-      :sessionOnGoing="sessionOnGoing"
-      :gmaps="chronicle.gmaps"
-      :loaded="loaded"
-    ></router-view>
+    <transition name="fade" mode="out-in">
+      <router-view
+        style="height: 100%"
+        @updated="loadChronicle"
+        :navVisible="navVisible"
+        @closenavbar="closeNavBar"
+        :sessionOnGoing="sessionOnGoing"
+        :gmaps="chronicle.gmaps"
+        :loaded="loaded"
+      ></router-view>
+    </transition>
     <v-alert
       v-if="$route.fullPath.indexOf('live') < 0"
       style="position: absolute;
