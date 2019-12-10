@@ -47,33 +47,48 @@
       ></router-view>
     </transition>
     <v-alert
-      v-if="$route.fullPath.indexOf('live') < 0"
-      style="position: absolute;
-    bottom: 0px;
-    left: 0px;
-    width: 380px;
-    margin-bottom: 0px;
-    z-index: 10;"
-      :value="sessionOnGoing && navVisible"
+      class="left-alert"
+      :value="sessionOnGoing && navVisible && $route.fullPath.indexOf('live') < 0"
       color="primary"
       icon="priority_high"
       transition="scale-transition"
-    >{{$ml.get("sessionOnGoing")}}</v-alert>
+    >
+    <span v-on:click="showSession()">{{$ml.get("sessionOnGoing")}}</span>
+    </v-alert>
+    <v-bottom-sheet v-model="sheet" persistent>
+      <SessionForm
+        :readonly="false"
+        :sessionid="onGoingSession._id"
+        @close="sheet=false"
+        @complete="sessionCompleted"
+        :sessionService="sessionService"
+        :isPlayer="isPlayer"
+        :search="[]"
+      />
+    </v-bottom-sheet>
   </v-layout>
 </template>
 
 <script>
+import SessionForm from "../../components/live/SessionForm";
 export default {
+  components: {
+    SessionForm
+  },
   props: {
     nav: Object,
     sections: Array,
-    chronicleService: Object
+    chronicleService: Object,
+    sessionService: Object,
+    isPlayer: Boolean
   },
   data() {
     return {
       chronicle: {},
       sessionOnGoing: false,
-      loaded: false
+      onGoingSession: {},
+      loaded: false,
+      sheet: false
     };
   },
   methods: {
@@ -92,10 +107,29 @@ export default {
     },
     closeNavBar() {
       this.navVisible = false;
+    },
+    sessionCompleted() {
+      this.onGoingSession = {};
+      this.sessionOnGoing = false;
+      this.sheet = false;
+    },
+    showSession() {
+      this.sheet = true;
+    },
+    async getOngoingSession() {
+      this.onGoingSession =
+        (await this.sessionService.getOnGoingSession(this.$route.params.id)) ||
+        {};
+      if (this.onGoingSession.sessionDate) {
+        this.sessionOnGoing = true;
+      } else {
+        this.sessionOnGoing = false;
+      }
     }
   },
   created() {
     this.loadChronicle();
+    this.getOngoingSession();
   },
   computed: {
     navVisible: {
@@ -109,15 +143,7 @@ export default {
   },
   async beforeRouteUpdate(to, from, next) {
     if (this.$route.params.id) {
-      this.onGoingSession =
-        (await this.Service.sessionService.getOnGoingSession(
-          this.$route.params.id
-        )) || {};
-      if (this.onGoingSession.sessionDate) {
-        this.sessionOnGoing = true;
-      } else {
-        this.sessionOnGoing = false;
-      }
+      this.getOngoingSession();
     }
     next();
   }
@@ -168,5 +194,15 @@ export default {
 }
 .v-timeline-item__dot {
   z-index: 0 !important;
+}
+
+.left-alert {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 380px;
+  margin-bottom: 0px;
+  z-index: 10;
+  cursor: pointer;
 }
 </style>

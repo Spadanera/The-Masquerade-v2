@@ -3,7 +3,6 @@
 const router = require('express').Router();
 import Session from '../../models/Session';
 import Story from '../../models/Story';
-import Chronicle from '../../models/Chronicle';
 import Character from '../../models/Character';
 
 // Create new session
@@ -46,6 +45,7 @@ router.get("/player/:id", async (req, res) => {
             res.json({
                 _id: session._id,
                 globalNote: session.globalNote,
+                sessionDate: session.sessionDate,
                 characters: session.characters.filter(c => {
                     return characters.find(character => {
                         return character._id.equals(c.characterId);
@@ -72,6 +72,28 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+// update by id for player
+router.put("/player/:id", async (req, res) => {
+    try {
+        let session = await Session.findById(req.params.id);
+        let characters = await Character.find({ chronicleId: session.chronicleId, userId: req.session.userId }, "_id");
+        await Session.findOneAndUpdate({
+            _id: req.params.id,
+            "characters.characterId": {
+                $in: characters
+            },
+        }, { 
+            "$set": {
+                "characters.$.playerNote": req.body.characters[0].playerNote
+            }
+        });
+        res.json({});
+    } catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
+});
+
 // update by id
 router.put("/:id", async (req, res) => {
     try {
@@ -79,6 +101,49 @@ router.put("/:id", async (req, res) => {
             _id: req.params.id,
             storyTeller: req.session.userId,
         }, req.body));
+    } catch (e) {
+        console.error(e);
+        res.status(500).json(e);
+    }
+});
+
+// get on going session by chronicle id
+router.get("/ongoing/player/:id", async (req, res) => {
+    try {
+        if (await Story.findOne({ chronicleId: req.params.id, onGoing: true })) {
+            let characters = await Character.find({ userId: req.session.userId }).select("_id");
+            let session = await Session.findOne({ 
+                chronicleId: req.params.id, 
+                "characters.characterId": { $in: characters }, 
+                completed: false 
+            }, {
+                globalNote: true,
+                characters: true,
+                sessionDate: true,
+                "characters.characterId": true,
+                "characters.playerNote": true,
+                "characters.experiencePoints": true,
+                "characters.characterName": true
+            });
+            if (session) {
+                res.json({
+                    _id: session._id,
+                    globalNote: session.globalNote,
+                    sessionDate: session.sessionDate,
+                    characters: session.characters.filter(c => {
+                        return characters.find(character => {
+                            return character._id.equals(c.characterId);
+                        });
+                    })
+                });
+            }
+            else {
+                res.json({});
+            }
+        }
+        else {
+            res.json({ noStory: true });
+        }
     } catch (e) {
         console.error(e);
         res.status(500).json(e);

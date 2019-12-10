@@ -112,7 +112,8 @@ export default new Router({
                 route: "live"
               }
             ],
-            chronicleService: Service.chronicleService
+            chronicleService: Service.chronicleService,
+            sessionService: Service.sessionService
           }),
           children: [
             {
@@ -252,7 +253,9 @@ export default new Router({
                 route: "places"
               }
             ],
-            chronicleService: Service.dedicatedPlayerService.chronicleService
+            chronicleService: Service.dedicatedPlayerService.chronicleService,
+            sessionService: Service.dedicatedPlayerService.sessionService,
+            isPlayer: true
           }),
           children: [
             {

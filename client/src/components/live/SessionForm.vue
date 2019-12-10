@@ -1,11 +1,17 @@
 <template>
   <v-layout column :style="{background: darkTheme ? '#424242' : '#FFFFFF' }">
-    <v-banner 
-    class="primary white--text" 
-    v-if="$vuetify.breakpoint.smAndDown">{{moment(sessionDate).format($ml.get("dateFormat"))}}</v-banner>
+    <v-banner
+      class="primary white--text"
+      v-if="$vuetify.breakpoint.smAndDown"
+    >{{moment(sessionDate).format($ml.get("dateFormat"))}}</v-banner>
     <v-layout>
       <v-flex shrink v-if="$vuetify.breakpoint.mdAndUp">
-        <v-date-picker :locale="$ml.current" :readonly="readonly" v-model="sessionDate" color="primary"></v-date-picker>
+        <v-date-picker
+          :locale="$ml.current"
+          :readonly="readonly"
+          v-model="sessionDate"
+          color="primary"
+        ></v-date-picker>
       </v-flex>
       <v-flex>
         <v-tabs style="padding-left: 3px;" grow v-model="active" slider-color="primary" show-arrows>
@@ -26,7 +32,7 @@
                       :clearable="!readonly"
                       :readonly="readonly"
                       rows="1"
-                      v-if="!readonly"
+                      v-if="!readonly && !isPlayer"
                     />
                     <div v-else>
                       <h4>{{$ml.get("globalNote")}}</h4>
@@ -66,7 +72,7 @@
                               type="number"
                               :label="$ml.get('experiencePoints')"
                               v-model="character.experiencePoints"
-                              v-if="!readonly"
+                              v-if="!readonly && !isPlayer"
                             ></v-text-field>
                             <div v-else>
                               <h3>
@@ -83,9 +89,9 @@
                               v-model="character.playerNote"
                               :label="$ml.get('playerNote')"
                               :clearable="!readonly"
-                              readonly
+                              :readonly="readonly"
                               rows="1"
-                              v-if="!readonly"
+                              v-if="!readonly && isPlayer"
                             />
                             <div v-else>
                               <h3>{{$ml.get('playerNote')}}</h3>
@@ -105,7 +111,7 @@
     </v-layout>
     <v-footer color="primary" height="auto" style="width: 100%" class="session-footer">
       <v-layout justify-space-between>
-        <v-flex shrink v-if="modified && !isPlayer">
+        <v-flex shrink v-if="modified">
           <v-btn text color="white" @click="save" ma-0>{{$ml.get("save")}}</v-btn>
         </v-flex>
         <v-flex shrink v-if="modified && !isPlayer">
@@ -181,8 +187,7 @@ export default {
     },
     async getSession(sessionId) {
       if (sessionId) {
-        this.session =
-          (await this.sessionService.getSession(sessionId)) || {};
+        this.session = (await this.sessionService.getSession(sessionId)) || {};
         this.sessionDate = moment(this.session.sessionDate).format(
           "YYYY-MM-DD"
         );
