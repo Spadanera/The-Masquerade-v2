@@ -145,18 +145,19 @@ function dbConnect() {
 }
 
 async function deleteData(userId) {
+    let chronicle = await Chronicle.findOne({ storyTeller: userId });
+    await Session.deleteMany({ storyTeller: userId });
+    await Story.deleteMany({ storyTeller: userId });
+    await Character.deleteMany({ chronicleId: chronicle._id });
+    await Player.deleteMany({ chronicleId: chronicle._id });
+    await Coterie.deleteMany({ userId: userId });
+    await Chronicle.deleteMany({ storyTeller: userId });
     if (env === "dev") {
-        await Session.deleteMany({});
-        await Story.deleteMany({});
-        await Character.deleteMany({});
-        await Player.deleteMany({});
-        await Coterie.deleteMany({});
         await User.deleteMany({
             _id: {
                 $ne: userId
             }
         });
-        await Chronicle.deleteMany({});
     }
 }
 
@@ -170,8 +171,17 @@ async function importData(userId) {
 
         // create players
         for (i = 0; i < 6; i++) {
-            players.push(await createPlayer(chronicle._id));
+            let player;
+            if (["5d9f31495ede5b00273c3ae9", "5dc1d5d8968abf0f0f4d7dbe"].indexOf(userId) > -1 && i === 0) {
+                player = await createPlayer(chronicle._id, "108668813638654349097");
+            }
+            else {
+                player = await createPlayer(chronicle._id);
+            }
+            players.push(player);
+            chronicle.players.push(player);
         }
+        await chronicle.save();
 
         // create stories
         for (i = 0; i < 5; i++) {
@@ -299,9 +309,9 @@ async function createCoterie(chronicleId, userId) {
     return coterie;
 }
 
-async function createPlayer(chronicleId) {
+async function createPlayer(chronicleId, googleId) {
     let user = new User({
-        googleId: uuid.v4(),
+        googleId: googleId || uuid.v4(),
         email: `${lorem.generateWords(1)}${Math.floor(Math.random() * 100)}@gmail.com`,
         picture: randomImage(),
         displayName: `${capitalize(lorem.generateWords(1))} ${capitalize(lorem.generateWords(1))}`
@@ -318,16 +328,24 @@ async function createPlayer(chronicleId) {
 
     let character = await createCharacter(chronicleId, user._id);
     player.characters.push(character);
+    if (Math.random() >= 0.5) {
+        let characterTorpor = await createCharacter(chronicleId, user._id, "torpor");
+        player.characters.push(characterTorpor);
+    }
+    if (Math.random() >= 0.5) {
+        let characterLastDead = await createCharacter(chronicleId, user._id, "lastdeath");
+        player.characters.push(characterLastDead);
+    }
     await player.save();
     return player;
 }
 
-async function createCharacter(chronicleId, userId) {
+async function createCharacter(chronicleId, userId, status) {
     let character = new Character({
         userId: userId,
         name: `${capitalize(lorem.generateWords(1))} ${capitalize(lorem.generateWords(1))}`,
         chronicleId: chronicleId,
-        alive: "alive",
+        alive: status || "alive",
         picture: randomImage(),
         startingExperience: 20,
         totalExperience: 100,
