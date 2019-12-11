@@ -7,6 +7,8 @@ import User from "../../models/User";
 import Player from "../../models/Player";
 import Invitation from "../../models/Invitation";
 import Chronicle from "../../models/Chronicle";
+import Place from '../../models/Place';
+import Attachment from '../../models/Attachment';
 
 router.get('/google-join/:invitation', (req, res) => {
     req.session.invitation = req.params.invitation;
@@ -77,6 +79,33 @@ router.get('/google/callback',
                 res.redirect(`${process.env.PROTOCOL || "http"}://${process.env.ORIGIN || "localhost"}/#/story-teller`);
             }
             if (req.session.role === "player") {
+                await Player.updateMany({ userId: req.session.userId }, {
+                    $set: {
+                        userDisplayName: profile.displayName,
+                        userPicture: profile._json.picture,
+                    }
+                });
+                let players = await Player.find({ userId: req.session.userId }, "_id");
+                await Place.updateMany({
+                    "playerVisibility.playerId": {
+                        $in: players
+                    }
+                }, {
+                    $set: {
+                        "playerVisibility.$.playerName": profile.displayName,
+                        "playerVisibility.$.playerImage": profile._json.picture,
+                    }
+                });
+                await Attachment.updateMany({
+                    "playerVisibility.playerId": {
+                        $in: players
+                    }
+                }, {
+                    $set: {
+                        "playerVisibility.$.playerName": profile.displayName,
+                        "playerVisibility.$.playerImage": profile._json.picture,
+                    }
+                });
                 res.redirect(`${process.env.PROTOCOL || "http"}://${process.env.ORIGIN || "localhost"}/#/player`);
             }
         } catch (error) {
