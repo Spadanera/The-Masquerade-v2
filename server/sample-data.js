@@ -146,18 +146,20 @@ function dbConnect() {
 
 async function deleteData(userId) {
     let chronicle = await Chronicle.findOne({ storyTeller: userId });
-    await Session.deleteMany({ storyTeller: userId });
-    await Story.deleteMany({ storyTeller: userId });
-    await Character.deleteMany({ chronicleId: chronicle._id });
-    await Player.deleteMany({ chronicleId: chronicle._id });
-    await Coterie.deleteMany({ userId: userId });
-    await Chronicle.deleteMany({ storyTeller: userId });
-    if (env === "dev") {
-        await User.deleteMany({
-            _id: {
-                $ne: userId
-            }
-        });
+    if (chronicle) {
+        await Session.deleteMany({ storyTeller: userId });
+        await Story.deleteMany({ storyTeller: userId });
+        await Character.deleteMany({ chronicleId: chronicle._id });
+        await Player.deleteMany({ chronicleId: chronicle._id });
+        await Coterie.deleteMany({ userId: userId });
+        await Chronicle.deleteMany({ storyTeller: userId });
+        if (env === "dev") {
+            await User.deleteMany({
+                _id: {
+                    $ne: userId
+                }
+            });
+        }
     }
 }
 
@@ -172,7 +174,7 @@ async function importData(userId) {
         // create players
         for (i = 0; i < 6; i++) {
             let player;
-            if (["5d9f31495ede5b00273c3ae9", "5dc1d5d8968abf0f0f4d7dbe"].indexOf(userId) > -1 && i === 0) {
+            if (i === 0) {
                 player = await createPlayer(chronicle._id, "108668813638654349097");
             }
             else {
@@ -310,13 +312,20 @@ async function createCoterie(chronicleId, userId) {
 }
 
 async function createPlayer(chronicleId, googleId) {
-    let user = new User({
-        googleId: googleId || uuid.v4(),
-        email: `${lorem.generateWords(1)}${Math.floor(Math.random() * 100)}@gmail.com`,
-        picture: randomImage(),
-        displayName: `${capitalize(lorem.generateWords(1))} ${capitalize(lorem.generateWords(1))}`
-    });
-    await user.save();
+    let oldUser = await User.findOne({googleId: googleId});
+    let user;
+    if (!oldUser) {
+        user = new User({
+            googleId: googleId || uuid.v4(),
+            email: `${lorem.generateWords(1)}${Math.floor(Math.random() * 100)}@gmail.com`,
+            picture: randomImage(),
+            displayName: `${capitalize(lorem.generateWords(1))} ${capitalize(lorem.generateWords(1))}`
+        });
+        await user.save();
+    }
+    else {
+        user = oldUser;
+    }
 
     let player = new Player({
         userId: user._id,
