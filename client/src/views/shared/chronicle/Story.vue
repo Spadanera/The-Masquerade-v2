@@ -96,7 +96,8 @@
       dark
       fixed
       bottom
-      right
+      :left="$vuetify.breakpoint.lgAndUp"
+      :right="!$vuetify.breakpoint.lgAndUp"
     >
       <span>{{$ml.get("endStory")}}</span>
     </v-btn>
@@ -107,7 +108,8 @@
       dark
       fixed
       bottom
-      left
+      :left="$vuetify.breakpoint.lgAndUp"
+      :right="!$vuetify.breakpoint.lgAndUp"
     >
       <span>{{$ml.get("setOngoingStory")}}</span>
     </v-btn>

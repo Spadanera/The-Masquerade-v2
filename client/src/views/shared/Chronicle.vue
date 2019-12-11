@@ -137,7 +137,7 @@ export default {
     },
     showSnackbar: {
       get() {
-        return this.sessionOnGoing && this.navVisible && this.$route.fullPath.indexOf('live') < 0 && !this.sheet;
+        return this.sessionOnGoing && this.$route.fullPath.indexOf('live') < 0 && !this.sheet;
       }
     }
   },
