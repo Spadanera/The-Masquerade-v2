@@ -58,7 +58,7 @@
     </v-flex>
     <AddCoterie
       :dialog="dialog"
-      :chronicle-id="this.$route.params.id"
+      :chronicle-id="$route.params.id"
       @submitted="coterieAdded"
       @close="dialog = false"
     />

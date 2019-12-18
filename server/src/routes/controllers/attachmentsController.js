@@ -51,9 +51,9 @@ router.post("/file/:attachmentid", async (req, res) => {
 });
 
 // get attachment
-router.get("/:id", async (req, res) => {
+router.get("/:chronicleid", async (req, res) => {
     try {
-        let attachment = await Attachment.findOne(getQuery(req, { _id: req.params.id }));
+        let attachment = await Attachment.findOne(getQuery(req, { _id: req.params.chronicleid }));
         res.json(attachment);
     }
 
@@ -99,7 +99,7 @@ router.delete("/:id", async (req, res) => {
 // get all attachments
 router.get("/chronicle/:chronicleid", async (req, res) => {
     try {
-        let attachment = await Attachment.find(getQuery(req, { chronicleId: req.params.chronicleid }));
+        let attachment = await Attachment.find(await getQuery(req, { chronicleId: req.params.chronicleid }));
         res.json(attachment);
     }
 
@@ -109,12 +109,13 @@ router.get("/chronicle/:chronicleid", async (req, res) => {
     }
 });
 
-function getQuery(req, query) {
+async function getQuery(req, query) {
     if (req.session.role === "story-teller") {
         query.storyTeller = req.session.userId;
     }
     else {
-        query["playerVisibility.playerId"] = req.session.playerId;
+        let player = await Player.findOne({ chronicleId: req.params.chronicleid, userId: req.session.userId });
+        query["playerVisibility.playerId"] = player._id;
     }
     return query;
 }

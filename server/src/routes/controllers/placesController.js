@@ -58,7 +58,8 @@ router.get("/chronicle/:chronicleid", async (req, res) => {
             query.storyTellerId = req.session.userId;
         }
         else {
-            query["playerVisibility.playerId"] = req.session.playerId;
+            let player = await Player.findOne({ chronicleId: req.params.chronicleid, userId: req.session.userId });
+            query["playerVisibility.playerId"] = player._id;
         }
         let places = await Place.find(query);
         res.json(places);

@@ -111,7 +111,8 @@ router.put("/:id", async (req, res) => {
 router.get("/ongoing/player/:id", async (req, res) => {
     try {
         if (await Story.findOne({ chronicleId: req.params.id, onGoing: true })) {
-            let characters = await Character.find({ userId: req.session.userId }).select("_id");
+            let characters = await Character.find({ userId: req.session.userId, chronicleId: req.params.id }).select("_id");
+            console.log(characters);
             let session = await Session.findOne({ 
                 chronicleId: req.params.id, 
                 "characters.characterId": { $in: characters }, 

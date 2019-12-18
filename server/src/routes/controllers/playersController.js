@@ -39,14 +39,10 @@ router.get("/all-characters/:id", async (req, res) => {
     }
 });
 
-router.get("/characters", async (req, res) => {
+router.get("/characters/:chronicleid", async (req, res) => {
     try {
-        if (!req.session.playerId) {
-            res.status(204).send();
-        }
-        else {
-            res.json(await Player.findOne({ _id: req.session.playerId }).populate("characters"));
-        }
+        let player = await Player.findOne({ userId: req.session.userId, chronicleId: req.params.chronicleid }).populate("characters");
+        res.json(player.characters);
     } catch (e) {
         console.error(e);
         res.status(500).json(e);

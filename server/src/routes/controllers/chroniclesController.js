@@ -3,6 +3,7 @@
 const router = require('express').Router();
 import Chronicle from '../../models/Chronicle';
 import Player from '../../models/Player';
+import User from '../../models/User';
 
 // Get all chronicles
 router.get("/", async (req, res) => {
@@ -17,10 +18,29 @@ router.get("/", async (req, res) => {
 
 router.get("/player", async (req, res) => {
     try {
-        req.session.playerId = undefined;
         let players = await Player.find({ userId: req.session.userId }).select("_id");
-        res.json(await Chronicle.find({ players: { "$in": players } })
-            .select('name shortDescription publicStory createdAt status backgroundImage'));
+        let chronicles = await Chronicle.find({ players: { "$in": players } }).select('name shortDescription publicStory createdAt status backgroundImage storyTeller');
+        let chronicleOutput = [];
+        for (var i = 0; i < chronicles.length; i++) {
+            let chronicle = chronicles[i];
+            let user = await User.findOne({ _id: chronicles[i].storyTeller }) || {};
+            if (user) {
+                chronicle.storyTellerName = user.displayName;
+                chronicle.storyTellerPicture = user.picture;
+            }
+            chronicleOutput.push({
+                _id: chronicle._id,
+                storyTellerName: user.displayName,
+                storyTellerPicture: user.picture,
+                name: chronicle.name,
+                shortDescription: chronicle.shortDescription,
+                publicStory: chronicle.publicStory,
+                createdAt: chronicle.createdAt,
+                status: chronicle.status,
+                backgroundImage: chronicle.backgroundImage
+            });
+        }
+        res.json(chronicleOutput);
     }
     catch (e) {
         console.error(e);
@@ -33,8 +53,9 @@ router.get("/player/:id", async (req, res) => {
         let players = await Player.find({ userId: req.session.userId }).select("_id");
         let chronicle = await Chronicle.findOne({ _id: req.params.id, players: { "$in": players } })
             .select('name shortDescription publicStory createdAt status backgroundImage');
+            console.log("req.session.userId", req.session.userId);
         let player = await Player.findOne({ userId: req.session.userId, chronicleId: req.params.id }).select('_id');
-        req.session.playerId = player._id;
+        console.log("player._id", player._id);
         res.json(chronicle);
     }
     catch (e) {

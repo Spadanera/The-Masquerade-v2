@@ -12,12 +12,20 @@ const ChronicleStatuses = Object.freeze({
   Deleted: 'deleted'
 });
 
+const Games = Object.freeze({
+  TheMasquerade: 'themasquerade',
+  CyberPunk2077: 'cyberpunk2077'
+});
+
 const ChronicleSchema = new mongoose.Schema({
+  game: { type: String, enum: Object.values(Games), default: ChronicleStatuses.TheMasquerade },
   name: String,
   shortDescription: String,
   privateStory: String,
   publicStory: String,
   storyTeller: mongoose.Schema.Types.ObjectId,
+  usePlaces: { type: Boolean, default: true },
+  twoLevelDeath: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now },
   updateAt: { type: Date, default: Date.now },
   status: { type: String, enum: Object.values(ChronicleStatuses), default: ChronicleStatuses.Draft },

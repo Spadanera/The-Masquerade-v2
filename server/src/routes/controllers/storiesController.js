@@ -3,6 +3,7 @@
 const router = require('express').Router();
 import Story from '../../models/Story';
 import Chronicle from '../../models/Chronicle';
+import Player from '../../models/Player';
 
 // Create new story
 router.post("/:id", async (req, res) => {
@@ -32,10 +33,11 @@ router.post("/:id", async (req, res) => {
 router.get("/player/:id", async (req, res) => {
     try {
         let story = await Story.findOne({ _id: req.params.id });
+        let player = await Player.findOne({ chronicleId: story.chronicleId, userId: req.session.userId });
         if (story) {
             let chronicle = await Chronicle.findOne({
                 stories: { $in: [story._id] },
-                players: { $in: [req.session.playerId] }
+                players: { $in: [player._id] }
             });
             if (chronicle) {
                 res.json(story);
@@ -56,7 +58,8 @@ router.get("/player/:id", async (req, res) => {
 // get all by chronicle id for player
 router.get("/all/player/:id", async (req, res) => {
     try {
-        let chronicle = await Chronicle.findOne({ _id: req.params.id, players: { $in: [req.session.playerId] } }).populate("stories");
+        let player = await Player.findOne({ chronicleId: req.params.id, userId: req.session.userId });
+        let chronicle = await Chronicle.findOne({ _id: req.params.id, players: { $in: [player._id] } }).populate("stories");
         if (chronicle) {
             res.json(chronicle.stories.sort((a, b) => a.createdAt < b.createdAt));
         } else {

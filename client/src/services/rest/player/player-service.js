@@ -10,15 +10,10 @@ const players = {
     createGroup: async () => { },
     updateGroup: async () => { },
     deleteGroup: async () => { },
-    getAllCharacters: async (chronicleId) => {
-        let response = await client.get(
-            `/api/players/all-characters/${chronicleId}`
-        );
-        return response.data;
-    },
-    getGroupCharacters: async (groupId) => {
-        let response = await getCharacters(groupId);
-        return response.data.characters.sort((a, b) => {
+    getAllCharacters: async () => { },
+    getGroupCharacters: async (groupId, component) => {
+        let response = await client.get(`/api/players/characters/${component.$route.params.id}`);
+        return response.data.sort((a, b) => {
             if (a.alive === b.alive) {
                 return a.createdAt - b.createdAt;
             }
@@ -40,7 +35,7 @@ const players = {
         let picture = character.picture;
         delete character.picture;
         let response = await client.post(`/api/characters/`, character);
-        await savePictureFile(response.data._id, picture, true)
+        await savePictureFile(response.data._id, picture, true);
     },
     openCharacter: (characterId, component) => {
         component.$router.push(
@@ -88,30 +83,11 @@ const players = {
         }
     },
     deleteCharacterInGroup: async () => { },
-    oneAlive: async () => {
-        let response = await client.get(`/api/characters/onealive`);
+    oneAlive: async (chronicleId, userId) => {
+        let response = await client.get(`/api/characters/onealive/${chronicleId}/${userId}`);
         return response.data;
     }
 };
-
-function getCharacters() {
-    let iteration = 0;
-    return new Promise((resolve, reject) => {
-        client.get(`/api/players/characters/`).then((response) => {
-            if (response.status === 204) {
-                if (iteration > 500) {
-                    reject("Timeout exeeded waiting session playerId");
-                }
-                else {
-                    resolve(getCharacters());
-                }
-            }
-            else {
-                resolve(response);
-            }
-        });
-    });
-}
 
 async function savePictureFile(characterId, file, toDelete) {
     let formData = new FormData();

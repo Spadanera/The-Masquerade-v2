@@ -209,7 +209,7 @@ export default {
         autoreload
       );
       if (this.isPlayer) {
-        this.oneAlive = await this.characterService.oneAlive();
+        this.oneAlive = await this.characterService.oneAlive(this.$route.params.id, this.character.userId);
       }
       this.loaded = true;
       this.readonly = true;

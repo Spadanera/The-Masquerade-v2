@@ -26,12 +26,28 @@ router.get("/story-teller/:id", async (req, res) => {
 });
 
 // check if one character is alive
-router.get("/onealive/:choronicleid", async (req, res) => {
-    if (await Character.findOne({ userId: req.session.userId, alive: "alive", chronicleId: req.params.chronicleid })) {
-        res.send(true);
-    }
-    else {
-        res.send(false);
+router.get("/onealive/:chronicleid/:userid", async (req, res) => {
+    try {
+        if (req.session.role === "story-teller") {
+            let chronicle = await Chronicle.findOne({ _id: req.params.chronicleid, storyTeller: req.session.userId });
+            if (!chronicle) {
+                throw new Error("User can't check this user");
+            }
+        }
+        else {
+            if (req.params.userid !== req.session.userId) {
+                throw new Error("User can't check this user");
+            }
+        }
+        if (await Character.findOne({ userId: req.params.userid, alive: "alive", chronicleId: req.params.chronicleid })) {
+            res.send(true);
+        }
+        else {
+            res.send(false);
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(error);
     }
 });
 
@@ -47,10 +63,10 @@ router.get("/:id", async (req, res) => {
 });
 
 // Create new character for Player
-router.post("/", async (req, res) => {
+router.post("/player/:id", async (req, res) => {
     try {
-        let character = createCharacter(req);
-        let player = await Player.findOne({ _id: req.session.playerId });
+        let player = await Player.findOne({ _id: req.params.id });
+        let character = createCharacter(req, player.userId);
         if (player) {
             character.chronicleId = player.chronicleId;
             player.characters.push(character);
@@ -135,9 +151,9 @@ router.delete("/:id", async (req, res) => {
     }
 });
 
-function createCharacter(req) {
+function createCharacter(req, userId) {
     return new Character({
-        userId: req.session.userId, // "5c97bdf8664eff178ec46579",
+        userId: userId || req.session.userId,
         name: req.body.name,
         alive: "alive",
         picture: req.body.picture,

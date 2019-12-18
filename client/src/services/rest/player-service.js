@@ -39,8 +39,11 @@ const players = {
             }
         });
     },
-    createCharacterInGroup: async (character) => {
-        await client.post(`/api/characters/`, character);
+    createCharacterInGroup: async (character, groupId) => {
+        let picture = character.picture;
+        delete character.picture;
+        let response = await client.post(`/api/characters/player/${groupId}`, character);
+        await savePictureFile(response.data._id, picture, true);
     },
     openCharacter: (characterId, component) => {
         component.$router.push(
@@ -92,7 +95,10 @@ const players = {
         }
     },
     deleteCharacterInGroup: async () => { },
-    oneAlive: async () => { }
+    oneAlive: async (chronicleId, userId) => {
+        let response = await client.get(`/api/characters/onealive/${chronicleId}/${userId}`);
+        return response.data;
+    }
 };
 
 function getCharacters(groupId) {
@@ -112,6 +118,23 @@ function getCharacters(groupId) {
             }
         });
     });
+}
+
+async function savePictureFile(characterId, file, toDelete) {
+    let formData = new FormData();
+    formData.append('file', file);
+    try {
+        await client.post(`/api/characters/picture/${characterId}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+    } catch (error) {
+        if (toDelete) {
+            await client.delete(`/api/characters/${characterId}`);
+        }
+        throw error;
+    }
 }
 
 implement(IVampireGroups)(players);

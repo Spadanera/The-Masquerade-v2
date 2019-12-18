@@ -150,7 +150,8 @@ export default new Router({
                   component: CharacterList,
                   props: () => ({
                     groupService: Service.playerService,
-                    edit: false
+                    edit: true,
+                    player: true
                   })
                 },
                 {
@@ -158,7 +159,8 @@ export default new Router({
                   component: Character,
                   props: () => ({
                     groupService: Service.playerService,
-                    edit: false
+                    edit: true,
+                    isPlayer: true
                   })
                 }
               ]
