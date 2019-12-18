@@ -3,8 +3,7 @@
     <Toolbar
       @theme="toggleTheme"
       v-on:toggle-nav="toggleNav"
-      title="vampire the masquerade"
-      short-title="VTM"
+      title="role playing addicted" short-title="RPA"
       :chronicle-name="chronicleName"
       :user-menu="true"
       rootMenu="/player"
