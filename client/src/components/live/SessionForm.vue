@@ -49,24 +49,28 @@
                 <v-form autocomplete="off">
                   <v-container>
                     <v-layout>
-                      <v-flex xs12 sm6 v-if="!isPlayer">
-                        <v-textarea
-                          auto-grow
-                          v-model="character.storyTellerNote"
-                          :label="$ml.get('storyTellerNote')"
-                          :clearable="!readonly"
-                          :readonly="readonly"
-                          rows="1"
-                          v-if="!readonly"
-                        />
-                        <div v-else>
-                          <h3>{{$ml.get('storyTellerNote')}}</h3>
-                          <text-highlight :queries="search">{{character.storyTellerNote}}</text-highlight>
-                        </div>
+                      <v-flex xs12 sm6 v-if="!isPlayer" pr-1>
+                        <v-layout column>
+                          <v-flex xs12>
+                            <v-textarea
+                              auto-grow
+                              v-model="character.storyTellerNote"
+                              :label="$ml.get('storyTellerNote')"
+                              :clearable="!readonly"
+                              :readonly="readonly"
+                              rows="1"
+                              v-if="!readonly"
+                            />
+                            <div v-else>
+                              <h3>{{$ml.get('storyTellerNote')}}</h3>
+                              <text-highlight :queries="search">{{character.storyTellerNote}}</text-highlight>
+                            </div>
+                          </v-flex>
+                        </v-layout>
                       </v-flex>
                       <v-flex v-bind:class="{ xs12: !isPlayer, sm6: !isPlayer }">
                         <v-layout column>
-                          <v-flex xs12 sm3 pr-2>
+                          <v-flex xs12 sm3 pr-2 style="padding-top: 1px;">
                             <v-text-field
                               :readonly="readonly"
                               type="number"
