@@ -60,6 +60,9 @@ const players = {
         let response = await client.put(`/api/characters/${characterId}`, character);
         return response.data;
     },
+    updateCharacterImage: async (characterId, picture) => {
+        await savePictureFile(characterId, picture, false);
+    },
     killOrResumeCharacter: async (character, alive, component) => {
         let label;
         switch (alive) {

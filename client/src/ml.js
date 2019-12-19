@@ -58,6 +58,7 @@ export default new MLCreate({
             noChronicle: "No Chronicle created",
             needCreation: "You have to create a Chronicle to start your story telling",
             personal: "Personal",
+            changePicture: "Change Picture",
 
             // button label
             close: "Close",
@@ -94,6 +95,7 @@ export default new MLCreate({
             lastdeath: "Last Death",
             alive: "Alive",
             torpor: "Torpor",
+            download: "Download",
 
             // input label
             selectImage: "Select image",
@@ -239,6 +241,7 @@ export default new MLCreate({
             noChronicle: "Nessuna cronaca creata",
             needCreation: "E' necessario creare una cronaca per iniziare la tua narrazione",
             personal: "Personali",
+            changePicture: "Cambia immagine",
 
             // button label
             close: "Chiudi",
@@ -275,6 +278,7 @@ export default new MLCreate({
             lastdeath: "Morte ultima",
             alive: "Vivo",
             torpor: "Torpore",
+            download: "Scarica",
 
             // input label
             selectImage: "Seleziona immagine",
@@ -420,6 +424,7 @@ export default new MLCreate({
             noChronicle: "Il n'y a pas de croniques crées",
             needCreation: "Tu dois créer ta cronique pour commencer le conte",
             personal: "Personnel",
+            changePicture: "Changer l'image",
         
             // button label
             close: "Fermer",
@@ -456,6 +461,7 @@ export default new MLCreate({
             lastdeath: "Mort ultime",
             alive: "Vivant",
             torpor: "Torpeur",
+            download: "Télécharger",
         
             // input label
             selectImage: "Sélection de l'image",
@@ -601,6 +607,7 @@ export default new MLCreate({
             noChronicle: "No se ha creado ninguna crónica.",
             needCreation: "Tienes que crear una crónica para comenzar a contar tu historia",
             personal: "Personal",
+            changePicture: "Cambiar imagen",
 
             // button label
             close: "Cerca",
@@ -637,6 +644,7 @@ export default new MLCreate({
             lastdeath: "Ultima muerte",
             alive: "Vivo",
             torpor: "Entumecimiento",
+            download: "Descargar",
 
             // input label
             selectImage: "Seleccionar imagen",
@@ -782,6 +790,7 @@ export default new MLCreate({
             noChronicle: "Nenhuma Crônica criada",
             needCreation: "Você precisa criar uma Crônica para começar a contar sua história",
             personal: "Pessoal",
+            changePicture: "Mudar imagem",
 
             // button label
             close: "Fechar",
@@ -818,6 +827,7 @@ export default new MLCreate({
             lastdeath: "Ultima morte",
             alive: "Vivo",
             torpor: "Entorpecimento",
+            download: "Baixar",
 
             // input label
             selectImage: "Selecione a imagem",

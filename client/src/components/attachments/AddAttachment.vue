@@ -21,7 +21,7 @@
               type="file"
               style="display: none"
               ref="image"
-              accept="image/*"
+              
               @change="onFilePicked"
             />
             <v-autocomplete
@@ -84,6 +84,7 @@ export default {
       imageName: "",
       imageUrl: "",
       imageFile: "",
+      imageType: "",
       players: [],
       selectedPlayers: []
     };
@@ -96,6 +97,7 @@ export default {
       this.imageName = "";
       this.imageUrl = "";
       this.imageFile = "";
+      this.imageType = "";
     },
     async submit() {
       if (this.$refs.form.validate()) {
@@ -122,6 +124,8 @@ export default {
             {
               title: this.title,
               file: this.imageFile,
+              fileName: this.imageName,
+              type: this.imageType,
               playerVisibility: playerVisibility
             }
           );
@@ -145,11 +149,13 @@ export default {
         fr.addEventListener("load", () => {
           this.imageUrl = fr.result;
           this.imageFile = files[0]; // this is an image file that can be sent to server...
+          this.imageType = files[0].type;
         });
       } else {
         this.imageName = "";
         this.imageFile = "";
         this.imageUrl = "";
+        this.imageType = "";
       }
     },
     remove(item) {
@@ -179,12 +185,14 @@ export default {
           this.imageName = "";
           this.imageUrl = this.attachment.file;
           this.imageFile = "";
+          this.imageType = "";
         } else {
           this.title = "";
           this.selectedPlayers = [];
           this.imageName = "";
           this.imageUrl = "";
           this.imageFile = "";
+          this.imageType = "";
         }
       }
     }

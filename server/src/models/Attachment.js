@@ -3,6 +3,9 @@ import mongoose from 'mongoose';
 const AttachmentSchema = new mongoose.Schema({
     title: String,
     file: String,
+    fileName: String,
+    base64: String,
+    type: String,
     createdAt: { type: Date, default: Date.now },
     updateAt: { type: Date, default: Date.now },
     storyTeller: mongoose.Schema.Types.ObjectId,

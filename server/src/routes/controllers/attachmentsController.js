@@ -2,6 +2,7 @@
 
 const router = require('express').Router();
 const imageToUri = require('image-to-uri');
+const fs = require('fs');
 import Attachment from "../../models/Attachment";
 import Chronicle from '../../models/Chronicle';
 import Player from "../../models/Player";
@@ -17,6 +18,7 @@ router.post("/:chronicleid", async (req, res) => {
                 attachment.playerVisibility[i].playerName = player.userDisplayName;
                 attachment.playerVisibility[i].playerImage = player.userPicture;
             }
+            attachment.storyTeller = req.session.userId;
             await attachment.save();
             chronicle.attachments.push(attachment);
             await chronicle.save();
@@ -36,9 +38,17 @@ router.post("/file/:attachmentid", async (req, res) => {
     try {
         if (req.files && req.files.file) {
             let attachment = await Attachment.findOne({ _id: req.params.attachmentid, storyTeller: req.session.userId });
-            attachment.file = imageToUri(req.files.file.path);
-            await attachment.save();
-            res.json(attachment);
+            if (attachment) {
+                if (/image/.test(attachment.type)) {
+                    attachment.file = imageToUri(req.files.file.path);
+                }
+                attachment.base64 = base64_encode(req.files.file.path);
+                await attachment.save();
+                res.json(attachment);
+            }
+            else {
+                throw new Error("Attachment noy found");
+            }
         }
         else {
             throw "Missing file";
@@ -118,6 +128,13 @@ async function getQuery(req, query) {
         query["playerVisibility.playerId"] = player._id;
     }
     return query;
+}
+
+function base64_encode(file) {
+    // read binary data
+    var bitmap = fs.readFileSync(file);
+    // convert binary data to base64 encoded string
+    return new Buffer(bitmap).toString('base64');
 }
 
 export default router;

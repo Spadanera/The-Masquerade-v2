@@ -3,9 +3,22 @@
     <v-flex v-for="attachment in attachments" v-bind:key="attachment._id" pa-2 xs12 sm6 md4 lg4 xl3>
       <v-hover v-slot:default="{ hover }">
         <v-card :elevation="hover ? 12 : 2">
-          <v-img style="cursor: pointer;" @click="viewAttachment(attachment.file)" :src="attachment.file" height="200px"></v-img>
-          <v-card-title style="cursor: pointer;" @click="viewAttachment(attachment.file)">{{attachment.title}}</v-card-title>
-          <v-card-text style="cursor: pointer;" @click="viewAttachment(attachment.file)" v-if="isStoryTeller">
+          <v-img
+            v-if="attachment.file"
+            style="cursor: pointer;"
+            @click="viewAttachment(attachment.file)"
+            :src="attachment.file"
+            height="200px"
+          ></v-img>
+          <v-card-title
+            style="cursor: pointer;"
+            @click="viewAttachment(attachment.file)"
+          >{{attachment.title}}</v-card-title>
+          <v-card-text
+            style="cursor: pointer;"
+            @click="viewAttachment(attachment.file)"
+            v-if="isStoryTeller"
+          >
             <v-item-group>
               <v-item v-for="player in attachment.playerVisibility" v-bind:key="player.playerId">
                 <v-chip>
@@ -19,8 +32,14 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
+            <v-btn text @click="downloadAttachment(attachment)">{{$ml.get("download")}}</v-btn>
             <v-btn text v-if="isStoryTeller" @click="editAttachment(attachment)">{{$ml.get("edit")}}</v-btn>
-            <v-btn text v-if="isStoryTeller" color="error" @click="deleteAttachment(attachment)">{{$ml.get("delete")}}</v-btn>
+            <v-btn
+              text
+              v-if="isStoryTeller"
+              color="error"
+              @click="deleteAttachment(attachment)"
+            >{{$ml.get("delete")}}</v-btn>
           </v-card-actions>
         </v-card>
       </v-hover>
@@ -103,12 +122,23 @@ export default {
       }
     },
     viewAttachment(attahcmentUrl) {
-      this.imageUrl = attahcmentUrl;
-      this.viewDialog = true;
+      if (attahcmentUrl) {
+        this.imageUrl = attahcmentUrl;
+        this.viewDialog = true;
+      }
     },
     editAttachment(attachment) {
       this.selectedAttachment = attachment || {};
       this.dialog = true;
+    },
+    downloadAttachment(attachment) {
+      const linkSource = `data:${attachment.type};base64,${attachment.base64}`;
+      const downloadLink = document.createElement("a");
+      const fileName = attachment.fileName;
+
+      downloadLink.href = linkSource;
+      downloadLink.download = fileName;
+      downloadLink.click();
     }
   },
   async created() {
@@ -118,7 +148,7 @@ export default {
 </script>
 
 <style>
-  .view-image.v-dialog.v-dialog--active {
-    height: 100%;
-  }
+.view-image.v-dialog.v-dialog--active {
+  height: 100%;
+}
 </style>

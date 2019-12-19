@@ -67,6 +67,9 @@ const coteries = {
         let response = await client.put(`/api/characters/${characterId}`, character);
         return response.data;
     },
+    updateCharacterImage: async (characterId, picture) => {
+        await savePictureFile(characterId, picture, false);
+    },
     getCharacter: async (characterId) => {
         let response = await client.get(`/api/characters/${characterId}`);
         if (response.data) {

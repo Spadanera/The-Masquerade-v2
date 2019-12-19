@@ -7,7 +7,7 @@
     <v-app-bar tabs style="text-center" absolute v-bind:class="{ primary: fighting }" v-if="!live">
       <v-app-bar-nav-icon>
         <v-avatar size="40px">
-          <img :src="character.picture" :alt="character.name" />
+          <img :src="character.picture" :alt="character.name" @click="editImage()" />
         </v-avatar>
       </v-app-bar-nav-icon>
       <v-toolbar-title>
@@ -145,6 +145,13 @@
       >{{$ml.get("resume")}}</v-btn>
       <v-btn @click="close">{{$ml.get("close")}}</v-btn>
     </v-speed-dial>
+    <EditPicture
+      :dialog="editImageModal"
+      @submitted="loadCharacter"
+      @close="editImageModal = false"
+      :characterService="characterService"
+      :characterId="character._id"
+    />
   </div>
 </template>
 
@@ -153,12 +160,14 @@ import Characteristics from "./Characteristics.vue";
 import Story from "./Story.vue";
 import Background from "./Background.vue";
 import History from "./History.vue";
+import EditPicture from "./EditPicture";
 export default {
   components: {
     Characteristics,
     Story,
     Background,
-    History
+    History,
+    EditPicture
   },
   props: {
     characterId: String,
@@ -199,7 +208,8 @@ export default {
       fab: false,
       sessions: [],
       history: false,
-      oneAlive: false
+      oneAlive: false,
+      editImageModal: false
     };
   },
   methods: {
@@ -247,6 +257,11 @@ export default {
         this
       );
       await this.loadCharacter();
+    },
+    editImage() {
+      if (this.edit && this.readonly && this.character.alive === 'alive') {
+        this.editImageModal = true;
+      }
     }
   },
   async created() {
