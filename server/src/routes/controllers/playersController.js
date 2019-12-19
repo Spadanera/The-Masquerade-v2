@@ -7,9 +7,9 @@ import Chronicle from '../../models/Chronicle';
 // get all by chronicle id
 router.get("/all/:id", async (req, res) => {
     try {
-        let chronicle = Chronicle.findOne({ storyTeller: req.session.userId, coteries: { "$in": [req.params.id] } });
+        let chronicle = Chronicle.findOne({ storyTeller: req.session.userId, _id: req.params.id });
         if (chronicle) {
-            let players = await Player.find({ chronicleId: req.params.id, active: true });
+            let players = await Player.find({ chronicleId: req.params.id, active: true }).populate("characters", "alive");
             res.json(players.sort((a, b) => a.createdAt < b.createdAt));
         }
         else {

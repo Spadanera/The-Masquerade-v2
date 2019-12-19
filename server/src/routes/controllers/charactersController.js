@@ -129,6 +129,25 @@ router.post("/picture/:characterid", async (req, res) => {
     }
 });
 
+// Assign character
+router.put("/assign/:id", async (req, res) => {
+    let character = await Character.findById(req.params.id);
+    let oldCoterie = await Coterie.findById(req.body.oldGroupId);
+    let newGroup = await Coterie.findById(req.body.newGroupId);
+    if (!newGroup) {
+        newGroup = await Player.findById(req.body.newGroupId);
+    }
+    if (oldCoterie && character && newGroup) {
+        character.userId = newGroup.userId;
+        await character.save();
+        newGroup.characters.push(character);
+        await newGroup.save();
+        oldCoterie.characters.pull(character._id);
+        await oldCoterie.save();
+    }
+    res.json({});
+});
+
 // Edit character
 router.put("/:id", async (req, res) => {
     try {

@@ -62,10 +62,19 @@ const coteries = {
         let response = await client.post(`/api/characters/${coterieId}`, character);
         await savePictureFile(response.data._id, picture, true);
     },
-    updateCharacter: async (characterId, character) => {
-        delete character.picture;
-        let response = await client.put(`/api/characters/${characterId}`, character);
-        return response.data;
+    updateCharacter: async (characterId, character, newGroupId, oldGroupId) => {
+        console.log(newGroupId);
+        if (newGroupId) {
+            await client.put(`/api/characters/assign/${characterId}`, {
+                newGroupId,
+                oldGroupId
+            });
+        }
+        else {
+            delete character.picture;
+            let response = await client.put(`/api/characters/${characterId}`, character);
+            return response.data;
+        }
     },
     updateCharacterImage: async (characterId, picture) => {
         await savePictureFile(characterId, picture, false);

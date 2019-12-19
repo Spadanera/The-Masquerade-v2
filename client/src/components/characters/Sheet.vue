@@ -28,7 +28,11 @@
           <v-btn
             v-if="readonly && fighting && edit"
             @click="fighting = false"
-          >{{$ml.get("endFIght")}}</v-btn>
+          >{{$ml.get("endFight")}}</v-btn>
+          <v-btn
+            @click="assignModal= true"
+            v-if="readonly && !fighting && edit && !isPlayer && character.alive === 'alive'"
+          >{{$ml.get("assign")}}</v-btn>
           <v-btn
             @click="readonly= false"
             v-if="readonly && !fighting && edit && character.alive === 'alive'"
@@ -126,6 +130,10 @@
       >{{$ml.get("fight")}}</v-btn>
       <v-btn v-if="readonly && fighting && edit" @click="fighting = false">{{$ml.get("endFight")}}</v-btn>
       <v-btn
+        @click="assignModal= true"
+        v-if="readonly && !isPlayer && !fighting && edit && character.alive === 'alive'"
+      >{{$ml.get("assign")}}</v-btn>
+      <v-btn
         @click="readonly= false"
         v-if="readonly && !fighting && edit && character.alive === 'alive'"
       >{{$ml.get("edit")}}</v-btn>
@@ -152,6 +160,13 @@
       :characterService="characterService"
       :characterId="character._id"
     />
+    <AssignCharacter
+      :dialog="assignModal"
+      @submitted="loadCharacter"
+      @close="assignModal = false"
+      :characterService="characterService"
+      :character="character"
+    />
   </div>
 </template>
 
@@ -161,13 +176,16 @@ import Story from "./Story.vue";
 import Background from "./Background.vue";
 import History from "./History.vue";
 import EditPicture from "./EditPicture";
+import AssignCharacter from "./AssignCharacter";
+
 export default {
   components: {
     Characteristics,
     Story,
     Background,
     History,
-    EditPicture
+    EditPicture,
+    AssignCharacter
   },
   props: {
     characterId: String,
@@ -209,7 +227,8 @@ export default {
       sessions: [],
       history: false,
       oneAlive: false,
-      editImageModal: false
+      editImageModal: false,
+      assignModal: false
     };
   },
   methods: {

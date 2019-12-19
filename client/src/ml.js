@@ -96,6 +96,7 @@ export default new MLCreate({
             alive: "Alive",
             torpor: "Torpor",
             download: "Download",
+            assign: "Assign",
 
             // input label
             selectImage: "Select image",
@@ -279,6 +280,7 @@ export default new MLCreate({
             alive: "Vivo",
             torpor: "Torpore",
             download: "Scarica",
+            assign: "Assegna",
 
             // input label
             selectImage: "Seleziona immagine",
@@ -462,6 +464,7 @@ export default new MLCreate({
             alive: "Vivant",
             torpor: "Torpeur",
             download: "Télécharger",
+            assign: "Attribuer",
         
             // input label
             selectImage: "Sélection de l'image",
@@ -645,6 +648,7 @@ export default new MLCreate({
             alive: "Vivo",
             torpor: "Entumecimiento",
             download: "Descargar",
+            assign: "Assignar",
 
             // input label
             selectImage: "Seleccionar imagen",
@@ -828,6 +832,7 @@ export default new MLCreate({
             alive: "Vivo",
             torpor: "Entorpecimento",
             download: "Baixar",
+            assign: "Atribuir",
 
             // input label
             selectImage: "Selecione a imagem",
