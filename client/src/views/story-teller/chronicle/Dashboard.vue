@@ -1,13 +1,22 @@
 <template>
   <v-layout fluid fill-height wrap style="overflow: auto;">
     <v-flex id="story" xs12 sm12 md12 lg6 pa-3>
-      <v-skeleton-loader
-        type="article, divider, list-item-three-line, actions"
-        :loading="!loaded"
-      >
+      <v-skeleton-loader type="article, divider, list-item-three-line, actions" :loading="!loaded">
         <v-card>
-          <v-card-title class="headline">{{ $parent.chronicle.name }}</v-card-title>
-          <v-card-subtitle>{{ $parent.chronicle.shortDescription }}</v-card-subtitle>
+          <v-card-title class="headline">
+            <span v-if="!editing">{{ $parent.chronicle.name }}</span>
+            <v-text-field v-else v-model="name"></v-text-field>
+          </v-card-title>
+          <v-card-subtitle>
+            <span v-if="!editing">{{ $parent.chronicle.shortDescription }}</span>
+            <v-textarea
+              auto-grow
+              v-model="shortDescription"
+              clearable
+              rows="1"
+              v-else
+            />
+          </v-card-subtitle>
           <v-card-text style="padding: 0;">
             <v-tabs centered grow slider-color="primary" v-model="selectedTab">
               <v-tab>{{$ml.get("publicStory")}}</v-tab>
@@ -123,6 +132,8 @@ export default {
       stories: [],
       editing: false,
       editStory: "",
+      name: "",
+      shortDescription: "",
       selectedTab: 0,
       editor: ClassicEditor,
       editorConfig: {
@@ -140,10 +151,15 @@ export default {
         this.selectedTab === 1
           ? this.$parent.chronicle.privateStory
           : this.$parent.chronicle.publicStory;
+      this.name = this.$parent.chronicle.name;
+      this.shortDescription = this.$parent.chronicle.shortDescription;
       this.editing = true;
     },
     async saveStory() {
-      let input = {};
+      let input = {
+        name: this.name,
+        shortDescription: this.shortDescription
+      };
       if (this.selectedTab === 1) {
         input.privateStory = this.editStory;
       } else {
@@ -157,9 +173,7 @@ export default {
       this.editing = false;
     },
     async getStories() {
-      this.stories = await this.storyService.getStories(
-        this.$route.params.id
-      );
+      this.stories = await this.storyService.getStories(this.$route.params.id);
       await this.getSessions();
       this.sessionSheet = false;
     },

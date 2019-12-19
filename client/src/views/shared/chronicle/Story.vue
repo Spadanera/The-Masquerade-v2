@@ -3,8 +3,20 @@
     <v-flex id="story" xs12 sm12 md12 lg6 pa-3>
       <v-skeleton-loader type="article, divider, list-item-three-line, actions" :loading="!loaded">
         <v-card>
-          <v-card-title class="headline">{{ story.name }}</v-card-title>
-          <v-card-subtitle>{{ story.shortDescription }}</v-card-subtitle>
+          <v-card-title class="headline">
+            <span v-if="!editing">{{ story.name }}</span>
+            <v-text-field v-else v-model="name"></v-text-field>
+          </v-card-title>
+          <v-card-subtitle>
+            <span v-if="!editing">{{ story.shortDescription }}</span>
+            <v-textarea
+              auto-grow
+              v-model="shortDescription"
+              clearable
+              rows="1"
+              v-else
+            />
+          </v-card-subtitle>
           <v-card-text style="padding: 0;">
             <v-tabs centered grow slider-color="primary" v-model="selectedTab">
               <v-tab>{{$ml.get("publicStory")}}</v-tab>
@@ -151,6 +163,8 @@ export default {
       editorConfig: {
         // The configuration of the editor.
       },
+      name: "",
+      shortDescription: "",
       sessionSheet: false,
       selectedSession: "",
       search: "",
@@ -164,10 +178,15 @@ export default {
         this.selectedTab === 1
           ? this.story.privateStory
           : this.story.publicStory;
+      this.name = this.story.name;
+      this.shortDescription = this.story.shortDescription;
       this.editing = true;
     },
     async saveStory() {
-      let input = {};
+      let input = {
+        name: this.name,
+        shortDescription: this.shortDescription
+      };
       if (this.selectedTab === 1) {
         input.privateStory = this.editStory;
       } else {
